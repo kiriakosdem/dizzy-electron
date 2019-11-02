@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="gr">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<title>P4E | 16 Η Φυσική της Ακοής</title>
+
+		<!-- Bootstrap CSS CDN -->
+		<link rel="stylesheet" 
+			  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
+			  integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
+			  crossorigin="anonymous">
+		<link rel="stylesheet" href="styleCommon.css">
+		<!-- Our Custom CSS -->
+		<link rel="stylesheet" href="styleLesson.css">
+		<!-- Scrollbar Custom CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+		<!-- Font Awesome JS -->
+		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+		<!--Fonts and Images-->
+		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+		<!-- jQuery CDN - Slim version (=without AJAX) -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
+				integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<!-- Popper.JS -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+				integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+		<!-- Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+				integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+		<!-- jQuery Custom Scroller CDN -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+		<!--Math-->
+		<script type="text/javascript" 
+				async 
+				src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" 
+				async>
+		</script>
+		<!--Additional JavaScript Code-->
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#sidebar").mCustomScrollbar({
+					theme: "minimal"
+				});
+
+				$('#dismiss, .overlay').on('click', function () {
+					$('#sidebar').removeClass('active');
+					$('.overlay').removeClass('active');
+				});
+
+				$('#sidebarCollapse').on('click', function () {
+					$('#sidebar').addClass('active');
+					$('.overlay').addClass('active');
+					$('.collapse.in').toggleClass('in');
+					$('a[aria-expanded=true]').attr('aria-expanded', 'false');
+				});
+			});
+		</script>
+		<!--p5.js Libraries-->
+		<script src="libraries/jsLibraries/p5.js"></script>
+		<!--	<script src="libraries/p5/p5.dom.min.js"></script>	-->
+		<!--    <script src="libraries/p5/p5.sound.min.js"></script>-->
+		<script src="libraries/jsLibraries/matter.js"></script>
+	</head>
+
+	<body>
+		<!-- Sidebar  -->
+		<nav id="sidebar">
+			<div id="dismiss">
+				<i class="fas fa-arrow-left"></i>
+			</div>
+
+			<div class="sidebar-header">
+				<h3>16 Η Φυσική της Ακοής</h3>
+			</div>
+
+			<ul class="list-unstyled components">
+				<li class="active">
+					<a href="#homeSubmenu" 
+					   data-toggle="collapse" 
+					   aria-expanded="false" 
+					   class="dropdown-toggle">
+						16.1 Εισαγωγή στην φυσική της ακοής
+					</a>
+					<ul class="collapse list-unstyled" id="homeSubmenu">
+						<li>
+							<a href="#">Home 1</a>
+						</li>
+						<li>
+							<a href="#">Home 2</a>
+						</li>
+						<li>
+							<a href="#">Home 3</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#">16.2 Ο ήχος</a>
+				</li>
+				<li>
+					<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">16.3 Ταχύτητα, συχνότητα και μήκος κύματος του ήχου</a>
+					<ul class="collapse list-unstyled" id="pageSubmenu">
+						<li>
+							<a href="#">Page 1</a>
+						</li>
+						<li>
+							<a href="#">Page 2</a>
+						</li>
+						<li>
+							<a href="#">Page 3</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="#">16.4 Επίπεδο και ένταση ήχου</a>
+				</li>
+				<li>
+					<a href="#">16.5 Το φαινόμενο Doppler</a>
+				</li>
+				<li>
+					<a href="#">16.6 Συμβολή και συντονισμός</a>
+				</li>
+				<li>
+					<a href="#">16.7 Ακοή</a>
+				</li>
+				<li>
+					<a href="#">16.8 Υπέρηχοι</a>
+				</li>
+				<li>
+					<a href="#">16.9 Συντονισμός</a>
+				</li>
+				<li>
+					<a href="#">16.10 Κρουστικά Κύματα</a>
+				</li>
+			</ul>
+
+			<ul class="list-unstyled CTAs">
+				<li>
+					<a href=Contents.html>Όλα τα Μαθήματα</a>
+				</li>
+			</ul>
+		</nav>
+
+		<!-- Page -->
+		<div id="content">
+
+			<!-- Navigation Bar -->
+			<div id="NavigationBar">
+				<nav class="navbar navbar-center navbar-expand-md navbar-dark bg-dark">				 
+
+					<!--<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">	 
+<ul class="navbar-nav mr-auto">
+<button type="button" id="sidebarCollapse" class="btn btn-secondary">
+<i class="fas fa-align-left"></i>
+<span>Περιεχόμενα</span>
+</button>
+</ul>
+</div>-->
+
+
+
+					<div class="mx-auto order-0">
+						<a class="navbar-brand" href="MainPage.html">
+							Dizzy
+							<img src="images/physicslogo.png">
+							Electron
+						</a>
+					</div>
+
+					<!--<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+<ul class="navbar-nav ml-auto">
+<form class="form-inline" action="/action_page.php">
+<input class="form-control mr-sm-2" 
+type="text" 
+placeholder="Αναζήτηση...">
+<button class="btn btn-primary" type="submit">
+<i class="fas fa-search"></i>
+</button>
+</form>
+</ul>
+</div>
+<button class="navbar-toggler" 
+type="button" 
+data-toggle="collapse" 
+data-target=".dual-collapse2">
+<span class="navbar-toggler-icon"></span>
+</button>-->
+				</nav>
+			</div>
+
+			<!-- Breadcrumb -->
+			<ul class="breadcrumb">  
+				<li>
+					<a href="#">Φυσική</a>
+				</li>
+				<li>
+					<a href="#">16 Η Φυσική της Ακοής</a>
+				</li>
+				<li>
+					<a>16.1 Εισαγωγή στην Φυσική της Ακοής</a>
+				</li>
+			</ul>
+
+			<!-- Main Content -->
+			<div class="container">
+				<div class="row">
+
+					<!-- Text Column -->
+					<div class="col-lg-8 pr-3">
+						<h1>16.1 Εισαγωγή στην Φυσική της Ακοής</h1>
+
+						<div id="learning-goals-card">
+
+							<div class="card">
+								<div class="card-header text-center">
+									Διδακτικοί Στόχοι
+								</div>
+								<div class="card-body">
+									<p>Στο τέλος αυτού του μαθήματος θα είσαι σε θέση να:</p>
+									<ul style="list-style-type:disc;">
+										<li>Να ορίσεις τι είναι ήχος και τι ακοή</li>
+										<li>Να περιγράψεις τον ήχο σαν ένα διαμήκες κύμα πίεσης</li>
+									</ul>
+								</div>
+							</div>
+
+						</div>
+
+						<h2>1. Ιδανικό Αέριο σε Κουτί</h2>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+						<div id="animation">
+							<div id="jscode" class="col-12 justify-content-center">	
+								<script src="libraries/BouncingBalls/sketch.js"></script>
+								<script src="libraries/BouncingBalls/Piston.js"></script>
+								<script src="libraries/BouncingBalls/BilliardBall.js"></script>
+							</div>
+							<figcaption class="figure-caption">
+								Προσομοίωση 1: Ιδανικό αέριο μέσα σε κουτί
+							</figcaption>
+						</div>
+
+
+						<h2>2. O Kύκλος του Μέτωνα</h2>
+						<p>Οι κινήσεις του ουρανού μπορεί να φαίνονται χαοτικές και τυχαίες, διέπονται όμως από πλήρη κανονικότα. Παραδείγματος χάρη, ίσως να σας φαίνεται πως οι πανσέληνοι κάθε χρόνο πέφτουν σε διαφορετικές και εντελώς τυχαίες ημερομηνίες. Και πράγματι αν τις παρακολουθούσατε πιστά για 18 συνεχόμενα χρόνια θα ήσασταν πεπεισμένοι ότι έτσι έχουν τα πράγματα. Αν όμως δεν τα παρατήσετε απογοητευμένοι και ελέγξετε τι γίνεται και τον 19 χρόνο θα εκπλαγείτε. Γιατί όλες οι πανσέληνοι θα πέσουν τις ίδιες ημερομηνίες με αυτές του πρώτου χρόνου, όταν πρωτοξεκινούσατε την παρατήρηση. Και στις επόμενες χρονιές οι ημερομηνίες θα επαναληφθούν ακριβώς. </p>
+
+						<div id="example-card">
+
+							<div class="card">
+								<a href="index3.html" class="stretched-link"></a>
+								<div class="card-header text-center">
+									Παράδειγμα
+								</div>
+								<div class="card-body">
+									<p class="cite">Ας πούμε ότι ξεκινήσατε την παρατήρηση το έτος 2000 και είδατε ότι η πανσέληνος του Αυγούστου έπεσε 15αύγουστο (που όντως έτσι συνέβη). Μαντέψτε λοιπόν φέτος πότε θα πέσει η πανσέληνος του Αυγούστου...  Αν σας έχει ξεμείνει κάποιο ημερολόγιο με τις πανσελήνους του 2000 τότε καλά θα κάνατε να μην το πετάξετε στα σκουπίδια γιατί θα μπορούσατε να το χρησιμοποιήσετε ξανά φέτος (2019), το 2038, το 2057, το 2076 κτλ. Θα μπορούσατε φυσικά να αγοράσετε και ένα καινούργιο αλλά όποιος ξέρει λίγη αστρονομία μπορεί να εξοικονομήσει χρήματα και κόπο. </p>
+									Δοκιμαστική Εξίσωση:
+									\[\gamma=\frac{1}{\sqrt{1-v^2/c^2}}\]
+								</div>	
+							</div>
+
+						</div>
+
+						<p>Κάθε 19 χρόνια λοιπόν, οι ημερομηνίες των πανσελήνων επαναλαμβάνονται. Το γεγονός αυτό ήταν ήδη γνωστό στους Βαβυλώνιους, όμως στην αρχαία Αθήνα το ανακάλυψε ο Μέτωνας το 432 π.Χ. περίπου, γι’ αυτό και αυτός ο 19ετής κύκλος, εκτός από κύκλος της σελήνης, ονομάστηκε και κύκλος του Μέτωνα. Και ήταν μια ανακάλυψη που εντυπωσίασε πάρα πολύ τους αρχαίους Αθηναίους τόσο ώστε να γράφουν κάθε χρόνο με χρυσά γράμματα σε όλα τα δημόσια καταστήματα σε ποια φάση του 19ετούς κύκλου βρίσκονται. Ο αριθμός 19 δε, είχε για αυτούς θεϊκή υπόσταση. Η πάνω σπείρα της πίσω όψης του μηχανισμού λοιπόν αντιπροσωπεύει τον σεληνιακό κύκλο (Κύκλο του Μέτωνα). Ο κύκλος αυτός διαρκεί 235 φεγγάρια γι’ αυτό και η σπείρα έχει τις αντίστοιχες υποδιαιρέσεις ενώ η βελόνα υποδεικνύει σε ποια φάση αυτού του κύκλου βρισκόμαστε. Όταν ο κύκλος ολοκληρωθεί, μόλις περάσουν 19 χρόνια, η βελόνα τερματίζει και θα πρέπει με το χέρι να επανατοποθετηθεί στην αφετηρία της οπότε και οι ημερομηνίες επαναλαμβάνονται.
+						</p>
+
+						<figure class="figure m-4">
+							<img src=images/background7.jpg
+								 class="figure-img img-fluid" 
+								 alt="bd">
+							<figcaption class="figure-caption">
+								Εικόνα 1: Κεραυνός σε ουρανοξύστες
+							</figcaption>
+						</figure>
+
+						<p>Κάθε 19 χρόνια λοιπόν, οι ημερομηνίες των πανσελήνων επαναλαμβάνονται. Το γεγονός αυτό ήταν ήδη γνωστό στους Βαβυλώνιους, όμως στην αρχαία Αθήνα το ανακάλυψε ο Μέτωνας το 432 π.Χ. περίπου, γι’ αυτό και αυτός ο 19ετής κύκλος, εκτός από κύκλος της σελήνης, ονομάστηκε και κύκλος του Μέτωνα. Και ήταν μια ανακάλυψη που εντυπωσίασε πάρα πολύ τους αρχαίους Αθηναίους τόσο ώστε να γράφουν κάθε χρόνο με χρυσά γράμματα σε όλα τα δημόσια καταστήματα σε ποια φάση του 19ετούς κύκλου βρίσκονται. Ο αριθμός 19 δε, είχε για αυτούς θεϊκή υπόσταση. Η πάνω σπείρα της πίσω όψης του μηχανισμού λοιπόν αντιπροσωπεύει τον σεληνιακό κύκλο (Κύκλο του Μέτωνα). Ο κύκλος αυτός διαρκεί 235 φεγγάρια γι’ αυτό και η σπείρα έχει τις αντίστοιχες υποδιαιρέσεις ενώ η βελόνα υποδεικνύει σε ποια φάση αυτού του κύκλου βρισκόμαστε. Όταν ο κύκλος ολοκληρωθεί, μόλις περάσουν 19 χρόνια, η βελόνα τερματίζει και θα πρέπει με το χέρι να επανατοποθετηθεί στην αφετηρία της οπότε και οι ημερομηνίες επαναλαμβάνονται.
+						</p>
+
+						<h2>3. Ενσωματωμένο Βίντεο από YouTube</h2>
+						<p>Create a responsive video and scale it nicely to the parent element with an 16:9 aspect ratio</p>
+
+						<div id="embedded-media">
+
+
+							<div class="embed-responsive embed-responsive-16by9">
+								<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4tgOyU34D44"></iframe>
+							</div>
+
+
+						</div>
+
+
+
+
+
+						<h2>4. Ο Κύκλος "Σάρος"</h2>
+						<div class="content-wrapper">
+
+							<p>Εντελώς τυχαίες φαίνονται εκ πρώτης όψεως και οι ημερομηνίες στις οποίες συμβαίνουν εκλείψεις Ηλίου και Σελήνης. Και εδώ όμως υπάρχει ένα ακόμα μοτίβο. Όλα οφείλονται στην κίνηση του φεγγαριού. Το φεγγάρι ακολουθώντας πιστά την τροχιά του περνάει ανάμεσα από την Γη και τον Ήλιο κάθε 30 μέρες περίπου. Γιατί λοιπόν δεν έχουμε έκλειψη Ηλίου κάθε 30 μέρες; Ε λοιπόν δυστυχώς, η τροχιά του φεγγαριού δεν είναι τόσο απλή όσο φαντάζεστε, δεν είναι απλώς ένας κύκλος καρφωμένος γύρω από τη Γη. Εκτός από το φεγγάρι καθαυτό, η ίδια η τροχιά του εκτελεί ταυτόχρονα 2 ακόμα κινήσεις. Περιστρέφεται γύρω από τον εαυτό της 1 φορά κάθε 8.85 χρόνια σαν ένα τεράστιο χούλα-χουπ και σαν να μην έφτανε αυτό, ταλαντεύεται πάνω κάτω 1 φορά κάθε 18.60 χρόνια σαν ένα ασταθές φρίσμπι. Χάος! Κι όμως, ως εκ θαύματος όλες αυτές οι κινήσεις συγχρονίζονται με μεγάλη ακρίβεια κάθε 18 χρόνια 11 μέρες και 8 ώρες. Το χρονικό διάστημα αυτό ονομάζεται κύκλος των εκλείψεων ή αλλιώς «Σάρος» και χρησιμοποιούνταν ήδη από τους Βαβυλώνιους ώστε να μπορούν να προβλέπουν τις επόμενες εκλείψεις. Κάθε 1 Σάρος, το Φεγγάρι, η Γη και ο Ήλιος έρχονται στις ίδιες θέσεις, έχουν δηλαδή παρόμοια γεωμετρία, ίδιους προσανατολισμούς, ίδιες αποστάσεις κτλ. και συνεπώς, μία παρόμοια έκλειψη θα συμβεί. Παρόμοια, σημαίνει ότι όσο διαρκεί η μία τόσο θα διαρκέσει και η άλλη, αν το φεγγάρι ανεβαίνει για να καλύψει τον ήλιο το ίδιο θα γίνει και στην επόμενη, αν είναι ολική το ίδιο θα είναι και η επόμενη.</p>
+						</div>
+
+						<div class="image-wrapper float-right">
+							<figure class="figure ml-4 text-center">
+								<img src=images/background6.jpg
+									 class="figure-img img-fluid" 
+									 alt="A generic image with rounded corners in a figure.">
+								<figcaption class="figure-caption">
+									Εικόνα 1: Φωτογραφία του φεγγαριού
+								</figcaption>
+							</figure>
+						</div>
+						<div class="content-wrapper">
+							<p>Προσοχή όμως! Αυτό δεν σημαίνει ότι οι εκλείψεις συμβαίνουν μία φορά στα 18 χρόνια. Ο κύκλος «Σάρος» εξασφαλίζει απλώς ότι οι εκλείψεις μια δεδομένης χρονιάς θα επαναληφθούν αυτούσιες μετά από 18 χρόνια. Για το τι θα συμβεί στο ενδιάμεσο δεν μας λέει τίποτα. Σε ένα χρονικό εύρος 18 χρόνων μπορεί να εμφανιστούν μέχρι και 100 εκλείψεις οι οποίες όμως θα διαφέρουν μεταξύ τους. Άλλες είναι μερικές, άλλες σύντομες, άλλες ολικές, σε άλλες το φεγγάρι ανεβαίνει για να καλύψει τον ήλιο, σε άλλες κατεβαίνει... Αν καταφέρετε όμως να τις μετρήσετε όλες τότε θα γνωρίζετε πολύ καλά και αυτές των 18 επόμενων ετών, καθώς και των 18 προηγούμενων ετών και ούτω καθεξής. Ε λοιπόν στην κάτω σπείρα της πίσω όψης του μηχανισμού έχουν κάνει ακριβώς αυτό. Έχουν σημειώσει όλες τις εκλείψεις, ηλίου και σελήνης, που εμφανίζονται εντός μιας 18ετίας, συνεπώς μπορούν να προβλέψουν και εκείνες κάθε προηγούμενης ή επόμενης 18ετίας. 1 «Σάρος» διαρκεί 223 φεγγάρια, γι’ αυτό η σπείρα είναι χωρισμένη σε αντίστοιχες υποδιαιρέσεις. Στο εσωτερικό της διακρίνεται ακόμα και ο κύκλος του Εξελιγμού, δηλαδή το χρονικό διάστημα των 3 «Σάρος» που απαιτείται για να επαναληφθεί μια έκλειψη στο ίδιο γεωγραφικό σημείο. 
+							</p>
+						</div>
+
+
+
+						<div id="example-card">
+							<div class="card">
+								<div class="card-header text-center">
+									Παράδειγμα
+								</div>
+								<div class="card-body">
+									Στις 29 Μαρτίου του 2006 συνέβη ολική έκλειψη στο Καστελόριζο.
+									<ul style="list-style-type:disc;">
+										<li>1 Σάρος μετά το Καστελόριζο, δηλαδή στις 8 Απριλίου του 2024 θα συμβεί η ίδια έκλειψη. Όμως υπάρχει μια επιπλοκή. Το Σάρος έχει και ένα κομμάτι 8 ωρών, αυτό σημαίνει ότι η έκλειψη δεν θα είναι ορατή πλέον από το Καστελόριζο αλλά από μια δυτικότερη χώρα με την οποία έχουμε διαφορά 8 ωρών: την Αμερική.</li>
+										<li>2 Σάρος μετά το Καστελόριζο, δηλαδή στις 20 Απριλίου του 2042, η έκλειψη θα είναι ορατή από μια χώρα η οποία θα είναι 8 ώρες δυτικότερα και από την Αμερική: τις Φιλιππίνες.</li>
+										<li>Προσέξτε όμως τι θα συμβεί 3 Σάρος μετά το Καστελόριζο. Στις 30 Απριλίου του 2060, η έκλειψη θα συμβεί ξανά στο Καστελόριζο, αφού θα έχει μετατοπιστεί πλέον ακόμα 8 ώρες. Μετά από 3 Σάρος τα 3 περισσευούμενα 8ωρα συμπληρώνουν 24 ώρες γύρω από τη Γη και συνεπώς ερχόμαστε ξανά στο ίδιο σημείο.
+										</li>
+									</ul>
+									Συμπέρασμα: Οι εκλείψεις επαναλαμβάνονται στο ίδιο γεωγραφικό σημείο κάθε 54 χρόνια και 1 μήνα. Η περίοδος αυτή ονομάζεται κύκλος του Εξελιγμού. 
+								</div>	
+							</div>
+
+						</div>
+
+
+						<div class="row align-items-center">
+							<div class="col-6 text-left">
+								<button type="button" class="btn btn-primary">
+									<i class="fas fa-arrow-left"></i>
+									16 H Φυσική της Ακοής
+								</button>
+							</div>
+							<div class="col-6 text-right">
+								<button type="button" class="btn btn-primary">
+									16.2 O Ήχος
+									<i class="fas fa-arrow-right"></i>
+								</button>
+							</div>
+						</div>
+
+
+					</div>
+
+					<!-- Navigation Column -->
+					<div class="col-lg-4 pl-5">
+						<!-- No content -->
+						<h2>Περιεχόμενα</h2>
+						<ul class="list-unstyled components">
+							<li class="active">
+								<a href="#">16.1 Εισαγωγή στην φυσική της ακοής</a>
+							</li>
+							<li>
+								<a href="#">16.2 Ο ήχος</a>
+							</li>
+							<li>
+								<a href="#">16.3 Ταχύτητα, συχνότητα και μήκος κύματος του ήχου</a>
+							</li>
+							<li>
+								<a href="#">16.4 Επίπεδο και ένταση ήχου</a>
+							</li>
+							<li>
+								<a href="#">16.5 Το φαινόμενο Doppler</a>
+							</li>
+							<li>
+								<a href="#">16.6 Συμβολή και συντονισμός</a>
+							</li>
+							<li>
+								<a href="#">16.7 Ακοή</a>
+							</li>
+							<li>
+								<a href="#">16.8 Υπέρηχοι</a>
+							</li>
+							<li>
+								<a href="#">16.9 Συντονισμός</a>
+							</li>
+							<li>
+								<a href="#">16.10 Κρουστικά Κύματα</a>
+							</li>
+						</ul>
+
+						<figure class="figure m-4 rounded">
+							<img src=images/background7.jpg
+								 class="figure-img img-fluid" 
+								 alt="bd">
+							<figcaption class="figure-caption">
+								Εικόνα 1: Κεραυνός σε ουρανοξύστες
+							</figcaption>
+						</figure>
+					</div>	
+				</div>
+				<a class="gotopbtn" href="#"><i class="fas fa-arrow-up"></i></a>
+
+			</div><!--End of Container id-->
+
+			<!-- Footer -->
+			<div id="Footer">
+
+				<footer>
+
+					<div class="row text-center">
+
+						<div class="col-md-4">
+							<h5>Στοιχεία Επικοινωνίας</h5>
+							<hr class="light">
+							(+30) 6951481200<br>
+							kiriakosdem@yahoo.gr
+						</div>
+
+						<div class="col-md-4 justify-content-left">	
+							<h5>Διεύθυνση</h5>
+							<hr class="light">
+							Καυκάσου 89, Κορυδαλλός<br>
+							18121, Αθήνα<br>
+							Ελλάδα
+						</div>
+
+						<div class="col-md-4 social padding">
+							<h5>Κοινωνική Δικτύωση</h5>
+							<hr class="light">
+							<a href="https://www.facebook.com"><img class="fab fa-facebook"></a>
+							<a href="https://twitter.com/?lang=el"><img class="fab fa-twitter"></a>
+							<!--			<a href="#"><img class="fab fa-google-plus-g"></a>-->
+							<a href="https://www.instagram.com/?hl=el"><img class="fab fa-instagram"></a>
+							<a href="https://www.youtube.com/?hl=el&gl=GR"><img class="fab fa-youtube"></a>
+						</div>
+
+					</div>
+
+					<div id="copyright" class="text-center">
+						<hr class="light-full">
+						<h5>&copy; dizzyelectron.com</h5>
+					</div>
+
+				</footer>
+			</div>
+		</div><!-- End of Content -->
+
+		<div class="overlay"></div>
+	</body>
+
+</html>
