@@ -1,0 +1,267 @@
+<!--DOCTYPE html-->
+
+<html lang="gr">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<title>Phγsics4Everγone - Welcome Page</title>
+
+		<!-- Bootstrap CSS CDN -->
+		<link rel="stylesheet" 
+			  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
+			  integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
+			  crossorigin="anonymous">
+		<!-- Scrollbar Custom CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+		<!-- My Custom CSS -->
+		<link rel="stylesheet" href="styleCommon.css">		
+		<link rel="stylesheet" href="styleMainPage.css">
+
+		<!--Math-->
+		<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async>
+		</script>
+
+		<!--Bootsrap 4 Library-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+		<!--Fonts and Images-->
+		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+	</head>
+
+	<body>
+
+		<div id="NavigationBar">
+
+			<nav class="navbar navbar-center navbar-expand-md navbar-dark bg-dark">	
+
+				<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item dropdown">
+							<a id="navbardrop" 
+							   class="nav-link dropdown-toggle" 
+							   href="#" 
+							   data-toggle="dropdown">
+								Μαθήματα
+							</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" 
+								   href="Contents.html#physics-lessons">Φυσική</a>
+								<a class="dropdown-item" 
+								   href="Contents.html#math-lessons">Μαθηματικά</a>
+								<a class="dropdown-item" 
+								   href="Contents.html#programming-lessons">Προγραμματισμός</a>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+
+				<div class="mx-auto order-0">
+					<a class="navbar-brand" href="MainPage.html">
+						Dizzy
+						<img src="images/physicslogo.png">
+						Electron
+					</a>
+				</div>
+
+				<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+								Υλικό για Σχολεία
+							</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="ExampleLesson1.html">Α Γυμνασίου</a>
+								<a class="dropdown-item" href="ExampleLesson1.html">Β Γυμνασίου</a>
+								<a class="dropdown-item" href="ExampleLesson1.html">Γ Γυμνασίου</a>
+								<a class="dropdown-item" href="ExampleLesson1.html">Α Λυκείου</a>
+								<a class="dropdown-item" href="ExampleLesson1.html">Β Λυκείου</a>
+								<a class="dropdown-item" href="ExampleLesson1.html">Γ Λυκείου</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<button class="navbar-toggler" 
+						type="button" 
+						data-toggle="collapse" 
+						data-target=".dual-collapse2">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+			</nav>
+
+		</div>
+
+		<div id="mycarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+			<!--Indicators-->
+			<ol class="carousel-indicators">
+				<li data-target="#mycarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#mycarousel" data-slide-to="1"></li>
+				<li data-target="#mycarousel" data-slide-to="2"></li>
+			</ol>
+
+			<!--Slides-->
+			<div class="carousel-inner" role="listbox">
+
+				<div class="carousel-item text-center active">
+					<img src="images/background83.jpg">
+					<div class="carousel-caption text-center">
+						<h3>Καλωσορίσατε! </h3>
+					</div>
+				</div>
+
+				<div class="carousel-item text-center">
+					<img src="images/background63.jpg">
+					<div class="carousel-caption text-center">
+						<h3>Ανακαλύψτε τη μαγεία της Φύσης...</h3>
+					</div>
+				</div>
+
+				<div class="carousel-item text-center">
+					<img src="images/background73.jpg">
+					<div class="carousel-caption text-center">
+						<h3>...μέσα από μοναδικά διαδραστικά μαθήματα!</h3>
+					</div>
+				</div>
+
+			</div>
+
+			<!--Previous and Next Buttons-->
+			<a class="carousel-control-prev" 
+			   href="#mycarousel" 
+			   role="button" 
+			   data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			</a>
+			<a class="carousel-control-next" 
+			   href="#mycarousel" 
+			   role="button" 
+			   data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			</a>
+
+		</div>
+
+		<div id="About" class="jumbotron container-fluid">
+
+			<div class="narrow text-center">
+				<h1 class="heading">Σχετικά με την Ιστοσελίδα</h1>
+				<div class="heading-underline"></div>
+				<p class="lead">
+					Απολαύστε μαθήματα Φυσικής, Μαθηματικών και Προγραμματισμού σε γλώσσα απλή και κατανοητή χωρίς δυσνόητη ορολογία και περίπλοκες διατυπώσεις. Δοκιμαστική μαθηματική εξίσωση:
+					\[E=mc^2\]
+				</p>
+				<p class="lead">
+					“If you can't explain it simply, you don't understand it well enough.” - Einstein 
+				</p>
+			</div>
+
+		</div>
+
+		<div id="Courses" class="container-fluid text-center">
+
+			<h1 class="heading text-center">Επιλεγμένα Μαθήματα</h1>
+			<div class="heading-underline"></div>
+
+			<div class="row narrow text-center">
+
+				<div class="col-xl-3 d-flex justify-content-center">
+					<a href="MainPage.html" class="card">
+						<div class="inner">
+							<h3>Physics of the Everyday</h3>
+							<img src="images/physicslogo.png">
+							<p>Investigate everyday physics, from household objects to weather patterns.</p>
+						</div>
+					</a>
+				</div>
+
+				<div class="col-xl-3 d-flex justify-content-center">
+					<a href="MainPage.html" class="card">
+						<div class="inner">
+							<h3>Physics of the Everyday</h3>
+							<img src="images/physicslogo.png">
+							<p>Investigate everyday physics, from household objects to weather patterns.</p>
+						</div>
+					</a>
+				</div>
+
+				<div class="col-xl-3 d-flex justify-content-center">
+					<a href="MainPage.html" class="card">
+						<div class="inner">
+							<h3>Physics of the Everyday</h3>
+							<img src="images/physicslogo.png">
+							<p>Investigate everyday physics, from household objects to weather patterns.</p>
+						</div>
+					</a>
+				</div>
+
+				<div class="col-xl-3 d-flex justify-content-center">
+					<a href="MainPage.html" class="card">
+						<div class="inner">
+							<h3>Physics of the Everyday</h3>
+							<img src="images/physicslogo.png">
+							<p>Investigate everyday physics, from household objects to weather patterns.</p>
+						</div>
+					</a>
+				</div>
+
+			</div>
+
+			<a class="btn btn-primary" href="Contents.html">
+				<h4>Δείτε ΟΛΑ τα μαθήματα εδώ!</h4>
+			</a>
+
+		</div>
+
+		<div id="Footer">
+
+			<footer>
+
+				<div class="row text-center">
+
+					<div class="col-md-4">
+						<h5>Στοιχεία Επικοινωνίας</h5>
+						<hr class="light">
+						<p>(+30) 6951481200</p>
+						<p>kiriakosdem@yahoo.gr</p>
+					</div>
+
+					<div class="col-md-4">	
+						<h5>Διεύθυνση</h5>
+						<hr class="light">
+						<p>Καυκάσου 89, Κορυδαλλός <br>
+							18121, Αθήνα <br>
+							Ελλάδα
+						</p>
+					</div>
+
+					<div class="col-md-4 social padding">
+						<h5>Κοινωνική Δικτύωση</h5>
+						<hr class="light">
+						<a href="https://www.facebook.com"><img class="fab fa-facebook"></a>
+						<a href="https://twitter.com/?lang=el"><img class="fab fa-twitter"></a>
+						<!--			<a href="#"><img class="fab fa-google-plus-g"></a>-->
+						<a href="https://www.instagram.com/?hl=el"><img class="fab fa-instagram"></a>
+						<a href="https://www.youtube.com/?hl=el&gl=GR"><img class="fab fa-youtube"></a>
+					</div>
+
+				</div>
+
+				<div id="copyright" class="text-center">
+					<hr class="light-full">
+					<h5>&copy; physics4everyone.com</h5>
+				</div>
+
+			</footer>
+
+		</div>
+
+	</body>
+
+</html>

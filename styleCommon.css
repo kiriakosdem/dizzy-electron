@@ -13,7 +13,7 @@ MAIN BODY AND TEXT
 @import url('https://fonts.googleapis.com/css?family=GFS Didot:400,500,700');
 
 /* Font to Use */
-@import url('https://fonts.googleapis.com/css?family=Literata:500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Literata:400,500,600');
 
 /* Main Body Settings*/
 html, body{
@@ -24,16 +24,16 @@ html, body{
 	font-size: 1rem;
 	
 	background-color: #eee;
-	scroll-behavior: smooth;
 }
 
 
 /* Paragraph Element Styling*/
 p{
-	line-height: 1.7rem;
-	text-indent: 3rem;
-	text-align: justify;
+	line-height: 1.5rem;
+	text-indent: 2rem;
+	
 }
+
 
 
 
@@ -155,7 +155,7 @@ CARDS
 SOCIAL ICONS STYLE
 ----------------------------------------------------- */
 .social a {
-	font-size: 1.5em; 
+	font-size: 2em; 
 	padding: 1rem;
 }
 
@@ -190,9 +190,10 @@ SOCIAL ICONS STYLE
 FOOTER STYLE
 ----------------------------------------------------- */
 footer{
-	background-color: #3f3f3f;
-	color: gray;
-	margin-top: 5rem;
+	background-color: midnightblue;
+	color: wheat;
+	margin-top: 7rem;
+	font-size: 0.8rem;
 }
 
 footer .container-fluid{
@@ -207,18 +208,25 @@ footer .row{
 }
 
 footer #copyright{
+	padding: 0.2rem;
 	padding-bottom: 0.5rem;
 }
 
 footer a {
 	color: #d5d5d5;
-	padding: 3rem;
+	padding: 1rem;
 }
 
 footer h5{
+	font-size: 1rem;
 	font-weight: bold;
 }
 
+.light-full{
+	padding: 0rem;
+	margin: 0.2rem;
+	color: aqua;
+}
 
 /* ---------------------------------------------------
 MEDIA QUERIES
