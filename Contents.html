@@ -3,50 +3,75 @@
 
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+		<title>Dizzy Electron | Welcome Page</title>
 
-		<title>P4E | 16 Η Φυσική της Ακοής</title>
-
-
-		<!-- Bootstrap CSS CDN -->
+		<!-- CSS FILES -->
+		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" 
 			  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
 			  integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
 			  crossorigin="anonymous">
-		<link rel="stylesheet" href="styleCommon.css">
+		<!-- Font Awesome CSS -->
+		<link rel="stylesheet"
+			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 		<!-- Our Custom CSS -->
+		<link rel="stylesheet" href="styleCommon.css">
 		<link rel="stylesheet" href="styleContents.css">
-		<!-- Scrollbar Custom CSS -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 
-
-		<!-- Font Awesome JS -->
-		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-		<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-
-
-		<!-- jQuery CDN - Slim version (=without AJAX) -->
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" 
-				integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-		<!-- Popper.JS -->
+		<!-- JAVASCRIPT LIBRARIES -->		
+		<!-- Font Awesome -->
+		<script defer 
+				src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" 
+				integrity="sha384tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" 
+				crossorigin="anonymous"></script>
+		<script defer 
+				src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha3846OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" 
+				crossorigin="anonymous"></script>
+		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<!-- Popper -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-				integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-		<!-- Bootstrap JS -->
+				integrity="sha384cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+		<!-- Bootstrap -->
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-				integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-		<!-- jQuery Custom Scroller CDN -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
-
-		<!--Math-->
+				integrity="sha384uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+		<!-- Math -->
 		<script type="text/javascript" 
 				async 
-				src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" 
-				async>
+				src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+		<!-- Geogebra -->
+		<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+		<!-- p5.js Libraries -->
+		<script src="libraries/jsLibraries/p5.js"></script>
+		<!--<script src="libraries/p5/p5.dom.min.js"></script>	-->
+		<!--<script src="libraries/p5/p5.sound.min.js"></script>-->
+		<!--<script src="libraries/jsLibraries/matter.js"></script>-->
+
+		<!-- EXTRA JAVASCRIPT CODE -->		
+		<!-- Scroll to Top Button -->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$(window).scroll(function () {
+					if ($(this).scrollTop() > 500) {
+						$('.scrollToTop').fadeIn(100);
+					} else {
+						$('.scrollToTop').fadeOut(500);
+					}
+				});
+				// scroll body to 0px on click
+				$('.scrollToTop').click(function () {
+					$('body,html').animate({
+						scrollTop: 0
+					}, 500);
+					return false;
+				});
+			});
 		</script>
-		<!--Additional JavaScript Code-->
+		<!--Sidebar -->
 		<script type="text/javascript">
 			$(document).ready(function () {
 				$("#sidebar").mCustomScrollbar({
@@ -66,243 +91,355 @@
 				});
 			});
 		</script>
-		<!--p5.js Libraries-->
-		<script src="libraries/jsLibraries/p5.js"></script>
-		<!--		<script src="libraries/p5/p5.dom.min.js"></script>	-->
-		<!--    <script src="libraries/p5/p5.sound.min.js"></script>-->
-		<script src="libraries/jsLibraries/matter.js"></script>
-	</head>
+		<!-- Geogebra Applets -->
+		<script type="text/javascript">
+			var parameters1 = {
+				//"appName": "geometry",
+				//"width": parent.width,
+				//"height": 400,
+				//"customToolbar":"0 || 1 || 2",
+				//"capturingThreshold":null,
+				//"errorDialogsActive":true,
+				//"filename":"geogebra/elipses.ggb" 
+				"playButton":true,
+				//"autoHeight":true,
 
+				"material_id": "mwgjept9",
+				"showToolBar":false,
+				"showToolBarHelp":false,
+				"showMenuBar":false,
+				"showAlgebraInput":false,
+				"showResetIcon":true,
+				"showFullscreenButton": true,
+				"enableLabelDrags":true,
+				"enableShiftDragZoom":true,
+				"enableRightClick":true,
+				"useBrowserForJS":false,
+				"allowUpScale": true,
+				"scaleContainerClass":"col",	
+			};
+
+			var parameters2 = {
+				//"appName": "geometry",
+				//"width": parent.width,
+				//"height": 400,
+				//"customToolbar":"0 || 1 || 2",
+				//"capturingThreshold":null,
+				//"errorDialogsActive":true,
+				//"filename":"geogebra/elipses.ggb" 
+				"playButton":true,
+				//"autoHeight":true,
+
+				"material_id": "ethcgfs8",
+				"showToolBar":false,
+				"showToolBarHelp":false,
+				"showMenuBar":false,
+				"showAlgebraInput":false,
+				"showResetIcon":true,
+				"showFullscreenButton": true,
+				"enableLabelDrags":true,
+				"enableShiftDragZoom":true,
+				"enableRightClick":true,
+				"useBrowserForJS":false,
+				"allowUpScale": true,
+				"scaleContainerClass":"col",	
+			};
+
+			var applet1 = new GGBApplet(parameters1, '5.0');
+			var applet2 = new GGBApplet(parameters2, '5.0')
+
+			window.addEventListener("load", function() {
+				applet1.inject('applet-container1');
+				applet2.inject('applet-container2');
+			});
+		</script>
+
+	</head>
 
 	<body>
 
+		<!-- Navigation Bar -->
 		<div id="NavigationBar">
-			<nav class="navbar navbar-center navbar-expand-md navbar-dark bg-dark">				 
-				<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">	 
+			<nav class="navbar navbar-center navbar-expand-md navbar-dark bg-dark">	
+				<div class="navbar-collapse collapse dual-collapse w-100 order-md-0 order-1 ">
+					<!-- Right Box -->
 					<ul class="navbar-nav mr-auto">
-						<!--
-<button type="button" id="sidebarCollapse" class="btn btn-secondary">
-<i class="fas fa-align-left"></i>
-<span>Περιεχόμενα</span>
-</button>
--->
+						<div class="nav-item dropdown">
+							<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Μαθήματα
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+								<a class="dropdown-item" 
+								   href="Contents.html#physics-lessons">Φυσική</a>
+								<a class="dropdown-item" 
+								   href="Contents.html#math-lessons">Μαθηματικά</a>
+								<a class="dropdown-item" 
+								   href="Contents.html#programming-lessons">Προγραμματισμός</a>
+							</div>
+						</div>
+						<div class="nav-item dropdown">
+							<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Υλικό για Σχολεία
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+								<a class="dropdown-item" href="Contents.html">Α' Γυμνασίου</a>
+								<a class="dropdown-item" href="Contents.html">Β' Γυμνασίου</a>
+								<a class="dropdown-item" href="Contents.html">Γ' Γυμνασίου</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="Contents.html">Α' Λυκείου</a>
+								<a class="dropdown-item" href="Contents.html">Β' Λυκείου</a>
+								<a class="dropdown-item" href="Contents.html">Γ' Λυκείου</a>
+							</div>
+						</div>
 					</ul>
 				</div>
-
+				<!-- Central Box -->
 				<div class="mx-auto order-0">
-					<a class="navbar-brand" href="MainPage.html">
+					<a class="navbar-brand" href="index.html">
 						Dizzy
 						<img src="images/physicslogo.png">
 						Electron
 					</a>
 				</div>
-
-				<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+				<!-- Right Box -->
+				<div id="RightBox" class="navbar-collapse collapse dual-collapse w-100 order-3">
 					<ul class="navbar-nav ml-auto">
-						<form class="form-inline" action="/action_page.php">
-							<input class="form-control mr-sm-2" 
-								   type="text" 
-								   placeholder="Αναζήτηση...">
-							<button class="btn btn-primary" type="submit">
-								<i class="fas fa-search"></i>
-							</button>
-						</form>
+						<a class="btn" href="Contents.html">
+							Σχετικά
+						</a>
+						<a class="btn" href="Contents.html">
+							Επικοινωνία
+						</a>
 					</ul>
 				</div>
+				<!-- Toggler Button -->
 				<button class="navbar-toggler" 
 						type="button" 
 						data-toggle="collapse" 
-						data-target=".dual-collapse2">
+						data-target=".dual-collapse">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 			</nav>
 		</div>
 
+		<!-- Main Content -->
 		<div class="container">
+			<!-- Physics -->
+			<div id="physics-lessons">
+				<h2>Φυσικη</h2>
+				<hr>
+				<div class="row text-center">
 
-			<h1 id="physics-lessons">Φυσική</h1>
-
-			<div class="row text-center">
-
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-physics">
-						<div class="inner">
-							<h3>Στατικός Ηλεκτρισμός</h3>
-							<img src="images/staticelectricity.png">
-							<p>Μάθε γιατί το νερό είναι τόσο καλός διαλύτης και πως αυτή η ιδιότητα το κάνει απαραίτητο για τη ζωή!</p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-physics">
-						<div class="inner">
-							<h3>Ηλεκτρικό Ρεύμα</h3>
-							<img src="images/heart.png">
-							<p>Τι ακριβώς είναι η σημαντικότερη κινητήρια δύναμη της σύγχρονης τεχνολογίας;</p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-physics">
-						<div class="inner">
-							<h3>Μαγνητισμός</h3>
-							<img src="images/physicslogo.png">
-							<p>Πως λειτουργεί η μαγνητική τομογραφία;</p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-physics">
-						<div class="inner">
-							<h3>Ηλεκτρομαγνητική Ακτινοβολία</h3>
-							<img src="images/Untitled-1.svg">
-							<p>Είναι τελικά όσο επικίνδυνη πιστεύουμε;</p>
-						</div>
-					</a>
-				</div>
-
-			</div>
-
-
-			<h1 id="math-lessons">Μαθηματικά</h1>
-			
-			<div class="overlay">
-					<img src="https://mdbootstrap.com/img/Photos/Others/forest-sm.jpg" class="img-fluid " alt="smaple image">
-					<div class="mask flex-center rgba-red-strong">
-						<p class="white-text">Strong overlay</p>
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-physics">
+							<div class="inner">
+								<h3>Στατικός Ηλεκτρισμός</h3>
+								<img src="images/physicslogo.png">
+								<p>Μάθε γιατί το νερό είναι τόσο καλός διαλύτης και πως αυτή η ιδιότητα το κάνει απαραίτητο για τη ζωή!</p>
+							</div>
+						</a>
 					</div>
+
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-physics">
+							<div class="inner">
+								<h3>Ηλεκτρικό Ρεύμα</h3>
+								<img src="images/physicslogo.png">
+								<p>Τι ακριβώς είναι η σημαντικότερη κινητήρια δύναμη της σύγχρονης τεχνολογίας;</p>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-physics">
+							<div class="inner">
+								<h3>Μαγνητισμός</h3>
+								<img src="images/physicslogo.png">
+								<p>Πως λειτουργεί η μαγνητική τομογραφία;</p>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-physics">
+							<div class="inner">
+								<h3>Ηλεκτρομαγνητική Ακτινοβολία</h3>
+								<img src="images/physicslogo.png">
+								<p>Είναι τελικά όσο επικίνδυνη πιστεύουμε;</p>
+							</div>
+						</a>
+					</div>
+
 				</div>
+			</div>
+			<!-- Math -->
+			<div id="math-lessons">
+				<h2>Μαθηματικα</h2>
+				<hr>
+				<div class="row text-center">
 
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<!--					<div class="view overlay">-->
+						<a href="ExampleLesson1.html" class="card card-math">
+							<div class="inner">
+								<h3>Εξισώσεις-Ανισώσεις</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+						<!--					</div>-->
+					</div>
 
-			<div class="row text-center">
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-math">
+							<div class="inner">
+								<h3>Συναρτήσεις</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
 
-				<div class="col-xl-3 d-flex justify-content-center">
-					<!--					<div class="view overlay">-->
-					<a href="ExampleLesson1.html" class="card card-math">
-						<div class="inner">
-							<h3>Εξισώσεις-Ανισώσεις</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-					<!--					</div>-->
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-math">
+							<div class="inner">
+								<h3>Γραφικές Παραστάσεις</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-math">
+							<div class="inner">
+								<h3>Πιθανότητες</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-math">
+							<div class="inner">
+								<h3>Γεωμετρία</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-math">
+							<div class="inner">
+								<h3>Τριγωνομετρία</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-math">
+							<div class="inner">
+								<h3>Στερεομετρία</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
+
 				</div>
+			</div>
+			<!-- Programming -->
+			<div id="programming-lessons">
+				<h2>Προγραμματισμος</h2>
+				<hr>
+				<div class="row text-center">
 
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-math">
-						<div class="inner">
-							<h3>Συναρτήσεις</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-				</div>
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-programming">
+							<div class="inner">
+								<h3>MATLAB</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
 
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-math">
-						<div class="inner">
-							<h3>Γραφικές Παραστάσεις</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-				</div>
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-programming">
+							<div class="inner">
+								<h3>HTML, CSS &amp; JavaScript</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
 
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-math">
-						<div class="inner">
-							<h3>Πιθανότητες</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-				</div>
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-programming">
+							<div class="inner">
+								<h3>LaTeX</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
 
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-math">
-						<div class="inner">
-							<h3>Γεωμετρία</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-				</div>
+					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
+						<a href="ExampleLesson1.html" class="card card-programming">
+							<div class="inner">
+								<h3>C &amp; C++</h3>
+								<img src="images/physicslogo.png">
+								<p>Investigate everyday physics, from household objects to weather patterns.</p>
+							</div>
+						</a>
+					</div>
 
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-math">
-						<div class="inner">
-							<h3>Τριγωνομετρία</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-math">
-						<div class="inner">
-							<h3>Στερεομετρία</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
 				</div>
 
 			</div>
 
-
-			<h1  id="programming-lessons">Προγραμματισμός</h1>
-
-			<div class="row text-center">
-
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-programming">
-						<div class="inner">
-							<h3>MATLAB</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-programming">
-						<div class="inner">
-							<h3>HTML - CSS - JavaScript</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-programming">
-						<div class="inner">
-							<h3>LaTeX</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-				</div>
-
-				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="ExampleLesson1.html" class="card card-programming">
-						<div class="inner">
-							<h3>C - C++</h3>
-							<img src="images/physicslogo.png">
-							<p>Investigate everyday physics, from household objects to weather patterns.</p>
-						</div>
-					</a>
-				</div>
-
-			</div>
-
+			<!-- Scroll to top button-->
+			<a href="#" class="scrollToTop btn-primary" role="button">
+				<i class="fa fa-arrow-up" aria-hidden="true"></i>
+			</a>
 		</div>
+
 		<div class="col-xs-12" style="height:100px;"></div>
 
+		<!-- Footer -->
+		<div id="Footer">
+			<footer>
+
+				<div class="row text-center">
+
+					<div class="col-md-6">
+						<h5>Στοιχεία Επικοινωνίας</h5>
+						(+30) 6951481200<br>
+						kiriakosdem@yahoo.gr
+					</div>
+
+					<div class="col-md-6 social padding">
+						<h5>Κοινωνική Δικτύωση</h5>
+						<a href="https://www.facebook.com"><img class="fab fa-facebook"></a>
+						<a href="https://twitter.com/?lang=el"><img class="fab fa-twitter"></a>
+						<!--			<a href="#"><img class="fab fa-google-plus-g"></a>-->
+						<a href="https://www.instagram.com/?hl=el"><img class="fab fa-instagram"></a>
+						<a href="https://www.youtube.com/?hl=el&gl=GR"><img class="fab fa-youtube"></a>
+					</div>
+
+				</div>
+
+				<div id="copyright" class="text-center">
+					<!--<hr class="light-full">-->
+					<h5>&copy; dizzyelectron.com</h5>
+				</div>
+
+			</footer>
+		</div>
 	</body>
 
 </html>

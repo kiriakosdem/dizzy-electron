@@ -7,48 +7,169 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-		<title>Phγsics4Everγone - Welcome Page</title>
+		<title>Dizzy Electron | Welcome Page</title>
 
-		<!-- Bootstrap CSS CDN -->
+		<!-- CSS FILES -->
+		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" 
 			  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
 			  integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
 			  crossorigin="anonymous">
-		<!-- Scrollbar Custom CSS -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-		<!-- My Custom CSS -->
-		<link rel="stylesheet" href="styleCommon.css">		
-		<link rel="stylesheet" href="styleMainPage.css">
+		<!-- Font Awesome CSS -->
+		<link rel="stylesheet"
+			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+		<!-- Our Custom CSS -->
+		<link rel="stylesheet" href="styleCommon.css">
+		<link rel="stylesheet" href="styleIndex.css">
 
-		<!--Math-->
-		<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async>
+		<!-- JAVASCRIPT LIBRARIES -->		
+		<!-- Font Awesome -->
+		<script defer 
+				src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" 
+				integrity="sha384tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" 
+				crossorigin="anonymous"></script>
+		<script defer 
+				src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha3846OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" 
+				crossorigin="anonymous"></script>
+		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<!-- Popper -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+				integrity="sha384cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+		<!-- Bootstrap -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+				integrity="sha384uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+		<!-- Math -->
+		<script type="text/javascript" 
+				async 
+				src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+		<!-- Geogebra -->
+		<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+		<!-- p5.js Libraries -->
+		<script src="libraries/jsLibraries/p5.js"></script>
+		<!--<script src="libraries/p5/p5.dom.min.js"></script>	-->
+		<!--<script src="libraries/p5/p5.sound.min.js"></script>-->
+		<!--<script src="libraries/jsLibraries/matter.js"></script>-->
+
+		<!-- EXTRA JAVASCRIPT CODE -->		
+		<!-- Scroll to Top Button -->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$(window).scroll(function () {
+					if ($(this).scrollTop() > 500) {
+						$('.scrollToTop').fadeIn(100);
+					} else {
+						$('.scrollToTop').fadeOut(500);
+					}
+				});
+				// scroll body to 0px on click
+				$('.scrollToTop').click(function () {
+					$('body,html').animate({
+						scrollTop: 0
+					}, 500);
+					return false;
+				});
+			});
+		</script>
+		<!--Sidebar -->
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#sidebar").mCustomScrollbar({
+					theme: "minimal"
+				});
+
+				$('#dismiss, .overlay').on('click', function () {
+					$('#sidebar').removeClass('active');
+					$('.overlay').removeClass('active');
+				});
+
+				$('#sidebarCollapse').on('click', function () {
+					$('#sidebar').addClass('active');
+					$('.overlay').addClass('active');
+					$('.collapse.in').toggleClass('in');
+					$('a[aria-expanded=true]').attr('aria-expanded', 'false');
+				});
+			});
+		</script>
+		<!-- Geogebra Applets -->
+		<script type="text/javascript">
+			var parameters1 = {
+				//"appName": "geometry",
+				//"width": parent.width,
+				//"height": 400,
+				//"customToolbar":"0 || 1 || 2",
+				//"capturingThreshold":null,
+				//"errorDialogsActive":true,
+				//"filename":"geogebra/elipses.ggb" 
+				"playButton":true,
+				//"autoHeight":true,
+
+				"material_id": "mwgjept9",
+				"showToolBar":false,
+				"showToolBarHelp":false,
+				"showMenuBar":false,
+				"showAlgebraInput":false,
+				"showResetIcon":true,
+				"showFullscreenButton": true,
+				"enableLabelDrags":true,
+				"enableShiftDragZoom":true,
+				"enableRightClick":true,
+				"useBrowserForJS":false,
+				"allowUpScale": true,
+				"scaleContainerClass":"col",	
+			};
+
+			var parameters2 = {
+				//"appName": "geometry",
+				//"width": parent.width,
+				//"height": 400,
+				//"customToolbar":"0 || 1 || 2",
+				//"capturingThreshold":null,
+				//"errorDialogsActive":true,
+				//"filename":"geogebra/elipses.ggb" 
+				"playButton":true,
+				//"autoHeight":true,
+
+				"material_id": "ethcgfs8",
+				"showToolBar":false,
+				"showToolBarHelp":false,
+				"showMenuBar":false,
+				"showAlgebraInput":false,
+				"showResetIcon":true,
+				"showFullscreenButton": true,
+				"enableLabelDrags":true,
+				"enableShiftDragZoom":true,
+				"enableRightClick":true,
+				"useBrowserForJS":false,
+				"allowUpScale": true,
+				"scaleContainerClass":"col",	
+			};
+
+			var applet1 = new GGBApplet(parameters1, '5.0');
+			var applet2 = new GGBApplet(parameters2, '5.0')
+
+			window.addEventListener("load", function() {
+				applet1.inject('applet-container1');
+				applet2.inject('applet-container2');
+			});
 		</script>
 
-		<!--Bootsrap 4 Library-->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-		<!--Fonts and Images-->
-		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 	</head>
 
 	<body>
 
+		<!-- Navigation Bar -->
 		<div id="NavigationBar">
-
 			<nav class="navbar navbar-center navbar-expand-md navbar-dark bg-dark">	
-
-				<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+				<div class="navbar-collapse collapse dual-collapse w-100 order-md-0 order-1 ">
+					<!-- Right Box -->
 					<ul class="navbar-nav mr-auto">
-						<li class="nav-item dropdown">
-							<a id="navbardrop" 
-							   class="nav-link dropdown-toggle" 
-							   href="#" 
-							   data-toggle="dropdown">
+						<div class="nav-item dropdown">
+							<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Μαθήματα
-							</a>
-							<div class="dropdown-menu">
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 								<a class="dropdown-item" 
 								   href="Contents.html#physics-lessons">Φυσική</a>
 								<a class="dropdown-item" 
@@ -56,100 +177,98 @@
 								<a class="dropdown-item" 
 								   href="Contents.html#programming-lessons">Προγραμματισμός</a>
 							</div>
-						</li>
+						</div>
+						<div class="nav-item dropdown">
+							<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Υλικό για Σχολεία
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+								<a class="dropdown-item" href="Contents.html">Α' Γυμνασίου</a>
+								<a class="dropdown-item" href="Contents.html">Β' Γυμνασίου</a>
+								<a class="dropdown-item" href="Contents.html">Γ' Γυμνασίου</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="Contents.html">Α' Λυκείου</a>
+								<a class="dropdown-item" href="Contents.html">Β' Λυκείου</a>
+								<a class="dropdown-item" href="Contents.html">Γ' Λυκείου</a>
+							</div>
+						</div>
 					</ul>
-
 				</div>
-
+				<!-- Central Box -->
 				<div class="mx-auto order-0">
-					<a class="navbar-brand" href="MainPage.html">
+					<a class="navbar-brand" href="index.html">
 						Dizzy
 						<img src="images/physicslogo.png">
 						Electron
 					</a>
 				</div>
-
-				<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+				<!-- Right Box -->
+				<div id="RightBox" class="navbar-collapse collapse dual-collapse w-100 order-3">
 					<ul class="navbar-nav ml-auto">
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-								Υλικό για Σχολεία
-							</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="ExampleLesson1.html">Α Γυμνασίου</a>
-								<a class="dropdown-item" href="ExampleLesson1.html">Β Γυμνασίου</a>
-								<a class="dropdown-item" href="ExampleLesson1.html">Γ Γυμνασίου</a>
-								<a class="dropdown-item" href="ExampleLesson1.html">Α Λυκείου</a>
-								<a class="dropdown-item" href="ExampleLesson1.html">Β Λυκείου</a>
-								<a class="dropdown-item" href="ExampleLesson1.html">Γ Λυκείου</a>
-							</div>
-						</li>
+						<a class="btn" href="Contents.html">
+								Σχετικά
+						</a>
+						<a class="btn" href="Contents.html">
+								Επικοινωνία
+						</a>
 					</ul>
 				</div>
-
+				<!-- Toggler Button -->
 				<button class="navbar-toggler" 
 						type="button" 
 						data-toggle="collapse" 
-						data-target=".dual-collapse2">
+						data-target=".dual-collapse">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-
 			</nav>
-
 		</div>
 
-		<div id="mycarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+		<!-- Carousel with Slides-->
+		<div id="MyCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
 			<!--Indicators-->
 			<ol class="carousel-indicators">
-				<li data-target="#mycarousel" data-slide-to="0" class="active"></li>
-				<li data-target="#mycarousel" data-slide-to="1"></li>
-				<li data-target="#mycarousel" data-slide-to="2"></li>
+				<li data-target="#MyCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#MyCarousel" data-slide-to="1"></li>
+				<li data-target="#MyCarousel" data-slide-to="2"></li>
 			</ol>
-
 			<!--Slides-->
 			<div class="carousel-inner" role="listbox">
-
 				<div class="carousel-item text-center active">
 					<img src="images/background83.jpg">
 					<div class="carousel-caption text-center">
 						<h3>Καλωσορίσατε! </h3>
 					</div>
 				</div>
-
 				<div class="carousel-item text-center">
 					<img src="images/background63.jpg">
 					<div class="carousel-caption text-center">
 						<h3>Ανακαλύψτε τη μαγεία της Φύσης...</h3>
 					</div>
 				</div>
-
 				<div class="carousel-item text-center">
 					<img src="images/background73.jpg">
 					<div class="carousel-caption text-center">
 						<h3>...μέσα από μοναδικά διαδραστικά μαθήματα!</h3>
 					</div>
 				</div>
-
 			</div>
-
 			<!--Previous and Next Buttons-->
 			<a class="carousel-control-prev" 
-			   href="#mycarousel" 
+			   href="#MyCarousel" 
 			   role="button" 
 			   data-slide="prev">
 				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 			</a>
 			<a class="carousel-control-next" 
-			   href="#mycarousel" 
+			   href="#MyCarousel" 
 			   role="button" 
 			   data-slide="next">
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			</a>
-
 		</div>
 
+		<!-- Jumbotron -->
 		<div id="About" class="jumbotron container-fluid">
-
 			<div class="narrow text-center">
 				<h1 class="heading">Σχετικά με την Ιστοσελίδα</h1>
 				<div class="heading-underline"></div>
@@ -160,10 +279,13 @@
 				<p class="lead">
 					“If you can't explain it simply, you don't understand it well enough.” - Einstein 
 				</p>
+					<a class="btn btn-primary" href="Contents.html">
+				<h4>Μάθε παραπάνω...</h4>
+			</a>
 			</div>
-
 		</div>
 
+		<!-- Selected Courses -->
 		<div id="Courses" class="container-fluid text-center">
 
 			<h1 class="heading text-center">Επιλεγμένα Μαθήματα</h1>
@@ -172,7 +294,7 @@
 			<div class="row narrow text-center">
 
 				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="MainPage.html" class="card">
+					<a href="ExampleLesson1.html" class="card">
 						<div class="inner">
 							<h3>Physics of the Everyday</h3>
 							<img src="images/physicslogo.png">
@@ -182,7 +304,7 @@
 				</div>
 
 				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="MainPage.html" class="card">
+					<a href="ExampleLesson1.html" class="card">
 						<div class="inner">
 							<h3>Physics of the Everyday</h3>
 							<img src="images/physicslogo.png">
@@ -192,7 +314,7 @@
 				</div>
 
 				<div class="col-xl-3 d-flex justify-content-center">
-					<a href="MainPage.html" class="card">
+					<a href="ExampleLesson1.html" class="card">
 						<div class="inner">
 							<h3>Physics of the Everyday</h3>
 							<img src="images/physicslogo.png">
@@ -219,31 +341,20 @@
 
 		</div>
 
+		<!-- Footer -->
 		<div id="Footer">
-
 			<footer>
 
 				<div class="row text-center">
 
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<h5>Στοιχεία Επικοινωνίας</h5>
-						<hr class="light">
-						<p>(+30) 6951481200</p>
-						<p>kiriakosdem@yahoo.gr</p>
+						(+30) 6951481200<br>
+						kiriakosdem@yahoo.gr
 					</div>
 
-					<div class="col-md-4">	
-						<h5>Διεύθυνση</h5>
-						<hr class="light">
-						<p>Καυκάσου 89, Κορυδαλλός <br>
-							18121, Αθήνα <br>
-							Ελλάδα
-						</p>
-					</div>
-
-					<div class="col-md-4 social padding">
+					<div class="col-md-6 social padding">
 						<h5>Κοινωνική Δικτύωση</h5>
-						<hr class="light">
 						<a href="https://www.facebook.com"><img class="fab fa-facebook"></a>
 						<a href="https://twitter.com/?lang=el"><img class="fab fa-twitter"></a>
 						<!--			<a href="#"><img class="fab fa-google-plus-g"></a>-->
@@ -254,12 +365,11 @@
 				</div>
 
 				<div id="copyright" class="text-center">
-					<hr class="light-full">
-					<h5>&copy; physics4everyone.com</h5>
+					<!--<hr class="light-full">-->
+					<h5>&copy; dizzyelectron.com</h5>
 				</div>
 
 			</footer>
-
 		</div>
 
 	</body>

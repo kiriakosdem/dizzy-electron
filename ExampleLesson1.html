@@ -8,31 +8,25 @@
 		<meta http-equiv="X-UA-Compatible" 
 			  content="IE=edge">
 
-		<title>DizzE | 16 Η Φυσική της Ακοής</title>
+		<title>Dizzy Electron | Physics of Hearing 16.4 </title>
 
-		<!-- Bootstrap CSS CDN -->
+		<!-- CSS FILES -->
+		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" 
 			  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
 			  integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
 			  crossorigin="anonymous">
-
+		<!-- Font Awesome CSS -->
+		<link rel="stylesheet"
+			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 		<!-- Our Custom CSS -->
 		<link rel="stylesheet" 
 			  href="styleCommon.css">
 		<link rel="stylesheet" 
 			  href="styleLesson.css">
 
-		<!-- Scrollbar Custom CSS -->
-		<link rel="stylesheet" 
-			  href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-
-		<!-- Font Awesome CSS -->
-		<link rel="stylesheet"
-			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
-
-
-
-		<!-- Font Awesome JS -->
+		<!-- JAVASCRIPT LIBRARIES -->		
+		<!-- Font Awesome -->
 		<script defer 
 				src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" 
 				integrity="sha384tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" 
@@ -41,59 +35,27 @@
 				src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha3846OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" 
 				crossorigin="anonymous"></script>
 		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-
-
-
-		<!-- jQuery Custom Scroller CDN -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
-		<!-- Popper.JS -->
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<!-- Popper -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
 				integrity="sha384cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-
-		<!-- Bootstrap JS -->
+		<!-- Bootstrap -->
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
 				integrity="sha384uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-
-		<!--Math-->
+		<!-- Math -->
 		<script type="text/javascript" 
 				async 
-				src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
-		</script>
-
-		<!--Additional JavaScript Code-->
-		<script type="text/javascript">
-			$(document).ready(function () {
-				$("#sidebar").mCustomScrollbar({
-					theme: "minimal"
-				});
-
-				$('#dismiss, .overlay').on('click', function () {
-					$('#sidebar').removeClass('active');
-					$('.overlay').removeClass('active');
-				});
-
-				$('#sidebarCollapse').on('click', function () {
-					$('#sidebar').addClass('active');
-					$('.overlay').addClass('active');
-					$('.collapse.in').toggleClass('in');
-					$('a[aria-expanded=true]').attr('aria-expanded', 'false');
-				});
-			});
-		</script>
-
-
-
-		<!--p5.js Libraries-->
+				src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+		<!-- Geogebra -->
+		<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+		<!-- p5.js Libraries -->
 		<script src="libraries/jsLibraries/p5.js"></script>
-		<!--	<script src="libraries/p5/p5.dom.min.js"></script>	-->
-		<!--    <script src="libraries/p5/p5.sound.min.js"></script>-->
+		<!--<script src="libraries/p5/p5.dom.min.js"></script>	-->
+		<!--<script src="libraries/p5/p5.sound.min.js"></script>-->
 		<!--<script src="libraries/jsLibraries/matter.js"></script>-->
-	</head>
 
-	<body>
-		<!-- jQuery CDN -->
-		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<!-- EXTRA JAVASCRIPT CODE -->		
 		<!-- Scroll to Top Button -->
 		<script type="text/javascript">
 			$(document).ready(function(){
@@ -113,126 +75,156 @@
 				});
 			});
 		</script>
+		<!--Sidebar -->
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#sidebar").mCustomScrollbar({
+					theme: "minimal"
+				});
 
-		<!-- Sidebar  -->
-		<nav id="sidebar">
-			<div id="dismiss">
-				<i class="fas fa-arrow-left"></i>
-			</div>
+				$('#dismiss, .overlay').on('click', function () {
+					$('#sidebar').removeClass('active');
+					$('.overlay').removeClass('active');
+				});
 
-			<div class="sidebar-header">
-				<h3>16 Η Φυσική της Ακοής</h3>
-			</div>
+				$('#sidebarCollapse').on('click', function () {
+					$('#sidebar').addClass('active');
+					$('.overlay').addClass('active');
+					$('.collapse.in').toggleClass('in');
+					$('a[aria-expanded=true]').attr('aria-expanded', 'false');
+				});
+			});
+		</script>
+		<!-- Geogebra Applets -->
+		<script type="text/javascript">
+			var parameters1 = {
+				//"appName": "geometry",
+				//"width": parent.width,
+				//"height": 400,
+				//"customToolbar":"0 || 1 || 2",
+				//"capturingThreshold":null,
+				//"errorDialogsActive":true,
+				//"filename":"geogebra/elipses.ggb" 
+				"playButton":true,
+				//"autoHeight":true,
 
-			<ul class="list-unstyled components">
-				<li class="active">
-					<a href="#homeSubmenu" 
-					   data-toggle="collapse" 
-					   aria-expanded="false" 
-					   class="dropdown-toggle">
-						16.1 Εισαγωγή στην φυσική της ακοής
-					</a>
-					<ul class="collapse list-unstyled" id="homeSubmenu">
-						<li>
-							<a href="#">Home 1</a>
-						</li>
-						<li>
-							<a href="#">Home 2</a>
-						</li>
-						<li>
-							<a href="#">Home 3</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="#">16.2 Ο ήχος</a>
-				</li>
-				<li>
-					<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">16.3 Ταχύτητα, συχνότητα και μήκος κύματος του ήχου</a>
-					<ul class="collapse list-unstyled" id="pageSubmenu">
-						<li>
-							<a href="#">Page 1</a>
-						</li>
-						<li>
-							<a href="#">Page 2</a>
-						</li>
-						<li>
-							<a href="#">Page 3</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="#">16.4 Επίπεδο και ένταση ήχου</a>
-				</li>
-				<li>
-					<a href="#">16.5 Το φαινόμενο Doppler</a>
-				</li>
-				<li>
-					<a href="#">16.6 Συμβολή και συντονισμός</a>
-				</li>
-				<li>
-					<a href="#">16.7 Ακοή</a>
-				</li>
-				<li>
-					<a href="#">16.8 Υπέρηχοι</a>
-				</li>
-				<li>
-					<a href="#">16.9 Συντονισμός</a>
-				</li>
-				<li>
-					<a href="#">16.10 Κρουστικά Κύματα</a>
-				</li>
-			</ul>
+				"material_id": "mwgjept9",
+				"showToolBar":false,
+				"showToolBarHelp":false,
+				"showMenuBar":false,
+				"showAlgebraInput":false,
+				"showResetIcon":true,
+				"showFullscreenButton": true,
+				"enableLabelDrags":true,
+				"enableShiftDragZoom":true,
+				"enableRightClick":true,
+				"useBrowserForJS":false,
+				"allowUpScale": true,
+				"scaleContainerClass":"col",	
+			};
 
-			<ul class="list-unstyled CTAs">
-				<li>
-					<a href=Contents.html>Όλα τα Μαθήματα</a>
-				</li>
-			</ul>
-		</nav>
+			var parameters2 = {
+				//"appName": "geometry",
+				//"width": parent.width,
+				//"height": 400,
+				//"customToolbar":"0 || 1 || 2",
+				//"capturingThreshold":null,
+				//"errorDialogsActive":true,
+				//"filename":"geogebra/elipses.ggb" 
+				"playButton":true,
+				//"autoHeight":true,
 
-		<!-- Page -->
+				"material_id": "ethcgfs8",
+				"showToolBar":false,
+				"showToolBarHelp":false,
+				"showMenuBar":false,
+				"showAlgebraInput":false,
+				"showResetIcon":true,
+				"showFullscreenButton": true,
+				"enableLabelDrags":true,
+				"enableShiftDragZoom":true,
+				"enableRightClick":true,
+				"useBrowserForJS":false,
+				"allowUpScale": true,
+				"scaleContainerClass":"col",	
+			};
+
+			var applet1 = new GGBApplet(parameters1, '5.0');
+			var applet2 = new GGBApplet(parameters2, '5.0')
+
+			window.addEventListener("load", function() {
+				applet1.inject('applet-container1');
+				applet2.inject('applet-container2');
+			});
+		</script>
+
+	</head>
+
+	<body>
+
 		<div id="content">
 
 			<!-- Navigation Bar -->
 			<div id="NavigationBar">
-				<nav class="navbar navbar-center navbar-expand-md navbar-dark bg-dark">				 
-					<!--<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">	 
-<ul class="navbar-nav mr-auto">
-<button type="button" id="sidebarCollapse" class="btn btn-secondary">
-<i class="fas fa-align-left"></i>
-<span>Περιεχόμενα</span>
-</button>
-</ul>
-</div>-->
-
+				<nav class="navbar navbar-center navbar-expand-md navbar-dark bg-dark">	
+					<div class="navbar-collapse collapse dual-collapse w-100 order-md-0 order-1 ">
+						<!-- Right Box -->
+						<ul class="navbar-nav mr-auto">
+							<div class="nav-item dropdown">
+								<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Μαθήματα
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+									<a class="dropdown-item" 
+									   href="Contents.html#physics-lessons">Φυσική</a>
+									<a class="dropdown-item" 
+									   href="Contents.html#math-lessons">Μαθηματικά</a>
+									<a class="dropdown-item" 
+									   href="Contents.html#programming-lessons">Προγραμματισμός</a>
+								</div>
+							</div>
+							<div class="nav-item dropdown">
+								<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Υλικό για Σχολεία
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+									<a class="dropdown-item" href="Contents.html">Α' Γυμνασίου</a>
+									<a class="dropdown-item" href="Contents.html">Β' Γυμνασίου</a>
+									<a class="dropdown-item" href="Contents.html">Γ' Γυμνασίου</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="Contents.html">Α' Λυκείου</a>
+									<a class="dropdown-item" href="Contents.html">Β' Λυκείου</a>
+									<a class="dropdown-item" href="Contents.html">Γ' Λυκείου</a>
+								</div>
+							</div>
+						</ul>
+					</div>
+					<!-- Central Box -->
 					<div class="mx-auto order-0">
-						<a class="navbar-brand" href="MainPage.html">
-							Dizzy 
+						<a class="navbar-brand" href="index.html">
+							Dizzy
 							<img src="images/physicslogo.png">
-							Electron 
+							Electron
 						</a>
 					</div>
-
-					<!--<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-<ul class="navbar-nav ml-auto">
-<form class="form-inline" action="/action_page.php">
-<input class="form-control mr-sm-2" 
-type="text" 
-placeholder="Αναζήτηση...">
-<button class="btn btn-primary" type="submit">
-<i class="fas fa-search"></i>
-</button>
-</form>
-</ul>
-</div>
-<button class="navbar-toggler" 
-type="button" 
-data-toggle="collapse" 
-data-target=".dual-collapse2">
-<span class="navbar-toggler-icon"></span>
-</button>-->
-
+					<!-- Right Box -->
+					<div id="RightBox" class="navbar-collapse collapse dual-collapse w-100 order-3">
+						<ul class="navbar-nav ml-auto">
+							<a class="btn" href="Contents.html">
+								Σχετικά
+							</a>
+							<a class="btn" href="Contents.html">
+								Επικοινωνία
+							</a>
+						</ul>
+					</div>
+					<!-- Toggler Button -->
+					<button class="navbar-toggler" 
+							type="button" 
+							data-toggle="collapse" 
+							data-target=".dual-collapse">
+						<span class="navbar-toggler-icon"></span>
+					</button>
 				</nav>
 			</div>
 
@@ -242,10 +234,10 @@ data-target=".dual-collapse2">
 					<a href="#">Φυσική</a>
 				</li>
 				<li>
-					<a href="#">16 &nbsp Η Φυσική της Ακοής</a>
+					<a href="#">16 &nbsp; Η Φυσική της Ακοής</a>
 				</li>
 				<li>
-					<a>16.1 &nbsp Εισαγωγή</a>
+					<a>16.4 &nbsp; Επίπεδο και ένταση ήχου</a>
 				</li>
 			</ul>
 
@@ -253,10 +245,10 @@ data-target=".dual-collapse2">
 			<div class="container">
 				<div class="row">
 
-					<!-- Text Column -->
-					<div class="col-lg-8 p-1 text-justify-not-xs">
+					<!-- Main Column -->
+					<div class="col-lg-8 p-0 text-justify-not-xs">
 
-						<h1>16.1 &nbsp Εισαγωγή</h1>
+						<h1>16.4 &nbsp; Επίπεδο και ένταση ήχου</h1>
 
 						<div id="learning-goals-card">
 							<div class="card">
@@ -273,7 +265,7 @@ data-target=".dual-collapse2">
 							</div>
 						</div>
 
-						<h2>1. Ιδανικό Αέριο σε Κουτί</h2>
+						<h2>Ιδανικό Αέριο σε Κουτί</h2>
 						<p class="text-justify-not-xs">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
 						<div id="animation">
@@ -287,9 +279,24 @@ data-target=".dual-collapse2">
 							</figcaption>
 						</div>
 
-						<h2>2. O Kύκλος του Μέτωνα</h2>
+						<h2>O Kύκλος του Μέτωνα</h2>
+
+						<div class="col">
+							<div id="applet-container1"></div> 
+							<figcaption class="figure-caption">
+								Ένας τρόπος να κατασκευάσουμε μια έλλειψη είναι και αυτός!
+							</figcaption>
+						</div>
 
 						<p>Οι κινήσεις του ουρανού μπορεί να φαίνονται χαοτικές και τυχαίες, διέπονται όμως από πλήρη κανονικότα. Παραδείγματος χάρη, ίσως να σας φαίνεται πως οι πανσέληνοι κάθε χρόνο πέφτουν σε διαφορετικές και εντελώς τυχαίες ημερομηνίες. Και πράγματι αν τις παρακολουθούσατε πιστά για 18 συνεχόμενα χρόνια θα ήσασταν πεπεισμένοι ότι έτσι έχουν τα πράγματα. Αν όμως δεν τα παρατήσετε απογοητευμένοι και ελέγξετε τι γίνεται και τον 19 χρόνο θα εκπλαγείτε. Γιατί όλες οι πανσέληνοι θα πέσουν τις ίδιες ημερομηνίες με αυτές του πρώτου χρόνου, όταν πρωτοξεκινούσατε την παρατήρηση. Και στις επόμενες χρονιές οι ημερομηνίες θα επαναληφθούν ακριβώς. </p>
+
+						<div class="col">
+							<div id="applet-container2"></div> 
+							<figcaption class="figure-caption">
+								Συμβολή κυμάτων από δύο πηγές σε συμφωνία φάσης. Οι περιοχές στις οποίες λαμβάνει χώρα η ενισχυτική συμβολή είναι κλάδοι υπερβολών.
+							</figcaption>
+						</div> 
+
 
 						<div id="example-card">
 							<div class="card">
@@ -320,7 +327,7 @@ data-target=".dual-collapse2">
 						<p>Κάθε 19 χρόνια λοιπόν, οι ημερομηνίες των πανσελήνων επαναλαμβάνονται. Το γεγονός αυτό ήταν ήδη γνωστό στους Βαβυλώνιους, όμως στην αρχαία Αθήνα το ανακάλυψε ο Μέτωνας το 432 π.Χ. περίπου, γι’ αυτό και αυτός ο 19ετής κύκλος, εκτός από κύκλος της σελήνης, ονομάστηκε και κύκλος του Μέτωνα. Και ήταν μια ανακάλυψη που εντυπωσίασε πάρα πολύ τους αρχαίους Αθηναίους τόσο ώστε να γράφουν κάθε χρόνο με χρυσά γράμματα σε όλα τα δημόσια καταστήματα σε ποια φάση του 19ετούς κύκλου βρίσκονται. Ο αριθμός 19 δε, είχε για αυτούς θεϊκή υπόσταση. Η πάνω σπείρα της πίσω όψης του μηχανισμού λοιπόν αντιπροσωπεύει τον σεληνιακό κύκλο (Κύκλο του Μέτωνα). Ο κύκλος αυτός διαρκεί 235 φεγγάρια γι’ αυτό και η σπείρα έχει τις αντίστοιχες υποδιαιρέσεις ενώ η βελόνα υποδεικνύει σε ποια φάση αυτού του κύκλου βρισκόμαστε. Όταν ο κύκλος ολοκληρωθεί, μόλις περάσουν 19 χρόνια, η βελόνα τερματίζει και θα πρέπει με το χέρι να επανατοποθετηθεί στην αφετηρία της οπότε και οι ημερομηνίες επαναλαμβάνονται.
 						</p>
 
-						<h2>3. Ενσωματωμένο Βίντεο από YouTube</h2>
+						<h2>Ενσωματωμένο Βίντεο από YouTube</h2>
 
 						<p>Create a responsive video and scale it nicely to the parent element with an 16:9 aspect ratio</p>
 
@@ -330,7 +337,7 @@ data-target=".dual-collapse2">
 							</div>
 						</div>
 
-						<h2>4. Ο Κύκλος "Σάρος"</h2>
+						<h2>Ο Κύκλος "Σάρος"</h2>
 
 						<div class="content-wrapper">
 							<p>Εντελώς τυχαίες φαίνονται εκ πρώτης όψεως και οι ημερομηνίες στις οποίες συμβαίνουν εκλείψεις Ηλίου και Σελήνης. Και εδώ όμως υπάρχει ένα ακόμα μοτίβο. Όλα οφείλονται στην κίνηση του φεγγαριού. Το φεγγάρι ακολουθώντας πιστά την τροχιά του περνάει ανάμεσα από την Γη και τον Ήλιο κάθε 30 μέρες περίπου. Γιατί λοιπόν δεν έχουμε έκλειψη Ηλίου κάθε 30 μέρες; Ε λοιπόν δυστυχώς, η τροχιά του φεγγαριού δεν είναι τόσο απλή όσο φαντάζεστε, δεν είναι απλώς ένας κύκλος καρφωμένος γύρω από τη Γη. Εκτός από το φεγγάρι καθαυτό, η ίδια η τροχιά του εκτελεί ταυτόχρονα 2 ακόμα κινήσεις. Περιστρέφεται γύρω από τον εαυτό της 1 φορά κάθε 8.85 χρόνια σαν ένα τεράστιο χούλα-χουπ και σαν να μην έφτανε αυτό, ταλαντεύεται πάνω κάτω 1 φορά κάθε 18.60 χρόνια σαν ένα ασταθές φρίσμπι. Χάος! Κι όμως, ως εκ θαύματος όλες αυτές οι κινήσεις συγχρονίζονται με μεγάλη ακρίβεια κάθε 18 χρόνια 11 μέρες και 8 ώρες. Το χρονικό διάστημα αυτό ονομάζεται κύκλος των εκλείψεων ή αλλιώς «Σάρος» και χρησιμοποιούνταν ήδη από τους Βαβυλώνιους ώστε να μπορούν να προβλέπουν τις επόμενες εκλείψεις. Κάθε 1 Σάρος, το Φεγγάρι, η Γη και ο Ήλιος έρχονται στις ίδιες θέσεις, έχουν δηλαδή παρόμοια γεωμετρία, ίδιους προσανατολισμούς, ίδιες αποστάσεις κτλ. και συνεπώς, μία παρόμοια έκλειψη θα συμβεί. Παρόμοια, σημαίνει ότι όσο διαρκεί η μία τόσο θα διαρκέσει και η άλλη, αν το φεγγάρι ανεβαίνει για να καλύψει τον ήλιο το ίδιο θα γίνει και στην επόμενη, αν είναι ολική το ίδιο θα είναι και η επόμενη.</p>
@@ -372,15 +379,14 @@ data-target=".dual-collapse2">
 
 						<div class="row align-items-center">
 							<div class="col-6 text-left">
-							
-								<!--<button type="button" class="btn btn-primary">
+								<button type="button" class="btn">
 									<i class="fas fa-arrow-left"></i>
-									16 H Φυσική της Ακοής
-								</button>-->
+									&nbsp; 16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος ήχου
+								</button>
 							</div>
 							<div class="col-6 text-right">
 								<button type="button" class="btn">
-									16.2 &nbsp; O ήχος &nbsp;
+									16.5 &nbsp; Το Φαινόμενο Doppler &nbsp;
 									<i class="fas fa-arrow-right"></i>
 								</button>
 							</div>
@@ -388,48 +394,50 @@ data-target=".dual-collapse2">
 
 					</div>
 
+					<!-- Empty Column -->
 					<div class="col-lg-1 p-0"></div>
+
 					<!-- Navigation Column -->
 					<div class="col-lg-3 p-0">
 
 						<h2><i>Περιεχόμενα Κεφαλαίου:</i></h2>
-						
+
 						<div id="contents-card">
 							<div class="card">
 								<div class="card-header text-center">
-									16 &nbsp H Φυσική της Ακοής
+									16 &nbsp; H Φυσική της Ακοής
 								</div>
-								
+
 								<ul class="list-unstyled components">
 									<li class="active">
-										<a href="#">16.1 &nbsp Εισαγωγή</a>
+										<a href="#">16.1 &nbsp; Εισαγωγή</a>
 									</li>
 									<li>
-										<a href="#">16.2 &nbsp Ο ήχος</a>
+										<a href="#">16.2 &nbsp; Ο ήχος</a>
 									</li>
 									<li>
-										<a href="#">16.3 &nbsp Ταχύτητα, συχνότητα και μήκος κύματος του ήχου</a>
+										<a href="#">16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου</a>
 									</li>
 									<li>
-										<a href="#">16.4 &nbsp Επίπεδο και ένταση ήχου</a>
+										<a href="#">16.4 &nbsp; Επίπεδο και ένταση ήχου</a>
 									</li>
 									<li>
-										<a href="#">16.5 &nbsp Το φαινόμενο Doppler</a>
+										<a href="#">16.5 &nbsp; Το φαινόμενο Doppler</a>
 									</li>
 									<li>
-										<a href="#">16.6 &nbsp Συμβολή και συντονισμός</a>
+										<a href="#">16.6 &nbsp; Συμβολή και συντονισμός</a>
 									</li>
 									<li>
-										<a href="#">16.7 &nbsp Ακοή</a>
+										<a href="#">16.7 &nbsp; Ακοή</a>
 									</li>
 									<li>
-										<a href="#">16.8 &nbsp Υπέρηχοι</a>
+										<a href="#">16.8 &nbsp; Υπέρηχοι</a>
 									</li>
 									<li>
-										<a href="#">16.9 &nbsp Συντονισμός</a>
+										<a href="#">16.9 &nbsp; Συντονισμός</a>
 									</li>
 									<li>
-										<a href="#">16.10 &nbsp Κρουστικά κύματα</a>
+										<a href="#">16.10 &nbsp; Κρουστικά κύματα</a>
 									</li>
 								</ul>
 							</div>
@@ -446,7 +454,7 @@ data-target=".dual-collapse2">
 								Εικόνα 1: Κεραυνός σε ουρανοξύστες
 							</figcaption>
 						</figure>
-						
+
 						<figure class="figure m-4 rounded">
 							<img src=images/background7.jpg
 								 class="figure-img img-fluid" 
@@ -455,7 +463,7 @@ data-target=".dual-collapse2">
 								Εικόνα 1: Κεραυνός σε ουρανοξύστες
 							</figcaption>
 						</figure>
-						
+
 						<figure class="figure m-4 rounded">
 							<img src=images/background7.jpg
 								 class="figure-img img-fluid" 
@@ -469,11 +477,12 @@ data-target=".dual-collapse2">
 
 				</div>
 
+				<!-- Scroll to top button-->
 				<a href="#" class="scrollToTop btn-primary" role="button">
 					<i class="fa fa-arrow-up" aria-hidden="true"></i>
 				</a>
 
-			</div><!--End of Container id-->
+			</div>
 
 			<!-- Footer -->
 			<div id="Footer">
@@ -506,9 +515,8 @@ data-target=".dual-collapse2">
 				</footer>
 			</div>
 
-		</div><!-- End of Content -->
+		</div>
 
-		<div class="overlay"></div>
 	</body>
 
 </html>

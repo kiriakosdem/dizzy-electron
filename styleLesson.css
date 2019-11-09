@@ -1,175 +1,11 @@
 /* ---------------------------------------------------
-SIDEBAR, BUTTONS & LINKS
+BUTTONS & LINKS
 ----------------------------------------------------- */
-
-#sidebar {
-	padding: 0px;
-	width: 350px;
-	position: fixed;
-	top: 0;
-	left: -350px;
-	height: 100vh;
-	z-index: 999;
-	background: rgba(0,10,20,255);
-	color: #fff;
-	transition: all 0.3s;
-	overflow-y: scroll;
-	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-}
-
-#sidebar.active {
-	left: 0;
-}
-
-#dismiss {
-	width: 2rem;
-	height: 2rem;
-	line-height: 2.3rem;
-	text-align: center;
-	background: #002244;
-	position: absolute;
-	top: 1rem;
-	right: 0.6rem;
-	cursor: pointer;
-	-webkit-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
-}
-
-#dismiss:hover {
-	background: #fff;
-	color: #002244;
-}
-
-.overlay {
-	display: none;
-	position: fixed;
-	width: 100vw;
-	height: 100vh;
-	background: rgba(0, 0, 0, 0.7);
-	z-index: 998;
-	opacity: 0;
-	transition: all 0.5s ease-in-out;
-}
-
-.overlay.active{
-	display: block;
-	opacity: 1;
-}
-
-#sidebar .sidebar-header {
-	padding: 1rem;
-	padding-right: 3.2rem;
-	background: rgba(0,20,40,255);
-	text-align: left;
-	justify-content: center;
-}
-
-/*section under header*/
-#sidebar ul.components {
-	padding: 0px;
-	border-top: 1px solid rgba(0,60,120,255);
-	/*	border-bottom: 1px solid rgba(0,60,120,255);*/
-	margin: 0;
-	border-bottom: 1px solid rgba(0,60,120,255);
-}
-
-
-#sidebar ul p {
-	color: #fff;
-	padding: 10px;
-}
-
-/*list entries*/
-#sidebar ul li a {
-	font-size: 0.8em;
-	display: block;
-	padding: 6px;
-	padding-right: 3rem;
-	/*	margin-top: 5px;*/
-}
-#navigation ul li a {
-	font-size: 0.8em;
-	display: block;
-	padding: 6px;
-	padding-right: 3rem;
-	/*	margin-top: 5px;*/
-}
-
-
-#sidebar ul li a:hover {
-	color: #003366;
-	background: #fff;
-}
-#navigation ul li a:hover {
-	color: #003366;
-	background: #fff;
-}
-
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
-	color: #fff;
-	background: #003366;
-}
-#navigation ul li.active>a,
-a[aria-expanded="true"] {
-	color: #fff;
-	background: #003366;
-}
-
-
-/*dropdown menu items*/
-ul ul a {
-	padding: 10px;
-	margin: 0px;
-	font-size: 0.6em !important;
-	padding-left: 20px !important;
-	padding-right: 20px !important;
-	background: #001122;
-}
-
-
-a[data-toggle="collapse"] {
-	position: relative;
-}
-
-.dropdown-toggle::after {
-	display: block;
-	position: absolute;
-	top: 50%;
-	right: 20px;
-	transform: translateY(-50%);
-}
-
-
-ul.CTAs {
-	padding: 30px;
-	background: rgb(0,10,20);
-}
-
-ul.CTAs a {
-	text-align: center;
-	font-size: 0.9em !important;
-	display: block;
-	border-radius: 5px;
-	margin: auto;
-	padding: 0.3rem !important;
-	margin-top: 5px;
-	background: rgb(0,20,40);
-}
-
-a,
-a:hover,
-a:focus {
-	color: inherit;
-	text-decoration: none;
-	transition: all 0.3s;
-}
 
 .scrollToTop{
 	position: fixed;
-	bottom: 30px;
-	right: 30px;
+	bottom: 2rem;
+	right: 2rem;
 	line-height: 50px;
 	width: 50px;
 	height: 50px;
@@ -177,11 +13,13 @@ a:focus {
 	color: #fff;
 	text-align: center;
 	display: none;
+	z-index: 1000;
 }
 
 .scrollToTop:hover{
 	background-color: blue;
 }
+
 
 
 /*---------------------------------------------------
@@ -203,9 +41,8 @@ CONTENT
 	font-size: 1.3rem;
 	font-weight: bold;
 	margin-top: 3rem;
-	margin-bottom: 1rem;
+	margin-bottom: 0.2rem;
 }
-
 
 #content {
 	width: 100%;
@@ -280,23 +117,31 @@ CARDS
 }
 
 #contents-card ul{
-	padding: 1rem;
+	padding: 0rem;
 	margin: 0;
 }
 
 #contents-card ul a{
 	color: #0275d8;
+	display: block;
+	
+	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-bottom: 0.2rem;
+	padding-top: 0.2rem;
 }
 
-#contents-card ul.active>a{
-	color: #000;
+#contents-card ul li.active>a,
+a[aria-expanded="true"] {
+	color: #fff;
+	background: #003366;
 }
 
 #contents-card ul a:hover{
 	color: #01447e;
 	text-decoration: underline;
+	background-color: red;
 }
-
 
 
 
@@ -345,6 +190,7 @@ ul.breadcrumb li a:hover {
 /* ---------------------------------------------------
 IMAGE, MEDIA & ANIMATIONS
 ----------------------------------------------------- */
+
 /* Figures */
 .figure{
 	padding: 0rem;
@@ -407,6 +253,27 @@ IMAGE, MEDIA & ANIMATIONS
 	margin: 40px 0;
 }
 
+.col{
+	background: gray;
+	padding: 0rem;
+	text-align: center;
+	justify-content: center;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.7);
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
+.applet-container1{
+	margin: 0rem;
+	text-align: center;
+	
+}
+
+.applet-container2{
+	margin: 0rem;
+	text-align: center;
+	
+}
 
 .text-left-not-xs, .text-left-not-sm, .text-left-not-md, .text-left-not-lg {
     text-align: left;
