@@ -18,6 +18,7 @@ BUTTONS & LINKS
 ----------------------------------------------------- */
 
 #change-chapter .btn{
+	font-size: 0.8rem;
 	background-color: transparent;
 	color: #0275d8;
 	margin-top: 4rem;
@@ -87,7 +88,7 @@ CARDS
 
 /* Contents Card */
 .contents-card{
-	border-radius: 0.4rem;
+	border-radius: 0.8rem;
 	border-color: #003366;
 	padding-bottom: 1rem;
 	font-size: 0.9rem;
@@ -99,9 +100,9 @@ CARDS
 .contents-card .card-header{
 	font-size: 1rem;
 	font-weight: bold;
-	border-top-left-radius: 0.4rem;
-	border-top-right-radius: 0.4rem;
-	background-color: gray;
+	border-top-left-radius: 0.8rem;
+	border-top-right-radius: 0.8rem;
+	background-color: darkgray;
 }
 
 .contents-card img{
@@ -218,7 +219,7 @@ IMAGES, MEDIA & ANIMATIONS
 /* Images Wrapped Around Text */
 .image-wrapper figure{
 	padding: 0;
-	width: 35vw;
+	width: 40vw;
 	height: auto;
 	margin: auto 0;
 }

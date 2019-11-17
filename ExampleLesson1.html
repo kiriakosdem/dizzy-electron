@@ -165,16 +165,35 @@
 		<div id="content">
 
 			<!-- Navigation Bar -->
-			<div id="NavigationBar">
-				<nav class="navbar navbar-center navbar-expand-md navbar-dark bg-dark">	
-					<div class="navbar-collapse collapse dual-collapse w-100 order-md-0 order-1 ">
-						<!-- Right Box -->
-						<ul class="navbar-nav mr-auto">
-							<div class="nav-item dropdown">
-								<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<div id="NavigationBar">
+			<nav class="navbar navbar-center navbar-expand-lg navbar-dark bg-dark">	
+				<div class="order-0 ">
+					<!-- Left Box -->
+					<ul class="navbar-nav mr-auto">
+						<a class="navbar-brand" href="index.html">
+
+							<img src="images/atom%20(2).png">
+							Dizzy Electron
+						</a>
+
+					</ul>
+				</div>
+				<!-- Central Box -->
+				<!--<div class="mx-auto order-0">
+<a class="navbar-brand" href="index.html">
+<img src="images/physicslogo.png">
+</a>
+</div>-->
+				<!-- Right Box -->
+				<div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
+					<ul class="navbar-nav ml-auto">
+
+						<div class="nav-item">
+							<div class="dropdown">
+								<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									Μαθήματα
 								</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
 									<a class="dropdown-item" 
 									   href="Contents.html#physics-lessons">Φυσική</a>
 									<a class="dropdown-item" 
@@ -183,7 +202,10 @@
 									   href="Contents.html#programming-lessons">Προγραμματισμός</a>
 								</div>
 							</div>
-							<div class="nav-item dropdown">
+						</div>
+
+						<div class="nav-item">
+							<div class="dropdown">
 								<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									Υλικό για Σχολεία
 								</button>
@@ -197,37 +219,27 @@
 									<a class="dropdown-item" href="Contents.html">Γ' Λυκείου</a>
 								</div>
 							</div>
-						</ul>
-					</div>
-					<!-- Central Box -->
-					<div class="mx-auto order-0">
-						<a class="navbar-brand" href="index.html">
+						</div>
 
-							<img src="images/physicslogo.png">
+						<div class="nav-item">
+							<button class="btn" onclick="window.location.href = 'Contents.html';">Σχετικά</button>
+						</div>
 
-						</a>
-					</div>
-					<!-- Right Box -->
-					<div id="RightBox" class="navbar-collapse collapse dual-collapse w-100 order-3">
-						<ul class="navbar-nav ml-auto">
-							<a class="btn" href="Contents.html">
-								Σχετικά
-							</a>
-							<a class="btn" href="Contents.html">
-								Επικοινωνία
-							</a>
-						</ul>
-					</div>
-					<!-- Toggler Button -->
-					<button class="navbar-toggler" 
-							type="button" 
-							data-toggle="collapse" 
-							data-target=".dual-collapse">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-				</nav>
-			</div>
-
+						<div class="nav-item">
+							<button class="btn" onclick="window.location.href = 'Contents.html';">Επικοινωνία</button>
+						</div>
+					</ul>
+				</div>
+				<!-- Toggler Button -->
+				<button class="navbar-toggler" 
+						type="button" 
+						data-toggle="collapse" 
+						data-target=".dual-collapse">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</nav>
+		</div>
+			
 			<!-- Breadcrumb -->
 			<ul class="breadcrumb">  
 				<li>
@@ -437,45 +449,158 @@
 							</ul>
 						</div>
 
-
-
 						<h4>Προτεινομενα Κεφαλαια</h4>
 						<div class="heading-underline"></div>
 
-						<a href="ExampleLesson1.html" class="card card-physics">
-							<div class="inner">
-								<h3>16 &nbsp; Η Φυσική της Ακοής</h3>
-								<img src="images/physicslogo.png">
-								<p>Πως λειτουργεί η μαγνητική τομογραφία;</p>
-							</div>
-						</a>
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>1 &nbsp; Ήχος και Ακοή</h3>
+												<img src="images/atom%20(2).png">
+												<p>Σε πολλούς αρέσει να ακούνε μουσική αλλά σε κανέναν δεν αρέσει ο θόρυβος. Ποια είναι η φυσική διαφορά μεταξύ ήχου και θορύβου;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												1 &nbsp; Ήχος και Ακοή
+											</div>
 
-						<a href="ExampleLesson1.html" class="card card-math">
-							<div class="inner">
-								<h3>4 &nbsp; Τριγωνομετρία</h3>
-								<img src="images/physicslogo.png">
-								<p>Πως λειτουργεί η μαγνητική τομογραφία;</p>
-							</div>
-						</a>
+											<ul class="list-unstyled components">
+												<li>
+													1.1 &nbsp; Ηχητικά Κύματα
+												</li>
+												<li>
+													1.2 &nbsp; Ταχύτητα των Ηχητικών Κυμάτων
+												</li>
+												<li>
+													1.3 &nbsp; Ένταση Ήχου
+												</li>
+												<li>
+													1.4 &nbsp; Συντονισμός και Ήχος
+												</li>
+												<li>
+													1.5 &nbsp; Συμβολή Κυμάτων
+												</li>
+												<li>
+													1.6 &nbsp; Διακρότημα
+												</li>
+												<li>
+													1.7 &nbsp; Φαινόμενο Doppler
+												</li>
+												<li>
+													1.8 &nbsp; Κρουστικά Κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 
-						<a href="ExampleLesson1.html" class="card card-programming">
-							<div class="inner">
-								<h3>2 &nbsp; LaTeX</h3>
-								<img src="images/physicslogo.png">
-								<p>Πως λειτουργεί η μαγνητική τομογραφία;</p>
-							</div>
-						</a>
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>2 &nbsp; Θερμικές Ιδιότητες της Ύλης</h3>
+												<img src="images/atom%20(2).png">
+												<p>Πόσο πιο γρήγορα κινούνται τα μόρια του αέρα πάνω από ένα καυτό τηγάνι σε σχέση με τον περιβάλλοντα αέρα της κουζίνας;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												2 &nbsp; Θερμικές Ιδιότητες της Ύλης
+											</div>
 
-					</div>	
+											<ul class="list-unstyled components">
+												<li>
+													2.1 &nbsp; Καταστατικές Εξισώσεις
+												</li>
+												<li>
+													2.2 &nbsp; Μοριακές Ιδιότητες της Ύλης
+												</li>
+												<li>
+													2.3 &nbsp; Κινητικό-Μοριακό Μοντέλο Ιδανικού Αερίου
+												</li>
+												<li>
+													2.4 &nbsp; Θερμοχωρητικότητα
+												</li>
+												<li>
+													2.5 &nbsp; Μοριακές Ταχύτητες
+												</li>
+												<li>
+													2.6 &nbsp; Φάσεις της Ύλης
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 
-				</div>
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο</h3>
+												<img src="images/atom%20(2).png">
+												<p>Ποιες ηλεκτρικές ιδιότητες του νερού το καθιστούν τόσο καλό διαλύτη;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο
+											</div>
 
-				<!-- Scroll to top button-->
-				<a href="#" class="scrollToTop btn-primary" role="button">
-					<i class="fa fa-arrow-up" aria-hidden="true"></i>
-				</a>
+											<ul class="list-unstyled components">
+												<li>
+													3.1 &nbsp; Ηλεκτρικό Φορτίο
+												</li>
+												<li>
+													3.2 &nbsp; Αγωγοί, Μονωτές και Επαγώμενα Ρεύματα
+												</li>
+												<li>
+													3.3 &nbsp; Νόμος του Coulomb
+												</li>
+												<li>
+													3.4 &nbsp; Ηλεκτρικό Πεδίο και Ηλεκτρικές Δυνάμεις
+												</li>
+												<li>
+													3.5 &nbsp; Υπολογισμοί Ηλεκτρικού Πεδίου
+												</li>
+												<li>
+													3.6 &nbsp; Ηλεκτρικές Δυναμικές Γραμμές
+												</li>
+												<li>
+													3.7 &nbsp; Ηλεκτρικά Δίπολα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 
+					</div>
+				</div>	
 			</div>
+
+			<!-- Scroll to top button-->
+			<a href="#" class="scrollToTop btn-primary" role="button">
+				<i class="fa fa-arrow-up" aria-hidden="true"></i>
+			</a>
 
 			<!-- Footer -->
 			<div id="Footer">
@@ -493,9 +618,9 @@
 					</div>
 				</footer>
 			</div>
-
+			
 		</div>
-
+		
 	</body>
 
 </html>

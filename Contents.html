@@ -160,56 +160,68 @@
 
 		<!-- Navigation Bar -->
 		<div id="NavigationBar">
-			<nav class="navbar navbar-center navbar-expand-md navbar-dark bg-dark">	
-				<div class="navbar-collapse collapse dual-collapse w-100 order-md-0 order-1 ">
-					<!-- Right Box -->
+			<nav class="navbar navbar-center navbar-expand-lg navbar-dark bg-dark">	
+				<div class="order-0 ">
+					<!-- Left Box -->
 					<ul class="navbar-nav mr-auto">
-						<div class="nav-item dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Μαθήματα
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-								<a class="dropdown-item" 
-								   href="Contents.html#physics-lessons">Φυσική</a>
-								<a class="dropdown-item" 
-								   href="Contents.html#math-lessons">Μαθηματικά</a>
-								<a class="dropdown-item" 
-								   href="Contents.html#programming-lessons">Προγραμματισμός</a>
-							</div>
-						</div>
-						<div class="nav-item dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Υλικό για Σχολεία
-							</button>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-								<a class="dropdown-item" href="Contents.html">Α' Γυμνασίου</a>
-								<a class="dropdown-item" href="Contents.html">Β' Γυμνασίου</a>
-								<a class="dropdown-item" href="Contents.html">Γ' Γυμνασίου</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="Contents.html">Α' Λυκείου</a>
-								<a class="dropdown-item" href="Contents.html">Β' Λυκείου</a>
-								<a class="dropdown-item" href="Contents.html">Γ' Λυκείου</a>
-							</div>
-						</div>
+						<a class="navbar-brand" href="index.html">
+
+							<img src="images/atom%20(2).png">
+							Dizzy Electron
+						</a>
+
 					</ul>
 				</div>
 				<!-- Central Box -->
-				<div class="mx-auto order-0">
-					<a class="navbar-brand" href="index.html">
-						
-						<img src="images/physicslogo.png">
-						
-					</a>
-				</div>
+				<!--<div class="mx-auto order-0">
+<a class="navbar-brand" href="index.html">
+<img src="images/physicslogo.png">
+</a>
+</div>-->
 				<!-- Right Box -->
-				<div id="RightBox" class="navbar-collapse collapse dual-collapse w-100 order-3">
+				<div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
 					<ul class="navbar-nav ml-auto">
-						<a class="btn" href="Contents.html">
-							Σχετικά
-						</a>
-						<a class="btn" href="Contents.html">
-							Επικοινωνία
-						</a>
+
+						<div class="nav-item">
+							<div class="dropdown">
+								<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Μαθήματα
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<a class="dropdown-item" 
+									   href="Contents.html#physics-lessons">Φυσική</a>
+									<a class="dropdown-item" 
+									   href="Contents.html#math-lessons">Μαθηματικά</a>
+									<a class="dropdown-item" 
+									   href="Contents.html#programming-lessons">Προγραμματισμός</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="nav-item">
+							<div class="dropdown">
+								<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Υλικό για Σχολεία
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+									<a class="dropdown-item" href="Contents.html">Α' Γυμνασίου</a>
+									<a class="dropdown-item" href="Contents.html">Β' Γυμνασίου</a>
+									<a class="dropdown-item" href="Contents.html">Γ' Γυμνασίου</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="Contents.html">Α' Λυκείου</a>
+									<a class="dropdown-item" href="Contents.html">Β' Λυκείου</a>
+									<a class="dropdown-item" href="Contents.html">Γ' Λυκείου</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="nav-item">
+							<button class="btn" onclick="window.location.href = 'Contents.html';">Σχετικά</button>
+						</div>
+
+						<div class="nav-item">
+							<button class="btn" onclick="window.location.href = 'Contents.html';">Επικοινωνία</button>
+						</div>
 					</ul>
 				</div>
 				<!-- Toggler Button -->
@@ -224,176 +236,692 @@
 
 		<!-- Main Content -->
 		<div class="container">
+
 			<!-- Physics -->
 			<div id="physics-lessons">
 				<h2>Φυσικη</h2>
 				<div class="heading-underline"></div>
+
 				<div class="row text-center">
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-physics">
-							<div class="inner">
-								<h3>3 &nbsp; Στατικός Ηλεκτρισμός</h3>
-								<img src="images/physicslogo.png">
-								<p>Μάθε γιατί το νερό είναι τόσο καλός διαλύτης και πως αυτή η ιδιότητα το κάνει απαραίτητο για τη ζωή!</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>1 &nbsp; Ήχος και Ακοή</h3>
+												<img src="images/atom%20(2).png">
+												<p>Σε πολλούς αρέσει να ακούνε μουσική αλλά σε κανέναν δεν αρέσει ο θόρυβος. Ποια είναι η φυσική διαφορά μεταξύ ήχου και θορύβου;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												1 &nbsp; Ήχος και Ακοή
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													1.1 &nbsp; Ηχητικά Κύματα
+												</li>
+												<li>
+													1.2 &nbsp; Ταχύτητα των Ηχητικών Κυμάτων
+												</li>
+												<li>
+													1.3 &nbsp; Ένταση Ήχου
+												</li>
+												<li>
+													1.4 &nbsp; Συντονισμός και Ήχος
+												</li>
+												<li>
+													1.5 &nbsp; Συμβολή Κυμάτων
+												</li>
+												<li>
+													1.6 &nbsp; Διακρότημα
+												</li>
+												<li>
+													1.7 &nbsp; Φαινόμενο Doppler
+												</li>
+												<li>
+													1.8 &nbsp; Κρουστικά Κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-physics">
-							<div class="inner">
-								<h3>4 &nbsp; Ηλεκτρικό Ρεύμα</h3>
-								<img src="images/physicslogo.png">
-								<p>Τι ακριβώς είναι η σημαντικότερη κινητήρια δύναμη της σύγχρονης τεχνολογίας;</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>2 &nbsp; Θερμικές Ιδιότητες της Ύλης</h3>
+												<img src="images/atom%20(2).png">
+												<p>Πόσο πιο γρήγορα κινούνται τα μόρια του αέρα πάνω από ένα καυτό τηγάνι σε σχέση με τον περιβάλλοντα αέρα της κουζίνας;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												2 &nbsp; Θερμικές Ιδιότητες της Ύλης
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													2.1 &nbsp; Καταστατικές Εξισώσεις
+												</li>
+												<li>
+													2.2 &nbsp; Μοριακές Ιδιότητες της Ύλης
+												</li>
+												<li>
+													2.3 &nbsp; Κινητικό-Μοριακό Μοντέλο Ιδανικού Αερίου
+												</li>
+												<li>
+													2.4 &nbsp; Θερμοχωρητικότητα
+												</li>
+												<li>
+													2.5 &nbsp; Μοριακές Ταχύτητες
+												</li>
+												<li>
+													2.6 &nbsp; Φάσεις της Ύλης
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-physics">
-							<div class="inner">
-								<h3>16 &nbsp; Η Φυσική της Ακοής</h3>
-								<img src="images/physicslogo.png">
-								<p>Πως λειτουργεί η μαγνητική τομογραφία;</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο</h3>
+												<img src="images/atom%20(2).png">
+												<p>Ποιες ηλεκτρικές ιδιότητες του νερού το καθιστούν τόσο καλό διαλύτη;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													3.1 &nbsp; Ηλεκτρικό Φορτίο
+												</li>
+												<li>
+													3.2 &nbsp; Αγωγοί, Μονωτές και Επαγώμενα Ρεύματα
+												</li>
+												<li>
+													3.3 &nbsp; Νόμος του Coulomb
+												</li>
+												<li>
+													3.4 &nbsp; Ηλεκτρικό Πεδίο και Ηλεκτρικές Δυνάμεις
+												</li>
+												<li>
+													3.5 &nbsp; Υπολογισμοί Ηλεκτρικού Πεδίου
+												</li>
+												<li>
+													3.6 &nbsp; Ηλεκτρικές Δυναμικές Γραμμές
+												</li>
+												<li>
+													3.7 &nbsp; Ηλεκτρικά Δίπολα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-physics">
-							<div class="inner">
-								<h3>17 &nbsp; Ηλεκτρομαγνητική Ακτινοβολία</h3>
-								<img src="images/physicslogo.png">
-								<p>Είναι τελικά όσο επικίνδυνη πιστεύουμε;</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>4 &nbsp; Η Φύση και η Διάδοση του Φωτός</h3>
+												<img src="images/atom%20(2).png">
+												<p>Γιατί εμφανίζεται ένα ουράνιο τόξο χρωμάτων όταν πέσουν λάδια στην άσφαλτο;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												4 &nbsp; Η Φύση και η Διάδοση του Φωτός
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													4.1 &nbsp; Η Φύση τους Φωτός			
+												</li>
+												<li>
+													4.2 &nbsp; Ανάκλαση και Διάθλαση
+												</li>
+												<li>
+													4.3 &nbsp; Ολική Εσωτερική Ανάκλαση
+												</li>
+												<li>
+													4.4 &nbsp; Διασπορά
+												</li>
+												<li>
+													4.5 &nbsp; Πόλωση
+												</li>
+												<li>
+													4.6 &nbsp; Σκέδαση του Φωτός
+												</li>
+												<li>
+													4.7 &nbsp; Αρχή του Huygens
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
 				</div>
 			</div>
+
 			<!-- Math -->
 			<div id="math-lessons">
 				<h2>Μαθηματικα</h2>
 				<div class="heading-underline"></div>
+
 				<div class="row text-center">
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-math">
-							<div class="inner">
-								<h3>Εξισώσεις-Ανισώσεις</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-math">
+											<div class="inner">
+												<h3>1 &nbsp; Τριγωνομετρία</h3>
+												<img src="images/math.png">
+												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												Περιεχόμενα
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													16.1 &nbsp; Εισαγωγή
+												</li>
+												<li>
+													16.2 &nbsp; Ο ήχος
+												</li>
+												<li>
+													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
+												</li>
+												<li>
+													16.4 &nbsp; Επίπεδο και ένταση ήχου
+												</li>
+												<li>
+													16.5 &nbsp; Το φαινόμενο Doppler
+												</li>
+												<li>
+													16.6 &nbsp; Συμβολή και συντονισμός
+												</li>
+												<li>
+													16.7 &nbsp; Ακοή
+												</li>
+												<li>
+													16.8 &nbsp; Υπέρηχοι
+												</li>
+												<li>
+													16.9 &nbsp; Συντονισμός
+												</li>
+												<li>
+													16.10 &nbsp; Κρουστικά κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-math">
-							<div class="inner">
-								<h3>Συναρτήσεις</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-math">
+											<div class="inner">
+												<h3>2 &nbsp; Συναρτήσεις</h3>
+												<img src="images/math.png">
+												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												Περιεχόμενα
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													16.1 &nbsp; Εισαγωγή
+												</li>
+												<li>
+													16.2 &nbsp; Ο ήχος
+												</li>
+												<li>
+													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
+												</li>
+												<li>
+													16.4 &nbsp; Επίπεδο και ένταση ήχου
+												</li>
+												<li>
+													16.5 &nbsp; Το φαινόμενο Doppler
+												</li>
+												<li>
+													16.6 &nbsp; Συμβολή και συντονισμός
+												</li>
+												<li>
+													16.7 &nbsp; Ακοή
+												</li>
+												<li>
+													16.8 &nbsp; Υπέρηχοι
+												</li>
+												<li>
+													16.9 &nbsp; Συντονισμός
+												</li>
+												<li>
+													16.10 &nbsp; Κρουστικά κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-math">
-							<div class="inner">
-								<h3>Γραφικές Παραστάσεις</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-math">
+											<div class="inner">
+												<h3>3 &nbsp; Ανισώσεις</h3>
+												<img src="images/math.png">
+												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												Περιεχόμενα
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													16.1 &nbsp; Εισαγωγή
+												</li>
+												<li>
+													16.2 &nbsp; Ο ήχος
+												</li>
+												<li>
+													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
+												</li>
+												<li>
+													16.4 &nbsp; Επίπεδο και ένταση ήχου
+												</li>
+												<li>
+													16.5 &nbsp; Το φαινόμενο Doppler
+												</li>
+												<li>
+													16.6 &nbsp; Συμβολή και συντονισμός
+												</li>
+												<li>
+													16.7 &nbsp; Ακοή
+												</li>
+												<li>
+													16.8 &nbsp; Υπέρηχοι
+												</li>
+												<li>
+													16.9 &nbsp; Συντονισμός
+												</li>
+												<li>
+													16.10 &nbsp; Κρουστικά κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-math">
-							<div class="inner">
-								<h3>Πιθανότητες</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
-					</div>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-math">
+											<div class="inner">
+												<h3>4 &nbsp; Γεωμετρία</h3>
+												<img src="images/math.png">
+												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												Περιεχόμενα
+											</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-math">
-							<div class="inner">
-								<h3>Γεωμετρία</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
-					</div>
-
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-math">
-							<div class="inner">
-								<h3>Τριγωνομετρία</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
-					</div>
-
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-math">
-							<div class="inner">
-								<h3>Στερεομετρία</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
+											<ul class="list-unstyled components">
+												<li>
+													16.1 &nbsp; Εισαγωγή
+												</li>
+												<li>
+													16.2 &nbsp; Ο ήχος
+												</li>
+												<li>
+													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
+												</li>
+												<li>
+													16.4 &nbsp; Επίπεδο και ένταση ήχου
+												</li>
+												<li>
+													16.5 &nbsp; Το φαινόμενο Doppler
+												</li>
+												<li>
+													16.6 &nbsp; Συμβολή και συντονισμός
+												</li>
+												<li>
+													16.7 &nbsp; Ακοή
+												</li>
+												<li>
+													16.8 &nbsp; Υπέρηχοι
+												</li>
+												<li>
+													16.9 &nbsp; Συντονισμός
+												</li>
+												<li>
+													16.10 &nbsp; Κρουστικά κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
 				</div>
+
 			</div>
 			<!-- Programming -->
 			<div id="programming-lessons">
 				<h2>Προγραμματισμος</h2>
 				<div class="heading-underline"></div>
+
 				<div class="row text-center">
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-programming">
-							<div class="inner">
-								<h3>MATLAB</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-programming">
+											<div class="inner">
+												<h3>LaTeX</h3>
+												<img src="images/physicslogo.png">
+												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												Περιεχόμενα
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													16.1 &nbsp; Εισαγωγή
+												</li>
+												<li>
+													16.2 &nbsp; Ο ήχος
+												</li>
+												<li>
+													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
+												</li>
+												<li>
+													16.4 &nbsp; Επίπεδο και ένταση ήχου
+												</li>
+												<li>
+													16.5 &nbsp; Το φαινόμενο Doppler
+												</li>
+												<li>
+													16.6 &nbsp; Συμβολή και συντονισμός
+												</li>
+												<li>
+													16.7 &nbsp; Ακοή
+												</li>
+												<li>
+													16.8 &nbsp; Υπέρηχοι
+												</li>
+												<li>
+													16.9 &nbsp; Συντονισμός
+												</li>
+												<li>
+													16.10 &nbsp; Κρουστικά κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-programming">
-							<div class="inner">
-								<h3>HTML, CSS &amp; JavaScript</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-programming">
+											<div class="inner">
+												<h3>LaTeX</h3>
+												<img src="images/physicslogo.png">
+												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												Περιεχόμενα
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													16.1 &nbsp; Εισαγωγή
+												</li>
+												<li>
+													16.2 &nbsp; Ο ήχος
+												</li>
+												<li>
+													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
+												</li>
+												<li>
+													16.4 &nbsp; Επίπεδο και ένταση ήχου
+												</li>
+												<li>
+													16.5 &nbsp; Το φαινόμενο Doppler
+												</li>
+												<li>
+													16.6 &nbsp; Συμβολή και συντονισμός
+												</li>
+												<li>
+													16.7 &nbsp; Ακοή
+												</li>
+												<li>
+													16.8 &nbsp; Υπέρηχοι
+												</li>
+												<li>
+													16.9 &nbsp; Συντονισμός
+												</li>
+												<li>
+													16.10 &nbsp; Κρουστικά κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-programming">
-							<div class="inner">
-								<h3>LaTeX</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-programming">
+											<div class="inner">
+												<h3>LaTeX</h3>
+												<img src="images/physicslogo.png">
+												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												Περιεχόμενα
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													16.1 &nbsp; Εισαγωγή
+												</li>
+												<li>
+													16.2 &nbsp; Ο ήχος
+												</li>
+												<li>
+													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
+												</li>
+												<li>
+													16.4 &nbsp; Επίπεδο και ένταση ήχου
+												</li>
+												<li>
+													16.5 &nbsp; Το φαινόμενο Doppler
+												</li>
+												<li>
+													16.6 &nbsp; Συμβολή και συντονισμός
+												</li>
+												<li>
+													16.7 &nbsp; Ακοή
+												</li>
+												<li>
+													16.8 &nbsp; Υπέρηχοι
+												</li>
+												<li>
+													16.9 &nbsp; Συντονισμός
+												</li>
+												<li>
+													16.10 &nbsp; Κρουστικά κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
-					<div class="col-xl-3 col-lg-4 col-md-6 d-flex justify-content-center">
-						<a href="ExampleLesson1.html" class="card card-programming">
-							<div class="inner">
-								<h3>C &amp; C++</h3>
-								<img src="images/physicslogo.png">
-								<p>Investigate everyday physics, from household objects to weather patterns.</p>
-							</div>
-						</a>
+					<div class="col-xl-3 col-lg-4 col-md-6">
+						<div class="maincontainer">
+							<a href="ExampleLesson1.html">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-programming">
+											<div class="inner">
+												<h3>LaTeX</h3>
+												<img src="images/physicslogo.png">
+												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback">
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												Περιεχόμενα
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													16.1 &nbsp; Εισαγωγή
+												</li>
+												<li>
+													16.2 &nbsp; Ο ήχος
+												</li>
+												<li>
+													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
+												</li>
+												<li>
+													16.4 &nbsp; Επίπεδο και ένταση ήχου
+												</li>
+												<li>
+													16.5 &nbsp; Το φαινόμενο Doppler
+												</li>
+												<li>
+													16.6 &nbsp; Συμβολή και συντονισμός
+												</li>
+												<li>
+													16.7 &nbsp; Ακοή
+												</li>
+												<li>
+													16.8 &nbsp; Υπέρηχοι
+												</li>
+												<li>
+													16.9 &nbsp; Συντονισμός
+												</li>
+												<li>
+													16.10 &nbsp; Κρουστικά κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</a>
+						</div>
 					</div>
 
 				</div>
@@ -409,21 +937,21 @@
 		<div class="col-xs-12" style="height:100px;"></div>
 
 		<!-- Footer -->
-			<div id="Footer">
-				<footer>
-					<div class="row text-center">
-						<div class="col-md-12 text-center social padding">
-							<a href="https://www.facebook.com"><img class="fab fa-facebook"></a>
-							<a href="https://twitter.com/?lang=el"><img class="fab fa-twitter"></a>
-							<!--			<a href="#"><img class="fab fa-google-plus-g"></a>-->
-							<a href="https://www.instagram.com/?hl=el"><img class="fab fa-instagram"></a>
-							<a href="https://www.youtube.com/?hl=el&gl=GR"><img class="fab fa-youtube"></a>
-							<br>
-							<p>Copyright &copy; dizzyelectron.com</p>
-						</div>
+		<div id="Footer">
+			<footer>
+				<div class="row text-center">
+					<div class="col-md-12 text-center social padding">
+						<a href="https://www.facebook.com"><img class="fab fa-facebook"></a>
+						<a href="https://twitter.com/?lang=el"><img class="fab fa-twitter"></a>
+						<!--			<a href="#"><img class="fab fa-google-plus-g"></a>-->
+						<a href="https://www.instagram.com/?hl=el"><img class="fab fa-instagram"></a>
+						<a href="https://www.youtube.com/?hl=el&gl=GR"><img class="fab fa-youtube"></a>
+						<br>
+						<p>Copyright &copy; dizzyelectron.com</p>
 					</div>
-				</footer>
-			</div>
+				</div>
+			</footer>
+		</div>
 	</body>
 
 </html>
