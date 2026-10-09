@@ -219,7 +219,7 @@ IMAGES, MEDIA & ANIMATIONS
 /* Images Wrapped Around Text */
 .image-wrapper figure{
 	padding: 0;
-	width: 40vw;
+	width: 30vw;
 	height: auto;
 	margin: auto 0;
 }
@@ -248,6 +248,10 @@ IMAGES, MEDIA & ANIMATIONS
 /*---------------------------------------------------
 CONTENT & COLUMNS
 ---------------------------------------------------*/
+p {
+    text-indent: 0;
+}
+
 #content {
 	width: 100%;
 	padding: 0;
