@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Electric Field Laboratory</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#e8f0ff;background:#050d1e;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;display:flex;flex-direction:column;height:100dvh;min-height:580px}
+.banner{flex-shrink:0;width:100%;padding:18px 28px 19px;border-bottom:1px solid rgba(159,197,255,.19);background:linear-gradient(110deg,#0c1b34,#071124);box-shadow:0 6px 24px rgba(0,0,0,.18);z-index:3}
+.banner h1{margin:7px 0 5px}
+.banner .subtitle{margin:0}
+#lab{width:100%;flex:1;min-height:0;position:relative;overflow:hidden;isolation:isolate;background:#061126;user-select:none}
+canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+canvas.dragging{cursor:grabbing}
+canvas.placing{cursor:crosshair}
+.panel{position:absolute;top:18px;left:18px;bottom:18px;width:292px;max-height:calc(100% - 36px);overflow-y:auto;z-index:2;padding:20px 18px 17px;border:1px solid rgba(159,197,255,.19);border-radius:18px;background:linear-gradient(150deg,rgba(12,27,52,.96),rgba(7,17,36,.94));box-shadow:0 22px 75px rgba(0,0,0,.35);backdrop-filter:blur(20px)}
+.eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:#77b1f6;text-transform:uppercase}
+h1{font-size:23px;line-height:1.13;margin:11px 0 7px;font-weight:670;letter-spacing:-.9px}
+.subtitle{font-size:12px;line-height:1.65;color:#849bbb;margin:0 0 21px}
+.divider{height:1px;background:rgba(159,190,237,.13);margin:18px 0}
+.section-title{font-size:10px;font-weight:750;letter-spacing:1.45px;color:#8aabc9;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.count{border:1px solid rgba(166,207,247,.19);border-radius:6px;padding:2px 7px;font-size:11px;color:#b2cee9}
+.button-row{display:flex;gap:8px}
+button{font:inherit;cursor:pointer}
+.add{border:1px solid transparent;border-radius:9px;color:#e5efff;background:rgba(90,135,186,.07);padding:9px 10px;display:flex;flex:1;align-items:center;justify-content:center;gap:10px;font-weight:620;font-size:12px;transition:background .16s,border-color .16s}
+.add:hover{background:rgba(94,151,224,.17)}
+.add.active{background:rgba(49,123,221,.2);border-color:rgba(83,159,249,.62)}
+.symbol:before{content:"";position:absolute;inset:1.4px;z-index:0;clip-path:inherit;background:#f4f8ff}
+.symbol.negative:before{background:#050a15}
+.icon-sign{position:relative;z-index:1;display:grid;place-items:center;line-height:1;transform:translateY(.4px)}
+.charge-list{display:flex;flex-direction:column;gap:6px;max-height:150px;overflow-y:auto;padding-right:3px;scrollbar-width:thin;scrollbar-color:#274263 transparent}
+.charge-item{display:flex;align-items:center;gap:10px;text-align:left;border:1px solid transparent;border-radius:9px;padding:9px 10px;width:100%;background:rgba(90,135,186,.07);color:#e5efff}
+.charge-item:hover{background:rgba(94,151,224,.17)}
+.charge-item.selected{background:rgba(49,123,221,.2);border-color:rgba(83,159,249,.62)}
+.symbol{flex-shrink:0;width:25px;height:25px;display:grid;place-items:center;position:relative;isolation:isolate;clip-path:polygon(50% 0%,59% 29%,79% 8%,71% 36%,100% 50%,71% 59%,91% 80%,62% 71%,50% 100%,41% 71%,20% 92%,29% 62%,0% 50%,29% 41%,9% 20%,38% 29%);background:#fff;color:#070d1a;font-weight:900;font-size:14px}
+.symbol.negative{background:#fff;color:#f5f8ff}
+.charge-name{font-size:12px;font-weight:620;flex:1}
+.charge-value{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:#a5c7ed}
+.muted{font-size:11px;color:#7994b3;line-height:1.5}
+.control-label{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:14px 0 9px;color:#a8c0db;font-size:11px}
+.control-value{font-size:12px;color:#ecf4ff;font-variant-numeric:tabular-nums;font-weight:700}
+input[type=range]{width:100%;height:4px;border-radius:9px;appearance:none;background:#3975b5;outline:none;cursor:pointer;display:block;margin:13px 0 7px}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #639fe0;box-shadow:0 0 0 3px rgba(99,159,224,.14)}
+input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;background:#fff;border:3px solid #639fe0}
+.segment{display:grid;grid-template-columns:1fr 1fr;gap:5px;border-radius:8px;background:#08162b;padding:4px}
+.segment button{border:0;border-radius:6px;background:transparent;color:#7895b6;font-size:11px;font-weight:700;padding:8px 4px}
+.segment button.active{background:#284d77;color:#eef7ff}
+#editBlock[hidden]{display:none}
+.delete{width:100%;border:1px solid rgba(236,130,146,.28);background:rgba(174,56,81,.12);color:#f3aeb9;border-radius:8px;padding:8px;font-size:11px;margin-top:15px}
+.delete:hover{background:rgba(174,56,81,.25)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;color:#afc5df;font-size:12px;margin:14px 0}
+.toggle-label{display:flex;align-items:center;gap:8px}
+.toggle-icon{width:17px;height:17px;flex-shrink:0;color:#77b1f6;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.switch{flex-shrink:0;width:34px;height:19px;border-radius:20px;border:1px solid rgba(156,190,226,.23);background:#23354f;position:relative;padding:0;transition:background .2s}
+.switch:before{content:"";display:block;width:13px;height:13px;position:absolute;top:2px;left:2px;background:#b2bfd1;border-radius:100%;transition:transform .2s}
+.switch.on{background:#2869ae}
+.switch.on:before{transform:translateX(15px);background:white}
+.text-button{border:0;background:none;color:#7fa8d7;font-size:11px;cursor:pointer;padding:0}
+.text-button:hover{color:#dbeaff}
+.legend{position:absolute;right:22px;top:20px;z-index:1;padding:14px 16px;border:1px solid rgba(157,195,239,.14);border-radius:12px;background:rgba(7,18,36,.74);backdrop-filter:blur(12px);width:194px}
+.legend-title{font-size:10px;letter-spacing:1.15px;color:#aec8e5;font-weight:750;text-transform:uppercase;margin-bottom:13px}
+.gradient{height:7px;border-radius:8px;background:linear-gradient(90deg,rgba(255,255,255,.28),#fff 30%,#ffc48f 69%,#ff7a1a);margin-bottom:8px}
+.legend-ends{display:flex;justify-content:space-between;font-size:10px;color:#819ab7}
+.hud{position:absolute;bottom:20px;right:22px;z-index:1;display:flex;align-items:center;gap:12px}
+.hud-hint{font-size:11px;color:#899fbe;text-shadow:0 2px 8px #000;background:rgba(5,13,27,.52);padding:12px 13px;border-radius:10px}
+.zoom{display:flex;gap:2px;align-items:center;padding:5px;background:rgba(11,28,49,.93);border:1px solid rgba(150,192,242,.23);border-radius:10px;box-shadow:0 8px 35px rgba(0,0,0,.2)}
+.zoom button{border:0;background:transparent;color:#d8eafa;font-size:18px;width:28px;height:29px;border-radius:6px}
+.zoom button:hover{background:#25486e}
+.zoom #resetZoom{font-size:10px;letter-spacing:0;font-weight:700;min-width:47px;width:auto;font-variant-numeric:tabular-nums}
+.mode-msg{position:absolute;z-index:1;bottom:80px;left:50%;transform:translateX(-50%);padding:11px 17px;background:rgba(16,50,89,.94);border:1px solid #63a7ef;border-radius:9px;color:#dfefff;font-size:12px;box-shadow:0 6px 28px rgba(0,0,0,.4)}
+.mode-msg[hidden]{display:none}
+.coordinates{position:absolute;bottom:21px;left:330px;z-index:1;color:#617e9e;font-size:10px;letter-spacing:.4px}
+.empty{text-align:center;padding:13px 4px;border:1px dashed #294563;border-radius:8px;color:#819ab7;font-size:12px}
+@media(max-width:750px){.banner{padding:14px 18px}.banner .subtitle{margin:0}.panel{width:240px;padding:15px;top:10px;left:10px;bottom:10px}.legend{right:10px;top:10px;width:145px;padding:11px}.hud{right:10px;bottom:10px}.hud-hint,.coordinates{display:none}h1{font-size:19px}.subtitle{margin-bottom:13px}}
+@media(max-width:510px){.panel{width:197px;max-height:calc(100% - 16px);left:8px;top:8px;bottom:8px;padding:13px}.legend{width:115px;right:8px;top:8px;padding:9px}.legend-title{font-size:9px}.legend-ends{font-size:9px}.zoom{padding:3px}.zoom button{width:25px}}
+</style>
+</head>
+<body>
+<header class="banner">
+  <div class="eyebrow">Φυσικη Β Λυκειου</div>
+  <h1>1.2 The Electric Field</h1>
+  <p class="subtitle">Explore how charges shape the space around them.</p>
+</header>
+<div id="lab">
+  <canvas id="fieldCanvas" aria-label="Interactive electric-field vector visualization"></canvas>
+  <aside class="panel" aria-label="Field controls">
+    <div class="section-title">ADD A SOURCE</div>
+    <div class="button-row"><button class="add" id="addPositive"><span class="symbol"><span class="icon-sign">+</span></span>Positive</button><button class="add minus" id="addNegative"><span class="symbol negative"><span class="icon-sign">−</span></span>Negative</button></div>
+    <div class="divider"></div>
+    <div class="section-title">POINT CHARGES <span class="count" id="chargeCount">3</span></div>
+    <div class="charge-list" id="chargeList"></div>
+    <div class="divider"></div>
+    <div id="editBlock">
+      <div class="section-title">SELECTED CHARGE</div>
+      <div class="control-label">Polarity</div>
+      <div class="segment"><button id="makePositive" class="active">+ Positive</button><button id="makeNegative">− Negative</button></div>
+      <div class="control-label"><span>Charge magnitude</span><span class="control-value" id="strengthText">4.0</span></div>
+      <input type="range" id="chargeStrength" min="0.2" max="10" step="0.1" value="4" aria-label="Selected charge magnitude"/>
+      <div class="muted" id="selectedCoordinates">x 0 · y 0</div>
+      <button class="delete" id="removeCharge">Remove selected charge</button>
+    </div>
+    <div id="emptySelection" class="muted" hidden>Select a charge to adjust its magnitude or polarity.</div>
+    <div class="divider"></div>
+    <div class="section-title">VISUALIZATION</div>
+    <div class="control-label"><span>Logarithmic sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
+    <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field-strength color sensitivity"/>
+    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17 17 3M10 3h7v7M3 7l4-4M3 3h4v4M13 17l4-4M13 13h4v4"/></svg>Electric field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric field arrows"></button></div>
+    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="3" stroke-opacity=".5"/><rect x="4" y="4" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".15" stroke="none"/><rect x="11" y="4" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".4" stroke="none"/><rect x="4" y="11" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".6" stroke="none"/><rect x="11" y="11" width="5" height="5" rx="1" fill="currentColor" stroke="none"/></svg>Field strength heatmap</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric field heatmap"></button></div>
+    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 4c8 0 8 12 16 12M2 10c7 0 9-6 16-6M2 16c4 0 5-3 8-3M14 13l4 3-4 2"/></svg>Field lines</span><button id="fieldLinesToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle field lines"></button></div>
+    <div class="button-row" style="justify-content:space-between;margin-top:17px"><button id="restore" class="text-button">Restore example</button><button id="clear" class="text-button">Clear all charges</button></div>
+  </aside>
+  <div class="legend"><div class="legend-title">Electric field strength</div><div class="gradient"></div><div class="legend-ends"><span>Weak</span><span>Strong</span></div></div>
+  <div class="mode-msg" id="modeMessage" hidden>Click anywhere on the grid to place your charge. Press Esc to cancel.</div>
+  <div class="coordinates" id="coordinates">WORLD SPACE · X 0 · Y 0</div>
+  <div class="hud"><div class="hud-hint">Drag canvas to pan · Scroll to zoom · Drag charges to move</div><div class="zoom"><button id="zoomOut" title="Zoom out">−</button><button id="resetZoom" title="Reset camera">100%</button><button id="zoomIn" title="Zoom in">+</button></div></div>
+</div>
+<script>
+(()=>{'use strict';
+const lab=document.getElementById('lab'), canvas=document.getElementById('fieldCanvas'), ctx=canvas.getContext('2d',{alpha:false});
+const $=id=>document.getElementById(id);
+const SAMPLE=64, MINOR=32, MAJOR=128, SUPER_MAJOR=512, MIN_ZOOM=.30,MAX_ZOOM=2;
+const PAN_X=2000,PAN_Y=1500;
+let vw=0,vh=0,dpr=1, camera={x:0,y:0,zoom:1};
+let charges=[], nextId=1,selectedId=null,placing=0,activeDrag=null,showFieldLines=false,showFieldArrows=true,showHeatmap=false,sensitivity=1;
+// Screen-space separation controls the clarity of the 2D streamline drawing.
+const LINE_MIN_SPACING=20,LINE_MAX_SPACING=54;
+let fieldLineCache={key:'',groups:[],arrows:[]};
+const heatmapCanvas=document.createElement('canvas'),heatmapContext=heatmapCanvas.getContext('2d');
+let heatmapKey='';
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const selected=()=>charges.find(c=>c.id===selectedId);
+function initCharges(){nextId=1;charges=[{id:nextId++,x:-155,y:-15,q:4.5},{id:nextId++,x:155,y:-25,q:-4.5},{id:nextId++,x:5,y:160,q:2.6}];selectedId=1;placing=0;setMode();syncPanel();}
+function toScreen(x,y){return {x:(x-camera.x)*camera.zoom+vw/2,y:(camera.y-y)*camera.zoom+vh/2};}
+function toWorld(x,y){return {x:(x-vw/2)/camera.zoom+camera.x,y:camera.y-(y-vh/2)/camera.zoom};}
+function pointerPos(ev){let r=canvas.getBoundingClientRect();return{x:ev.clientX-r.left,y:ev.clientY-r.top};}
+function resize(){let r=lab.getBoundingClientRect();vw=r.width;vh=r.height;dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(vw*dpr);canvas.height=Math.round(vh*dpr);canvas.style.width=vw+'px';canvas.style.height=vh+'px';constrainCamera();$('resetZoom').textContent=Math.round(camera.zoom*100)+'%';}
+const observer=new ResizeObserver(resize);observer.observe(lab);resize();
+function setMode(){canvas.classList.toggle('placing',placing!==0);$('addPositive').classList.toggle('active',placing===1);$('addNegative').classList.toggle('active',placing===-1);$('modeMessage').hidden=placing===0;}
+function startPlacing(sign){placing=(placing===sign?0:sign);setMode();}
+function addCharge(x,y,sign){const c={id:nextId++,x,y,q:sign*4};charges.push(c);selectedId=c.id;syncPanel();}
+function removeCharge(){if(selectedId===null)return;charges=charges.filter(c=>c.id!==selectedId);selectedId=charges.length?charges[charges.length-1].id:null;syncPanel();}
+function syncPanel(){
+ $('chargeCount').textContent=String(charges.length);
+ const list=$('chargeList');list.replaceChildren();
+ if(!charges.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='No charges in the field';list.append(empty);}
+ charges.forEach(c=>{const button=document.createElement('button');button.className='charge-item'+(c.id===selectedId?' selected':'');button.type='button';
+ const icon=document.createElement('span');icon.className='symbol'+(c.q<0?' negative':'');const sign=document.createElement('span');sign.className='icon-sign';sign.textContent=c.q<0?'−':'+';icon.append(sign);
+ const name=document.createElement('span');name.className='charge-name';name.textContent='Charge '+String(c.id).padStart(2,'0');
+ const val=document.createElement('span');val.className='charge-value';val.textContent=(c.q>0?'+':'')+c.q.toFixed(1);
+ button.append(icon,name,val);button.onclick=()=>{selectedId=c.id;syncPanel();};list.append(button);});
+ const c=selected();$('editBlock').hidden=!c;$('emptySelection').hidden=!!c;
+ if(c){$('chargeStrength').value=Math.abs(c.q);$('strengthText').textContent=Math.abs(c.q).toFixed(1)+' units';$('makePositive').classList.toggle('active',c.q>0);$('makeNegative').classList.toggle('active',c.q<0);$('selectedCoordinates').textContent=`x ${Math.round(c.x)} · y ${Math.round(c.y)}`;}
+}
+$('addPositive').onclick=()=>startPlacing(1);$('addNegative').onclick=()=>startPlacing(-1);
+$('removeCharge').onclick=removeCharge;
+$('makePositive').onclick=()=>{const c=selected();if(c){c.q=Math.abs(c.q);syncPanel();}};
+$('makeNegative').onclick=()=>{const c=selected();if(c){c.q=-Math.abs(c.q);syncPanel();}};
+$('chargeStrength').oninput=e=>{const c=selected();if(c){c.q=(c.q<0?-1:1)*Number(e.target.value);syncPanel();}};
+$('sensitivity').oninput=e=>{sensitivity=Number(e.target.value);$('sensitivityText').textContent=sensitivity.toFixed(1)+'×';};
+$('fieldArrowsToggle').onclick=()=>{showFieldArrows=!showFieldArrows;$('fieldArrowsToggle').classList.toggle('on',showFieldArrows);$('fieldArrowsToggle').setAttribute('aria-checked',String(showFieldArrows));};
+$('heatmapToggle').onclick=()=>{showHeatmap=!showHeatmap;$('heatmapToggle').classList.toggle('on',showHeatmap);$('heatmapToggle').setAttribute('aria-checked',String(showHeatmap));};
+$('fieldLinesToggle').onclick=()=>{showFieldLines=!showFieldLines;$('fieldLinesToggle').classList.toggle('on',showFieldLines);$('fieldLinesToggle').setAttribute('aria-checked',String(showFieldLines));};
+$('restore').onclick=()=>{camera={x:0,y:0,zoom:1};constrainCamera();$('resetZoom').textContent=Math.round(camera.zoom*100)+'%';initCharges();};
+$('clear').onclick=()=>{charges=[];selectedId=null;syncPanel();};
+function minimumZoom(){return Math.max(MIN_ZOOM,Math.ceil(Math.max(vw/(2*PAN_X),vh/(2*PAN_Y))*10)/10);}
+function constrainCamera(){
+ camera.zoom=Math.max(camera.zoom,minimumZoom());
+ const halfWidth=vw/(2*camera.zoom),halfHeight=vh/(2*camera.zoom);
+ camera.x=clamp(camera.x,-PAN_X+halfWidth,PAN_X-halfWidth);
+ camera.y=clamp(camera.y,-PAN_Y+halfHeight,PAN_Y-halfHeight);
+}
+function zoomTo(newZoom,sx=vw/2,sy=vh/2){newZoom=clamp(Math.round(newZoom*10)/10,minimumZoom(),MAX_ZOOM);const before=toWorld(sx,sy);camera.zoom=newZoom;const after=toWorld(sx,sy);camera.x+=before.x-after.x;camera.y+=before.y-after.y;constrainCamera();$('resetZoom').textContent=Math.round(camera.zoom*100)+'%';}
+$('zoomIn').onclick=()=>zoomTo(camera.zoom+.1);$('zoomOut').onclick=()=>zoomTo(camera.zoom-.1);$('resetZoom').onclick=()=>{camera={x:0,y:0,zoom:1};constrainCamera();$('resetZoom').textContent=Math.round(camera.zoom*100)+'%';};
+canvas.addEventListener('wheel',e=>{e.preventDefault();const p=pointerPos(e);if(e.deltaY)zoomTo(camera.zoom+(e.deltaY<0?.1:-.1),p.x,p.y);},{passive:false});
+function chargeAt(p){for(let i=charges.length-1;i>=0;i--){const c=charges[i],s=toScreen(c.x,c.y);if(Math.hypot(p.x-s.x,p.y-s.y)<26)return c;}return null;}
+canvas.addEventListener('pointerdown',e=>{
+ if(e.button!==0&&e.button!==1)return;e.preventDefault();const p=pointerPos(e);
+ if(placing){const w=toWorld(p.x,p.y);addCharge(w.x,w.y,placing);placing=0;setMode();return;}
+ const c=e.button===0?chargeAt(p):null;
+ if(c){selectedId=c.id;const w=toWorld(p.x,p.y);activeDrag={kind:'charge',id:c.id,ox:c.x-w.x,oy:c.y-w.y};syncPanel();}
+ else{if(selectedId!==null){selectedId=null;syncPanel();}activeDrag={kind:'pan',x:p.x,y:p.y,cx:camera.x,cy:camera.y};}
+ canvas.classList.add('dragging');canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove',e=>{const p=pointerPos(e),w=toWorld(p.x,p.y);$('coordinates').textContent=`WORLD SPACE · X ${Math.round(w.x)} · Y ${Math.round(w.y)}`;
+ if(!activeDrag)return;
+ if(activeDrag.kind==='pan'){camera.x=activeDrag.cx-(p.x-activeDrag.x)/camera.zoom;camera.y=activeDrag.cy+(p.y-activeDrag.y)/camera.zoom;constrainCamera();}
+ else{const c=charges.find(c=>c.id===activeDrag.id);if(c){c.x=w.x+activeDrag.ox;c.y=w.y+activeDrag.oy;$('selectedCoordinates').textContent=`x ${Math.round(c.x)} · y ${Math.round(c.y)}`;}}
+});
+function endDrag(e){activeDrag=null;canvas.classList.remove('dragging');try{if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);}catch(_){}}
+canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
+canvas.addEventListener('dblclick',e=>{if(placing)return;const p=pointerPos(e);if(!chargeAt(p)){const w=toWorld(p.x,p.y);addCharge(w.x,w.y,1);}});
+window.addEventListener('keydown',e=>{if(e.key==='Escape'){placing=0;setMode();}
+ if((e.key==='Delete'||e.key==='Backspace')&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)){removeCharge();}
+});
+function fieldAt(x,y){let ex=0,ey=0;for(const c of charges){const dx=x-c.x,dy=y-c.y,r2=Math.max(dx*dx+dy*dy,1e-12),weight=c.q/(r2*Math.sqrt(r2));ex+=dx*weight;ey+=dy*weight;}return {x:ex,y:ey,mag:Math.hypot(ex,ey)};}
+function strength(m){return clamp(Math.log1p(m*50000*sensitivity)/Math.log1p(100),0,1);}
+function worldBounds(){return {xmin:camera.x-vw/(2*camera.zoom),xmax:camera.x+vw/(2*camera.zoom),ymin:camera.y-vh/(2*camera.zoom),ymax:camera.y+vh/(2*camera.zoom)};}
+function grid(){const b=worldBounds();for(const spacing of [MINOR,MAJOR,SUPER_MAJOR]){
+ ctx.beginPath();const startX=Math.ceil(b.xmin/spacing),endX=Math.floor(b.xmax/spacing);
+ for(let n=startX;n<=endX;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const x=toScreen(n*spacing,0).x;ctx.moveTo(Math.round(x)+.5,0);ctx.lineTo(Math.round(x)+.5,vh);}
+ const startY=Math.ceil(b.ymin/spacing),endY=Math.floor(b.ymax/spacing);
+ for(let n=startY;n<=endY;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const y=toScreen(0,n*spacing).y;ctx.moveTo(0,Math.round(y)+.5);ctx.lineTo(vw,Math.round(y)+.5);}
+ ctx.strokeStyle=spacing===MINOR?'rgba(132,166,222,.055)':spacing===MAJOR?'rgba(143,185,237,.14)':'rgba(155,195,242,.23)';ctx.lineWidth=1;ctx.stroke();}
+}
+function background(){ctx.fillStyle='#050f23';ctx.fillRect(0,0,vw,vh);const glow=ctx.createRadialGradient(vw*.58,vh*.48,0,vw*.58,vh*.48,Math.max(vw,vh)*.75);glow.addColorStop(0,'rgba(17,40,80,.48)');glow.addColorStop(1,'rgba(2,8,25,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,vw,vh);if(showHeatmap)drawHeatmap();grid();}
+// Sample the resultant field, including cancellation between charges. Cache the
+// screen-space raster until the camera, sources, viewport, or sensitivity changes.
+function drawHeatmap(){
+ const key=JSON.stringify([vw,vh,camera.x,camera.y,camera.zoom,sensitivity,charges.map(c=>[c.x,c.y,c.q])]);
+ if(key!==heatmapKey){
+  const width=Math.max(1,Math.ceil(vw/4)),height=Math.max(1,Math.ceil(vh/4));
+  heatmapCanvas.width=width;heatmapCanvas.height=height;
+  const pixels=heatmapContext.createImageData(width,height);
+  for(let y=0;y<height;y++)for(let x=0;x<width;x++){
+   const world=toWorld((x+.5)*vw/width,(y+.5)*vh/height);
+   const t=strength(fieldAt(world.x,world.y).mag),i=(y*width+x)*4;
+   pixels.data[i]=255;pixels.data[i+1]=Math.round(255-133*t);
+   // Fade weak fields into the background; reserve opaque orange for strong fields.
+   pixels.data[i+2]=Math.round(255-229*t);pixels.data[i+3]=Math.round(255*t*t);
+  }
+  heatmapContext.putImageData(pixels,0,0);heatmapKey=key;
+ }
+ ctx.save();ctx.imageSmoothingEnabled=true;
+ ctx.drawImage(heatmapCanvas,0,0,vw,vh);ctx.restore();
+}
+function fieldArrows(){const b=worldBounds(),i0=Math.ceil(b.xmin/SAMPLE),i1=Math.floor(b.xmax/SAMPLE),j0=Math.ceil(b.ymin/SAMPLE),j1=Math.floor(b.ymax/SAMPLE);
+ for(let i=i0;i<=i1;i++)for(let j=j0;j<=j1;j++){
+ const x=i*SAMPLE,y=j*SAMPLE,p=toScreen(x,y);const f=fieldAt(x,y),t=strength(f.mag);
+ if(f.mag>1e-12){const ux=f.x/f.mag,uy=-f.y/f.mag,len=(7+39*t)*camera.zoom,half=len/2,tip=(2.4+5.2*t)*camera.zoom;
+ const r=255,g=Math.round(255+(122-255)*t),bb=Math.round(255+(26-255)*t);
+ const color=`rgb(${r},${g},${bb})`;
+ ctx.save();ctx.globalAlpha=.19+.78*t;ctx.strokeStyle=color;ctx.lineWidth=Math.max(.35,(.65+2.1*t)*camera.zoom);ctx.lineCap='round';ctx.lineJoin='round';
+ const ex=p.x+ux*half,ey=p.y+uy*half, sx=p.x-ux*half,sy=p.y-uy*half;
+ ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);const wx=-ux*tip*.78,wy=-uy*tip*.78,px=-uy*tip*.5,py=ux*tip*.5;
+ ctx.moveTo(ex+wx+px,ey+wy+py);ctx.lineTo(ex,ey);ctx.lineTo(ex+wx-px,ey+wy-py);ctx.stroke();ctx.restore();
+ }
+ }
+}
+// Draw sample points in a separate pass so every point sits above the arrows.
+function drawSamplePoints(){
+ const b=worldBounds(),i0=Math.ceil(b.xmin/SAMPLE),i1=Math.floor(b.xmax/SAMPLE),j0=Math.ceil(b.ymin/SAMPLE),j1=Math.floor(b.ymax/SAMPLE);
+ ctx.save();ctx.fillStyle='rgba(255,255,255,.6)';ctx.beginPath();
+ for(let i=i0;i<=i1;i++)for(let j=j0;j<=j1;j++){
+  const p=toScreen(i*SAMPLE,j*SAMPLE);
+  ctx.moveTo(p.x+1.15,p.y);ctx.arc(p.x,p.y,1.15,0,Math.PI*2);
+ }
+ ctx.fill();ctx.restore();
+}
+function fieldLineSample(x,y){
+ let ex=0,ey=0,totalMagnitude=0,nearest=Infinity,charge=null;
+ for(const c of charges){
+  const dx=x-c.x,dy=y-c.y,r2=Math.max(dx*dx+dy*dy,1e-12),r=Math.sqrt(r2),weight=c.q/(r2*r);
+  ex+=dx*weight;ey+=dy*weight;totalMagnitude+=Math.abs(c.q)/r2;
+  if(r<nearest){nearest=r;charge=c;}
+ }
+ const mag=Math.hypot(ex,ey),t=strength(mag),cancellation=totalMagnitude?mag/totalMagnitude:0;
+ return {x,y,mag,t,ux:mag?ex/mag:0,uy:mag?ey/mag:0,nearest,cancellation,
+  charge:nearest*camera.zoom<19?charge:null,
+  valid:mag>1e-16&&cancellation>1e-6&&nearest*camera.zoom>=19,
+  spacing:(LINE_MIN_SPACING+(LINE_MAX_SPACING-LINE_MIN_SPACING)*Math.pow(1-t,1.15))/camera.zoom};
+}
+function fieldLineFlow(x,y,direction){const f=fieldAt(x,y);return f.mag>1e-18?{x:direction*f.x/f.mag,y:direction*f.y/f.mag}:null;}
+function advanceFieldLine(x,y,h,direction){
+ const a=fieldLineFlow(x,y,direction);if(!a)return null;
+ const b=fieldLineFlow(x+a.x*h/2,y+a.y*h/2,direction);if(!b)return null;
+ const c=fieldLineFlow(x+b.x*h/2,y+b.y*h/2,direction);if(!c)return null;
+ const d=fieldLineFlow(x+c.x*h,y+c.y*h,direction);if(!d)return null;
+ return {x:x+h*(a.x+2*b.x+2*c.x+d.x)/6,y:y+h*(a.y+2*b.y+2*c.y+d.y)/6};
+}
+function createFieldLineIndex(){
+ const cells=new Map(),cellSize=LINE_MAX_SPACING/camera.zoom;
+ return {
+  add(point){const key=Math.floor(point.x/cellSize)+','+Math.floor(point.y/cellSize);if(!cells.has(key))cells.set(key,[]);cells.get(key).push(point);},
+  near(point,factor){
+   const radius=factor*(point.spacing+cellSize)/2,x0=Math.floor((point.x-radius)/cellSize),x1=Math.floor((point.x+radius)/cellSize),y0=Math.floor((point.y-radius)/cellSize),y1=Math.floor((point.y+radius)/cellSize);
+   for(let x=x0;x<=x1;x++)for(let y=y0;y<=y1;y++){
+    for(const other of cells.get(x+','+y)||[]){
+     const separation=factor*(point.spacing+other.spacing)/2;
+     if((point.x-other.x)**2+(point.y-other.y)**2<separation*separation)return true;
+    }
+   }
+   return false;
+  }
+ };
+}
+function traceFieldLineHalf(seed,direction,index,bounds){
+ const points=[seed],visited=new Map(),loopCell=5/camera.zoom;
+ const outside=p=>p.x<bounds.xmin||p.x>bounds.xmax||p.y<bounds.ymin||p.y>bounds.ymax;
+ const maxSteps=Math.max(1600,Math.ceil(((bounds.xmax-bounds.xmin)+(bounds.ymax-bounds.ymin))*camera.zoom));
+ for(let step=0;step<maxSteps;step++){
+  const p=points[points.length-1];
+  // Reduce the spatial step both near charges and near cancellation points.
+  let h=Math.min(3.5/camera.zoom,p.nearest*.16,p.nearest*p.cancellation*.3);
+  if(h*camera.zoom<.025)return {points,reason:'null'};
+  let next=null;
+  for(let retry=0;retry<6;retry++){
+   const moved=advanceFieldLine(p.x,p.y,h,direction);
+   if(!moved)return {points,reason:'null'};
+   next=fieldLineSample(moved.x,moved.y);
+   if(next.charge||!next.valid||p.ux*next.ux+p.uy*next.uy>.85)break;
+   h*=.5;
+  }
+  if(next.charge){points.push(next);return {points,reason:'charge'};}
+  if(!next.valid)return {points,reason:'null'};
+  if(outside(next)){points.push(next);return {points,reason:'boundary'};}
+  if(index.near(next,.58))return {points,reason:'spacing'};
+  const loopKey=Math.floor(next.x/loopCell)+','+Math.floor(next.y/loopCell),previous=visited.get(loopKey);
+  if(previous!==undefined&&step-previous>14)return {points,reason:'loop'};
+  visited.set(loopKey,step);
+  if(Math.hypot(next.x-p.x,next.y-p.y)<1e-10)return {points,reason:'null'};
+  points.push(next);
+ }
+ return {points,reason:'length'};
+}
+function buildFieldLines(){
+ if(!charges.length)return [];
+ // Cache a world-anchored layout over the full navigable area. Panning
+ // only translates these paths; padding carries curves beyond visible edges.
+ const padding=64/camera.zoom,center={x:0,y:0};
+ const bounds={xmin:-PAN_X-padding,xmax:PAN_X+padding,ymin:-PAN_Y-padding,ymax:PAN_Y+padding};
+ const inside=p=>p.x>=bounds.xmin&&p.x<=bounds.xmax&&p.y>=bounds.ymin&&p.y<=bounds.ymax;
+ const index=createFieldLineIndex(),queue=[],grid=[],lines=[];
+ // Start around both signs, then expand into uncovered space normal to each curve.
+ for(let i=0;i<12;i++)for(const c of charges){
+  const a=(i+.5)*2*Math.PI/12,p={x:c.x+26/camera.zoom*Math.cos(a),y:c.y+26/camera.zoom*Math.sin(a)};
+  if(inside(p))queue.push(p);
+ }
+ queue.push(center);
+ const gridStep=42/camera.zoom;
+ for(let ix=Math.ceil(bounds.xmin/gridStep);ix<=Math.floor(bounds.xmax/gridStep);ix++)
+  for(let iy=Math.ceil(bounds.ymin/gridStep);iy<=Math.floor(bounds.ymax/gridStep);iy++)
+   grid.push({x:ix*gridStep,y:iy*gridStep,rank:((ix*73856093)^(iy*19349663))>>>0});
+ grid.sort((a,b)=>a.rank-b.rank);
+ let head=0,gridHead=0,attempts=0;
+ const area=(bounds.xmax-bounds.xmin)*(bounds.ymax-bounds.ymin)*camera.zoom*camera.zoom;
+ const maxLines=Math.max(36,Math.ceil(area/9000)),maxAttempts=grid.length+15000;
+ while(lines.length<maxLines&&attempts++<maxAttempts){
+  const candidate=head<queue.length?queue[head++]:grid[gridHead++];
+  if(!candidate)break;
+  const seed=fieldLineSample(candidate.x,candidate.y);
+  if(!inside(seed)||!seed.valid||index.near(seed,.95))continue;
+  const backward=traceFieldLineHalf(seed,-1,index,bounds),forward=traceFieldLineHalf(seed,1,index,bounds);
+  const points=backward.points.slice(1).reverse().concat(forward.points);
+  let length=0;
+  for(let i=0;i<points.length;i++){if(i)length+=Math.hypot(points[i].x-points[i-1].x,points[i].y-points[i-1].y);points[i].arc=length;}
+  if(length*camera.zoom<32)continue;
+  lines.push({points,length,fadeStart:!['charge','boundary'].includes(backward.reason),fadeEnd:!['charge','boundary'].includes(forward.reason)});
+  let indexedArc=-Infinity;
+  for(const p of points)if(p.arc-indexedArc>=4/camera.zoom){index.add(p);indexedArc=p.arc;}
+  let previousArc=-Infinity;
+  for(const p of points){
+   if(!p.valid||p.arc-previousArc<p.spacing*.9)continue;
+   previousArc=p.arc;
+   if(queue.length<15000){
+    const offset=p.spacing*1.08;
+    queue.push({x:p.x-p.uy*offset,y:p.y+p.ux*offset},{x:p.x+p.uy*offset,y:p.y-p.ux*offset});
+   }
+  }
+ }
+ return lines;
+}
+function fieldLineFade(line,arc){
+ const fadeLength=24/camera.zoom;
+ return Math.min(line.fadeStart?clamp(arc/fadeLength,0,1):1,line.fadeEnd?clamp((line.length-arc)/fadeLength,0,1):1);
+}
+function makeFieldLineDrawing(lines){
+ const groups=new Map(),arrows=new Map();
+ const color=band=>{const t=(band+.5)/10;return 'rgb(255,'+Math.round(255-133*t)+','+Math.round(255-229*t)+')';};
+ for(const line of lines){
+  const points=line.points;let nextArrow=90/camera.zoom;
+  for(let i=1;i<points.length;i++){
+   const a=points[i-1],b=points[i],band=Math.min(9,Math.floor((a.t+b.t)*5)),fade=fieldLineFade(line,(a.arc+b.arc)/2),fadeBand=Math.round(fade*5);
+   // Cached paths use world coordinates with the canvas Y direction flipped.
+   const sa={x:a.x,y:-a.y},sb={x:b.x,y:-b.y};
+   if(fadeBand){
+    const key=band+','+fadeBand;
+    if(!groups.has(key))groups.set(key,{path:new Path2D(),color:color(band),alpha:(.38+.28*(band+.5)/10)*fadeBand/5});
+    const path=groups.get(key).path;path.moveTo(sa.x,sa.y);path.lineTo(sb.x,sb.y);
+   }
+   if(b.arc>=nextArrow){
+    const arrowArc=nextArrow;nextArrow+=180/camera.zoom;
+    if(line.length*camera.zoom<120||fieldLineFade(line,arrowArc)<.7||b.nearest*camera.zoom<27)continue;
+    const fraction=clamp((arrowArc-a.arc)/(b.arc-a.arc),0,1),x=sa.x+(sb.x-sa.x)*fraction,y=sa.y+(sb.y-sa.y)*fraction,dx=sb.x-sa.x,dy=sb.y-sa.y,len=Math.hypot(dx,dy);
+    if(!len)continue;
+    if(!arrows.has(band))arrows.set(band,{path:new Path2D(),color:color(band),alpha:.8});
+    const ux=dx/len,uy=dy/len,tip=4/camera.zoom,path=arrows.get(band).path;
+    path.moveTo(x-ux*tip-uy*tip*.55,y-uy*tip+ux*tip*.55);path.lineTo(x,y);path.lineTo(x-ux*tip+uy*tip*.55,y-uy*tip-ux*tip*.55);
+   }
+  }
+ }
+ return {groups:[...groups.values()],arrows:[...arrows.values()]};
+}
+function drawFieldLines(){
+ const key=JSON.stringify([camera.zoom,sensitivity,charges.map(c=>[c.x,c.y,c.q])]);
+ if(key!==fieldLineCache.key)fieldLineCache={key,...makeFieldLineDrawing(buildFieldLines())};
+ ctx.save();ctx.translate(vw/2-camera.x*camera.zoom,vh/2+camera.y*camera.zoom);ctx.scale(camera.zoom,camera.zoom);
+ ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=.95/camera.zoom;
+ for(const group of fieldLineCache.groups){ctx.globalAlpha=group.alpha;ctx.strokeStyle=group.color;ctx.stroke(group.path);}
+ for(const arrow of fieldLineCache.arrows){ctx.globalAlpha=arrow.alpha;ctx.strokeStyle=arrow.color;ctx.stroke(arrow.path);}
+ ctx.restore();
+}
+function starburst(x,y,id,r=18){const spikes=11;ctx.beginPath();for(let i=0;i<spikes*2;i++){const outer=i%2===0;const k=Math.floor(i/2);const fluct=[1.07,.83,1.21,.91,1.13,.75,1.04,.87,1.18,.93,1.0][(k+id*3)%11];const radius=outer?r*fluct:r*(.48+.035*((k+id)%3));const a=-Math.PI/2+i*Math.PI/spikes+.035*Math.sin(i*3+id);const px=x+Math.cos(a)*radius,py=y+Math.sin(a)*radius;if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.closePath();}
+function drawCharges(){for(const c of charges){const s=toScreen(c.x,c.y);if(s.x<-50||s.x>vw+50||s.y<-50||s.y>vh+50)continue;
+ const isSelected=c.id===selectedId;
+ if(isSelected){ctx.save();const halo=ctx.createRadialGradient(s.x,s.y,13,s.x,s.y,39);halo.addColorStop(0,'rgba(83,159,249,.25)');halo.addColorStop(.6,'rgba(49,123,221,.20)');halo.addColorStop(1,'rgba(49,123,221,0)');ctx.beginPath();ctx.arc(s.x,s.y,39,0,Math.PI*2);ctx.fillStyle=halo;ctx.fill();ctx.beginPath();ctx.arc(s.x,s.y,27,0,Math.PI*2);ctx.strokeStyle='rgba(83,159,249,.62)';ctx.lineWidth=1.25;ctx.stroke();ctx.restore();}
+ ctx.save();starburst(s.x,s.y,c.id,17.5);ctx.fillStyle=c.q>0?'#f4f8ff':'#050a15';ctx.fill();ctx.lineWidth=c.q>0?2:1.25;ctx.strokeStyle='#f5f8ff';ctx.stroke();ctx.restore();
+ ctx.save();ctx.font='800 16px ui-sans-serif,system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=c.q>0?'#0b1730':'#f3f8ff';ctx.fillText(c.q>0?'+':'−',s.x,s.y+.2);ctx.restore();
+ }}
+function render(){if(vw&&vh){ctx.setTransform(dpr,0,0,dpr,0,0);background();if(showFieldArrows)fieldArrows();if(showFieldLines)drawFieldLines();if(showFieldArrows)drawSamplePoints();drawCharges();}requestAnimationFrame(render);}
+initCharges();requestAnimationFrame(render);
+})();
+</script>
+</body>
+</html>
