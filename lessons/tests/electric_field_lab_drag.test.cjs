@@ -304,3 +304,22 @@ for(const compact of [false,true]){
   $('addPositive').emit('pointerup',{clientX:90,clientY:731});assert.equal(api.state().charges.length,3);
  });
 }
+
+test('vertical phone tray: bin and padding accept drops while source stacks do not',()=>{
+ for(const [clientX,clientY,deleted] of [[47,735,true],[20,708,true],[78,763,true],[47,680,false]]){
+  const {$,api,point}=openLab(true),canvas=$('fieldCanvas'),charge=api.state().charges[0];
+  $('chargeTray').rect={left:12,top:590,right:82,bottom:768,width:70,height:178};
+  $('addPositive').rect={left:21,top:599,right:73,bottom:647,width:52,height:48};
+  $('addNegative').rect={left:21,top:655,right:73,bottom:703,width:52,height:48};
+  $('trashZone').rect={left:21,top:711,right:73,bottom:759,width:52,height:48};
+  canvas.emit('pointerdown',point(charge));
+  canvas.emit('pointermove',{clientX,clientY});
+  assert.equal($('trashZone').classList.contains('over'),deleted);
+  canvas.emit('pointerup',{clientX,clientY});
+  assert.equal(api.state().charges.length,deleted?2:3);
+  // Creating charges still works with vertically arranged sources.
+  $('addPositive').emit('pointerdown',{clientX:47,clientY:623});
+  $('addPositive').emit('pointerup',{clientX:160,clientY:540});
+  assert.equal(api.state().charges.length,deleted?3:4);
+ }
+});

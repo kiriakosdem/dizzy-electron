@@ -149,8 +149,15 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
  .charge-tray{left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));padding:10px}.source-stack{width:62px}.trash-zone{min-width:76px}
  .mode-msg{bottom:calc(214px + env(safe-area-inset-bottom));font-size:12px}
 }
-/* Keep the tray clear of the anchored HUD on narrow screens. */
-@media(max-width:500px){.charge-tray{bottom:calc(88px + env(safe-area-inset-bottom))}}
+.canvas-dock{display:contents}
+/* Keep a compact vertical tray at bottom-left on narrow phones. */
+@media(max-width:500px){
+ .canvas-dock{position:absolute;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:1;display:flex;flex-direction:row;align-items:flex-end;justify-content:space-between;gap:12px;pointer-events:none}
+ .canvas-dock .charge-tray{position:static;width:max-content;min-width:0;padding:8px;pointer-events:auto}
+ .canvas-dock .tray-items{display:grid;grid-template-columns:52px;gap:8px}
+ .canvas-dock .source-stack,.canvas-dock .trash-zone{width:100%;min-width:0;height:48px;margin:0}
+ .canvas-dock .hud{position:static;max-width:calc(100% - 82px)}
+}
 @media(max-height:500px) and (max-width:950px){.banner{padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:6px}.banner h1{font-size:18px;margin:3px 0}.banner .subtitle{display:none}}
 @media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.zoom button{width:44px;height:44px}.add,.charge-item,.action-button{min-height:44px}.toggle-row{min-height:44px}.switch:after{content:"";position:absolute;inset:-13px -5px}}
 @media(max-height:740px){.panel{overflow-y:auto}#existingCharges{flex:none;height:calc(208px + var(--section-gap))}}
@@ -199,12 +206,15 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
       </div>
     </section>
   </aside>
+  <div class="canvas-dock">
   <div class="charge-tray" id="chargeTray" role="group" aria-label="Charge tray">
     <div class="tray-items">
       <button class="source-stack" id="addPositive" type="button" aria-label="Drag a positive charge onto the canvas, or tap to place" aria-pressed="false" title="Drag to add a positive charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">+</text></svg></button>
       <button class="source-stack negative" id="addNegative" type="button" aria-label="Drag a negative charge onto the canvas, or tap to place" aria-pressed="false" title="Drag to add a negative charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">−</text></svg></button>
       <button class="trash-zone danger-button" id="trashZone" type="button" aria-label="Delete selected charge, or drag a charge here" title="Drop a charge here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg></button>
     </div>
+  </div>
+  <div class="hud" role="group" aria-label="Zoom and world coordinates"><div class="zoom"><button id="zoomOut" title="Zoom out">−</button><button id="resetZoom" title="Reset camera">100%</button><button id="zoomIn" title="Zoom in">+</button></div><div class="coordinates" id="coordinates">X 0 · Y 0</div></div>
   </div>
   <div class="charge-ghost" id="chargeGhost" hidden aria-hidden="true"><svg class="charge-art" viewBox="-24 -24 48 48"><path/><text y=".2">+</text></svg></div>
   <div class="sr-only" id="actionStatus" role="status" aria-live="polite"></div>
@@ -214,7 +224,6 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
     <button class="help-button" id="helpButton" type="button" aria-label="Canvas instructions" aria-describedby="canvasInstructions" aria-controls="canvasInstructions" aria-expanded="false">i</button>
     <div class="hud-hint" id="canvasInstructions" role="tooltip" hidden><span class="pointer-hint">Drag canvas to pan · Scroll to zoom</span><span class="touch-hint">Drag canvas to pan · Pinch to zoom</span><span>Drag charges to move · Drop into Trash to remove</span></div>
   </div>
-  <div class="hud" role="group" aria-label="Zoom and world coordinates"><div class="zoom"><button id="zoomOut" title="Zoom out">−</button><button id="resetZoom" title="Reset camera">100%</button><button id="zoomIn" title="Zoom in">+</button></div><div class="coordinates" id="coordinates">X 0 · Y 0</div></div>
 </div>
 <script>
 (()=>{'use strict';
@@ -318,9 +327,12 @@ function overWorkspace(e,padding=0){
 function chargeDragPoint(e,drag){return {clientX:e.clientX+drag.ox*camera.zoom,clientY:e.clientY-drag.oy*camera.zoom};}
 function overTrash(e,drag){
  const tray=$('chargeTray');if(!tray.getClientRects().length||getComputedStyle(tray).visibility==='hidden')return false;
- const r=tray.getBoundingClientRect(),source=$('addNegative').getBoundingClientRect();
- // Include the gap and outer padding beside the bin, but exclude the source stacks.
- return [e,chargeDragPoint(e,drag)].some(p=>p.clientX>source.right&&p.clientX<=r.right&&p.clientY>=r.top&&p.clientY<=r.bottom);
+ const r=tray.getBoundingClientRect(),source=$('addNegative').getBoundingClientRect(),bin=$('trashZone').getBoundingClientRect();
+ // Include bin padding in either layout, without accepting drops on source stacks.
+ const vertical=bin.top>=source.bottom;
+ return [e,chargeDragPoint(e,drag)].some(p=>vertical
+  ?p.clientX>=r.left&&p.clientX<=r.right&&p.clientY>source.bottom&&p.clientY<=r.bottom
+  :p.clientX>source.right&&p.clientX<=r.right&&p.clientY>=r.top&&p.clientY<=r.bottom);
 }
 function updateTrash(armed=false,over=false){$('trashZone').classList.toggle('armed',armed);$('trashZone').classList.toggle('over',over);}
 function showChargeGhost(sign,id,p,invalid=false){const ghost=$('chargeGhost');ghost.hidden=false;ghost.classList.toggle('negative',sign<0);ghost.classList.toggle('invalid',invalid);ghost.style.transform=`translate(${p.x-24}px,${p.y-24}px)`;if(ghost.dataset.chargeId!==String(id)){setChargeArtwork(ghost.querySelector('svg'),id);ghost.dataset.chargeId=String(id);}ghost.querySelector('text').textContent=sign>0?'+':'−';}
