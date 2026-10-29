@@ -17,6 +17,7 @@ canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 canvas.dragging{cursor:grabbing}
 canvas.placing{cursor:crosshair}
 canvas:focus,canvas:focus-visible{outline:none}
+canvas:focus-visible{outline:2px solid #9acbff;outline-offset:-3px}
 .panel{--section-gap:14px;--panel-pad-left:18px;--panel-pad-right:max(18px,env(safe-area-inset-right));--panel-border:1px solid rgba(159,197,255,.19);position:absolute;top:0;right:0;bottom:0;width:292px;display:flex;flex-direction:column;overflow:hidden;overscroll-behavior:contain;z-index:3;padding:20px var(--panel-pad-right) max(17px,env(safe-area-inset-bottom)) var(--panel-pad-left);border:0;border-left:var(--panel-border);background:linear-gradient(150deg,rgba(12,27,52,.96),rgba(7,17,36,.94));box-shadow:-22px 0 75px rgba(0,0,0,.35);backdrop-filter:blur(20px);animation:drawer-in .2s ease-out}
 @keyframes drawer-in{from{transform:translateX(100%)}to{transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.panel{animation:none}}
@@ -34,26 +35,12 @@ h1{font-size:23px;line-height:1.13;margin:11px 0 7px;font-weight:670;letter-spac
 .panel-section{flex-shrink:0;margin-left:calc(-1 * var(--panel-pad-left));margin-right:calc(-1 * var(--panel-pad-right));padding-left:var(--panel-pad-left);padding-right:var(--panel-pad-right);padding-bottom:var(--section-gap)}
 .panel-section>:last-child{margin-bottom:0}
 .panel-section+.panel-section{border-top:var(--panel-border);margin-top:0;padding-top:var(--section-gap)}
-#existingCharges{display:flex;flex-direction:column;flex:0 1 252px;min-height:142px}
-#existingCharges>.section-title{flex-shrink:0}
-.global-actions{flex-shrink:0;margin-top:10px}
-.count{border:1px solid rgba(166,207,247,.19);border-radius:6px;padding:2px 7px;font-size:11px;color:#b2cee9}
-.button-row{display:flex;gap:8px}
+.preset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:48px;gap:8px}
+.preset-grid .action-button{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;height:48px;min-width:0;min-height:48px;padding:6px;color:#b9d4f2;font-size:11px;line-height:1.2;white-space:normal}
+.preset-grid .danger-button{color:#d29aa9}
+.preset-grid #clear{grid-column:1 / -1}
+.preset-icon{width:24px;height:22px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 button{font:inherit;cursor:pointer}
-.symbol:before{content:"";position:absolute;inset:1.4px;z-index:0;clip-path:inherit;background:#f4f8ff}
-.symbol.negative:before{background:#050a15}
-.icon-sign{position:relative;z-index:1;display:grid;place-items:center;line-height:1;transform:translateY(.4px)}
-.charge-list{display:flex;flex-direction:column;gap:6px;height:144px;min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;padding-right:3px;scrollbar-width:thin;scrollbar-color:#274263 transparent}
-.charge-list{--fade-top:0px;--fade-bottom:0px;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 var(--fade-top),#000 calc(100% - var(--fade-bottom)),transparent);mask-image:linear-gradient(to bottom,transparent,#000 var(--fade-top),#000 calc(100% - var(--fade-bottom)),transparent)}
-.charge-list.can-scroll-up{--fade-top:22px}
-.charge-list.can-scroll-down{--fade-bottom:22px}
-.charge-item{display:flex;flex-shrink:0;align-items:center;gap:10px;text-align:left;border:1px solid transparent;border-radius:9px;padding:9px 10px;width:100%;background:rgba(90,135,186,.07);color:#e5efff}
-.charge-item:hover{background:rgba(94,151,224,.17)}
-.charge-item.selected{background:rgba(49,123,221,.2);border-color:rgba(83,159,249,.62)}
-.symbol{flex-shrink:0;width:25px;height:25px;display:grid;place-items:center;position:relative;isolation:isolate;clip-path:polygon(50% 0%,59% 29%,79% 8%,71% 36%,100% 50%,71% 59%,91% 80%,62% 71%,50% 100%,41% 71%,20% 92%,29% 62%,0% 50%,29% 41%,9% 20%,38% 29%);background:#fff;color:#070d1a;font-weight:900;font-size:14px}
-.symbol.negative{background:#fff;color:#f5f8ff}
-.charge-name{font-size:12px;font-weight:620;flex:1}
-.charge-value{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:#a5c7ed}
 .muted{font-size:11px;color:#7994b3;line-height:1.5}
 .control-label{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:10px 0 7px;color:#8aabc9;font-size:11px}
 .control-label.slider-label{margin-bottom:1px}
@@ -63,15 +50,13 @@ button{font:inherit;cursor:pointer}
 .coordinate-field:focus-within{border-color:#9acbff;box-shadow:0 0 0 2px rgba(99,159,224,.18)}
 .coordinate-field input{width:100%;min-width:0;min-height:40px;padding:8px 0;border:0;background:transparent;color:#8aabc9;font:inherit;font-size:12px;font-weight:500;font-variant-numeric:tabular-nums}
 .coordinate-field input:focus,.coordinate-field input:focus-visible{outline:none}
+.coordinate-unit{flex-shrink:0;color:#8aabc9;font-size:10px;font-weight:500}
 .panel{overflow-y:auto}
 @media(pointer:coarse){.coordinate-field input{min-height:44px;font-size:16px}}
 input[type=range]{--range-fill:0%;--range-track:linear-gradient(to right,#3975b5 0%,#3975b5 var(--range-fill),#8aabc9 var(--range-fill),#8aabc9 100%);width:100%;height:24px;border-radius:9px;appearance:none;background:var(--range-track) center/100% 4px no-repeat;outline:none;cursor:pointer;display:block;margin:0 0 4px}
 input[type=range]::-webkit-slider-thumb{appearance:none;width:14px;height:14px;border-radius:50%;background:#8aabc9;border:3px solid #8aabc9;box-shadow:0 0 0 3px rgba(99,159,224,.14)}
 input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;background:#8aabc9;border:3px solid #8aabc9}
 .charge-controls{margin-top:0}
-#polarityText{position:absolute;z-index:2;top:2px;left:2px;width:13px;line-height:13px;text-align:center;font-size:11px;font-weight:800;color:#102440;pointer-events:none;transition:transform .2s}
-.polarity-toggle[aria-checked=true] #polarityText{transform:translateX(15px)}
-@media(prefers-reduced-motion:reduce){.polarity-toggle,.polarity-toggle:before,#polarityText{transition:none}}
 #editBlock[hidden]{display:none}
 .trash-icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .toggle-row{display:flex;align-items:center;justify-content:space-between;color:#8aabc9;font-size:11px;margin:14px 0}
@@ -82,8 +67,6 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
 .switch.on{background:#2869ae}
 .switch.on:before{transform:translateX(15px);background:white}
 .action-button{flex:1;min-width:0;min-height:40px;padding:9px 6px;border:1px solid #45658b;border-radius:8px;background:#193453;color:#8aabc9;font-size:11px;font-weight:650;box-shadow:inset 0 1px 0 #ffffff0d;transition:background .15s,border-color .15s}
-#restore{display:flex;align-items:center;justify-content:center;gap:6px;flex:1.5;min-width:max-content;white-space:nowrap}
-.refresh-icon{width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .action-button:hover{background:#254b75;border-color:#78a4d5}
 .action-button:active{background:#10253f}
 .legend{position:absolute;right:22px;top:20px;z-index:1;padding:14px 16px;border:1px solid rgba(157,195,239,.14);border-radius:12px;background:rgba(7,18,36,.74);backdrop-filter:blur(12px);width:194px}
@@ -92,6 +75,11 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
 .legend-ends{display:flex;justify-content:space-between;font-size:10px;color:#819ab7}
 .hud{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));right:max(12px,env(safe-area-inset-right));width:max-content;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
 .canvas-help{position:absolute;top:20px;left:max(22px,env(safe-area-inset-left));z-index:2;pointer-events:none}
+.charge-popover{position:absolute;z-index:2;width:190px;padding:10px 12px;border:1px solid #63a7ef;border-radius:10px;background:rgba(11,28,49,.97);box-shadow:0 8px 28px #0006;color:#b9d4f2}
+.charge-popover .control-label{margin:0 0 2px;font-size:11px;color:#b9d4f2}
+.charge-popover input[type=range]{height:28px;margin:0}
+.popover-scale{display:flex;justify-content:space-between;color:#8aabc9;font-size:10px;line-height:1.3;pointer-events:none}
+@media(pointer:coarse){.charge-popover input[type=range]{height:36px}}
 .help-button{display:grid;place-items:center;width:32px;height:32px;padding:0;border:1px solid #45658b;border-radius:50%;background:#0b1c31;color:#b9d4f2;font:inherit;font-size:16px;font-weight:700;pointer-events:auto;clip-path:circle(50%)}
 .help-button:hover,.help-button[aria-expanded=true]{border-color:#9acbff;background:#193453;color:#fff}
 .hud-hint{position:absolute;top:calc(100% + 8px);left:0;width:max-content;max-width:min(360px,calc(100vw - 44px));font-size:11px;line-height:1.65;color:#b9cbe1;background:#0b1c31;padding:10px 12px;border:1px solid #45658b;border-radius:10px;box-shadow:0 8px 24px #0005}
@@ -103,25 +91,37 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
 .zoom button{border:0;background:transparent;color:#d8eafa;font-size:18px;width:28px;height:29px;border-radius:6px}
 .zoom button:hover{background:#25486e}
 .zoom #resetZoom{font-size:10px;letter-spacing:0;font-weight:700;min-width:38px;width:auto;padding:0 2px;font-variant-numeric:tabular-nums}
-.mode-msg{position:absolute;z-index:2;bottom:128px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;width:max-content;max-width:calc(100% - 32px);padding:8px 12px;background:rgba(16,50,89,.94);border:1px solid #63a7ef;border-radius:9px;color:#dfefff;font-size:12px;box-shadow:0 6px 28px rgba(0,0,0,.4)}
+.mode-msg{position:absolute;z-index:2;bottom:174px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;width:max-content;max-width:calc(100% - 32px);padding:8px 12px;background:rgba(16,50,89,.94);border:1px solid #63a7ef;border-radius:9px;color:#dfefff;font-size:12px;box-shadow:0 6px 28px rgba(0,0,0,.4)}
 .mode-msg button{flex-shrink:0;min-height:44px;border:1px solid #73a6db;border-radius:7px;padding:0 10px;background:#14385f;color:#e8f0ff;font-size:12px}
 .mode-msg[hidden]{display:none}
 .coordinates{align-self:center;width:max-content;padding:0 5px;color:#91aac9;font-size:9px;letter-spacing:.3px;font-variant-numeric:tabular-nums;text-align:center;white-space:nowrap}
+.coordinate-axis{white-space:nowrap}
 /* Read-only overlays must not block charge drops or canvas gestures. */
 .legend,.hud{pointer-events:none}
 .zoom{pointer-events:auto}
 .controls-open .legend{right:314px}
 .controls-open .hud{right:304px}
+.controls-open .mode-msg{left:calc((100% - 292px)/2);max-width:calc(100% - 324px)}
 .charge-tray{position:absolute;left:max(18px,env(safe-area-inset-left));bottom:max(18px,env(safe-area-inset-bottom));z-index:1;padding:12px;border:1px dashed #7188a7;border-radius:16px;background:rgba(9,24,45,.97);box-shadow:0 10px 35px #0005}
-.tray-items{display:flex;gap:10px;align-items:center}
-.source-stack{position:relative;width:64px;height:56px;display:flex;align-items:center;justify-content:center;gap:0;border:1px solid #7894b755;border-radius:10px;background:#8babc418;touch-action:none;cursor:grab;color:#c7d6e8}
+.tray-items{display:grid;grid-template-columns:repeat(3,64px);gap:8px;align-items:stretch}
+.tray-items>button{display:grid;grid-template-rows:minmax(0,1fr) auto;align-items:center;justify-items:center;row-gap:3px;line-height:12px}
+.tray-items>button>span{align-self:end;white-space:nowrap}
+.source-stack{position:relative;width:100%;height:72px;margin:0;padding:6px 3px;border:1px solid #7894b755;border-radius:10px;background:#8babc418;touch-action:none;cursor:grab;color:#c7d6e8;font-size:10px}
+.source-stack .charge-art{width:36px;height:36px}
+.source-stack.test-source .charge-art{width:20px;height:20px}
 .source-stack:hover,.source-stack.active{background:#94b4d32b;border-color:#c4d7ed}
 .source-stack:active{cursor:grabbing}
+.test-playback{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:4;display:flex;gap:8px;max-width:calc(100vw - 24px);padding:6px;border:1px solid rgba(150,192,242,.23);border-radius:12px;background:rgba(11,28,49,.96);box-shadow:0 8px 28px #0005;pointer-events:auto}
+.test-playback .action-button{display:flex;align-items:center;justify-content:center;flex:none;width:44px;height:44px;min-height:44px;padding:0;color:#c7def8}
+.motion-icon{width:18px;height:18px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:1100px){.test-active.controls-open .charge-tray,.test-active.controls-open .hud{bottom:calc(80px + env(safe-area-inset-bottom))}.test-active.controls-open .mode-msg{bottom:calc(254px + env(safe-area-inset-bottom))}}
+button:disabled{cursor:default;opacity:.45}
 .charge-art{display:block;flex-shrink:0;width:44px;height:44px;overflow:visible}
 .charge-art path{fill:#f4f8ff;stroke:#f5f8ff;stroke-width:2;stroke-linejoin:round}
 .charge-art text{fill:#0b1730;font:800 16px ui-sans-serif,system-ui;text-anchor:middle;dominant-baseline:central}
 .negative .charge-art path{fill:#050a15;stroke-width:1.25}.negative .charge-art text{fill:#f3f8ff}
-.trash-zone{min-width:76px;height:56px;margin-left:3px;font-size:11px}
+.neutral .charge-art path{fill:#273b53;stroke:#8aabc9;stroke-width:1.25}.neutral .charge-art text{fill:#e8f0ff}
+.trash-zone{grid-column:1 / -1;width:100%;min-width:0;max-width:none;height:44px;margin:0;padding:3px 6px;font-size:11px}
 /* All delete actions share the same opaque surface, outline and interaction colors. */
 .danger-button{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #754354;border-radius:8px;background:#3b2235;color:#d29aa9;opacity:1;font-weight:650;box-shadow:none;transition:background .15s,border-color .15s,transform .15s}
 .danger-button:hover,.danger-button.over{border-color:#bf788d;background:#563044;color:#d29aa9}
@@ -129,38 +129,49 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
 .trash-zone.over{transform:scale(1.05)}
 .charge-ghost{position:absolute;top:0;left:0;z-index:5;pointer-events:none;width:48px;height:48px;filter:drop-shadow(0 2px 6px #0008)}
 .charge-ghost .charge-art{width:48px;height:48px}.charge-ghost.invalid{opacity:.45}
+.charge-ghost.test{display:grid;place-items:center}.charge-ghost.test .charge-art{width:20px;height:20px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.empty{text-align:center;padding:13px 4px;border:1px dashed #294563;border-radius:8px;color:#8aabc9;font-size:12px}
 @media(max-width:750px),(max-height:500px) and (max-width:950px){
  .banner{padding:calc(8px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left))}.banner h1{font-size:18px;margin:4px 0}.banner .subtitle{font-size:11px;margin:0}
  .panel{--section-gap:12px;width:min(320px,100%);padding:18px var(--panel-pad-right) max(18px,env(safe-area-inset-bottom)) var(--panel-pad-left)}
  .panel-backdrop{display:block;position:absolute;inset:0;z-index:2;border:0;background:rgba(2,8,20,.48)}
- #lab.controls-open .legend,#lab.controls-open .hud,#lab.controls-open .canvas-help,#lab.controls-open .mode-msg,#lab.controls-open .charge-tray{visibility:hidden}
+ #lab.controls-open .legend,#lab.controls-open .hud,#lab.controls-open .canvas-help,#lab.controls-open .mode-msg,#lab.controls-open .charge-tray,#lab.controls-open .test-playback,#lab.controls-open .canvas-dock{visibility:hidden}
+ #lab.test-active .panel{padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+ .test-active .charge-tray,.test-active .hud{bottom:calc(80px + env(safe-area-inset-bottom))}
+ .test-active .mode-msg{bottom:calc(246px + env(safe-area-inset-bottom))}
  .legend{right:max(12px,env(safe-area-inset-right));top:12px;width:150px;padding:11px}.legend-title{font-size:9px;margin-bottom:9px}.legend-ends{font-size:10px}
  .hud{right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom))}
  .canvas-help{top:12px;left:max(12px,env(safe-area-inset-left))}
  .zoom{padding:1px}.zoom button{width:44px;height:44px}.zoom #resetZoom{min-width:44px}
- .add,.charge-item,.action-button{min-height:44px}.add,.charge-name{font-size:13px}.control-label,.toggle-row{font-size:12px}.action-button{font-size:12px}
+ .action-button{min-height:44px}.control-label,.toggle-row{font-size:12px}.action-button{font-size:12px}
  .toggle-row{min-height:44px;margin:6px 0}.switch{width:44px;height:44px;border:0;background:transparent}.switch.on{background:transparent}.switch:after{content:"";position:absolute;left:2px;top:12px;width:40px;height:22px;border:1px solid rgba(156,190,226,.23);border-radius:20px;background:#23354f}.switch.on:after{background:#2869ae}.switch:before{z-index:1;top:16px;left:6px;width:14px;height:14px}.switch.on:before{transform:translateX(18px)}
- .polarity-toggle #polarityText{top:16px;left:6px;width:14px;line-height:14px}
- .polarity-toggle[aria-checked=true] #polarityText{transform:translateX(18px)}
- .control-label{margin:6px 0 5px}.toggle-row{margin:0}.global-actions{margin-top:8px}
+ .control-label{margin:6px 0 5px}.toggle-row{margin:0}
  input[type=range]{height:28px}input[type=range]::-webkit-slider-thumb{width:22px;height:22px}input[type=range]::-moz-range-thumb{width:16px;height:16px}
- .charge-tray{left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));padding:10px}.source-stack{width:62px}.trash-zone{min-width:76px}
+ .charge-tray{left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));padding:10px}
  .mode-msg{bottom:calc(214px + env(safe-area-inset-bottom));font-size:12px}
 }
 .canvas-dock{display:contents}
-/* Keep a compact vertical tray at bottom-left on narrow phones. */
+/* Divide the usable phone width equally between tray, playback, and zoom. */
 @media(max-width:500px){
- .canvas-dock{position:absolute;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:1;display:flex;flex-direction:row;align-items:flex-end;justify-content:space-between;gap:12px;pointer-events:none}
- .canvas-dock .charge-tray{position:static;width:max-content;min-width:0;padding:8px;pointer-events:auto}
- .canvas-dock .tray-items{display:grid;grid-template-columns:52px;gap:8px}
- .canvas-dock .source-stack,.canvas-dock .trash-zone{width:100%;min-width:0;height:48px;margin:0}
- .canvas-dock .hud{position:static;max-width:calc(100% - 82px)}
+ .canvas-dock{position:absolute;left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:8px;pointer-events:none}
+ .canvas-dock .charge-tray{position:static;grid-column:1;grid-row:1;width:min(100%,80px);min-width:0;padding:6px;pointer-events:auto}
+ .canvas-dock .tray-items{grid-template-columns:minmax(0,1fr);grid-auto-rows:56px}
+ .canvas-dock .source-stack,.canvas-dock .trash-zone{height:56px;min-height:56px;padding:4px 3px}
+ .canvas-dock .source-stack .charge-art{width:30px;height:30px}
+ .canvas-dock .test-source .charge-art{width:18px;height:18px}
+ .canvas-dock .test-playback{position:static;left:auto;bottom:auto;transform:none;grid-column:2;grid-row:1;justify-self:center;flex-direction:row;width:100%;max-width:108px;margin:0;padding:4px;gap:4px}
+ .canvas-dock .test-playback .action-button{flex:1 1 0;width:auto;min-width:0}
+ .canvas-dock .hud{position:static;grid-column:3;grid-row:1;justify-self:end;align-items:flex-end;gap:6px;width:100%;max-width:100%}
+ .canvas-dock .coordinates{width:100%;max-width:100%;padding:0;letter-spacing:0;line-height:1.4;white-space:normal;text-align:right}
+ .canvas-dock .coordinate-axis{display:block}
+ .canvas-dock .coordinate-divider{display:none}
+ .canvas-dock .zoom{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr);align-self:flex-end;width:min(100%,96px)}
+ .canvas-dock .zoom button{width:100%;height:32px;min-width:0;font-size:16px}
+ .canvas-dock .zoom #resetZoom{width:100%;min-width:0;padding:0;font-size:9px}
+ .mode-msg,.test-active .mode-msg{bottom:calc(302px + env(safe-area-inset-bottom))}
 }
 @media(max-height:500px) and (max-width:950px){.banner{padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:6px}.banner h1{font-size:18px;margin:3px 0}.banner .subtitle{display:none}}
-@media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.zoom button{width:44px;height:44px}.add,.charge-item,.action-button{min-height:44px}.toggle-row{min-height:44px}.switch:after{content:"";position:absolute;inset:-13px -5px}}
-@media(max-height:740px){.panel{overflow-y:auto}#existingCharges{flex:none;height:calc(208px + var(--section-gap))}}
+@media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.zoom button{width:44px;height:44px}.action-button{min-height:44px}.toggle-row{min-height:44px}.switch:after{content:"";position:absolute;inset:-13px -5px}}
 </style>
 </head>
 <body>
@@ -178,51 +189,73 @@ input[type=range]::-moz-range-thumb{width:10px;height:10px;border-radius:50%;bac
   <aside class="panel" id="controlsPanel" aria-label="Field controls">
     <section class="panel-section" id="visualizationSettings" aria-label="Visualization settings">
     <div class="section-title">Visualization</div>
-    <div class="control-label slider-label"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 4h3M9 4h9M2 10h9M15 10h3M2 16h2M8 16h10"/><circle cx="7" cy="4" r="2"/><circle cx="13" cy="10" r="2"/><circle cx="6" cy="16" r="2"/></svg>Logarithmic sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
-    <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field-strength color sensitivity"/>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17 17 3M10 3h7v7M3 7l4-4M3 3h4v4M13 17l4-4M13 13h4v4"/></svg>Electric field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric field arrows"></button></div>
+    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17 17 3M10 3h7v7M3 7l4-4M3 3h4v4M13 17l4-4M13 13h4v4"/></svg>Field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric field arrows"></button></div>
     <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="3" stroke-opacity=".5"/><rect x="4" y="4" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".15" stroke="none"/><rect x="11" y="4" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".4" stroke="none"/><rect x="4" y="11" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".6" stroke="none"/><rect x="11" y="11" width="5" height="5" rx="1" fill="currentColor" stroke="none"/></svg>Field strength heatmap</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric field heatmap"></button></div>
     <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 5V2M14.3 7.5l2.6-1.5M14.3 12.5l2.6 1.5M10 15v3M5.7 12.5l-2.6 1.5M5.7 7.5 3.1 6"/></svg>Field lines</span><button id="fieldLinesToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle field lines"></button></div>
+    <div class="control-label slider-label"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 4h3M9 4h9M2 10h9M15 10h3M2 16h2M8 16h10"/><circle cx="7" cy="4" r="2"/><circle cx="13" cy="10" r="2"/><circle cx="6" cy="16" r="2"/></svg>Display sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
+    <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field-strength color sensitivity"/>
+  </section>
+    <section class="panel-section" id="chargesConfiguration" aria-label="Charges configuration">
+      <div class="section-title">Charges Configuration</div>
+      <div class="preset-grid" role="group" aria-label="Load a charge configuration">
+        <button class="action-button preset-button" id="presetSingle" type="button" title="One positive charge. Starts a fresh scene."><svg class="preset-icon" viewBox="0 0 24 22" aria-hidden="true"><circle cx="12" cy="11" r="7"/><path d="M9 11h6M12 8v6"/></svg><span>Single</span></button>
+        <button class="action-button preset-button" id="presetDipole" type="button" title="Equal positive and negative charges. Starts a fresh scene."><svg class="preset-icon" viewBox="0 0 24 22" aria-hidden="true"><circle cx="6" cy="11" r="4.5"/><circle cx="18" cy="11" r="4.5"/><path d="M4 11h4M6 9v4M16 11h4"/></svg><span>Dipole</span></button>
+        <button class="action-button preset-button" id="presetRow" type="button" title="Five evenly spaced positive charges. Starts a fresh scene."><svg class="preset-icon" viewBox="0 0 24 22" aria-hidden="true"><circle cx="3.5" cy="11" r="2.5"/><circle cx="12" cy="11" r="2.5"/><circle cx="20.5" cy="11" r="2.5"/><path d="M6 11h3M15 11h3"/></svg><span>Row</span></button>
+        <button class="action-button preset-button" id="presetRandom" type="button" title="Five scattered charges with mixed signs and strengths. Starts a fresh scene."><svg class="preset-icon" viewBox="0 0 24 22" aria-hidden="true"><circle cx="4" cy="5" r="2"/><circle cx="18" cy="4" r="2"/><circle cx="11" cy="11" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="21" cy="16" r="2"/></svg><span>Random</span></button>
+        <button id="clear" class="action-button danger-button" type="button"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Clear all</span></button>
+      </div>
     </section>
-    <section class="panel-section" id="existingCharges" aria-label="Existing charges">
-      <div class="section-title">Charges List <span class="count" id="chargeCount">3</span></div>
-      <div class="charge-list" id="chargeList" role="group" aria-label="Existing point charges" tabindex="0"></div>
-      <div class="button-row global-actions"><button id="restore" class="action-button" type="button"><svg class="refresh-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.64 7.36M3 4v7h7"/></svg><span>Restore example</span></button><button id="clear" class="action-button danger-button" type="button"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Clear all</span></button></div>
+    <section class="panel-section" id="testBlock" aria-label="Test charge" aria-describedby="testModelHint" hidden>
+      <div class="section-title">Test Charges</div>
+      <p class="sr-only" id="testModelHint">F = qE · a = F/m. Starts at rest; source charges stay fixed. One grid unit is 1 cm. Slow motion: 1 millisecond simulated per real second.</p>
+      <label class="control-label slider-label" for="testMass"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="4.5" r="2.5"/><path d="M5 7h10l3 10H2Z"/></svg>Mass</span><span class="control-value" id="testMassText">100 g</span></label>
+      <input type="range" id="testMass" min="1" max="1000" step="1" value="100" aria-label="Mass of all test charges" aria-valuetext="100 grams" aria-describedby="testMassHint" title="Applies to all existing and new test charges. Mass: 1 g–1 kg. More mass means slower acceleration."/>
+      <p class="sr-only" id="testMassHint">All test charges share this mass, from 1 gram to 1 kilogram. More mass means slower acceleration. The test charge and trail disappear on contact with a source or at the lab edge.</p>
+      <label class="control-label slider-label" for="testChargeStrength"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="6" r="4"/><circle cx="14" cy="14" r="4"/><path d="M4 6h4M6 4v4M12 14h4"/></svg>Charge</span><span class="control-value" id="testChargeText">+10.0 μC</span></label>
+      <input type="range" id="testChargeStrength" min="0.1" max="20" step="0.1" value="10" aria-label="Positive charge of all test charges" aria-valuetext="10 microcoulombs" aria-describedby="testChargeHint" title="Applies to all existing and new test charges. Positive charge only: +0.1 to +20 μC."/>
+      <p class="sr-only" id="testChargeHint">All test charges share a strictly positive charge, from 0.1 to 20 microcoulombs. Larger values increase the electric force.</p>
+      <p class="sr-only" id="testStatus" role="status">Place a test charge to watch its motion.</p>
     </section>
     <section class="panel-section" id="editBlock" aria-label="Selected charge">
       <div class="section-title">Selected Charge</div>
       <div class="charge-controls">
-        <div class="toggle-row">
-          <label class="toggle-label" for="polarityToggle"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="6" r="4"/><circle cx="14" cy="14" r="4"/><path d="M4 6h4M6 4v4M12 14h4"/></svg>Polarity</label>
-          <button id="polarityToggle" class="switch polarity-toggle on" type="button" role="switch" aria-label="Positive polarity" aria-checked="true" title="Toggle positive/negative polarity"><span id="polarityText" aria-hidden="true">+</span></button>
-        </div>
-        <label class="control-label slider-label" for="chargeStrength"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 15a8 8 0 1 1 14 0M4 10h2M10 3v2M16 10h-2M11 10l3-3"/><circle cx="10" cy="11" r="1.5"/></svg>Magnitude</span><span class="control-value" id="strengthText">4.0 C</span></label>
-        <input type="range" id="chargeStrength" min="0.2" max="10" step="0.1" value="4" aria-label="Selected charge magnitude in coulombs"/>
+        <label class="control-label slider-label" for="chargeStrength"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="6" r="4"/><circle cx="14" cy="14" r="4"/><path d="M4 6h4M6 4v4M12 14h4"/></svg>Charge</span><span class="control-value" id="strengthText">+4.0 C</span></label>
+        <input type="range" id="chargeStrength" min="-10" max="10" step="0.1" value="4" aria-label="Selected static charge in coulombs" title="Negative values reverse polarity. Zero makes the source neutral."/>
       </div>
       <div class="control-label"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 8c0 5-6 10-6 10S4 13 4 8a6 6 0 1 1 12 0Z"/><circle cx="10" cy="8" r="2"/></svg>Position</span></div>
-      <div class="coordinate-fields" role="group" aria-label="Selected charge position">
-        <label class="coordinate-field">X<input id="chargeX" type="number" min="-2000" max="2000" step="1" aria-label="Selected charge X coordinate" /></label>
-        <label class="coordinate-field">Y<input id="chargeY" type="number" min="-1500" max="1500" step="1" aria-label="Selected charge Y coordinate" /></label>
+      <div class="coordinate-fields" role="group" aria-label="Selected charge position in centimeters">
+        <label class="coordinate-field">X<input id="chargeX" type="number" min="-2000" max="2000" step="1" aria-label="Selected charge X coordinate in centimeters" /><span class="coordinate-unit" aria-hidden="true">cm</span></label>
+        <label class="coordinate-field">Y<input id="chargeY" type="number" min="-1500" max="1500" step="1" aria-label="Selected charge Y coordinate in centimeters" /><span class="coordinate-unit" aria-hidden="true">cm</span></label>
       </div>
     </section>
   </aside>
-  <div class="canvas-dock">
+  <div class="charge-popover" id="chargePopover" role="group" aria-label="Charge control beside the selected static charge" hidden>
+    <label class="control-label" for="canvasChargeStrength"><span id="canvasChargeName">Charge</span><span class="control-value" id="canvasStrengthText">+4.0 C</span></label>
+    <input type="range" id="canvasChargeStrength" min="-10" max="10" step="0.1" value="4" aria-label="Selected static charge in coulombs on canvas" title="Adjust charge and polarity from −10 C to +10 C"/>
+    <div class="popover-scale" aria-hidden="true"><span>−10</span><span>0</span><span>+10</span></div>
+  </div>
+  <div class="canvas-dock" id="canvasDock">
   <div class="charge-tray" id="chargeTray" role="group" aria-label="Charge tray">
     <div class="tray-items">
-      <button class="source-stack" id="addPositive" type="button" aria-label="Drag a positive charge onto the canvas, or tap to place" aria-pressed="false" title="Drag to add a positive charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">+</text></svg></button>
-      <button class="source-stack negative" id="addNegative" type="button" aria-label="Drag a negative charge onto the canvas, or tap to place" aria-pressed="false" title="Drag to add a negative charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">−</text></svg></button>
-      <button class="trash-zone danger-button" id="trashZone" type="button" aria-label="Delete selected charge, or drag a charge here" title="Drop a charge here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg></button>
+      <button class="source-stack" id="addPositive" type="button" aria-label="Positive charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a positive charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">+</text></svg><span>Positive</span></button>
+      <button class="source-stack negative" id="addNegative" type="button" aria-label="Negative charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a negative charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">−</text></svg><span>Negative</span></button>
+      <button class="source-stack test-source" id="addTest" type="button" aria-label="Drag a test charge onto the canvas, or click then place" aria-pressed="false" title="Add a test charge using the shared mass and charge"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/></svg><span>Test charge</span></button>
+      <button class="trash-zone danger-button" id="trashZone" type="button" aria-label="Delete selected charge, or drag a charge here" title="Drop a charge here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Delete</span></button>
     </div>
   </div>
-  <div class="hud" role="group" aria-label="Zoom and world coordinates"><div class="zoom"><button id="zoomOut" title="Zoom out">−</button><button id="resetZoom" title="Reset camera">100%</button><button id="zoomIn" title="Zoom in">+</button></div><div class="coordinates" id="coordinates">X 0 · Y 0</div></div>
+  <div class="test-playback" id="testPlayback" role="group" aria-label="Playback for all test charges" hidden>
+    <button class="action-button" id="pauseTest" type="button" aria-label="Pause all test charges" title="Pause all test charges"><svg class="motion-icon" viewBox="0 0 20 20" aria-hidden="true"><path id="pauseTestIcon" d="M6 4v12M14 4v12"/></svg></button>
+    <button class="action-button" id="resetTest" type="button" aria-label="Reset all test charges to their starting positions" title="Reset all test charges to their starting positions"><svg class="motion-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.64 7.36M3 4v7h7"/></svg></button>
+  </div>
+  <div class="hud" role="group" aria-label="World coordinates in centimeters and zoom"><div class="coordinates" id="coordinates"><span class="coordinate-axis" id="pointerX">X 0 cm</span><span class="coordinate-divider" aria-hidden="true"> · </span><span class="coordinate-axis" id="pointerY">Y 0 cm</span></div><div class="zoom"><button id="zoomOut" title="Zoom out">−</button><button id="resetZoom" title="Reset camera">100%</button><button id="zoomIn" title="Zoom in">+</button></div></div>
   </div>
   <div class="charge-ghost" id="chargeGhost" hidden aria-hidden="true"><svg class="charge-art" viewBox="-24 -24 48 48"><path/><text y=".2">+</text></svg></div>
   <div class="sr-only" id="actionStatus" role="status" aria-live="polite"></div>
   <div class="legend"><div class="legend-title">Electric field</div><div class="gradient"></div><div class="legend-ends"><span>Weak</span><span>Strong</span></div></div>
-  <div class="mode-msg" id="modeMessage" role="status" hidden><span>Tap or click the grid to place your charge.</span><button id="cancelPlacement" type="button">Cancel</button></div>
+  <div class="mode-msg" id="modeMessage" role="status" hidden><span id="modeMessageText">Tap or click the grid to place your charge.</span><button id="cancelPlacement" type="button">Cancel</button></div>
   <div class="canvas-help" id="canvasHelp">
     <button class="help-button" id="helpButton" type="button" aria-label="Canvas instructions" aria-describedby="canvasInstructions" aria-controls="canvasInstructions" aria-expanded="false">i</button>
-    <div class="hud-hint" id="canvasInstructions" role="tooltip" hidden><span class="pointer-hint">Drag canvas to pan · Scroll to zoom</span><span class="touch-hint">Drag canvas to pan · Pinch to zoom</span><span>Drag charges to move · Drop into Trash to remove</span></div>
+    <div class="hud-hint" id="canvasInstructions" role="tooltip" hidden><span class="pointer-hint">Drag canvas to pan · Scroll to zoom</span><span class="touch-hint">Drag canvas to pan · Pinch to zoom</span><span>Drag charges to move · Drop into Trash to remove</span><span>Drag a test charge to release it from rest at a new point.</span><span>Scale: 1 grid unit = 1 cm · Slow motion: 1 ms simulated per real second.</span></div>
   </div>
 </div>
 <script>
@@ -247,6 +280,12 @@ const PAN_X=2000,PAN_Y=1500;
 let vw=0,vh=0,dpr=1, camera={x:0,y:0,zoom:1};
 let charges=[], nextId=1,selectedId=null,placing=0,activeDrag=null,showFieldLines=false,showFieldArrows=true,showHeatmap=false,sensitivity=1;
 let sourceDrag=null,suppressDragClick=false;
+// Source q values are coulombs; positions/velocities use cm and cm per simulated second.
+// fieldAt omits k and uses cm distances; dynamics converts its result into cm/s².
+// See https://openstax.org/books/physics/pages/18-3-electric-field .
+const COULOMB_K=8.9875517923e9,METERS_PER_GRID_UNIT=.01,SIM_SECONDS_PER_REAL_SECOND=.001,TEST_STEP=1/240,TEST_CONTACT=24;
+let testCharges=[],nextTestId=1,selectedTestId=null,testSelected=false,testMass=.1,testQ=10e-6,testPaused=false,testAccumulator=0,lastFrameTime=null;
+const selectedTest=()=>testCharges.find(t=>t.id===selectedTestId);
 function setHelpOpen(open){$('canvasInstructions').hidden=!open;$('helpButton').setAttribute('aria-expanded',String(open));}
 $('helpButton').addEventListener('pointerenter',e=>{if(e.pointerType!=='touch'&&!sourceDrag&&!activeDrag)setHelpOpen(true);});
 $('helpButton').addEventListener('pointerleave',()=>setHelpOpen(false));
@@ -263,23 +302,147 @@ const heatmapCanvas=document.createElement('canvas'),heatmapContext=heatmapCanva
 let heatmapKey='';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const selected=()=>charges.find(c=>c.id===selectedId);
-function initCharges(){nextId=1;charges=[{id:nextId++,x:-155,y:-15,q:4.5},{id:nextId++,x:155,y:-25,q:-4.5},{id:nextId++,x:5,y:160,q:2.6}];selectedId=1;placing=0;setMode();syncPanel();}
+function initializeEmptyScene(){nextId=1;charges=[];selectedId=null;testSelected=false;placing=0;removeAllTestCharges();setMode();syncPanel();}
+function loadChargeConfiguration(kind){
+ let layout;
+ if(kind==='single')layout=[{x:0,y:0,q:4}];
+ else if(kind==='dipole')layout=[{x:-120,y:0,q:4},{x:120,y:0,q:-4}];
+ else if(kind==='row')layout=Array.from({length:5},(_,i)=>({x:(i-2)*120,y:0,q:3}));
+ else if(kind==='random'){
+  const signs=[1,1,-1,-1,Math.random()<.5?1:-1];for(let i=signs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[signs[i],signs[j]]=[signs[j],signs[i]];}
+  let points=[];
+  // Scatter freely, avoiding overlaps and accidental rows/columns. Bound attempts
+  // so even an unlucky random sequence cannot leave a partially filled scene.
+  for(let attempt=0;points.length<5&&attempt<1000;attempt++){
+   const p={x:Math.round((Math.random()-.5)*440),y:Math.round((Math.random()-.5)*320)};
+   if(points.every(c=>Math.hypot(p.x-c.x,p.y-c.y)>=110&&Math.abs(p.x-c.x)>=20&&Math.abs(p.y-c.y)>=20))points.push(p);
+  }
+  if(points.length<5)points=[{x:-190,y:112},{x:-60,y:-125},{x:70,y:147},{x:210,y:-37},{x:-122,y:-12}];
+  layout=points.map((p,i)=>({...p,q:signs[i]*Math.round((1.5+Math.random()*3.5)*10)/10}));
+ }else return;
+ cancelInteraction();placing=0;testSelected=false;removeAllTestCharges();nextId=1;
+ charges=layout.map(c=>({id:nextId++,...c}));selectedId=charges[0].id;
+ if(compactLayout.matches)setControlsOpen(false,{returnFocus:true});
+ fitChargesToView();setMode();syncPanel();
+ $('actionStatus').textContent=kind.charAt(0).toUpperCase()+kind.slice(1)+' configuration loaded. '+charges.length+' static '+(charges.length===1?'charge.':'charges.');
+}
+function fitChargesToView(){
+ if(!charges.length)return;
+ const xmin=Math.min(...charges.map(c=>c.x)),xmax=Math.max(...charges.map(c=>c.x)),ymin=Math.min(...charges.map(c=>c.y)),ymax=Math.max(...charges.map(c=>c.y));
+ const visibleWidth=vw-(controlsOpen&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),topPadding=Math.min(80,vh*.2);
+ const dockHeight=vw<=500?Math.max($('canvasDock').getBoundingClientRect().height,270):Math.max($('chargeTray').getBoundingClientRect().height,150);
+ const bottomPadding=compactLayout.matches?Math.min(vh*.6,dockHeight+36):100;
+ const zoom=clamp(Math.min(1,(visibleWidth-108)/Math.max(1,xmax-xmin),(vh-topPadding-bottomPadding)/Math.max(1,ymax-ymin)),minimumZoom(),MAX_ZOOM);
+ camera={x:(xmin+xmax)/2+(vw-visibleWidth)/(2*zoom),y:(ymin+ymax)/2+((topPadding+vh-bottomPadding)/2-vh/2)/zoom,zoom};
+ constrainCamera();$('resetZoom').textContent=Math.round(camera.zoom*100)+'%';
+}
 function toScreen(x,y){return {x:(x-camera.x)*camera.zoom+vw/2,y:(camera.y-y)*camera.zoom+vh/2};}
 function toWorld(x,y){return {x:(x-vw/2)/camera.zoom+camera.x,y:camera.y-(y-vh/2)/camera.zoom};}
 function pointerPos(ev){let r=canvas.getBoundingClientRect();return{x:ev.clientX-r.left,y:ev.clientY-r.top};}
 function resize(){let r=lab.getBoundingClientRect();vw=r.width;vh=r.height;dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(vw*dpr);canvas.height=Math.round(vh*dpr);canvas.style.width=vw+'px';canvas.style.height=vh+'px';constrainCamera();$('resetZoom').textContent=Math.round(camera.zoom*100)+'%';}
 const observer=new ResizeObserver(resize);observer.observe(lab);resize();
-function setMode(){canvas.classList.toggle('placing',placing!==0);$('addPositive').classList.toggle('active',placing===1);$('addNegative').classList.toggle('active',placing===-1);$('addPositive').setAttribute('aria-pressed',String(placing===1));$('addNegative').setAttribute('aria-pressed',String(placing===-1));$('modeMessage').hidden=placing===0;}
-function startPlacing(sign){placing=(placing===sign?0:sign);setMode();if(placing&&compactLayout.matches)setControlsOpen(false,{returnFocus:true});}
+function setMode(){canvas.classList.toggle('placing',placing!==0);$('addPositive').classList.toggle('active',placing===1);$('addNegative').classList.toggle('active',placing===-1);$('addPositive').setAttribute('aria-pressed',String(placing===1));$('addNegative').setAttribute('aria-pressed',String(placing===-1));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));$('modeMessageText').textContent=placing==='test'?'Click or tap to release the test charge from rest. Press Enter to place near view center.':'Tap or click the grid to place your charge.';$('modeMessage').hidden=placing===0;positionChargePopover();}
+function startPlacing(sign){placing=(placing===sign?0:sign);if(sign==='test')selectTestCharge();else if(testSelected){testSelected=false;syncPanel();}setMode();if(placing&&compactLayout.matches)setControlsOpen(false,{returnFocus:true});if(placing==='test')canvas.focus({preventScroll:true});}
 $('cancelPlacement').onclick=()=>{placing=0;setMode();};
-function addCharge(x,y,sign){const c={id:nextId++,x,y,q:sign*4};charges.push(c);selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});$('actionStatus').textContent=(sign>0?'Positive':'Negative')+' charge added. '+charges.length+' charges in the field.';}
+function addCharge(x,y,sign){const c={id:nextId++,x,y,q:sign*4};charges.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});$('actionStatus').textContent=(sign>0?'Positive':'Negative')+' charge added. '+charges.length+' charges in the field.';}
 function removeCharge(id=selectedId){if(!charges.some(c=>c.id===id))return;charges=charges.filter(c=>c.id!==id);if(selectedId===id)selectedId=charges.length?charges[charges.length-1].id:null;syncPanel();$('actionStatus').textContent='Charge removed. '+charges.length+' charges in the field.';}
-function updateRangeFill(input){const progress=(Number(input.value)-Number(input.min))/(Number(input.max)-Number(input.min))*100;input.style.setProperty('--range-fill',clamp(progress,0,100)+'%');}
-function updateChargeListFade(){
- const list=$('chargeList');
- list.classList.toggle('can-scroll-up',list.scrollTop>1);
- list.classList.toggle('can-scroll-down',list.scrollHeight-list.clientHeight-list.scrollTop>1);
+function syncTestControls(){
+ $('testBlock').hidden=!testSelected;$('editBlock').hidden=testSelected||!selected();
+ $('testPlayback').hidden=!testCharges.length;lab.classList.toggle('test-active',testCharges.length>0);
+ syncTestMass();syncTestChargeStrength();
+ $('pauseTestIcon').setAttribute('d',testPaused?'M6 3l10 7-10 7Z':'M6 4v12M14 4v12');
+ $('pauseTest').setAttribute('aria-label',(testPaused?'Continue':'Pause')+' all test charges');
+ $('pauseTest').title=(testPaused?'Continue':'Pause')+' all test charges';
+ $('testPlayback').title='Pause, continue, and reset all test charges';
+ $('pauseTest').disabled=!testCharges.length;
+ $('resetTest').disabled=!testCharges.length;
+ $('testStatus').textContent=!testCharges.length?'Place a test charge to watch its motion.':testPaused?'All test charges paused. Continue to resume motion.':'Test charges moving under the electric force.';
+ $('testBlock').title='F = qE; a = F/m. Test charges move independently in the fixed source field. Drag one to release it from a new point. 1 grid unit = 1 cm. Slow motion: 1 ms simulated per real second. '+$('testStatus').textContent;
+ positionChargePopover();
 }
+function syncTestMass(){const grams=Math.round(testMass*1000);$('testMass').value=String(grams);$('testMassText').textContent=grams===1000?'1 kg':grams+' g';$('testMass').setAttribute('aria-valuetext',grams===1000?'1 kilogram':grams+(grams===1?' gram':' grams'));updateRangeFill($('testMass'));}
+function syncTestChargeStrength(){const microcoulombs=Math.round(testQ*1e7)/10;$('testChargeStrength').value=String(microcoulombs);$('testChargeText').textContent=(microcoulombs>0?'+':'')+microcoulombs.toFixed(1)+' μC';$('testChargeStrength').setAttribute('aria-valuetext',microcoulombs+' microcoulombs');updateRangeFill($('testChargeStrength'));}
+function selectTestCharge(id=selectedTestId){if(!testCharges.some(t=>t.id===id))id=testCharges.length?testCharges[testCharges.length-1].id:null;if(!testSelected||selectedId!==null||id!==selectedTestId){testSelected=true;selectedId=null;selectedTestId=id;syncPanel();}}
+function removeSelection(){if(testSelected)removeTestCharge();else removeCharge();}
+function removeTestCharge(id=selectedTestId){const t=testCharges.find(t=>t.id===id);if(t)t.trail.length=0;testCharges=testCharges.filter(t=>t.id!==id);if(selectedTestId===id)selectedTestId=testCharges.length?testCharges[testCharges.length-1].id:null;if(!testCharges.length){testAccumulator=0;lastFrameTime=null;}syncTestControls();}
+function removeAllTestCharges(){for(const t of testCharges)t.trail.length=0;testCharges=[];selectedTestId=null;nextTestId=1;testPaused=false;testAccumulator=0;lastFrameTime=null;syncTestControls();}
+function canPlaceTestCharge(x,y){return Math.abs(x)<PAN_X&&Math.abs(y)<PAN_Y&&!charges.some(c=>Math.hypot(x-c.x,y-c.y)<=TEST_CONTACT);}
+function placeTestCharge(x,y){
+ selectTestCharge();
+ if(!canPlaceTestCharge(x,y)){
+  placing='test';setMode();$('modeMessageText').textContent='Choose a point inside the grid, at least 24 cm from each source.';return false;
+ }
+ const testCharge={id:nextTestId++,x,y,vx:0,vy:0,q:testQ,mass:testMass,startX:x,startY:y,running:!testPaused,trail:[{x,y}],trailClock:0};
+ testCharges.push(testCharge);selectedTestId=testCharge.id;
+ if(testCharges.length===1){testAccumulator=0;lastFrameTime=null;}syncTestControls();canvas.focus({preventScroll:true});
+ $('actionStatus').textContent='Positive test charge released from rest.';return true;
+}
+function placeFromTool(x,y,kind){if(kind==='test')return placeTestCharge(x,y);addCharge(x,y,kind);return true;}
+function placeTestNearCenter(){
+ const visibleWidth=vw-(controlsOpen&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),rect=canvas.getBoundingClientRect();
+ for(let radius=0;radius<=160;radius+=40)for(let i=0;i<(radius?8:1);i++){
+  const x=visibleWidth/2+radius*Math.cos(i*Math.PI/4),y=vh/2+radius*Math.sin(i*Math.PI/4),world=toWorld(x,y);
+  if(canPlaceTestCharge(world.x,world.y)&&overWorkspace({clientX:rect.left+x,clientY:rect.top+y},8)){placeTestCharge(world.x,world.y);placing=0;setMode();return;}
+ }
+ $('modeMessageText').textContent='No clear point near the center. Click or tap farther from a source to place the test charge.';
+}
+function resetTestCharges(){
+ if(!testCharges.length)return;
+ selectTestCharge();
+ // Finish any pickup first, then reset every particle to its release point.
+ if(activeDrag?.kind==='test')cancelInteraction();
+ for(const t of testCharges)Object.assign(t,{x:t.startX,y:t.startY,vx:0,vy:0,running:false,trail:[{x:t.startX,y:t.startY}],trailClock:0});
+ testPaused=true;testAccumulator=0;lastFrameTime=null;
+ syncTestControls();
+}
+function testAcceleration(x,y,mass=testMass){const field=fieldAt(x,y),factor=COULOMB_K*testQ/(mass*METERS_PER_GRID_UNIT**3);return{x:field.x*factor,y:field.y*factor};}
+// Locate the first contact along a step so a fast particle cannot cross a source.
+function testStopAlongSegment(x,y,nx,ny){
+ const dx=nx-x,dy=ny-y,a=dx*dx+dy*dy;let hit=null;
+ const consider=(t,reason)=>{if(t>=0&&t<=1&&(!hit||t<hit.t))hit={t,reason};};
+ for(const c of charges){
+  const ox=x-c.x,oy=y-c.y,d=ox*ox+oy*oy-TEST_CONTACT*TEST_CONTACT;
+  if(d<=0){consider(0,'source');continue;}if(!a)continue;
+  const b=2*(ox*dx+oy*dy),discriminant=b*b-4*a*d;
+  if(discriminant>=0)consider((-b-Math.sqrt(discriminant))/(2*a),'source');
+ }
+ if(Math.abs(x)>PAN_X||Math.abs(y)>PAN_Y)consider(0,'boundary');
+ if(nx>PAN_X)consider((PAN_X-x)/dx,'boundary');else if(nx<-PAN_X)consider((-PAN_X-x)/dx,'boundary');
+ if(ny>PAN_Y)consider((PAN_Y-y)/dy,'boundary');else if(ny<-PAN_Y)consider((-PAN_Y-y)/dy,'boundary');
+ return hit;
+}
+function stopTestCharge(hit,id){
+ removeTestCharge(id);$('actionStatus').textContent=hit.reason==='source'?'Test charge and trail removed on contact with a source.':'Test charge and trail removed at the lab edge.';
+}
+function advanceTestCharge(elapsed){
+ if(testPaused||!testCharges.some(t=>t.running)||document.hidden||(activeDrag&&activeDrag.kind!=='test')||(sourceDrag&&sourceDrag.sign!=='test')){testAccumulator=0;return;}
+ if(!Number.isFinite(elapsed)||elapsed<=0)return;
+ // Fixed real-time substeps, with bounded catch-up after a stalled/background frame.
+ testAccumulator+=Math.min(elapsed,.1);
+ while(testAccumulator+1e-12>=TEST_STEP&&testCharges.some(t=>t.running)){
+  testAccumulator=Math.max(0,testAccumulator-TEST_STEP);
+  const dt=TEST_STEP*SIM_SECONDS_PER_REAL_SECOND;
+  for(const t of [...testCharges]){
+  if(!t.running)continue;
+  const contact=testStopAlongSegment(t.x,t.y,t.x,t.y);
+  if(contact){stopTestCharge(contact,t.id);continue;}
+  // Velocity Verlet integrates acceleration, preserving inertia without artificial drag.
+   const a=testAcceleration(t.x,t.y),nx=t.x+t.vx*dt+.5*a.x*dt*dt,ny=t.y+t.vy*dt+.5*a.y*dt*dt;
+  const hit=testStopAlongSegment(t.x,t.y,nx,ny);
+  if(hit){stopTestCharge(hit,t.id);continue;}
+   const next=testAcceleration(nx,ny);
+   t.vx+=(a.x+next.x)*dt/2;t.vy+=(a.y+next.y)*dt/2;t.x=nx;t.y=ny;
+  t.trailClock+=TEST_STEP;
+  if(t.trailClock>=1/30){t.trailClock=0;t.trail.push({x:t.x,y:t.y});if(t.trail.length>240)t.trail.shift();}
+  }
+ }
+}
+$('pauseTest').onclick=()=>{if(!testCharges.length)return;selectTestCharge();testPaused=!testPaused;for(const t of testCharges)t.running=!testPaused&&!(activeDrag?.kind==='test'&&activeDrag.id===t.id);testAccumulator=0;lastFrameTime=null;syncTestControls();};
+$('resetTest').onclick=resetTestCharges;
+$('testMass').oninput=e=>{const grams=clamp(Math.round(Number(e.target.value)||100),1,1000);selectTestCharge();testMass=grams/1000;for(const t of testCharges)t.mass=testMass;syncTestMass();};
+$('testChargeStrength').oninput=e=>{const value=Number(e.target.value);if(!Number.isFinite(value))return;selectTestCharge();testQ=Math.round(clamp(value,.1,20)*10)/10*1e-6;for(const t of testCharges)t.q=testQ;syncTestChargeStrength();};
+document.addEventListener('visibilitychange',()=>{lastFrameTime=null;testAccumulator=0;});
+function updateRangeFill(input){const progress=(Number(input.value)-Number(input.min))/(Number(input.max)-Number(input.min))*100;input.style.setProperty('--range-fill',clamp(progress,0,100)+'%');}
 function syncCoordinateInputs(c){
  $('chargeX').value=String(Math.round(c.x));$('chargeY').value=String(Math.round(c.y));
 }
@@ -287,7 +450,7 @@ function applyCoordinate(axis,input){
  const c=selected();if(!c)return;
  const raw=input.value.trim(),value=Number(raw);
  if(!raw||!Number.isFinite(value)){
-  input.value=String(Math.round(c[axis]));$('actionStatus').textContent='Enter a valid '+axis.toUpperCase()+' coordinate.';return;
+  input.value=String(Math.round(c[axis]));$('actionStatus').textContent='Enter a valid '+axis.toUpperCase()+' coordinate in centimeters.';return;
  }
  const limit=axis==='x'?PAN_X:PAN_Y;
  c[axis]=clamp(Math.round(value),-limit,limit);syncCoordinateInputs(c);
@@ -296,23 +459,31 @@ function applyCoordinate(axis,input){
  if(p.x<32||p.x>visibleWidth-32||p.y<32||p.y>vh-32){
   camera.x=c.x+(vw-visibleWidth)/(2*camera.zoom);camera.y=c.y;constrainCamera();
  }
- $('actionStatus').textContent='Charge position: X '+Math.round(c.x)+', Y '+Math.round(c.y)+'.'+(Math.abs(value)>limit?' '+axis.toUpperCase()+' limited to '+(-limit)+' through '+limit+'.':'');
+ $('actionStatus').textContent='Charge position: X '+Math.round(c.x)+' cm, Y '+Math.round(c.y)+' cm.'+(Math.abs(value)>limit?' '+axis.toUpperCase()+' limited to '+(-limit)+' cm through '+limit+' cm.':'');
 }
 function syncPanel(){
- $('chargeCount').textContent=String(charges.length);
- const list=$('chargeList');list.replaceChildren();
- if(!charges.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='No charges in the field';list.append(empty);}
- charges.forEach(c=>{const button=document.createElement('button');button.className='charge-item'+(c.id===selectedId?' selected':'');button.type='button';
- const icon=document.createElement('span');icon.className='symbol'+(c.q<0?' negative':'');const sign=document.createElement('span');sign.className='icon-sign';sign.textContent=c.q<0?'−':'+';icon.append(sign);
- const name=document.createElement('span');name.className='charge-name';name.textContent='Charge '+String(c.id).padStart(2,'0');
- const val=document.createElement('span');val.className='charge-value';val.textContent=(c.q>0?'+':'')+c.q.toFixed(1)+' C';
- button.append(icon,name,val);button.onclick=()=>{selectedId=c.id;syncPanel();};list.append(button);});
  const c=selected();$('editBlock').hidden=!c;
- if(c){$('chargeStrength').value=Math.abs(c.q);updateRangeFill($('chargeStrength'));$('strengthText').textContent=Math.abs(c.q).toFixed(1)+' C';$('chargeStrength').setAttribute('aria-valuetext',Math.abs(c.q).toFixed(1)+' coulombs');$('polarityToggle').setAttribute('aria-checked',String(c.q>0));$('polarityToggle').classList.toggle('on',c.q>0);$('polarityText').textContent=c.q>0?'+':'−';syncCoordinateInputs(c);}
- const selectedRow=list.querySelector('.selected');
- if(selectedRow&&list.clientHeight){const top=selectedRow.getBoundingClientRect().top-list.getBoundingClientRect().top+list.scrollTop,bottom=top+selectedRow.offsetHeight;if(top<list.scrollTop)list.scrollTop=top;else if(bottom>list.scrollTop+list.clientHeight)list.scrollTop=bottom-list.clientHeight;}
- updateChargeListFade();
+ if(c){for(const id of ['chargeStrength','canvasChargeStrength']){$(id).value=String(c.q);updateRangeFill($(id));$(id).setAttribute('aria-valuetext',c.q.toFixed(1)+' coulombs');}const value=(c.q>0?'+':'')+c.q.toFixed(1)+' C';$('strengthText').textContent=value;$('canvasStrengthText').textContent=value;$('canvasChargeName').textContent='Charge '+String(c.id).padStart(2,'0');syncCoordinateInputs(c);}
+ syncTestControls();
 }
+function positionChargePopover(){
+ const editor=$('chargePopover'),c=selected();
+ if(!c||testSelected||placing||sourceDrag||activeDrag?.kind==='charge'||(compactLayout.matches&&controlsOpen)){editor.hidden=true;return;}
+ const p=toScreen(c.x,c.y),visibleWidth=vw-(controlsOpen&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0);
+ if(p.x<0||p.x>visibleWidth||p.y<0||p.y>vh){editor.hidden=true;return;}
+ editor.hidden=false;const rect=editor.getBoundingClientRect(),width=rect.width||190,height=rect.height||80,origin=canvas.getBoundingClientRect();
+ if(visibleWidth<width+16||vh<height+16){editor.hidden=true;return;}
+ const blockers=['chargeTray','modeMessage','canvasHelp','testPlayback'].map($).concat([document.querySelector('.legend'),document.querySelector('.zoom')]).filter(element=>element&&element.getClientRects().length&&getComputedStyle(element).visibility!=='hidden').map(element=>element.getBoundingClientRect()).filter(r=>r.width&&r.height);
+ const candidates=[{x:p.x-width/2,y:p.y-height-34},{x:p.x-width/2,y:p.y+34},{x:p.x-width-34,y:p.y-height/2},{x:p.x+34,y:p.y-height/2}];
+ for(const candidate of candidates){
+  const x=clamp(candidate.x,8,visibleWidth-width-8),y=clamp(candidate.y,8,vh-height-8);
+  if(x<p.x+28&&x+width>p.x-28&&y<p.y+28&&y+height>p.y-28)continue;
+  if(blockers.some(r=>x+origin.left<r.right+6&&x+width+origin.left>r.left-6&&y+origin.top<r.bottom+6&&y+height+origin.top>r.top-6))continue;
+  editor.style.left=x+'px';editor.style.top=y+'px';return;
+ }
+ editor.hidden=true;
+}
+function adjustStaticCharge(input){const c=selected(),value=Number(input.value);if(!c||!Number.isFinite(value))return;c.q=Math.round(clamp(value,-10,10)*10)/10;syncPanel();}
 const CHARGE_RADIUS=18;
 function insideElement(element,e,padding=0){
  const r=element.getBoundingClientRect();
@@ -322,20 +493,21 @@ function insideElement(element,e,padding=0){
 function overWorkspace(e,padding=0){
  if(!insideElement(canvas,e,-padding))return false;
  // Test actual controls, independently of the drag preview and SVG hit targets.
- return !['controlsPanel','controlsBackdrop','chargeTray','modeMessage','helpButton'].map($).concat([document.querySelector('.zoom')]).some(element=>element.getClientRects().length&&getComputedStyle(element).visibility!=='hidden'&&insideElement(element,e,padding));
+ return !['controlsPanel','controlsBackdrop','chargeTray','modeMessage','helpButton','testPlayback','chargePopover'].map($).concat([document.querySelector('.zoom')]).some(element=>element.getClientRects().length&&getComputedStyle(element).visibility!=='hidden'&&insideElement(element,e,padding));
 }
 function chargeDragPoint(e,drag){return {clientX:e.clientX+drag.ox*camera.zoom,clientY:e.clientY-drag.oy*camera.zoom};}
 function overTrash(e,drag){
  const tray=$('chargeTray');if(!tray.getClientRects().length||getComputedStyle(tray).visibility==='hidden')return false;
- const r=tray.getBoundingClientRect(),source=$('addNegative').getBoundingClientRect(),bin=$('trashZone').getBoundingClientRect();
+ const r=tray.getBoundingClientRect(),source=$('addNegative').getBoundingClientRect(),bin=$('trashZone').getBoundingClientRect(),testSource=$('addTest').getBoundingClientRect();
+ const sourceBottom=Math.max(...['addPositive','addNegative','addTest'].map(id=>$(id).getBoundingClientRect()).filter(rect=>rect.width&&rect.height).map(rect=>rect.bottom));
  // Include bin padding in either layout, without accepting drops on source stacks.
- const vertical=bin.top>=source.bottom;
+ const vertical=bin.top>=sourceBottom;
  return [e,chargeDragPoint(e,drag)].some(p=>vertical
-  ?p.clientX>=r.left&&p.clientX<=r.right&&p.clientY>source.bottom&&p.clientY<=r.bottom
-  :p.clientX>source.right&&p.clientX<=r.right&&p.clientY>=r.top&&p.clientY<=r.bottom);
+   ?p.clientX>=r.left&&p.clientX<=r.right&&p.clientY>sourceBottom&&p.clientY<=r.bottom
+   :p.clientX>source.right&&p.clientX<=r.right&&p.clientY>=Math.max(r.top,testSource.bottom+4)&&p.clientY<=r.bottom);
 }
 function updateTrash(armed=false,over=false){$('trashZone').classList.toggle('armed',armed);$('trashZone').classList.toggle('over',over);}
-function showChargeGhost(sign,id,p,invalid=false){const ghost=$('chargeGhost');ghost.hidden=false;ghost.classList.toggle('negative',sign<0);ghost.classList.toggle('invalid',invalid);ghost.style.transform=`translate(${p.x-24}px,${p.y-24}px)`;if(ghost.dataset.chargeId!==String(id)){setChargeArtwork(ghost.querySelector('svg'),id);ghost.dataset.chargeId=String(id);}ghost.querySelector('text').textContent=sign>0?'+':'−';}
+function showChargeGhost(sign,id,p,invalid=false){const ghost=$('chargeGhost');ghost.hidden=false;ghost.classList.toggle('negative',sign<0);ghost.classList.toggle('neutral',sign===0);ghost.classList.toggle('test',sign==='test');ghost.classList.toggle('invalid',invalid);ghost.style.transform=`translate(${p.x-24}px,${p.y-24}px)`;const artId=sign==='test'?0:id;if(ghost.dataset.chargeId!==String(artId)){setChargeArtwork(ghost.querySelector('svg'),artId);ghost.dataset.chargeId=String(artId);}ghost.querySelector('text').textContent=sign==='test'?'':sign>0?'+':sign<0?'−':'0';}
 function finishSourceDrag(){const drag=sourceDrag;sourceDrag=null;$('chargeGhost').hidden=true;updateTrash();if(drag&&drag.button.hasPointerCapture(drag.pointerId))drag.button.releasePointerCapture(drag.pointerId);}
 function moveSourceDrag(e){
  const drag=sourceDrag;
@@ -350,23 +522,23 @@ function endSourceDrag(e,cancelled=false){
  const valid=!cancelled&&overWorkspace(e,CHARGE_RADIUS),p=pointerPos(e);
  finishSourceDrag();
  if(cancelled)return;
- if(drag.moved){if(valid){const w=toWorld(p.x,p.y);addCharge(w.x,w.y,drag.sign);}}
+ if(drag.moved){if(valid){const w=toWorld(p.x,p.y);placeFromTool(w.x,w.y,drag.sign);}}
  else{placing=drag.previousPlacing;startPlacing(drag.sign);}
 }
 function setupSource(button,sign){
  button.addEventListener('pointerdown',e=>{
   if(e.button!==0||sourceDrag||pointers.size)return;e.preventDefault();
+  if(sign==='test')selectTestCharge();else if(testSelected){testSelected=false;syncPanel();}
   sourceDrag={button,sign,pointerId:e.pointerId,x:e.clientX,y:e.clientY,lastPoint:{clientX:e.clientX,clientY:e.clientY,pointerId:e.pointerId},moved:false,previousPlacing:placing};placing=0;setMode();
   try{button.setPointerCapture(e.pointerId);}catch(_){} // Window listeners also work without capture.
  });
  button.addEventListener('click',e=>{if(e.detail===0)startPlacing(sign);});
 }
-setupSource($('addPositive'),1);setupSource($('addNegative'),-1);
+setupSource($('addPositive'),1);setupSource($('addNegative'),-1);setupSource($('addTest'),'test');
 // Pointer capture owns these gestures; native image/text dragging must not take over.
 canvas.addEventListener('dragstart',e=>e.preventDefault());
 $('chargeTray').addEventListener('dragstart',e=>e.preventDefault());
-$('trashZone').onclick=()=>removeCharge();
-$('polarityToggle').onclick=()=>{const c=selected();if(c){c.q=-c.q;syncPanel();}};
+$('trashZone').onclick=removeSelection;
 for(const [axis,id,limit] of [['x','chargeX',PAN_X],['y','chargeY',PAN_Y]]){
  const input=$(id);input.min=String(-limit);input.max=String(limit);
  input.addEventListener('change',()=>applyCoordinate(axis,input));
@@ -375,13 +547,13 @@ for(const [axis,id,limit] of [['x','chargeX',PAN_X],['y','chargeY',PAN_Y]]){
   else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();const c=selected();if(c)syncCoordinateInputs(c);}
  });
 }
-$('chargeStrength').oninput=e=>{const c=selected();if(c){c.q=(c.q<0?-1:1)*Number(e.target.value);syncPanel();}};
+for(const id of ['chargeStrength','canvasChargeStrength'])$(id).oninput=e=>adjustStaticCharge(e.target);
 $('sensitivity').oninput=e=>{sensitivity=Number(e.target.value);$('sensitivityText').textContent=sensitivity.toFixed(1)+'×';};
 $('fieldArrowsToggle').onclick=()=>{showFieldArrows=!showFieldArrows;$('fieldArrowsToggle').classList.toggle('on',showFieldArrows);$('fieldArrowsToggle').setAttribute('aria-checked',String(showFieldArrows));};
 $('heatmapToggle').onclick=()=>{showHeatmap=!showHeatmap;$('heatmapToggle').classList.toggle('on',showHeatmap);$('heatmapToggle').setAttribute('aria-checked',String(showHeatmap));};
 $('fieldLinesToggle').onclick=()=>{showFieldLines=!showFieldLines;$('fieldLinesToggle').classList.toggle('on',showFieldLines);$('fieldLinesToggle').setAttribute('aria-checked',String(showFieldLines));};
-$('restore').onclick=()=>{resetCamera();initCharges();};
-$('clear').onclick=()=>{charges=[];selectedId=null;syncPanel();};
+for(const [id,kind] of [['presetSingle','single'],['presetDipole','dipole'],['presetRow','row'],['presetRandom','random']])$(id).onclick=()=>loadChargeConfiguration(kind);
+$('clear').onclick=()=>{charges=[];selectedId=null;testSelected=false;removeAllTestCharges();syncPanel();};
 function minimumZoom(){return Math.max(MIN_ZOOM,Math.ceil(Math.max(vw/(2*PAN_X),vh/(2*PAN_Y))*10)/10);}
 function constrainCamera(){
  camera.zoom=Math.max(camera.zoom,minimumZoom());
@@ -394,29 +566,54 @@ function resetCamera(){const fit=compactLayout.matches?Math.floor(Math.min((vw-8
 $('zoomIn').onclick=()=>zoomTo(camera.zoom+.1);$('zoomOut').onclick=()=>zoomTo(camera.zoom-.1);$('resetZoom').onclick=resetCamera;
 canvas.addEventListener('wheel',e=>{e.preventDefault();const p=pointerPos(e);if(e.deltaY)zoomTo(camera.zoom+(e.deltaY<0?.1:-.1),p.x,p.y);},{passive:false});
 function chargeAt(p){for(let i=charges.length-1;i>=0;i--){const c=charges[i],s=toScreen(c.x,c.y);if(Math.hypot(p.x-s.x,p.y-s.y)<26)return c;}return null;}
+function testChargeAt(p){for(let i=testCharges.length-1;i>=0;i--){const t=testCharges[i],s=toScreen(t.x,t.y);if(Math.hypot(p.x-s.x,p.y-s.y)<14)return t;}return null;}
+function beginTestDrag(t,p){
+ const world=toWorld(p.x,p.y);
+ selectTestCharge(t.id);t.running=false;
+ activeDrag={kind:'test',id:t.id,ox:t.x-world.x,oy:t.y-world.y,startX:t.x,startY:t.y,startVx:t.vx,startVy:t.vy,startTrail:t.trail,startTrailClock:t.trailClock,lastX:t.x,lastY:t.y,px:p.x,py:p.y,moved:false,valid:true};
+ canvas.classList.add('dragging');updateTrash(true);syncTestControls();
+}
+function finishTestDrag(drag,cancelled=false,e=null){
+ const t=testCharges.find(t=>t.id===drag.id);if(!t)return;
+ if(cancelled||!drag.moved){Object.assign(t,{x:drag.startX,y:drag.startY,vx:drag.startVx,vy:drag.startVy,running:!testPaused,trail:drag.startTrail,trailClock:drag.startTrailClock});}
+ else if(e&&overTrash(e,drag)){removeTestCharge(t.id);return;}
+ else{Object.assign(t,{x:drag.lastX,y:drag.lastY,startX:drag.lastX,startY:drag.lastY,vx:0,vy:0,running:!testPaused,trail:[{x:drag.lastX,y:drag.lastY}],trailClock:0});}
+ syncTestControls();
+}
 const pointers=new Map();
 function pinchPoints(){const [a,b]=[...pointers.values()];return{x:(a.x+b.x)/2,y:(a.y+b.y)/2,distance:Math.max(1,Math.hypot(a.x-b.x,a.y-b.y))};}
 canvas.addEventListener('pointerdown',e=>{
  if((e.button!==0&&e.button!==1)||sourceDrag)return;e.preventDefault();canvas.focus({preventScroll:true});const p=pointerPos(e);
  pointers.set(e.pointerId,p);try{canvas.setPointerCapture(e.pointerId);}catch(_){}
- if(pointers.size>=2){$('chargeGhost').hidden=true;updateTrash();const gesture=pinchPoints();activeDrag={kind:'pinch',distance:gesture.distance,zoom:camera.zoom,anchor:toWorld(gesture.x,gesture.y)};canvas.classList.add('dragging');return;}
- if(placing){const w=toWorld(p.x,p.y);addCharge(w.x,w.y,placing);placing=0;setMode();return;}
+ if(pointers.size>=2){if(activeDrag?.kind==='test')finishTestDrag(activeDrag,true);$('chargeGhost').hidden=true;updateTrash();const gesture=pinchPoints();activeDrag={kind:'pinch',distance:gesture.distance,zoom:camera.zoom,anchor:toWorld(gesture.x,gesture.y)};canvas.classList.add('dragging');return;}
+ if(placing){const w=toWorld(p.x,p.y);if(placeFromTool(w.x,w.y,placing)){placing=0;setMode();}return;}
+ const test=e.button===0?testChargeAt(p):null;if(test){beginTestDrag(test,p);return;}
  const c=e.button===0?chargeAt(p):null;
- if(c){selectedId=c.id;const w=toWorld(p.x,p.y);activeDrag={kind:'charge',id:c.id,ox:c.x-w.x,oy:c.y-w.y,startX:c.x,startY:c.y,lastX:c.x,lastY:c.y,px:p.x,py:p.y,moved:false};syncPanel();updateTrash(true);}
- else{if(selectedId!==null){selectedId=null;syncPanel();}activeDrag={kind:'pan',x:p.x,y:p.y,cx:camera.x,cy:camera.y,moved:false};}
+ if(c){testSelected=false;selectedId=c.id;const w=toWorld(p.x,p.y);activeDrag={kind:'charge',id:c.id,ox:c.x-w.x,oy:c.y-w.y,startX:c.x,startY:c.y,lastX:c.x,lastY:c.y,px:p.x,py:p.y,moved:false};syncPanel();updateTrash(true);}
+ else{activeDrag={kind:'pan',x:p.x,y:p.y,cx:camera.x,cy:camera.y,moved:false};}
  canvas.classList.add('dragging');
 });
-function moveCanvasPointer(e){const p=pointerPos(e),w=toWorld(p.x,p.y);$('coordinates').textContent=`X ${Math.round(w.x)} · Y ${Math.round(w.y)}`;
+function moveCanvasPointer(e){const p=pointerPos(e),w=toWorld(p.x,p.y);$('pointerX').textContent=`X ${Math.round(w.x)} cm`;$('pointerY').textContent=`Y ${Math.round(w.y)} cm`;
  if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,p);
  if(!activeDrag)return;
  if(activeDrag.kind==='pinch'){if(pointers.size<2)return;const gesture=pinchPoints();camera.zoom=clamp(activeDrag.zoom*gesture.distance/activeDrag.distance,minimumZoom(),MAX_ZOOM);camera.x=activeDrag.anchor.x-(gesture.x-vw/2)/camera.zoom;camera.y=activeDrag.anchor.y+(gesture.y-vh/2)/camera.zoom;constrainCamera();$('resetZoom').textContent=Math.round(camera.zoom*100)+'%';}
  else if(activeDrag.kind==='pan'){activeDrag.moved=activeDrag.moved||Math.hypot(p.x-activeDrag.x,p.y-activeDrag.y)>6;camera.x=activeDrag.cx-(p.x-activeDrag.x)/camera.zoom;camera.y=activeDrag.cy+(p.y-activeDrag.y)/camera.zoom;constrainCamera();}
+ else if(activeDrag.kind==='test'){
+  const t=testCharges.find(t=>t.id===activeDrag.id);if(!t)return;
+  const moved=activeDrag.moved||Math.hypot(p.x-activeDrag.px,p.y-activeDrag.py)>6;
+  if(moved&&!activeDrag.moved)t.trail=[];activeDrag.moved=moved;if(!moved)return;
+  t.x=w.x+activeDrag.ox;t.y=w.y+activeDrag.oy;
+  activeDrag.valid=overWorkspace(chargeDragPoint(e,activeDrag),7)&&canPlaceTestCharge(t.x,t.y);
+  if(activeDrag.valid){activeDrag.lastX=t.x;activeDrag.lastY=t.y;}
+  updateTrash(true,overTrash(e,activeDrag));
+ }
  else{const c=charges.find(c=>c.id===activeDrag.id);if(c){activeDrag.moved=activeDrag.moved||Math.hypot(p.x-activeDrag.px,p.y-activeDrag.py)>6;c.x=w.x+activeDrag.ox;c.y=w.y+activeDrag.oy;if(overWorkspace(chargeDragPoint(e,activeDrag),CHARGE_RADIUS)){activeDrag.lastX=c.x;activeDrag.lastY=c.y;}syncCoordinateInputs(c);updateTrash(true,overTrash(e,activeDrag));}}
 }
 function endDrag(e){if(!pointers.has(e.pointerId))return;
  if(e.type==='pointerup')moveCanvasPointer(e);
  const drag=activeDrag;
  if(drag?.moved||drag?.kind==='pinch')suppressDragClick=true;
+ if(drag?.kind==='test')finishTestDrag(drag,e.type!=='pointerup',e);
  if(drag?.kind==='charge'){
   const c=charges.find(c=>c.id===drag.id);
   if(e.type==='pointerup'&&drag.moved&&overTrash(e,drag))removeCharge(drag.id);
@@ -431,6 +628,7 @@ function endDrag(e){if(!pointers.has(e.pointerId))return;
 function cancelInteraction(restoreStart=false){
  if(sourceDrag?.moved||activeDrag?.moved||activeDrag?.kind==='pinch')suppressDragClick=true;
  finishSourceDrag();
+ if(activeDrag?.kind==='test')finishTestDrag(activeDrag,true);
  if(activeDrag?.kind==='charge'){
   const c=charges.find(c=>c.id===activeDrag.id);
   if(c){c.x=restoreStart?activeDrag.startX:activeDrag.lastX;c.y=restoreStart?activeDrag.startY:activeDrag.lastY;syncPanel();}
@@ -462,7 +660,8 @@ for(const type of ['click','dblclick'])window.addEventListener(type,e=>{
 },true);
 canvas.addEventListener('dblclick',e=>{if(placing||!overWorkspace(e,CHARGE_RADIUS))return;const p=pointerPos(e);if(!chargeAt(p)){const w=toWorld(p.x,p.y);addCharge(w.x,w.y,1);}});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('canvasInstructions').hidden){setHelpOpen(false);return;}cancelInteraction(true);placing=0;setMode();if(controlsOpen)setControlsOpen(false,{returnFocus:true});}
- if((e.key==='Delete'||e.key==='Backspace')&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)&&!e.target.isContentEditable){e.preventDefault();removeCharge();}
+ if(e.key==='Enter'&&e.target===canvas&&placing==='test'){e.preventDefault();placeTestNearCenter();}
+  if((e.key==='Delete'||e.key==='Backspace')&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)&&!e.target.isContentEditable){e.preventDefault();removeSelection();}
 });
 function fieldAt(x,y){let ex=0,ey=0;for(const c of charges){const dx=x-c.x,dy=y-c.y,r2=Math.max(dx*dx+dy*dy,1e-12),weight=c.q/(r2*Math.sqrt(r2));ex+=dx*weight;ey+=dy*weight;}return {x:ex,y:ey,mag:Math.hypot(ex,ey)};}
 function strength(m){return clamp(Math.log1p(m*50000*sensitivity)/Math.log1p(100),0,1);}
@@ -585,7 +784,7 @@ function traceFieldLineHalf(seed,direction,index,bounds){
  return {points,reason:'length'};
 }
 function buildFieldLines(){
- if(!charges.length)return [];
+ if(!charges.some(c=>c.q!==0))return [];
  // Cache a world-anchored layout over the full navigable area. Panning
  // only translates these paths; padding carries curves beyond visible edges.
  const padding=64/camera.zoom,center={x:0,y:0};
@@ -678,15 +877,30 @@ function drawCharges(){for(const c of charges){const s=toScreen(c.x,c.y);if(s.x<
  if(activeDrag?.kind==='charge'&&activeDrag.moved&&activeDrag.id===c.id)continue;
  const isSelected=c.id===selectedId;
  if(isSelected){ctx.save();const halo=ctx.createRadialGradient(s.x,s.y,13,s.x,s.y,39);halo.addColorStop(0,'rgba(83,159,249,.25)');halo.addColorStop(.6,'rgba(49,123,221,.20)');halo.addColorStop(1,'rgba(49,123,221,0)');ctx.beginPath();ctx.arc(s.x,s.y,39,0,Math.PI*2);ctx.fillStyle=halo;ctx.fill();ctx.beginPath();ctx.arc(s.x,s.y,27,0,Math.PI*2);ctx.strokeStyle='rgba(83,159,249,.62)';ctx.lineWidth=1.25;ctx.stroke();ctx.restore();}
- ctx.save();starburst(s.x,s.y,c.id,17.5);ctx.fillStyle=c.q>0?'#f4f8ff':'#050a15';ctx.fill();ctx.lineWidth=c.q>0?2:1.25;ctx.strokeStyle='#f5f8ff';ctx.stroke();ctx.restore();
- ctx.save();ctx.font='800 16px ui-sans-serif,system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=c.q>0?'#0b1730':'#f3f8ff';ctx.fillText(c.q>0?'+':'−',s.x,s.y+.2);ctx.restore();
+ ctx.save();starburst(s.x,s.y,c.id,17.5);ctx.fillStyle=c.q>0?'#f4f8ff':c.q<0?'#050a15':'#273b53';ctx.fill();ctx.lineWidth=c.q>0?2:1.25;ctx.strokeStyle=c.q===0?'#8aabc9':'#f5f8ff';ctx.stroke();ctx.restore();
+ ctx.save();ctx.font='800 16px ui-sans-serif,system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=c.q>0?'#0b1730':'#f3f8ff';ctx.fillText(c.q>0?'+':c.q<0?'−':'0',s.x,s.y+.2);ctx.restore();
  }}
-function render(){if(vw&&vh){ctx.setTransform(dpr,0,0,dpr,0,0);background();if(showFieldArrows)fieldArrows();if(showFieldLines)drawFieldLines();if(showFieldArrows)drawSamplePoints();drawCharges();if(!sourceDrag){const c=activeDrag?.kind==='charge'&&activeDrag.moved?charges.find(c=>c.id===activeDrag.id):null;if(c)showChargeGhost(c.q,c.id,toScreen(c.x,c.y));else $('chargeGhost').hidden=true;}}requestAnimationFrame(render);}
+function drawTestCharge(){
+ for(const testCharge of testCharges){
+ if(activeDrag?.kind==='test'&&activeDrag.id===testCharge.id&&activeDrag.moved)continue;
+ ctx.save();ctx.strokeStyle='#ffffff';ctx.lineWidth=1.2;
+ const trail=testCharge.trail;
+ for(let i=1;i<trail.length;i++){
+  const a=toScreen(trail[i-1].x,trail[i-1].y),b=toScreen(trail[i].x,trail[i].y);
+  ctx.globalAlpha=.02+.48*Math.pow(i/(trail.length-1),1.6);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+ }
+ if(trail.length){const a=toScreen(trail[trail.length-1].x,trail[trail.length-1].y),b=toScreen(testCharge.x,testCharge.y);ctx.globalAlpha=.5;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+ ctx.globalAlpha=1;
+ const s=toScreen(testCharge.x,testCharge.y);
+ if(testSelected&&testCharge.id===selectedTestId){ctx.beginPath();ctx.arc(s.x,s.y,12,0,Math.PI*2);ctx.strokeStyle='rgba(115,180,255,.8)';ctx.lineWidth=1;ctx.stroke();}
+ starburst(s.x,s.y,0,6.5);ctx.fillStyle='#ffffff';ctx.strokeStyle='#ffffff';ctx.lineWidth=.8;ctx.shadowColor='#ffffff';ctx.shadowBlur=5;ctx.fill();ctx.stroke();ctx.restore();
+ }
+}
+function render(now){if(Number.isFinite(now)){const elapsed=lastFrameTime===null?0:(now-lastFrameTime)/1000;lastFrameTime=now;advanceTestCharge(elapsed);}positionChargePopover();if(vw&&vh){ctx.setTransform(dpr,0,0,dpr,0,0);background();if(showFieldArrows)fieldArrows();if(showFieldLines)drawFieldLines();if(showFieldArrows)drawSamplePoints();drawCharges();drawTestCharge();if(!sourceDrag){const drag=activeDrag?.moved?activeDrag:null,c=drag?.kind==='charge'?charges.find(c=>c.id===drag.id):drag?.kind==='test'?testCharges.find(t=>t.id===drag.id):null;if(c)showChargeGhost(drag.kind==='test'?'test':c.q,c.id,toScreen(c.x,c.y),drag.kind==='test'&&!drag.valid);else $('chargeGhost').hidden=true;}}requestAnimationFrame(render);}
 setChargeArtwork($('addPositive').querySelector('svg'),1);setChargeArtwork($('addNegative').querySelector('svg'),2);
+setChargeArtwork($('addTest').querySelector('svg'),0);
 document.querySelectorAll('input[type=range]').forEach(input=>{updateRangeFill(input);input.addEventListener('input',()=>updateRangeFill(input));});
-$('chargeList').addEventListener('scroll',updateChargeListFade,{passive:true});
-const chargeListObserver=new ResizeObserver(updateChargeListFade);chargeListObserver.observe($('chargeList'));
-resetCamera();initCharges();requestAnimationFrame(render);
+resetCamera();initializeEmptyScene();requestAnimationFrame(render);
 })();
 </script>
 </body>
