@@ -57,7 +57,7 @@ function openLab(compact,{empty=false,random}={}){
   requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
  if(random){sandbox.Math=Object.create(Math);sandbox.Math.random=random;}
  vm.createContext(sandbox);
- vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({charges,selectedId,activeDrag,sourceDrag,camera,testCharge:selectedTest()||null,testCharges,selectedTestId,placing}),seedSources:sources=>{charges=sources.map((c,i)=>({id:i+1,...c}));nextId=charges.length+1;selectedId=charges[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestCharge,advanceTestCharge,fieldAt};})();`),sandbox);
+ vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({charges,selectedId,activeDrag,sourceDrag,camera,testCharge:selectedTest()||null,testCharges,selectedTestId,placing}),seedSources:sources=>{charges=sources.map((c,i)=>({id:i+1,...c}));nextId=charges.length+1;selectedId=charges[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestCharge,advanceTestCharge,fieldAt,potentialAt,potentialColor};})();`),sandbox);
  const api=sandbox.labTest;
  // Keep gesture tests on an explicit, deterministic fixture. Real empty startup
  // is exercised separately with {empty:true}.
@@ -671,16 +671,15 @@ test('static charge sliders share signed values, cross zero and reverse the resu
 });
 
 for(const compact of [false,true]){
- test(`${compact?'mobile':'desktop'}: the canvas slider follows its selected point and stays inside the workspace`,()=>{
-  const {$,api}=openLab(compact),editor=$('chargePopover'),canvas=$('fieldCanvas');api.render();
-  assert.equal(editor.hidden,false);const x=parseFloat(editor.style.left),y=parseFloat(editor.style.top);
-  const availableWidth=compact?390:708;
-  assert.ok(x>=8&&x+190<=availableWidth-8);assert.ok(y>=8&&y+80<=700-8);
-  const p={clientX:compact?300:600,clientY:600};canvas.emit('pointerdown',p);
-  canvas.emit('pointermove',{clientX:p.clientX+20,clientY:p.clientY+30});api.render();
-  assert.equal(editor.hidden,false);assert.notEqual(parseFloat(editor.style.top),y);
-  canvas.emit('pointerup',{clientX:p.clientX+20,clientY:p.clientY+30});
-  api.placeTestCharge(0,100);assert.equal(editor.hidden,true);
+ test(`${compact?'mobile':'desktop'}: slider appears inside the selected ring and hides outside`,()=>{
+  const {$,api,emitWindow}=openLab(compact);api.render();
+  assert.equal($('chargePopover').hidden,true);
+  const c=api.state().charges[0],p=api.toScreen(c.x,c.y);
+  $('fieldCanvas').emit('pointermove',{clientX:p.x,clientY:p.y+90});api.render();
+  assert.equal($('chargePopover').hidden,false);
+  assert.ok(parseFloat($('chargePopover').style.top)<p.y);
+  $('fieldCanvas').emit('pointermove',{clientX:p.x+60,clientY:p.y+90});api.render();
+  assert.equal($('chargePopover').hidden,true);
  });
 }
 
@@ -807,4 +806,38 @@ test('random configuration always completes with five spaced points even for an 
   assert.ok(Math.hypot(charges[i].x-charges[j].x,charges[i].y-charges[j].y)>=110);
   assert.notEqual(charges[i].x,charges[j].x);assert.notEqual(charges[i].y,charges[j].y);
  }
+});
+
+
+test('potential uses signed Coulomb superposition and metre distances',()=>{
+ const {api}=openLab(false),k=8.9875517923e9;
+ api.seedSources([{x:0,y:0,q:4}]);
+ closeTo(api.potentialAt(100,0),k*4,.001);
+ closeTo(api.potentialAt(200,0),k*2,.001);
+ api.seedSources([{x:-100,y:0,q:4},{x:100,y:0,q:-4}]);
+ closeTo(api.potentialAt(0,0),0);
+ assert.ok(api.potentialAt(-50,0)>0);assert.ok(api.potentialAt(50,0)<0);
+ assert.ok(Number.isFinite(api.potentialAt(-100,0)));
+ api.seedSources([{x:0,y:0,q:0}]);assert.equal(api.potentialAt(0,0),0);
+ api.seedSources([]);assert.equal(api.potentialAt(100,100),0);
+});
+
+test('potential colors use complementary endpoints with symmetric intensity and transparent zero',()=>{
+ const {api}=openLab(false),positive=Array.from(api.potentialColor(1e10)),negative=Array.from(api.potentialColor(-1e10));
+ assert.deepEqual(positive.slice(0,3),[255,122,26]);
+ assert.deepEqual(negative.slice(0,3),[0,133,229]);
+ assert.equal(positive[3],negative[3]);assert.equal(api.potentialColor(0)[3],0);
+ assert.ok(api.potentialColor(1e8)[3]<positive[3]);
+});
+
+test('legend shows each applicable scale, including field and potential together',()=>{
+ const {$}=openLab(false);
+ $('potentialToggle').emit('click');
+ assert.equal($('electricFieldLegend').hidden,false);assert.equal($('potentialLegend').hidden,false);
+ $('fieldArrowsToggle').emit('click');
+ assert.equal($('electricFieldLegend').hidden,true);assert.equal($('potentialLegend').hidden,false);
+ $('fieldLinesToggle').emit('click');assert.equal($('electricFieldLegend').hidden,false);
+ $('heatmapToggle').emit('click');assert.equal($('potentialLegend').hidden,true);assert.equal($('electricFieldLegend').hidden,false);
+ $('fieldLinesToggle').emit('click');$('heatmapToggle').emit('click');assert.equal($('fieldLegend').hidden,true);
+ $('potentialToggle').emit('click');assert.equal($('fieldLegend').hidden,false);assert.equal($('potentialLegend').hidden,false);
 });
