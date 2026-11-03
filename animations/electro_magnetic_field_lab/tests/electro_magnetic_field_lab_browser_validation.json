@@ -1,0 +1,40 @@
+{
+  "desktop": {
+    "starts_without_charge": true,
+    "arbitrary_mouse_placement": true,
+    "direct_charge_drag_in_both_axes": true,
+    "drag_resumes_playback": true,
+    "drop_target_settles_without_teleport": true,
+    "probe_drag_live_and_noninteracting": true,
+    "probe_tool_background_placement": true,
+    "pan_and_presets_do_not_move_objects": true,
+    "highlight_causal_front": {
+      "changing": 5,
+      "visible": 513
+    },
+    "highlight_toggle_static_and_pause_checks": true,
+    "field_layer_toggles": true,
+    "all_component_modes": true,
+    "automatic_anchor_and_manual_history_transition": true,
+    "restart_and_step": true,
+    "replace_placement_and_cancel": true,
+    "keyboard_controls": true,
+    "physics_notes": true,
+    "snapshot_export": true
+  },
+  "mobile": {
+    "touch_charge_placement_and_drag": true,
+    "touch_probe_drag": true,
+    "pinch_zoom": true,
+    "no_horizontal_overflow_widths": [
+      320,
+      360,
+      390,
+      540,
+      768,
+      1024
+    ]
+  },
+  "errors": [],
+  "browser": "Chromium, local executable. HTML loaded directly with set_content because file navigation is administratively blocked in this container."
+}
