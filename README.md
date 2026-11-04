@@ -26,7 +26,7 @@ Open <http://127.0.0.1:8765/>. Stop the server with Ctrl+C. Some pages load font
 | `assets/css/home.css`, `contents.css`, `lesson.css` | Page-specific styles |
 | `assets/css/simulation-lesson.css` | Lesson iframe, fullscreen and accessibility styles |
 | `assets/css/main-page.css` | Retained legacy stylesheet; currently unused |
-| `assets/js/` | Shared site behaviour and legacy URL redirects |
+| `assets/js/` | Shared site behaviour |
 | `assets/icons/` | Topic SVGs for lesson cards |
 | `assets/brand/logo.png` | Approved logo; CSS makes it white on dark backgrounds |
 | `assets/images/` | Site photographs and illustrations, including retained older assets |
@@ -64,8 +64,10 @@ node --test simulations/*/tests/*.test.cjs
 
 Retained JSON validation reports describe earlier checks; running the suites does not regenerate them. After a layout or path change, also preview the homepage, catalogue, lesson embeds and mobile layout in a browser.
 
-## Existing URLs
+## Page locations
 
-The old root lesson filenames, `Contents.html`, `ExampleLesson1.html` and `animations/.../*.html` remain as small compatibility redirects. Edit their destinations, not these redirect files. Redirects preserve query strings and section fragments when JavaScript is enabled and provide a fallback link/meta refresh otherwise.
+Use `index.html` for the homepage, `contents/index.html` for the catalogue, `lessons/physics/` for lessons and `simulations/<topic>/index.html` for standalone labs. The original example is in `examples/example-lesson.html`.
 
-The catalogue uses `contents/index.html` so its lowercase location can coexist with the old `Contents.html` redirect on case-insensitive filesystems. The project retains `_config.yml` for its existing hosting setup. No hosting or deployment settings were changed.
+All navigation and embeds use these locations directly. Legacy root HTML pages and the old animation URLs have been removed; old bookmarks should be updated to the new paths. Only the homepage HTML remains in the repository root.
+
+The project retains `_config.yml` for its existing hosting setup. No hosting or deployment settings were changed.
