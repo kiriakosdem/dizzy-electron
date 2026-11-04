@@ -1,0 +1,97 @@
+/* The page layout, typography, and cards come from styleLesson.css.
+   These additions only support the embedded labs and accessible navigation. */
+
+.simulation-lesson main,
+.simulation-lesson .lesson-sidebar {
+    min-width: 0;
+}
+
+.lesson-equation {
+    overflow-x: auto;
+}
+
+.simulation-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    text-align: left;
+}
+
+.simulation-toolbar .btn {
+    background: transparent;
+    color: #0275d8;
+    font-size: 0.8rem;
+    white-space: normal;
+}
+
+.simulation-toolbar .btn:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+
+.lesson-simulation {
+    height: auto;
+    background: lightgray;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7);
+}
+
+.simulation-frame {
+    display: block;
+    width: 100%;
+    height: 50vh;
+    min-height: 560px;
+    border: 0;
+    background: #071124;
+}
+
+.simulation-frame:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    min-height: 0;
+}
+
+.simulation-status {
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.simulation-status:empty {
+    display: none;
+}
+
+.simulation-lesson #change-chapter .btn {
+    white-space: normal;
+}
+
+.lesson-skip-link {
+    position: fixed;
+    top: -10rem;
+    left: 1rem;
+    z-index: 1100;
+    padding: 0.75rem;
+    background: white;
+    color: #003366;
+}
+
+.lesson-skip-link:focus {
+    top: 1rem;
+}
+
+.simulation-lesson a:focus-visible,
+.simulation-lesson button:focus-visible,
+.simulation-lesson iframe:focus-visible {
+    outline: 3px solid #0275d8;
+    outline-offset: 3px;
+}
+
+.simulation-lesson section {
+    scroll-margin-top: 1rem;
+}
+
+@media (max-width: 767px) {
+    .simulation-frame {
+        min-height: 640px;
+    }
+}

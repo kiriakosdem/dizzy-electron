@@ -18,7 +18,7 @@
 		<link rel="stylesheet"
 			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 		<!-- Our Custom CSS -->
-		<link rel="stylesheet" href="styleCommon.css">
+		<link rel="stylesheet" href="styleCommon.css?v=aligned-cards-2">
 		<link rel="stylesheet" href="styleContents.css">
 
 		<!-- JAVASCRIPT LIBRARIES -->		
@@ -164,20 +164,16 @@
 				<div class="order-0 ">
 					<!-- Left Box -->
 					<ul class="navbar-nav mr-auto">
-						<a class="navbar-brand" href="index.html">
-
-							<img src="images/atom%20(2).png">
-							Dizzy Electron
+						<a class="navbar-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
+						    <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
+						        <image href="images/dizzy-electron-feynman-logo-titlecase.png" width="1983" height="793" />
+						    </svg>
 						</a>
 
 					</ul>
 				</div>
 				<!-- Central Box -->
-				<!--<div class="mx-auto order-0">
-<a class="navbar-brand" href="index.html">
-<img src="images/physicslogo.png">
-</a>
-</div>-->
+
 				<!-- Right Box -->
 				<div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
 					<ul class="navbar-nav ml-auto">
@@ -192,8 +188,6 @@
 									   href="Contents.html#physics-lessons">Φυσική</a>
 									<a class="dropdown-item" 
 									   href="Contents.html#math-lessons">Μαθηματικά</a>
-									<a class="dropdown-item" 
-									   href="Contents.html#programming-lessons">Προγραμματισμός</a>
 								</div>
 							</div>
 						</div>
@@ -242,74 +236,210 @@
 				<h2>Φυσικη</h2>
 				<div class="heading-underline"></div>
 
+                <section id="interactive-lessons" aria-labelledby="interactive-lessons-title">
+                    <h3 id="interactive-lessons-title" class="h4 text-center mb-4">Διαδραστικά εργαστήρια</h3>
+                    <div class="row text-center">
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="maincontainer">
+                                <a href="GravitationalFieldLesson.html">
+                                    <div class="thecard">
+                                        <div class="thefront">
+                                            <div class="card card-physics">
+                                                <div class="inner">
+                                                    <h3>Το Βαρυτικό Πεδίο</h3>
+                                                    <img class="lesson-icon" src="images/lesson-icons/gravity.svg" width="125" height="125" alt="" loading="lazy">
+                                                    <p>Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="theback">
+                                            <div class="card backface-card">
+                                                <div class="card-header text-center">Το Βαρυτικό Πεδίο</div>
+                                                <ul class="list-unstyled components">
+                                                    <li>Εισαγωγή</li>
+                                                    <li>Βασικές έννοιες</li>
+                                                    <li>Διαδραστικό εργαστήριο</li>
+                                                    <li>Δοκίμασέ το</li>
+                                                    <li>Τι κρατάμε</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="maincontainer">
+                                <a href="ElectricFieldLesson.html">
+                                    <div class="thecard">
+                                        <div class="thefront">
+                                            <div class="card card-physics">
+                                                <div class="inner">
+                                                    <h3>Το Ηλεκτρικό Πεδίο</h3>
+                                                    <img class="lesson-icon" src="images/lesson-icons/electric-field.svg" width="125" height="125" alt="" loading="lazy">
+                                                    <p>Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="theback">
+                                            <div class="card backface-card">
+                                                <div class="card-header text-center">Το Ηλεκτρικό Πεδίο</div>
+                                                <ul class="list-unstyled components">
+                                                    <li>Εισαγωγή</li>
+                                                    <li>Βασικές έννοιες</li>
+                                                    <li>Διαδραστικό εργαστήριο</li>
+                                                    <li>Δοκίμασέ το</li>
+                                                    <li>Τι κρατάμε</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="maincontainer">
+                                <a href="ElectromagneticFieldLesson.html">
+                                    <div class="thecard">
+                                        <div class="thefront">
+                                            <div class="card card-physics">
+                                                <div class="inner">
+                                                    <h3>Το Ηλεκτρομαγνητικό Πεδίο</h3>
+                                                    <img class="lesson-icon" src="images/lesson-icons/electromagnetic-field.svg" width="125" height="125" alt="" loading="lazy">
+                                                    <p>Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="theback">
+                                            <div class="card backface-card">
+                                                <div class="card-header text-center">Το Ηλεκτρομαγνητικό Πεδίο</div>
+                                                <ul class="list-unstyled components">
+                                                    <li>Εισαγωγή</li>
+                                                    <li>Βασικές έννοιες</li>
+                                                    <li>Διαδραστικό εργαστήριο</li>
+                                                    <li>Δοκίμασέ το</li>
+                                                    <li>Τι κρατάμε</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6">
+                            <div class="maincontainer">
+                                <a href="HydrogenEigenstatesLesson.html">
+                                    <div class="thecard">
+                                        <div class="thefront">
+                                            <div class="card card-physics">
+                                                <div class="inner">
+                                                    <h3>Οι Ιδιοκαταστάσεις του Υδρογόνου</h3>
+                                                    <img class="lesson-icon" src="images/lesson-icons/hydrogen-orbitals.svg" width="125" height="125" alt="" loading="lazy">
+                                                    <p>Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="theback">
+                                            <div class="card backface-card">
+                                                <div class="card-header text-center">Οι Ιδιοκαταστάσεις του Υδρογόνου</div>
+                                                <ul class="list-unstyled components">
+                                                    <li>Εισαγωγή</li>
+                                                    <li>Βασικές έννοιες</li>
+                                                    <li>Διαδραστικό εργαστήριο</li>
+                                                    <li>Δοκίμασέ το</li>
+                                                    <li>Τι κρατάμε</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
 				<div class="row text-center">
 
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-physics">
 											<div class="inner">
-												<h3>1 &nbsp; Ήχος και Ακοή</h3>
-												<img src="images/atom%20(2).png">
+												<h3>Ήχος και Ακοή</h3>
+												<img class="lesson-icon" src="images/lesson-icons/sound.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
 												<p>Σε πολλούς αρέσει το να ακούνε μουσική αλλά σε κανέναν δεν αρέσει ο θόρυβος. Ποια είναι η φυσική διαφορά μεταξύ ήχου και θορύβου;</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
-												1 &nbsp; Ήχος και Ακοή
+												Ήχος και Ακοή
 											</div>
 
 											<ul class="list-unstyled components">
 												<li>
-													1.1 &nbsp; Ηχητικά Κύματα
+													Ηχητικά Κύματα
 												</li>
 												<li>
-													1.2 &nbsp; Ταχύτητα των Ηχητικών Κυμάτων
+													Ταχύτητα των Ηχητικών Κυμάτων
 												</li>
 												<li>
-													1.3 &nbsp; Ένταση Ήχου
+													Ένταση Ήχου
 												</li>
 												<li>
-													1.4 &nbsp; Συντονισμός και Ήχος
+													Συντονισμός και Ήχος
 												</li>
 												<li>
-													1.5 &nbsp; Συμβολή Κυμάτων
+													Συμβολή Κυμάτων
 												</li>
 												<li>
-													1.6 &nbsp; Διακρότημα
+													Διακρότημα
 												</li>
 												<li>
-													1.7 &nbsp; Φαινόμενο Doppler
+													Φαινόμενο Doppler
 												</li>
 												<li>
-													1.8 &nbsp; Κρουστικά Κύματα
+													Κρουστικά Κύματα
 												</li>
 											</ul>
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-physics">
 											<div class="inner">
-												<h3>2 &nbsp; Θερμικές Ιδιότητες της Ύλης</h3>
-												<img src="images/atom%20(2).png">
+												<h3>Θερμικές Ιδιότητες της Ύλης</h3>
+												<img class="lesson-icon" src="images/lesson-icons/thermal.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
 												<p>Πόσο πιο γρήγορα κινούνται τα μόρια του αέρα πάνω από ένα καυτό τηγάνι σε σχέση με τον περιβάλλοντα αέρα της κουζίνας;</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
 												2 &nbsp; Θερμικές Ιδιότητες της Ύλης
@@ -338,73 +468,31 @@
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-physics">
 											<div class="inner">
-												<h3>3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο</h3>
-												<img src="images/atom%20(2).png">
-												<p>Ποιες ηλεκτρικές ιδιότητες του νερού το καθιστούν τόσο καλό διαλύτη;</p>
-											</div>
-										</div>
-									</div>
-									<div class="theback">
-										<div class="card backface-card">
-											<div class="card-header text-center">
-												3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο
-											</div>
-
-											<ul class="list-unstyled components">
-												<li>
-													3.1 &nbsp; Ηλεκτρικό Φορτίο
-												</li>
-												<li>
-													3.2 &nbsp; Αγωγοί, Μονωτές και Επαγώμενα Ρεύματα
-												</li>
-												<li>
-													3.3 &nbsp; Νόμος του Coulomb
-												</li>
-												<li>
-													3.4 &nbsp; Ηλεκτρικό Πεδίο και Ηλεκτρικές Δυνάμεις
-												</li>
-												<li>
-													3.5 &nbsp; Υπολογισμοί Ηλεκτρικού Πεδίου
-												</li>
-												<li>
-													3.6 &nbsp; Ηλεκτρικές Δυναμικές Γραμμές
-												</li>
-												<li>
-													3.7 &nbsp; Ηλεκτρικά Δίπολα
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-
-					<div class="col-xl-3 col-lg-4 col-md-6">
-						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
-								<div class="thecard">
-									<div class="thefront">
-										<div class="card card-physics">
-											<div class="inner">
-												<h3>4 &nbsp; Η Φύση και η Διάδοση του Φωτός</h3>
-												<img src="images/atom%20(2).png">
+												<h3>Η Φύση και η Διάδοση του Φωτός</h3>
+												<img class="lesson-icon" src="images/lesson-icons/light.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
 												<p>Γιατί εμφανίζεται ένα ουράνιο τόξο χρωμάτων όταν πέσουν λάδια στην άσφαλτο;</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
 												4 &nbsp; Η Φύση και η Διάδοση του Φωτός
@@ -436,7 +524,7 @@
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 
@@ -452,18 +540,25 @@
 
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-math">
 											<div class="inner">
 												<h3>1 &nbsp; Τριγωνομετρία</h3>
-												<img src="images/math.png">
-												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+												<img class="lesson-icon" src="images/lesson-icons/trigonometry.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
+												<p>Πώς μπορείς να υπολογίσεις το ύψος ενός κτιρίου από τη σκιά του; Ανακάλυψε τις σχέσεις ανάμεσα στις γωνίες και τις πλευρές των τριγώνων.</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
 												Περιεχόμενα
@@ -504,24 +599,31 @@
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-math">
 											<div class="inner">
 												<h3>2 &nbsp; Συναρτήσεις</h3>
-												<img src="images/math.png">
-												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+												<img class="lesson-icon" src="images/lesson-icons/functions.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
+												<p>Πώς συνδέονται δύο ποσότητες που μεταβάλλονται; Εξερεύνησε συναρτήσεις και μάθε να διαβάζεις τις γραφικές τους παραστάσεις.</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
 												Περιεχόμενα
@@ -562,24 +664,31 @@
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-math">
 											<div class="inner">
 												<h3>3 &nbsp; Ανισώσεις</h3>
-												<img src="images/math.png">
-												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+												<img class="lesson-icon" src="images/lesson-icons/inequalities.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
+												<p>Ποιες τιμές ικανοποιούν μια ανίσωση; Μάθε να συγκρίνεις παραστάσεις και να παρουσιάζεις τις λύσεις στην αριθμογραμμή.</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
 												Περιεχόμενα
@@ -620,24 +729,31 @@
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 
 					<div class="col-xl-3 col-lg-4 col-md-6">
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-math">
 											<div class="inner">
 												<h3>4 &nbsp; Γεωμετρία</h3>
-												<img src="images/math.png">
-												<p>Investigate everyday physics, from household objects to weather patterns.</p>
+												<img class="lesson-icon" src="images/lesson-icons/geometry.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
+												<p>Πώς υπολογίζουμε αποστάσεις, εμβαδά και όγκους; Εξερεύνησε τις ιδιότητες των σχημάτων και τις σχέσεις μεταξύ τους.</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
 												Περιεχόμενα
@@ -678,255 +794,14 @@
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 					</div>
 
 				</div>
 
 			</div>
-			<!-- Programming -->
-			<div id="programming-lessons">
-				<h2>Προγραμματισμος</h2>
-				<div class="heading-underline"></div>
 
-				<div class="row text-center">
-
-					<div class="col-xl-3 col-lg-4 col-md-6">
-						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
-								<div class="thecard">
-									<div class="thefront">
-										<div class="card card-programming">
-											<div class="inner">
-												<h3>LaTeX</h3>
-												<img src="images/physicslogo.png">
-												<p>Investigate everyday physics, from household objects to weather patterns.</p>
-											</div>
-										</div>
-									</div>
-									<div class="theback">
-										<div class="card backface-card">
-											<div class="card-header text-center">
-												Περιεχόμενα
-											</div>
-
-											<ul class="list-unstyled components">
-												<li>
-													16.1 &nbsp; Εισαγωγή
-												</li>
-												<li>
-													16.2 &nbsp; Ο ήχος
-												</li>
-												<li>
-													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
-												</li>
-												<li>
-													16.4 &nbsp; Επίπεδο και ένταση ήχου
-												</li>
-												<li>
-													16.5 &nbsp; Το φαινόμενο Doppler
-												</li>
-												<li>
-													16.6 &nbsp; Συμβολή και συντονισμός
-												</li>
-												<li>
-													16.7 &nbsp; Ακοή
-												</li>
-												<li>
-													16.8 &nbsp; Υπέρηχοι
-												</li>
-												<li>
-													16.9 &nbsp; Συντονισμός
-												</li>
-												<li>
-													16.10 &nbsp; Κρουστικά κύματα
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-
-					<div class="col-xl-3 col-lg-4 col-md-6">
-						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
-								<div class="thecard">
-									<div class="thefront">
-										<div class="card card-programming">
-											<div class="inner">
-												<h3>LaTeX</h3>
-												<img src="images/physicslogo.png">
-												<p>Investigate everyday physics, from household objects to weather patterns.</p>
-											</div>
-										</div>
-									</div>
-									<div class="theback">
-										<div class="card backface-card">
-											<div class="card-header text-center">
-												Περιεχόμενα
-											</div>
-
-											<ul class="list-unstyled components">
-												<li>
-													16.1 &nbsp; Εισαγωγή
-												</li>
-												<li>
-													16.2 &nbsp; Ο ήχος
-												</li>
-												<li>
-													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
-												</li>
-												<li>
-													16.4 &nbsp; Επίπεδο και ένταση ήχου
-												</li>
-												<li>
-													16.5 &nbsp; Το φαινόμενο Doppler
-												</li>
-												<li>
-													16.6 &nbsp; Συμβολή και συντονισμός
-												</li>
-												<li>
-													16.7 &nbsp; Ακοή
-												</li>
-												<li>
-													16.8 &nbsp; Υπέρηχοι
-												</li>
-												<li>
-													16.9 &nbsp; Συντονισμός
-												</li>
-												<li>
-													16.10 &nbsp; Κρουστικά κύματα
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-
-					<div class="col-xl-3 col-lg-4 col-md-6">
-						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
-								<div class="thecard">
-									<div class="thefront">
-										<div class="card card-programming">
-											<div class="inner">
-												<h3>LaTeX</h3>
-												<img src="images/physicslogo.png">
-												<p>Investigate everyday physics, from household objects to weather patterns.</p>
-											</div>
-										</div>
-									</div>
-									<div class="theback">
-										<div class="card backface-card">
-											<div class="card-header text-center">
-												Περιεχόμενα
-											</div>
-
-											<ul class="list-unstyled components">
-												<li>
-													16.1 &nbsp; Εισαγωγή
-												</li>
-												<li>
-													16.2 &nbsp; Ο ήχος
-												</li>
-												<li>
-													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
-												</li>
-												<li>
-													16.4 &nbsp; Επίπεδο και ένταση ήχου
-												</li>
-												<li>
-													16.5 &nbsp; Το φαινόμενο Doppler
-												</li>
-												<li>
-													16.6 &nbsp; Συμβολή και συντονισμός
-												</li>
-												<li>
-													16.7 &nbsp; Ακοή
-												</li>
-												<li>
-													16.8 &nbsp; Υπέρηχοι
-												</li>
-												<li>
-													16.9 &nbsp; Συντονισμός
-												</li>
-												<li>
-													16.10 &nbsp; Κρουστικά κύματα
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-
-					<div class="col-xl-3 col-lg-4 col-md-6">
-						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
-								<div class="thecard">
-									<div class="thefront">
-										<div class="card card-programming">
-											<div class="inner">
-												<h3>LaTeX</h3>
-												<img src="images/physicslogo.png">
-												<p>Investigate everyday physics, from household objects to weather patterns.</p>
-											</div>
-										</div>
-									</div>
-									<div class="theback">
-										<div class="card backface-card">
-											<div class="card-header text-center">
-												Περιεχόμενα
-											</div>
-
-											<ul class="list-unstyled components">
-												<li>
-													16.1 &nbsp; Εισαγωγή
-												</li>
-												<li>
-													16.2 &nbsp; Ο ήχος
-												</li>
-												<li>
-													16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου
-												</li>
-												<li>
-													16.4 &nbsp; Επίπεδο και ένταση ήχου
-												</li>
-												<li>
-													16.5 &nbsp; Το φαινόμενο Doppler
-												</li>
-												<li>
-													16.6 &nbsp; Συμβολή και συντονισμός
-												</li>
-												<li>
-													16.7 &nbsp; Ακοή
-												</li>
-												<li>
-													16.8 &nbsp; Υπέρηχοι
-												</li>
-												<li>
-													16.9 &nbsp; Συντονισμός
-												</li>
-												<li>
-													16.10 &nbsp; Κρουστικά κύματα
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</a>
-						</div>
-					</div>
-
-				</div>
-
-			</div>
 
 			<!-- Scroll to top button-->
 			<a href="#" class="scrollToTop btn-primary" role="button">
@@ -939,17 +814,11 @@
 		<!-- Footer -->
 		<div id="Footer">
 			<footer>
-				<div class="row text-center">
-					<div class="col-md-12 text-center social padding">
-						<a href="https://www.facebook.com"><img class="fab fa-facebook"></a>
-						<a href="https://twitter.com/?lang=el"><img class="fab fa-twitter"></a>
-						<!--			<a href="#"><img class="fab fa-google-plus-g"></a>-->
-						<a href="https://www.instagram.com/?hl=el"><img class="fab fa-instagram"></a>
-						<a href="https://www.youtube.com/?hl=el&gl=GR"><img class="fab fa-youtube"></a>
-						<br>
-						<p>Copyright &copy; dizzyelectron.com</p>
-					</div>
-				</div>
+			    <a class="footer-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
+			        <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
+			            <image href="images/dizzy-electron-feynman-logo-titlecase.png" width="1983" height="793" />
+			        </svg>
+			    </a>
 			</footer>
 		</div>
 	</body>

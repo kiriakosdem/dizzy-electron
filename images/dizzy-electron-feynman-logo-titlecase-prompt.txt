@@ -1,0 +1,8 @@
+Edited with the built-in image generation tool; transparent background enabled.
+Source: images/dizzy-electron-feynman-logo.png
+
+Use case: precise-object-edit / logo-brand.
+Edit the supplied Dizzy Electron logo. Change ONLY its wordmark typography to make it friendlier and less aggressive.
+Replace "DIZZY" with the exact title-case text "Dizzy" on the top line, and replace "ELECTRON" with the exact title-case text "Electron" on the bottom line. Only the first letter of each word is uppercase; every other letter is genuinely lowercase, not small capitals. Keep the two-line arrangement, with Dizzy larger and Electron smaller.
+Use a softer, approachable geometric sans-serif: confident medium-bold weight, gently rounded letterforms, open counters, and at most a slight forward lean. Reduce the sharp, heavy racing-logo quality of the original lettering. Use normal, carefully balanced letter spacing on Electron rather than the very wide all-cap spacing. Preserve the clean stylized character and optical balance with the emblem.
+Critical invariants: preserve the Feynman-diagram emblem on the left exactly, including all four arrowed fermion legs, the two vertices and the short amber wavy connecting photon line. Preserve the navy and amber palette, the horizontal emblem-plus-two-line-wordmark layout, the emblem's proportions and position, and the transparent background. Keep the graphic crisp. No new icons, labels, ornaments, orbital rings, slogans, textures, shadows, gradients, or mockup. The only wording must read "Dizzy Electron". Preserve actual alpha transparency.

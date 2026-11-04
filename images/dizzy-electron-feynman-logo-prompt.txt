@@ -1,0 +1,13 @@
+Generated with the built-in image generation tool; transparent background enabled.
+
+Use case: logo-brand.
+Create a completely new, strikingly stylized logo for the interactive physics education website "Dizzy Electron", inspired by a Feynman diagram. This is a fresh creative direction: graphic, clever, energetic, and professionally art-directed.
+Deliver ONE finished logo lockup on a genuinely transparent background.
+
+Symbol: turn a minimal electron-electron scattering diagram into a distinctive compact emblem. Two bold, angular fermion lines face one another like opposing chevrons: a left interaction vertex with an incoming lower-left leg and outgoing upper-left leg; a right interaction vertex with an incoming lower-right leg and outgoing upper-right leg. A short wavy photon propagator joins the two vertices through the center. Incorporate small, beautifully integrated directional arrowheads into the solid fermion lines. Exactly two interaction vertices; the wavy line meets the solid lines cleanly. Make the silhouette tight and balanced, with confident thick strokes, slightly softened corners, and deliberate negative space. Subtle overall forward momentum gives the emblem its 'dizzy' personality. Avoid dots or particle balls: the line geometry itself is the identity.
+
+Wordmark: set "DIZZY" above "ELECTRON" beside the emblem. Custom bold, slightly forward-slanted geometric display lettering, with distinctive angular Z forms echoing the electron lines. ELECTRON smaller and letterspaced below DIZZY. The two lines form a compact block aligned with the emblem. The exact only text is "DIZZY" and "ELECTRON". Strong typographic craft, crisp legible letters, balanced spacing. This should look like a memorable contemporary independent science brand.
+
+Palette: deep ink navy (#001e3c) for the fermion lines and type; warm amber for the wavy photon connector. Flat solid ink, crisp vector-like edges.
+Composition: one horizontal emblem-plus-wordmark lockup, centered, tightly composed with modest clear margins; roughly 2.5:1 overall silhouette.
+Strict exclusions: no planetary atom model, no nucleus, no orbiting balls, no circular or elliptical orbital rings, no enclosing badge, no generic isolated sine wave with a minus-sign ball, no cute face, no physics labels or equations, no extra text, no mockup or presentation board, no gradients, no shadows, no 3D, no texture, no watermark, no multiple alternatives. Preserve true transparent alpha around the design.

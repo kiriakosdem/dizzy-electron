@@ -1,0 +1,10 @@
+Generated with the built-in image generation tool; transparent background enabled.
+
+Use case: logo-brand.
+Asset type: a finished logo concept for the interactive physics education website "Dizzy Electron".
+Create ONE original, beautifully balanced horizontal logo on a genuinely transparent background. Icon on the left, the exact wordmark "Dizzy Electron" on the right, no other text.
+Concept: an electron expressed through a playful wave, without any planetary model of an atom. Design a compact, distinctive abstract icon consisting of a short, bold, fluid sinusoidal wave with a little asymmetric wobble, paired with a single small solid electron dot bearing a clearly readable minus sign. The wave should be an open oscillating stroke, NOT a loop, ellipse, orbit, circular swoosh, or path surrounding the dot. The dot should sit beside the wave so it cannot be mistaken for a central nucleus. Convey curiosity and lively motion through the shape itself. Keep the mark simple and recognizable at small sizes.
+Typography: refined, friendly, bold italic serif wordmark, inspired by the website's literary serif typography; excellent optical spacing and clear spelling. "Dizzy Electron" on one line. The symbol and lettering should feel like one identity, not stock clip art next to a font.
+Palette: deep ink navy lettering (#001e3c), muted teal wave (related to #5f9ea0), a restrained warm amber electron dot. Flat solid colors with crisp smooth edges, vector-like finish.
+Composition: wide horizontal lockup, compact standalone icon roughly the wordmark's cap height to 1.5x cap height, enough clear space around the whole logo, no huge blank margins.
+Constraints: NO planetary atom, NO nucleus, NO orbital rings, NO orbiting particles, NO crossed ellipses, NO solar-system imagery, NO enclosing circle, NO multiple logo variants, NO mockup, NO paper texture, NO gradient, NO shadows, NO glow, NO 3D sphere, NO extra slogans, NO watermark. Transparent background, not a checkerboard painted into the image.

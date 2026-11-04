@@ -21,7 +21,7 @@
 			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 		<!-- Our Custom CSS -->
 		<link rel="stylesheet" 
-			  href="styleCommon.css">
+			  href="styleCommon.css?v=aligned-cards-2">
 		<link rel="stylesheet" 
 			  href="styleLesson.css">
 
@@ -170,20 +170,16 @@
 				<div class="order-0 ">
 					<!-- Left Box -->
 					<ul class="navbar-nav mr-auto">
-						<a class="navbar-brand" href="index.html">
-
-							<img src="images/atom%20(2).png">
-							Dizzy Electron
+						<a class="navbar-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
+						    <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
+						        <image href="images/dizzy-electron-feynman-logo-titlecase.png" width="1983" height="793" />
+						    </svg>
 						</a>
 
 					</ul>
 				</div>
 				<!-- Central Box -->
-				<!--<div class="mx-auto order-0">
-<a class="navbar-brand" href="index.html">
-<img src="images/physicslogo.png">
-</a>
-</div>-->
+
 				<!-- Right Box -->
 				<div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
 					<ul class="navbar-nav ml-auto">
@@ -198,8 +194,6 @@
 									   href="Contents.html#physics-lessons">Φυσική</a>
 									<a class="dropdown-item" 
 									   href="Contents.html#math-lessons">Μαθηματικά</a>
-									<a class="dropdown-item" 
-									   href="Contents.html#programming-lessons">Προγραμματισμός</a>
 								</div>
 							</div>
 						</div>
@@ -457,18 +451,25 @@
 						<div class="heading-underline"></div>
 
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-physics">
 											<div class="inner">
 												<h3>1 &nbsp; Ήχος και Ακοή</h3>
-												<img src="images/atom%20(2).png">
+												<img class="lesson-icon" src="images/lesson-icons/sound.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
 												<p>Σε πολλούς αρέσει να ακούνε μουσική αλλά σε κανέναν δεν αρέσει ο θόρυβος. Ποια είναι η φυσική διαφορά μεταξύ ήχου και θορύβου;</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
 												1 &nbsp; Ήχος και Ακοή
@@ -503,22 +504,29 @@
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-physics">
 											<div class="inner">
 												<h3>2 &nbsp; Θερμικές Ιδιότητες της Ύλης</h3>
-												<img src="images/atom%20(2).png">
+												<img class="lesson-icon" src="images/lesson-icons/thermal.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
 												<p>Πόσο πιο γρήγορα κινούνται τα μόρια του αέρα πάνω από ένα καυτό τηγάνι σε σχέση με τον περιβάλλοντα αέρα της κουζίνας;</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
 												2 &nbsp; Θερμικές Ιδιότητες της Ύλης
@@ -547,22 +555,29 @@
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 
 						<div class="maincontainer">
-							<a href="ExampleLesson1.html">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
 								<div class="thecard">
 									<div class="thefront">
 										<div class="card card-physics">
 											<div class="inner">
 												<h3>3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο</h3>
-												<img src="images/atom%20(2).png">
+												<img class="lesson-icon" src="images/lesson-icons/electric-field.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
 												<p>Ποιες ηλεκτρικές ιδιότητες του νερού το καθιστούν τόσο καλό διαλύτη;</p>
 											</div>
 										</div>
 									</div>
-									<div class="theback">
+									<div class="theback" hidden>
 										<div class="card backface-card">
 											<div class="card-header text-center">
 												3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο
@@ -594,7 +609,7 @@
 										</div>
 									</div>
 								</div>
-							</a>
+							</div>
 						</div>
 
 					</div>
@@ -609,17 +624,11 @@
 			<!-- Footer -->
 			<div id="Footer">
 				<footer>
-					<div class="row text-center">
-						<div class="col-md-12 text-center social padding">
-							<a href="https://www.facebook.com"><img class="fab fa-facebook"></a>
-							<a href="https://twitter.com/?lang=el"><img class="fab fa-twitter"></a>
-							<!--			<a href="#"><img class="fab fa-google-plus-g"></a>-->
-							<a href="https://www.instagram.com/?hl=el"><img class="fab fa-instagram"></a>
-							<a href="https://www.youtube.com/?hl=el&gl=GR"><img class="fab fa-youtube"></a>
-							<br>
-							<p>Copyright &copy; dizzyelectron.com</p>
-						</div>
-					</div>
+				    <a class="footer-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
+				        <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
+				            <image href="images/dizzy-electron-feynman-logo-titlecase.png" width="1983" height="793" />
+				        </svg>
+				    </a>
 				</footer>
 			</div>
 			

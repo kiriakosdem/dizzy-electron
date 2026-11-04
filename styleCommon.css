@@ -64,6 +64,56 @@ NAVIGATION BAR
 	color: white;
 }
 
+/* Approved Feynman logo. The viewBox crops transparent padding only. */
+.site-logo {
+    display: block;
+    flex-shrink: 0;
+    width: 230px;
+    max-width: 100%;
+    height: auto;
+}
+
+/* A reversible white treatment for the navy headers and footers. */
+.site-logo--inverse {
+    filter: brightness(0) invert(1);
+}
+
+#NavigationBar .navbar-brand {
+    display: block;
+}
+
+/* One outline style and a consistent visual footprint for every lesson. */
+.card .inner .lesson-icon {
+    display: block;
+    width: 125px;
+    height: 125px;
+    object-fit: contain;
+    margin: 2rem auto;
+}
+
+footer .footer-brand {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem 0 0.5rem;
+}
+
+@media (max-width: 575px) {
+    #NavigationBar .navbar-brand {
+        padding-left: 0;
+    }
+
+    #NavigationBar .order-0 {
+        min-width: 0;
+        max-width: calc(100% - 60px);
+    }
+
+    #NavigationBar .site-logo {
+        width: min(230px, calc(100vw - 88px));
+    }
+}
+
 #NavigationBar .nav-item{
 	margin-right: 0.4rem;
 	margin-left: 0.4rem;
@@ -238,7 +288,7 @@ FLIP CARD
 CARDS
 ----------------------------------------------------- */
 
-.card-physics, .card-math, .card-programming{
+.card-physics, .card-math{
 	margin: auto;
 	margin-bottom: 2rem;
 	padding: 0rem;
@@ -255,7 +305,7 @@ CARDS
 	background-size: cover; /* Resize the background image to cover the entire container */
 }
 
-.card-physics .inner, .card-math .inner, .card-programming .inner{
+.card-physics .inner, .card-math .inner{
 	border-radius: 0.8rem;
 	width: auto;
 	height: inherit;
@@ -264,7 +314,7 @@ CARDS
 	text-align: center;
 }
 
-.card-physics .inner h3, .card-math .inner h3, .card-programming .inner h3{
+.card-physics .inner h3, .card-math .inner h3{
 	height: 50px;
 	width: inherit;
 	padding: 0.5rem;
@@ -279,7 +329,7 @@ CARDS
 	flex-direction: column;*/
 }
 
-.card-physics .inner .card-header, .card-math .inner .card-header, .card-programming .inner .card-header{
+.card-physics .inner .card-header, .card-math .inner .card-header{
 	font-size: 1rem;
 	font-weight: bold;
 	border-top-left-radius: 0.4rem;
@@ -289,7 +339,8 @@ CARDS
 	color:white;
 }
 
-.card-physics .inner p, .card-math .inner p, .card-programming .inner p{
+.card-physics .inner p, .card-math .inner p{
+	text-indent: 0;
 	position: absolute;
 	padding: 0.7rem;
 	bottom: 0;
@@ -300,7 +351,7 @@ CARDS
 	text-align: left;
 }
 
-.card-physics .inner img, .card-math .inner img, .card-programming .inner img{
+.card-physics .inner img, .card-math .inner img{
 	width: 50%;
 	height: auto;
 	transition: all 1.5s ease;
@@ -308,21 +359,21 @@ CARDS
 }
 
 /*
-.card-physics:hover, .card-math:hover, .card-programming:hover{
+.card-physics:hover, .card-math:hover{
 background-image: none;
 background-color: rgb(0,0,0,0.8);
 color: transparent;
 }
 
-.card-physics:hover p, .card-math:hover p, .card-programming:hover p{
+.card-physics:hover p, .card-math:hover p{
 color: darkgray;
 }
 
-.card-physics:hover img, .card-math:hover img, .card-programming:hover img{
+.card-physics:hover img, .card-math:hover img{
 transform:  scale(1.2);
 }
 
-.card-physics:hover h3, .card-math:hover h3, .card-programming:hover h3{
+.card-physics:hover h3, .card-math:hover h3{
 color: darkgray;
 text-decoration: none;
 text-decoration-line: none;
@@ -348,16 +399,6 @@ text-decoration-line: none;
 
 .card-math .inner{
 	background-color: rgb(0,100,100,0);
-}
-
-/* Programming Cards */
-.card-programming{
-	background-color: rgb(0,0,100);
-	background-image: url("images/programming.jpg");
-}
-
-.card-programming .inner{
-	background-color: rgb(0,0,100,0);
 }
 
 .backface-card{
@@ -386,6 +427,105 @@ text-decoration-line: none;
 	margin: 0;
 }
 
+
+/* Unreleased lessons remain readable but have no link or flip interaction. */
+.lesson-card--locked {
+    height: 100%;
+    cursor: not-allowed;
+}
+
+.lesson-card--locked .thecard,
+.lesson-card--locked .thecard:hover {
+    transform: none;
+}
+
+.lesson-card--locked .card {
+    background-color: #48535d;
+    border-color: #66717b;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+}
+
+.lesson-card--locked .inner .lesson-icon {
+    opacity: 0.7;
+}
+
+.lesson-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    align-self: center;
+    flex-shrink: 0;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid #aebcc9;
+    border-radius: 999px;
+    background-color: #243442;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+}
+
+.lesson-status svg {
+    flex-shrink: 0;
+}
+
+.lesson-card--locked .inner p {
+    color: #e3e9ee;
+}
+
+/* Shared rows keep titles, icons, availability and descriptions aligned. */
+.thefront .card .inner {
+    display: grid;
+    grid-template-rows: 44px 100px 32px minmax(0, 1fr);
+    gap: 10px;
+    height: 100%;
+    width: 100%;
+    padding: 16px 14px 20px;
+    box-sizing: border-box;
+}
+
+.thefront .card .inner h3,
+.thefront .card .inner .card-header {
+    grid-row: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    height: 44px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    line-height: 22px;
+    font-size: 1rem;
+    text-shadow: none;
+}
+
+.thefront .card .inner .lesson-icon {
+    grid-row: 2;
+    width: 100px;
+    height: 100px;
+    margin: 0;
+    justify-self: center;
+}
+
+.thefront .lesson-status {
+    grid-row: 3;
+    justify-self: center;
+    align-self: center;
+    margin: 0;
+}
+
+.thefront .card .inner p {
+    grid-row: 4;
+    position: static;
+    align-self: start;
+    margin: 0;
+    padding: 0;
+    text-indent: 0;
+    line-height: 1.3rem;
+}
 
 /* ---------------------------------------------------
 SOCIAL ICONS STYLE

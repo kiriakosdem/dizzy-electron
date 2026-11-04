@@ -7,22 +7,22 @@
     <style>
         body { margin: 0; padding: 0; overflow: hidden; background-color: #05070f; font-family: sans-serif; color: #fff; }
         #canvas-container { width: 100vw; height: 100vh; position: absolute; z-index: 1; top:0; left:0; }
-        #controls { position: absolute; top: 20px; left: 20px; background: rgba(10,15,30,0.95); padding: 20px; border-radius: 10px; border: 1px solid #334155; z-index: 10; width: 260px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        #controls { position: absolute; top: 20px; left: 20px; background: rgba(10,15,30,0.95); padding: 20px; border-radius: 10px; border: 1px solid #334155; z-index: 10; width: 260px; max-width: calc(100vw - 40px); max-height: calc(100vh - 40px); overflow-y: auto; box-sizing: border-box; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
         h3 { margin: 0 0 15px 0; color: #38bdf8; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; }
         .control-group { margin-bottom: 12px; }
         label { display: block; font-size: 0.8rem; color: #94a3b8; margin-bottom: 4px; }
         select { width: 100%; background: #1e293b; color: white; border: 1px solid #475569; padding: 6px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
     </style>
 
-    <!-- Load legacy script-scoped CDNs to bypass browser local import map restrictions -->
-    <script src="https://cloudflare.com"></script>
-    <script src="https://jsdelivr.net"></script>
+    <!-- Matching legacy builds expose THREE and THREE.OrbitControls globally. -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
     <div id="controls">
         <h3>Hydrogen Orbital Cloud</h3>
         <div class="control-group">
-            <label>Select Eigenstate Shell</label>
+            <label for="state-selector">Select Eigenstate Shell</label>
             <select id="state-selector">
                 <option value="1,0,0">1s (n=1, l=0, m=0) - Spherical Cloud</option>
                 <option value="2,1,0">2p_z (n=2, l=1, m=0) - Dumbbell</option>
