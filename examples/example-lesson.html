@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="gr">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" 
+			  content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" 
+			  content="IE=edge">
+
+		<title>Dizzy Electron | Physics of Hearing 16.4 </title>
+
+		<!-- CSS FILES -->
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" 
+			  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
+			  integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
+			  crossorigin="anonymous">
+		<!-- Font Awesome CSS -->
+		<link rel="stylesheet"
+			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+		<!-- Our Custom CSS -->
+		<link rel="stylesheet" 
+			  href="../assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/cards.css">
+		<link rel="stylesheet" 
+			  href="../assets/css/lesson.css">
+
+		<!-- JAVASCRIPT LIBRARIES -->		
+		<!-- Font Awesome -->
+		<script defer 
+				src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" 
+				integrity="sha384tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" 
+				crossorigin="anonymous"></script>
+		<script defer 
+				src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha3846OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" 
+				crossorigin="anonymous"></script>
+		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<!-- Popper -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+				integrity="sha384cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+		<!-- Bootstrap -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+				integrity="sha384uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+		<!-- Math -->
+		<script type="text/javascript" 
+				async 
+				src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+		<!-- Geogebra -->
+		<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+		<!-- p5.js Libraries -->
+		<script src="../assets/vendor/p5/p5.js"></script>
+		<!--<script src="../assets/vendor/p5/p5.dom.min.js"></script>	-->
+		<!--<script src="../assets/vendor/p5/p5.sound.min.js"></script>-->
+		<!--<script src="../assets/vendor/matter/matter.js"></script>-->
+
+		<!-- EXTRA JAVASCRIPT CODE -->		
+		<!-- Scroll to Top Button -->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$(window).scroll(function () {
+					if ($(this).scrollTop() > 500) {
+						$('.scrollToTop').fadeIn(100);
+					} else {
+						$('.scrollToTop').fadeOut(500);
+					}
+				});
+				// scroll body to 0px on click
+				$('.scrollToTop').click(function () {
+					$('body,html').animate({
+						scrollTop: 0
+					}, 500);
+					return false;
+				});
+			});
+		</script>
+		<!--Sidebar -->
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#sidebar").mCustomScrollbar({
+					theme: "minimal"
+				});
+
+				$('#dismiss, .overlay').on('click', function () {
+					$('#sidebar').removeClass('active');
+					$('.overlay').removeClass('active');
+				});
+
+				$('#sidebarCollapse').on('click', function () {
+					$('#sidebar').addClass('active');
+					$('.overlay').addClass('active');
+					$('.collapse.in').toggleClass('in');
+					$('a[aria-expanded=true]').attr('aria-expanded', 'false');
+				});
+			});
+		</script>
+		<!-- Geogebra Applets -->
+		<script type="text/javascript">
+			var parameters1 = {
+				//"appName": "geometry",
+				//"width": parent.width,
+				//"height": 400,
+				//"customToolbar":"0 || 1 || 2",
+				//"capturingThreshold":null,
+				//"errorDialogsActive":true,
+				//"filename":"../resources/geogebra/elipses.ggb" 
+				"playButton":true,
+				//"autoHeight":true,
+
+				"material_id": "mwgjept9",
+				"showToolBar":false,
+				"showToolBarHelp":false,
+				"showMenuBar":false,
+				"showAlgebraInput":false,
+				"showResetIcon":true,
+				"showFullscreenButton": true,
+				"enableLabelDrags":true,
+				"enableShiftDragZoom":true,
+				"enableRightClick":true,
+				"useBrowserForJS":false,
+				"allowUpScale": true,
+				"scaleContainerClass":"col",	
+			};
+
+			var parameters2 = {
+				//"appName": "geometry",
+				//"width": parent.width,
+				//"height": 400,
+				//"customToolbar":"0 || 1 || 2",
+				//"capturingThreshold":null,
+				//"errorDialogsActive":true,
+				//"filename":"../resources/geogebra/elipses.ggb" 
+				"playButton":true,
+				//"autoHeight":true,
+
+				"material_id": "ethcgfs8",
+				"showToolBar":false,
+				"showToolBarHelp":false,
+				"showMenuBar":false,
+				"showAlgebraInput":false,
+				"showResetIcon":true,
+				"showFullscreenButton": true,
+				"enableLabelDrags":true,
+				"enableShiftDragZoom":true,
+				"enableRightClick":true,
+				"useBrowserForJS":false,
+				"allowUpScale": true,
+				"scaleContainerClass":"col",	
+			};
+
+			var applet1 = new GGBApplet(parameters1, '5.0');
+			var applet2 = new GGBApplet(parameters2, '5.0')
+
+			window.addEventListener("load", function() {
+				applet1.inject('applet-container1');
+				applet2.inject('applet-container2');
+			});
+		</script>
+
+	</head>
+
+	<body>
+
+		<div id="content">
+
+			<!-- Navigation Bar -->
+		<div id="NavigationBar">
+			<nav class="navbar navbar-center navbar-expand-lg navbar-dark bg-dark">	
+				<div class="order-0 ">
+					<!-- Left Box -->
+					<ul class="navbar-nav mr-auto">
+						<a class="navbar-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
+						    <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
+						        <image href="../assets/brand/logo.png" width="1983" height="793" />
+						    </svg>
+						</a>
+
+					</ul>
+				</div>
+				<!-- Central Box -->
+
+				<!-- Right Box -->
+				<div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
+					<ul class="navbar-nav ml-auto">
+
+						<div class="nav-item">
+							<div class="dropdown">
+								<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Μαθήματα
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<a class="dropdown-item" 
+									   href="../contents/index.html#physics-lessons">Φυσική</a>
+									<a class="dropdown-item" 
+									   href="../contents/index.html#math-lessons">Μαθηματικά</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="nav-item">
+							<div class="dropdown">
+								<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Υλικό για Σχολεία
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+									<a class="dropdown-item" href="../contents/index.html">Α' Γυμνασίου</a>
+									<a class="dropdown-item" href="../contents/index.html">Β' Γυμνασίου</a>
+									<a class="dropdown-item" href="../contents/index.html">Γ' Γυμνασίου</a>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="../contents/index.html">Α' Λυκείου</a>
+									<a class="dropdown-item" href="../contents/index.html">Β' Λυκείου</a>
+									<a class="dropdown-item" href="../contents/index.html">Γ' Λυκείου</a>
+								</div>
+							</div>
+						</div>
+
+						<div class="nav-item">
+							<button class="btn" onclick="window.location.href = '../contents/index.html';">Σχετικά</button>
+						</div>
+
+						<div class="nav-item">
+							<button class="btn" onclick="window.location.href = '../contents/index.html';">Επικοινωνία</button>
+						</div>
+					</ul>
+				</div>
+				<!-- Toggler Button -->
+				<button class="navbar-toggler" 
+						type="button" 
+						data-toggle="collapse" 
+						data-target=".dual-collapse">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</nav>
+		</div>
+			
+			<!-- Breadcrumb -->
+			<ul class="breadcrumb">  
+				<li>
+					<a href="../contents/index.html#physics-lessons">Φυσική</a>
+				</li>
+				<li>
+					<a href="#">16 &nbsp; Η Φυσική της Ακοής</a>
+				</li>
+				<li>
+					<a>16.4 &nbsp; Επίπεδο και ένταση ήχου</a>
+				</li>
+			</ul>
+
+			<!-- Main Content -->
+			<div class="container">
+				<div class="row">
+
+					<!-- Main Column -->
+					<div class="col-lg-8 p-0 text-justify-not-xs">
+
+						<h1>16.4 &nbsp; Επίπεδο και ένταση ήχου</h1>
+
+						<div class="card learning-goals-card">
+							<div class="card-header text-center">
+								Διδακτικοί Στόχοι
+							</div>
+							<div class="card-body">
+								<p>Στο τέλος αυτού του μαθήματος θα είσαι σε θέση να:</p>
+								<ul style="list-style-type:disc;">
+									<li>Να ορίσεις τι είναι ήχος και τι ακοή</li>
+									<li>Να περιγράψεις τον ήχο σαν ένα διαμήκες κύμα πίεσης</li>
+								</ul>
+							</div>
+						</div>
+
+						<h2>Ιδανικό Αέριο σε Κουτί</h2>
+						<p class="text-justify-not-xs">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+						<div id="animation">
+							<div id="jscode" class="col-12 justify-content-center">	
+								<script src="../simulations/bouncing-balls/sketch.js"></script>
+								<script src="../simulations/bouncing-balls/piston.js"></script>
+								<script src="../simulations/bouncing-balls/billiard-ball.js"></script>
+							</div>
+							<figcaption class="figure-caption">
+								Προσομοίωση 1: Ιδανικό αέριο μέσα σε κουτί
+							</figcaption>
+						</div>
+
+						<h2>O Kύκλος του Μέτωνα</h2>
+
+						<div class="col">
+							<div id="applet-container1"></div> 
+							<figcaption class="figure-caption">
+								Ένας τρόπος να κατασκευάσουμε μια έλλειψη είναι και αυτός!
+							</figcaption>
+						</div>
+
+						<p>Οι κινήσεις του ουρανού μπορεί να φαίνονται χαοτικές και τυχαίες, διέπονται όμως από πλήρη κανονικότα. Παραδείγματος χάρη, ίσως να σας φαίνεται πως οι πανσέληνοι κάθε χρόνο πέφτουν σε διαφορετικές και εντελώς τυχαίες ημερομηνίες. Και πράγματι αν τις παρακολουθούσατε πιστά για 18 συνεχόμενα χρόνια θα ήσασταν πεπεισμένοι ότι έτσι έχουν τα πράγματα. Αν όμως δεν τα παρατήσετε απογοητευμένοι και ελέγξετε τι γίνεται και τον 19 χρόνο θα εκπλαγείτε. Γιατί όλες οι πανσέληνοι θα πέσουν τις ίδιες ημερομηνίες με αυτές του πρώτου χρόνου, όταν πρωτοξεκινούσατε την παρατήρηση. Και στις επόμενες χρονιές οι ημερομηνίες θα επαναληφθούν ακριβώς. </p>
+
+						<div class="col">
+							<div id="applet-container2"></div> 
+							<figcaption class="figure-caption">
+								Συμβολή κυμάτων από δύο πηγές σε συμφωνία φάσης. Οι περιοχές στις οποίες λαμβάνει χώρα η ενισχυτική συμβολή είναι κλάδοι υπερβολών.
+							</figcaption>
+						</div> 
+
+						<div class="card example-card">
+							<div class="card-header text-center">
+								Παράδειγμα
+							</div>
+							<div class="card-body">
+								<p class="cite">Ας πούμε ότι ξεκινήσατε την παρατήρηση το έτος 2000 και είδατε ότι η πανσέληνος του Αυγούστου έπεσε 15αύγουστο (που όντως έτσι συνέβη). Μαντέψτε λοιπόν φέτος πότε θα πέσει η πανσέληνος του Αυγούστου...  Αν σας έχει ξεμείνει κάποιο ημερολόγιο με τις πανσελήνους του 2000 τότε καλά θα κάνατε να μην το πετάξετε στα σκουπίδια γιατί θα μπορούσατε να το χρησιμοποιήσετε ξανά φέτος (2019), το 2038, το 2057, το 2076 κτλ. Θα μπορούσατε φυσικά να αγοράσετε και ένα καινούργιο αλλά όποιος ξέρει λίγη αστρονομία μπορεί να εξοικονομήσει χρήματα και κόπο. </p>
+								Δοκιμαστική Εξίσωση:
+								\[\gamma=\frac{1}{\sqrt{1-v^2/c^2}}\]
+							</div>	
+						</div>
+
+						<p>Κάθε 19 χρόνια λοιπόν, οι ημερομηνίες των πανσελήνων επαναλαμβάνονται. Το γεγονός αυτό ήταν ήδη γνωστό στους Βαβυλώνιους, όμως στην αρχαία Αθήνα το ανακάλυψε ο Μέτωνας το 432 π.Χ. περίπου, γι’ αυτό και αυτός ο 19ετής κύκλος, εκτός από κύκλος της σελήνης, ονομάστηκε και κύκλος του Μέτωνα. Και ήταν μια ανακάλυψη που εντυπωσίασε πάρα πολύ τους αρχαίους Αθηναίους τόσο ώστε να γράφουν κάθε χρόνο με χρυσά γράμματα σε όλα τα δημόσια καταστήματα σε ποια φάση του 19ετούς κύκλου βρίσκονται. Ο αριθμός 19 δε, είχε για αυτούς θεϊκή υπόσταση. Η πάνω σπείρα της πίσω όψης του μηχανισμού λοιπόν αντιπροσωπεύει τον σεληνιακό κύκλο (Κύκλο του Μέτωνα). Ο κύκλος αυτός διαρκεί 235 φεγγάρια γι’ αυτό και η σπείρα έχει τις αντίστοιχες υποδιαιρέσεις ενώ η βελόνα υποδεικνύει σε ποια φάση αυτού του κύκλου βρισκόμαστε. Όταν ο κύκλος ολοκληρωθεί, μόλις περάσουν 19 χρόνια, η βελόνα τερματίζει και θα πρέπει με το χέρι να επανατοποθετηθεί στην αφετηρία της οπότε και οι ημερομηνίες επαναλαμβάνονται.
+						</p>
+
+						<figure class="figure mt-4 mb-4">
+							<img src="../assets/images/background7.jpg"
+								 class="figure-img img-fluid" 
+								 alt="bd">
+							<figcaption class="figure-caption">
+								Εικόνα 1: Κεραυνός σε ουρανοξύστες
+							</figcaption>
+						</figure>
+
+						<p>Κάθε 19 χρόνια λοιπόν, οι ημερομηνίες των πανσελήνων επαναλαμβάνονται. Το γεγονός αυτό ήταν ήδη γνωστό στους Βαβυλώνιους, όμως στην αρχαία Αθήνα το ανακάλυψε ο Μέτωνας το 432 π.Χ. περίπου, γι’ αυτό και αυτός ο 19ετής κύκλος, εκτός από κύκλος της σελήνης, ονομάστηκε και κύκλος του Μέτωνα. Και ήταν μια ανακάλυψη που εντυπωσίασε πάρα πολύ τους αρχαίους Αθηναίους τόσο ώστε να γράφουν κάθε χρόνο με χρυσά γράμματα σε όλα τα δημόσια καταστήματα σε ποια φάση του 19ετούς κύκλου βρίσκονται. Ο αριθμός 19 δε, είχε για αυτούς θεϊκή υπόσταση. Η πάνω σπείρα της πίσω όψης του μηχανισμού λοιπόν αντιπροσωπεύει τον σεληνιακό κύκλο (Κύκλο του Μέτωνα). Ο κύκλος αυτός διαρκεί 235 φεγγάρια γι’ αυτό και η σπείρα έχει τις αντίστοιχες υποδιαιρέσεις ενώ η βελόνα υποδεικνύει σε ποια φάση αυτού του κύκλου βρισκόμαστε. Όταν ο κύκλος ολοκληρωθεί, μόλις περάσουν 19 χρόνια, η βελόνα τερματίζει και θα πρέπει με το χέρι να επανατοποθετηθεί στην αφετηρία της οπότε και οι ημερομηνίες επαναλαμβάνονται.
+						</p>
+
+						<h2>Ενσωματωμένο Βίντεο από YouTube</h2>
+
+						<p>Create a responsive video and scale it nicely to the parent element with an 16:9 aspect ratio</p>
+
+						<div id="embedded-media">
+							<div class="embed-responsive embed-responsive-16by9">
+								<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4tgOyU34D44"></iframe>
+							</div>
+						</div>
+
+						<h2>Ο Κύκλος "Σάρος"</h2>
+
+						<div class="content-wrapper">
+							<p>Εντελώς τυχαίες φαίνονται εκ πρώτης όψεως και οι ημερομηνίες στις οποίες συμβαίνουν εκλείψεις Ηλίου και Σελήνης. Και εδώ όμως υπάρχει ένα ακόμα μοτίβο. Όλα οφείλονται στην κίνηση του φεγγαριού. Το φεγγάρι ακολουθώντας πιστά την τροχιά του περνάει ανάμεσα από την Γη και τον Ήλιο κάθε 30 μέρες περίπου.</p>
+							<p>Γιατί λοιπόν δεν έχουμε έκλειψη Ηλίου κάθε 30 μέρες;</p>
+							<p>Ε λοιπόν δυστυχώς, η τροχιά του φεγγαριού δεν είναι τόσο απλή όσο φαντάζεστε, δεν είναι απλώς ένας κύκλος καρφωμένος γύρω από τη Γη. Εκτός από το φεγγάρι καθαυτό, η ίδια η τροχιά του εκτελεί ταυτόχρονα 2 ακόμα κινήσεις. Περιστρέφεται γύρω από τον εαυτό της 1 φορά κάθε 8.85 χρόνια σαν ένα τεράστιο χούλα-χουπ και σαν να μην έφτανε αυτό, ταλαντεύεται πάνω κάτω 1 φορά κάθε 18.60 χρόνια σαν ένα ασταθές φρίσμπι. Χάος! Κι όμως, ως εκ θαύματος όλες αυτές οι κινήσεις συγχρονίζονται με μεγάλη ακρίβεια κάθε 18 χρόνια 11 μέρες και 8 ώρες.</p>
+							<p>Το χρονικό διάστημα αυτό ονομάζεται κύκλος των εκλείψεων ή αλλιώς <b>«Σάρος»</b> και χρησιμοποιούνταν ήδη από τους Βαβυλώνιους ώστε να μπορούν να προβλέπουν τις επόμενες εκλείψεις.</p>
+							<p>Κάθε 1 Σάρος, το Φεγγάρι, η Γη και ο Ήλιος έρχονται στις ίδιες θέσεις, έχουν δηλαδή παρόμοια γεωμετρία, ίδιους προσανατολισμούς, ίδιες αποστάσεις κτλ. και συνεπώς, μία παρόμοια έκλειψη θα συμβεί. Παρόμοια, σημαίνει ότι όσο διαρκεί η μία τόσο θα διαρκέσει και η άλλη, αν το φεγγάρι ανεβαίνει για να καλύψει τον ήλιο το ίδιο θα γίνει και στην επόμενη, αν είναι ολική το ίδιο θα είναι και η επόμενη.</p>
+						</div>
+
+						<div class="image-wrapper float-right">
+							<figure class="figure ml-4 text-center">
+								<img src="../assets/images/background6.jpg"
+									 class="figure-img img-fluid" 
+									 alt="A generic image with rounded corners in a figure.">
+								<figcaption class="figure-caption">
+									Εικόνα 1: Φωτογραφία του φεγγαριού
+								</figcaption>
+							</figure>
+						</div>
+
+						<div class="content-wrapper">
+							<p>Προσοχή όμως! Αυτό δεν σημαίνει ότι οι εκλείψεις συμβαίνουν μία φορά στα 18 χρόνια. Ο κύκλος «Σάρος» εξασφαλίζει απλώς ότι οι εκλείψεις μια δεδομένης χρονιάς θα επαναληφθούν αυτούσιες μετά από 18 χρόνια. Για το τι θα συμβεί στο ενδιάμεσο δεν μας λέει τίποτα. Σε ένα χρονικό εύρος 18 χρόνων μπορεί να εμφανιστούν μέχρι και 100 εκλείψεις οι οποίες όμως θα διαφέρουν μεταξύ τους. Άλλες είναι μερικές, άλλες σύντομες, άλλες ολικές, σε άλλες το φεγγάρι ανεβαίνει για να καλύψει τον ήλιο, σε άλλες κατεβαίνει... Αν καταφέρετε όμως να τις μετρήσετε όλες τότε θα γνωρίζετε πολύ καλά και αυτές των 18 επόμενων ετών, καθώς και των 18 προηγούμενων ετών και ούτω καθεξής. Ε λοιπόν στην κάτω σπείρα της πίσω όψης του μηχανισμού έχουν κάνει ακριβώς αυτό. Έχουν σημειώσει όλες τις εκλείψεις, ηλίου και σελήνης, που εμφανίζονται εντός μιας 18ετίας, συνεπώς μπορούν να προβλέψουν και εκείνες κάθε προηγούμενης ή επόμενης 18ετίας. 1 «Σάρος» διαρκεί 223 φεγγάρια, γι’ αυτό η σπείρα είναι χωρισμένη σε αντίστοιχες υποδιαιρέσεις. Στο εσωτερικό της διακρίνεται ακόμα και ο κύκλος του Εξελιγμού, δηλαδή το χρονικό διάστημα των 3 «Σάρος» που απαιτείται για να επαναληφθεί μια έκλειψη στο ίδιο γεωγραφικό σημείο. 
+							</p>
+						</div>
+
+
+						<div class="card example-card">
+							<div class="card-header text-center">
+								Παράδειγμα
+							</div>
+							<div class="card-body">
+								Στις 29 Μαρτίου του 2006 συνέβη ολική έκλειψη στο Καστελόριζο.
+								<ul style="list-style-type:disc;">
+									<li>1 Σάρος μετά το Καστελόριζο, δηλαδή στις 8 Απριλίου του 2024 θα συμβεί η ίδια έκλειψη. Όμως υπάρχει μια επιπλοκή. Το Σάρος έχει και ένα κομμάτι 8 ωρών, αυτό σημαίνει ότι η έκλειψη δεν θα είναι ορατή πλέον από το Καστελόριζο αλλά από μια δυτικότερη χώρα με την οποία έχουμε διαφορά 8 ωρών: την Αμερική.</li>
+									<li>2 Σάρος μετά το Καστελόριζο, δηλαδή στις 20 Απριλίου του 2042, η έκλειψη θα είναι ορατή από μια χώρα η οποία θα είναι 8 ώρες δυτικότερα και από την Αμερική: τις Φιλιππίνες.</li>
+									<li>Προσέξτε όμως τι θα συμβεί 3 Σάρος μετά το Καστελόριζο. Στις 30 Απριλίου του 2060, η έκλειψη θα συμβεί ξανά στο Καστελόριζο, αφού θα έχει μετατοπιστεί πλέον ακόμα 8 ώρες. Μετά από 3 Σάρος τα 3 περισσευούμενα 8ωρα συμπληρώνουν 24 ώρες γύρω από τη Γη και συνεπώς ερχόμαστε ξανά στο ίδιο σημείο.
+									</li>
+								</ul>
+								Συμπέρασμα: Οι εκλείψεις επαναλαμβάνονται στο ίδιο γεωγραφικό σημείο κάθε 54 χρόνια και 1 μήνα. Η περίοδος αυτή ονομάζεται κύκλος του Εξελιγμού. 
+							</div>	
+						</div>
+
+
+						<div id="change-chapter" class="row m-auto">
+
+							<a href="#" class="btn mr-auto">
+								<i class="fas fa-arrow-left"></i>
+								&nbsp; 16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος ήχου
+							</a>
+
+
+							<a href="#" class="btn ml-auto">
+								16.5 &nbsp; Το Φαινόμενο Doppler &nbsp;
+								<i class="fas fa-arrow-right"></i>
+							</a>
+
+						</div>
+
+					</div>
+
+					<!-- Empty Column -->
+					<div class="col-lg-1 p-0"></div>
+
+					<!-- Navigation Column -->
+					<div class="col-lg-3 p-0">
+
+						<h4>Περιεχομενα Κεφαλαιου</h4>
+						<div class="heading-underline"></div>
+
+						<div class="card contents-card">
+							<div class="card-header text-center">
+								16 &nbsp; H Φυσική της Ακοής
+							</div>
+
+							<ul class="list-unstyled components">
+								<li>
+									<a href="#">16.1 &nbsp; Εισαγωγή</a>
+								</li>
+								<li>
+									<a href="#">16.2 &nbsp; Ο ήχος</a>
+								</li>
+								<li>
+									<a href="#">16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος του ήχου</a>
+								</li>
+								<li  class="active">
+									<a href="#">16.4 &nbsp; Επίπεδο και ένταση ήχου</a>
+								</li>
+								<li>
+									<a href="#">16.5 &nbsp; Το φαινόμενο Doppler</a>
+								</li>
+								<li>
+									<a href="#">16.6 &nbsp; Συμβολή και συντονισμός</a>
+								</li>
+								<li>
+									<a href="#">16.7 &nbsp; Ακοή</a>
+								</li>
+								<li>
+									<a href="#">16.8 &nbsp; Υπέρηχοι</a>
+								</li>
+								<li>
+									<a href="#">16.9 &nbsp; Συντονισμός</a>
+								</li>
+								<li>
+									<a href="#">16.10 &nbsp; Κρουστικά κύματα</a>
+								</li>
+							</ul>
+						</div>
+
+						<h4>Προτεινομενα Κεφαλαια</h4>
+						<div class="heading-underline"></div>
+
+						<div class="maincontainer">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>1 &nbsp; Ήχος και Ακοή</h3>
+												<img class="lesson-icon" src="../assets/icons/sound.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
+												<p>Σε πολλούς αρέσει να ακούνε μουσική αλλά σε κανέναν δεν αρέσει ο θόρυβος. Ποια είναι η φυσική διαφορά μεταξύ ήχου και θορύβου;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback" hidden>
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												1 &nbsp; Ήχος και Ακοή
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													1.1 &nbsp; Ηχητικά Κύματα
+												</li>
+												<li>
+													1.2 &nbsp; Ταχύτητα των Ηχητικών Κυμάτων
+												</li>
+												<li>
+													1.3 &nbsp; Ένταση Ήχου
+												</li>
+												<li>
+													1.4 &nbsp; Συντονισμός και Ήχος
+												</li>
+												<li>
+													1.5 &nbsp; Συμβολή Κυμάτων
+												</li>
+												<li>
+													1.6 &nbsp; Διακρότημα
+												</li>
+												<li>
+													1.7 &nbsp; Φαινόμενο Doppler
+												</li>
+												<li>
+													1.8 &nbsp; Κρουστικά Κύματα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="maincontainer">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>2 &nbsp; Θερμικές Ιδιότητες της Ύλης</h3>
+												<img class="lesson-icon" src="../assets/icons/thermal.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
+												<p>Πόσο πιο γρήγορα κινούνται τα μόρια του αέρα πάνω από ένα καυτό τηγάνι σε σχέση με τον περιβάλλοντα αέρα της κουζίνας;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback" hidden>
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												2 &nbsp; Θερμικές Ιδιότητες της Ύλης
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													2.1 &nbsp; Καταστατικές Εξισώσεις
+												</li>
+												<li>
+													2.2 &nbsp; Μοριακές Ιδιότητες της Ύλης
+												</li>
+												<li>
+													2.3 &nbsp; Κινητικό-Μοριακό Μοντέλο Ιδανικού Αερίου
+												</li>
+												<li>
+													2.4 &nbsp; Θερμοχωρητικότητα
+												</li>
+												<li>
+													2.5 &nbsp; Μοριακές Ταχύτητες
+												</li>
+												<li>
+													2.6 &nbsp; Φάσεις της Ύλης
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="maincontainer">
+							<div class="lesson-card--locked" role="group" aria-disabled="true">
+								<div class="thecard">
+									<div class="thefront">
+										<div class="card card-physics">
+											<div class="inner">
+												<h3>3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο</h3>
+												<img class="lesson-icon" src="../assets/icons/electric-field.svg" width="125" height="125" alt="" loading="lazy">
+												<span class="lesson-status">
+												    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+												        <rect x="5" y="10" width="14" height="11" rx="2" />
+												        <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+												    </svg>
+												    Προσεχώς
+												</span>
+												<p>Ποιες ηλεκτρικές ιδιότητες του νερού το καθιστούν τόσο καλό διαλύτη;</p>
+											</div>
+										</div>
+									</div>
+									<div class="theback" hidden>
+										<div class="card backface-card">
+											<div class="card-header text-center">
+												3 &nbsp; Ηλεκτρικό Φορτίο και Ηλεκτρικό Πεδίο
+											</div>
+
+											<ul class="list-unstyled components">
+												<li>
+													3.1 &nbsp; Ηλεκτρικό Φορτίο
+												</li>
+												<li>
+													3.2 &nbsp; Αγωγοί, Μονωτές και Επαγώμενα Ρεύματα
+												</li>
+												<li>
+													3.3 &nbsp; Νόμος του Coulomb
+												</li>
+												<li>
+													3.4 &nbsp; Ηλεκτρικό Πεδίο και Ηλεκτρικές Δυνάμεις
+												</li>
+												<li>
+													3.5 &nbsp; Υπολογισμοί Ηλεκτρικού Πεδίου
+												</li>
+												<li>
+													3.6 &nbsp; Ηλεκτρικές Δυναμικές Γραμμές
+												</li>
+												<li>
+													3.7 &nbsp; Ηλεκτρικά Δίπολα
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>	
+			</div>
+
+			<!-- Scroll to top button-->
+			<a href="#" class="scrollToTop btn-primary" role="button">
+				<i class="fa fa-arrow-up" aria-hidden="true"></i>
+			</a>
+
+			<!-- Footer -->
+			<div id="Footer">
+				<footer>
+				    <a class="footer-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
+				        <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
+				            <image href="../assets/brand/logo.png" width="1983" height="793" />
+				        </svg>
+				    </a>
+				</footer>
+			</div>
+			
+		</div>
+		
+	</body>
+
+</html>

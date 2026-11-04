@@ -2,7 +2,7 @@
 
 A standalone electromagnetic field laboratory with mouse-controlled charge motion, a draggable field probe, and a toggle that highlights changing electric-field vectors.
 
-Open `index.html` in a modern browser. The application needs no installation, external libraries, remote fonts, internet connection, or server. The separately supplied `charge_field_lab_v2.html` is identical to `index.html`.
+Open `index.html` in a modern browser. The application needs no installation, external libraries, remote fonts, internet connection, or server.
 
 ## Start and interact
 
@@ -76,18 +76,18 @@ The built-in physics panel includes the field equations, all symbol definitions,
 
 ## Tests
 
-Both numerical test suites use only Node.js built-in modules and extract the actual engine from `index.html`:
+From this directory, both numerical test suites use only Node.js built-in modules and extract the actual engine from `index.html`:
 
 ```sh
-node test_physics.cjs
-node test_manual.cjs
+node tests/physics.test.cjs
+node tests/manual.test.cjs
 ```
 
-`test_physics.cjs` preserves the first version's 1,600-sample checks, including the stationary limit, retarded-time residual, transversality, magnetic identity, distance scaling, pulse causality, and analytic trajectory derivatives.
+`tests/physics.test.cjs` preserves the first version's 1,600-sample checks, including the stationary limit, retarded-time residual, transversality, magnetic identity, distance scaling, pulse causality, and analytic trajectory derivatives.
 
-`test_manual.cjs` adds 1,200 field samples and additional checks for arbitrary placement, two-dimensional motion, rotation and translation covariance, horizontal acceleration, delayed response outside the causal cone, immutable past fields, piecewise trajectory derivatives and continuity, speed and acceleration limits, preservation of automatic prehistory, settling after release, and the highlight criterion.
+`tests/manual.test.cjs` adds 1,200 field samples and additional checks for arbitrary placement, two-dimensional motion, rotation and translation covariance, horizontal acceleration, delayed response outside the causal cone, immutable past fields, piecewise trajectory derivatives and continuity, speed and acceleration limits, preservation of automatic prehistory, settling after release, and the highlight criterion.
 
-`browser_validation.json` records the Chromium interface checks. These cover direct mouse and touch charge dragging, direct probe dragging, background probe placement, automatic mode transitions, highlighting, pausing, field isolation, camera gestures, pinch zoom, keyboard controls, replacement placement, modal notes, and snapshot export. Responsive page widths from 320 to 1024 pixels were checked for horizontal page overflow. Touch events were exercised in a mobile-sized Chromium context, not on physical phone hardware.
+`tests/browser-validation.json` is a historical report that records the Chromium interface checks. These cover direct mouse and touch charge dragging, direct probe dragging, background probe placement, automatic mode transitions, highlighting, pausing, field isolation, camera gestures, pinch zoom, keyboard controls, replacement placement, modal notes, and snapshot export. Responsive page widths from 320 to 1024 pixels were checked for horizontal page overflow. Touch events were exercised in a mobile-sized Chromium context, not on physical phone hardware.
 
 The container's Chromium policy blocks file navigation, so the browser tests loaded the exact self-contained HTML through Playwright's `set_content` method. The application itself does not require Playwright or a server. Other browser engines were not tested in this session.
 

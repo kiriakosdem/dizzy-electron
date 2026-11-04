@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
-const html = fs.readFileSync(path.join(__dirname,'index.html'),'utf8');
+const html = fs.readFileSync(path.join(__dirname, '../index.html'),'utf8');
 const P = vm.runInNewContext(html.match(/<script id="physics-engine">([\s\S]*?)<\/script>/)[1]+'\nChargeFieldPhysics;',{}, {timeout:1000});
 const report = {planarSamples:0,maxRetardedResidual:0,maxSpeed:0,maxAcceleration:0,maxDerivativeError:0,maxRelativeTransversalityError:0,maxHistoryContinuityError:0};
 function close(a,b,tol=1e-9) { assert.ok(Math.abs(a-b)<=tol, `${a} must equal ${b} within ${tol}`); }

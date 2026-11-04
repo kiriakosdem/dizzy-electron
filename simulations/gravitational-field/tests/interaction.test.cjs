@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
-const html=fs.readFileSync(path.join(__dirname,'../gravitational_field_lab.html'),'utf8');
+const html=fs.readFileSync(path.join(__dirname, '../index.html'),'utf8');
 const pageIds=new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g),m=>m[1]));
 const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
 

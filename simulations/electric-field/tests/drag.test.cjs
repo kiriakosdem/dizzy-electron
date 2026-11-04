@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
-const script=fs.readFileSync(path.join(__dirname,'../electric_field_lab.html'),'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+const script=fs.readFileSync(path.join(__dirname, '../index.html'),'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
 
 // Run the page's real handlers with deterministic layout and pointer capture.
 function openLab(compact,{empty=false,random}={}){

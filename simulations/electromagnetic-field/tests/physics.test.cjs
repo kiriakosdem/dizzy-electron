@@ -1,11 +1,11 @@
 'use strict';
-// Run with: node test_physics.cjs
+// Run with: node tests/physics.test.cjs
 // This tests the actual engine embedded in index.html, using only Node.js built-ins.
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
-const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 const match = html.match(/<script id="physics-engine">([\s\S]*?)<\/script>/);
 assert.ok(match, 'The embedded physics engine must exist.');
 const P = vm.runInNewContext(match[1] + '\nChargeFieldPhysics;', {}, { timeout: 1000 });

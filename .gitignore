@@ -1,0 +1,10 @@
+# OS and editor metadata
+.DS_Store
+Thumbs.db
+*.swp
+
+# Local Python caches and verification output
+__pycache__/
+*.py[cod]
+/coverage/
+/tmp/

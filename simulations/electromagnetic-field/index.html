@@ -1,0 +1,1053 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="An interactive, offline electromagnetic field laboratory with retarded Liénard–Wiechert fields, a moving point charge, and a movable field probe.">
+<title>Field Lab · Move the charge</title>
+<style>
+:root{--bg:#090c12;--panel:#11161e;--canvas:#0b1017;--border:#242c38;--text:#edf0f5;--muted:#9aa6b6;--subtle:#677486;--yellow:#f5d36b;--blue:#68b8ff;--mint:#8edac0;--radius:16px;--mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}button,input,select{font:inherit}button,select{cursor:pointer}button{color:inherit}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,canvas:focus-visible,summary:focus-visible{outline:2px solid var(--yellow);outline-offset:4px}button{touch-action:manipulation}svg{display:block}a{color:var(--blue)}button,select{-webkit-tap-highlight-color:transparent}::selection{background:#514529;color:#fff}.site-header{height:70px;border-bottom:1px solid #1d2530;display:flex;align-items:center;justify-content:space-between;padding:0 34px;max-width:1800px;margin:0 auto}.brand{display:flex;align-items:center;gap:11px;font-size:16px;font-weight:650;letter-spacing:2.1px}.brand-icon{color:var(--yellow);width:31px;height:31px}.header-left{display:flex;align-items:center;gap:32px}.breadcrumb{font-size:12px;color:var(--subtle)}.breadcrumb span{color:var(--muted);margin-left:10px}.header-right{display:flex;align-items:center;gap:24px}.live-label{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px}.live-dot{width:6px;height:6px;background:var(--mint);border-radius:50%;box-shadow:0 0 10px #8edac040}.text-button{border:0;background:transparent;padding:8px 0;display:inline-flex;align-items:center;gap:9px;color:#d2d9e2;font-size:12px}.text-button:hover{color:var(--yellow)}main{max-width:1640px;margin:0 auto;padding:28px 34px 18px}.intro{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}.eyebrow{font-size:10px;font-weight:650;letter-spacing:1.7px;color:var(--subtle);text-transform:uppercase}.intro h1{font-weight:520;letter-spacing:-1.05px;font-size:34px;margin:0 0 8px}.intro p{color:var(--muted);font-size:13px;margin:0;line-height:1.6}.slice-badge{white-space:nowrap;color:var(--subtle);border:1px solid var(--border);padding:8px 11px;border-radius:6px;font-size:10px;font-family:var(--mono);letter-spacing:.6px}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 304px;gap:20px;align-items:start}.visual-column{min-width:0}.stage{position:relative;background:var(--canvas);height:clamp(430px,calc(100vh - 359px),760px);min-height:430px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;isolation:isolate}.field-canvas{width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}.field-canvas.dragging{cursor:grabbing}.canvas-heading{pointer-events:none;position:absolute;top:21px;left:22px;z-index:2}.canvas-kicker{font-family:var(--mono);font-size:10px;color:#788697;letter-spacing:1.5px;margin-bottom:7px}.canvas-title{font-size:15px;font-weight:550;letter-spacing:.1px}.canvas-subtitle{color:#97a4b6;font-size:11px;margin-top:7px}.equation{font-family:var(--mono);color:var(--yellow);font-size:11px}.canvas-tools{position:absolute;right:18px;top:17px;display:flex;gap:6px}.icon-button{width:33px;height:33px;display:flex;align-items:center;justify-content:center;background:#111822d9;border:1px solid #2a3441;border-radius:7px;color:var(--muted)}.icon-button:hover{color:var(--text);background:#222d3a}.icon-button svg{width:15px;height:15px}.canvas-legend{pointer-events:none;display:flex;gap:16px;position:absolute;top:61px;right:21px;font-size:10px;color:var(--muted)}.legend-item{display:flex;align-items:center;gap:6px}.electric{color:var(--yellow)}.magnetic{color:var(--blue)}.key-symbol{font-size:16px;line-height:1}.legend-hidden{opacity:.3}.view-preset{position:absolute;left:20px;bottom:77px;display:flex;gap:1px;border:1px solid #293340;border-radius:6px;background:#101722e8;overflow:hidden}.view-preset button{background:transparent;color:#94a1b3;padding:7px 11px;font-size:10px;border:0;border-right:1px solid #293340}.view-preset button:last-child{border-right:0}.view-preset button:hover,.view-preset button.active{color:var(--yellow);background:#272719}.scale-readout{position:absolute;right:20px;bottom:89px;pointer-events:none;color:#a0aabd;font:10px var(--mono);text-align:center}.scale-rule{height:6px;border:1px solid #718095;border-top:0;margin-top:5px}.canvas-bottom{position:absolute;bottom:15px;left:18px;right:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none}.transport{pointer-events:auto;display:flex;align-items:center;gap:6px;padding:6px;background:#121a24ee;border:1px solid #2a3543;border-radius:10px;box-shadow:0 6px 28px #0005}.play-button{display:flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:6px;background:var(--yellow);color:#262212;width:89px;height:33px;font-size:11px;font-weight:700}.play-button:hover{background:#ffe697}.play-button svg{width:13px;height:13px}.transport .icon-button{border:0;background:transparent;width:28px;height:30px}.transport .icon-button:hover{background:#263140}.transport-divider{width:1px;height:23px;background:#2a3440;margin:0 4px}.time-readout{min-width:77px;font:11px var(--mono);color:#c2ccda;padding:0 4px}.speed-select{background:transparent;border:0;color:#bbc6d5;padding:5px 2px;font-size:11px;max-width:64px}.speed-select option{background:var(--panel)}.zoom-tools{pointer-events:auto;display:flex;align-items:center;gap:0;background:#121a24ee;border:1px solid #2a3543;border-radius:8px;padding:3px}.zoom-tools .icon-button{border:0;background:transparent;width:28px;height:29px}.zoom-label{font:10px var(--mono);color:#b5bfcd;width:43px;text-align:center}.stage-hint{position:absolute;bottom:73px;left:50%;transform:translateX(-50%);font-size:10px;color:#79879a;white-space:nowrap;pointer-events:none}.toast{position:absolute;left:50%;top:19px;transform:translate(-50%,-8px);opacity:0;background:#1b2532f5;box-shadow:0 4px 20px #0008;border:1px solid #3a4a5d;border-radius:7px;padding:10px 14px;z-index:4;max-width:70%;font-size:12px;line-height:1.4;text-align:center;transition:opacity .2s,transform .2s;pointer-events:none}.toast.visible{opacity:1;transform:translate(-50%,0)}.probe-card{margin-top:14px;border:1px solid var(--border);border-radius:12px;background:#10161e;padding:16px 19px}.probe-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;gap:12px}.probe-heading-label{display:flex;gap:8px;align-items:center;font-size:11px;font-weight:550}.probe-indicator{width:7px;height:7px;border:1px solid var(--mint);border-radius:50%}.probe-coordinates{font:10px var(--mono);color:var(--subtle)}.probe-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.probe-cell{border-right:1px solid #252f3d;min-width:0}.probe-cell:last-child{border-right:0}.probe-key{font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.25}.probe-value{font:16px var(--mono);letter-spacing:-.6px;white-space:nowrap}.probe-value.small{font-size:14px}.probe-unit{font:9px var(--mono);color:var(--subtle);margin-top:6px}.sidebar{border:1px solid var(--border);border-radius:var(--radius);background:var(--panel);overflow:hidden}.control-section{padding:20px;border-bottom:1px solid var(--border)}.control-section:last-child{border-bottom:0}.section-title{font-size:11px;font-weight:650;letter-spacing:.25px;margin:0 0 15px;display:flex;align-items:center;justify-content:space-between}.section-number{font:10px var(--mono);color:#677487}.mode-tabs{display:grid;grid-template-columns:1fr 1fr 1fr;padding:3px;background:#090e15;border:1px solid #232d3a;border-radius:8px;gap:2px}.mode-tab{border:0;border-radius:5px;font-size:10px;color:#8c9aaf;background:transparent;padding:10px 3px}.mode-tab.active{background:#302b1c;color:var(--yellow);box-shadow:inset 0 0 0 1px #5c4e29}.mode-tab:hover:not(.active){background:#19212e;color:#d5dde8}.mode-caption{margin:12px 0 0;color:var(--muted);font-size:11px;line-height:1.7;min-height:38px}.decay-tag{display:inline-block;font:10px var(--mono);color:var(--yellow);margin-right:4px}.source-tabs{display:flex;gap:14px;margin-bottom:16px}.source-tab{background:transparent;padding:0 0 7px;border:0;border-bottom:1px solid transparent;color:var(--subtle);font-size:11px}.source-tab.active{color:#dce4ed;border-bottom-color:var(--yellow)}.slider-row{margin:0 0 17px}.slider-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;font-size:11px;color:#aeb9c8}.slider-value{font:11px var(--mono);color:#d9e0ea}.range{display:block;width:100%;height:4px;border-radius:3px;appearance:none;-webkit-appearance:none;background:linear-gradient(to right,var(--yellow) 0%,var(--yellow) var(--fill,50%),#303b4c var(--fill,50%),#303b4c 100%);margin:0;padding:0;cursor:pointer;outline-offset:8px}.range::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;background:#f3d878;border:2px solid #111722;border-radius:50%;box-shadow:0 0 0 1px #e0c76e}.range::-moz-range-thumb{width:8px;height:8px;background:var(--yellow);border:2px solid #111722;border-radius:50%}.source-stats{display:flex;justify-content:space-between;font:10px var(--mono);color:var(--subtle);padding-top:2px}.source-stats b{font-weight:400;color:#b4c0d1}.source-note{font-size:10px;line-height:1.6;color:var(--subtle);margin:12px 0 0}.pulse-button{border:1px solid #665632;background:#302819;color:var(--yellow);border-radius:6px;padding:8px;width:100%;font-size:11px;margin:1px 0 11px}.pulse-button:hover{background:#45391f}[hidden]{display:none!important}.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;font-size:11px;color:#bbc6d4}.toggle-name{display:flex;align-items:center;gap:8px}.line-key{display:inline-block;width:10px;height:2px;background:var(--yellow)}.circle-key{display:inline-block;width:9px;height:9px;border:1px solid var(--blue);border-radius:50%;position:relative}.circle-key:after{content:"";width:2px;height:2px;position:absolute;top:2.5px;left:2.5px;border-radius:50%;background:var(--blue)}.guide-key{display:inline-block;width:10px;height:10px;border-radius:50%;border:1px dashed #8191a8}.switch{position:relative;display:inline-block;flex:none;width:29px;height:17px}.switch input{opacity:0;width:29px;height:17px;margin:0;position:absolute;z-index:2;cursor:pointer}.switch-track{position:absolute;inset:0;background:#2b3543;border:1px solid #394557;border-radius:12px;transition:background .15s}.switch-track:after{content:"";position:absolute;width:9px;height:9px;top:3px;left:3px;border-radius:50%;background:#8190a4;transition:transform .15s,background .15s}.switch input:checked+.switch-track{background:#3f3823;border-color:#716039}.switch input:checked+.switch-track:after{transform:translateX(12px);background:var(--yellow)}.switch.blue input:checked+.switch-track{background:#1c3a52;border-color:#336180}.switch.blue input:checked+.switch-track:after{background:var(--blue)}.switch input:focus-visible+.switch-track{outline:2px solid var(--yellow);outline-offset:3px}.display-section .slider-row{margin-top:20px;margin-bottom:9px}.display-note{font-size:10px;color:var(--subtle);margin-top:11px;line-height:1.5}.advanced{margin-top:14px;color:var(--subtle);font-size:10px}.advanced summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;user-select:none}.advanced summary::-webkit-details-marker{display:none}.advanced summary:after{content:"+";font-size:15px}.advanced[open] summary:after{content:"−"}.advanced-body{padding:16px 0 0}.setting-line{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.setting-line select{max-width:139px;background:#0c121a;color:#b6c2d2;border:1px solid #303c4d;border-radius:5px;padding:6px;font-size:10px}.small-note{font-size:10px;line-height:1.65;color:var(--subtle);margin:0}.insight{margin-top:16px;display:flex;align-items:flex-start;gap:11px;padding:0 2px}.insight-icon{margin-top:1px;color:#78889c;flex:none}.insight p{margin:0;color:#8695a9;font-size:11px;line-height:1.8}.insight strong{font-weight:550;color:#becbdc}.inline-button{font-size:11px;color:var(--yellow);background:none;border:0;padding:0;text-align:left}.inline-button:hover{text-decoration:underline}.footer{display:flex;justify-content:space-between;gap:20px;color:#657184;font:10px var(--mono);line-height:1.7;padding-top:20px}.footer-right{white-space:nowrap}.keycap{font-family:var(--mono);border:1px solid #344152;padding:1px 5px;border-radius:3px;font-size:9px;color:#9ba9bc}dialog{color:var(--text);background:#111822;border:1px solid #3b495c;border-radius:18px;width:min(800px,calc(100% - 30px));max-height:88vh;padding:0;box-shadow:0 30px 120px #000b}dialog::backdrop{background:#02050acb;backdrop-filter:blur(5px)}.dialog-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:16px;background:#111822f5;padding:22px 28px;border-bottom:1px solid #2a3543;z-index:2}.dialog-head h2{font-weight:550;font-size:21px;margin:0}.dialog-body{padding:7px 28px 27px;line-height:1.8;font-size:13px;color:#b4c0d0}.dialog-body h3{font-size:14px;color:#e1e8f2;font-weight:600;margin:25px 0 8px}.dialog-body p{margin:10px 0}.math-block{font-family:var(--mono);font-size:12px;line-height:2.2;background:#0a1018;border:1px solid #293547;border-radius:8px;padding:14px 17px;overflow-x:auto;color:#dfd5ab}.math-row{white-space:nowrap}.math-block b{font-weight:600}.definition-grid{display:grid;grid-template-columns:100px minmax(0,1fr);gap:5px 15px;margin:12px 0;font-size:12px}.definition-grid dt{font-family:var(--mono);color:#d7e0ed}.definition-grid dd{margin:0}.note-box{border-left:2px solid var(--yellow);padding:8px 15px;background:#26241a;color:#d1c6a4;font-size:12px;line-height:1.8;margin-top:18px}.source-reference{font-size:11px;border-top:1px solid #2a3543;padding-top:17px;margin-top:23px}.source-reference a{overflow-wrap:anywhere}.shortcut-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 25px;font-size:12px}.shortcut-grid div{display:flex;justify-content:space-between}.stage:fullscreen{width:100vw;height:100vh;border-radius:0;border:0}.stage:fullscreen .canvas-heading{top:28px;left:28px}.canvas-empty{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);padding:14px 18px;border:1px solid #38465a;background:#121b28ea;border-radius:8px;color:#b6c3d5;font-size:12px;max-width:300px;text-align:center;pointer-events:none}
+@media(min-width:1500px){main{padding-top:34px}.intro{margin-bottom:28px}.intro h1{font-size:38px}.stage{height:clamp(520px,calc(100vh - 364px),790px)}.workspace{grid-template-columns:minmax(0,1fr) 318px}.control-section{padding:21px 22px}}
+@media(max-width:1150px){main{padding:24px 22px 16px}.site-header{padding:0 22px}.workspace{grid-template-columns:minmax(0,1fr) 282px;gap:14px}.control-section{padding:18px}.canvas-legend{top:94px;left:22px;right:auto}.probe-grid{gap:8px}.probe-value{font-size:14px}.probe-value.small{font-size:12px}.probe-key{font-size:9px}.probe-card{padding:15px}.stage-hint{display:none}.source-stats{font-size:9px}.canvas-title{font-size:14px}}
+@media(max-width:860px){.breadcrumb{display:none}.workspace{grid-template-columns:1fr}.stage{height:580px}.sidebar{display:grid;grid-template-columns:1fr 1fr}.control-section:first-child{grid-column:1/-1;padding-bottom:16px}.control-section:first-child .mode-caption{min-height:0}.control-section:nth-child(2){border-bottom:0;border-right:1px solid var(--border)}.mode-tabs{max-width:440px}.control-section{padding:20px}.canvas-legend{left:auto;right:22px;top:64px}.stage-hint{display:block}.probe-value{font-size:16px}.probe-value.small{font-size:14px}.probe-key{font-size:10px}.intro{margin-bottom:20px}.footer{flex-wrap:wrap}.source-stats{font-size:10px}.slice-badge{font-size:9px}.insight{margin-bottom:6px}}
+@media(max-width:540px){.site-header{height:61px;padding:0 16px}.brand{font-size:13px;letter-spacing:1.7px}.brand-icon{width:26px;height:26px}.header-right{gap:16px}.live-label{display:none}main{padding:23px 13px 15px}.intro{align-items:start}.intro h1{font-size:28px}.intro p{font-size:12px;max-width:320px}.slice-badge{display:none}.stage{height:510px;min-height:440px;border-radius:12px}.canvas-heading{top:18px;left:15px}.canvas-title{font-size:14px}.canvas-subtitle{font-size:10px}.canvas-tools{right:12px;top:13px}.canvas-legend{top:96px;left:15px;right:auto;gap:12px}.canvas-bottom{left:10px;right:10px;bottom:12px;gap:6px}.transport{gap:2px;padding:5px}.play-button{width:69px;font-size:10px;gap:4px}.transport-divider{margin:0 2px}.time-readout{font-size:10px;min-width:61px;padding:0 1px}.transport .icon-button{width:24px}.speed-select{font-size:10px;max-width:45px}.zoom-label{width:33px;font-size:9px}.zoom-tools .icon-button{width:24px}.zoom-tools{padding:3px 0}.zoom-tools .home-zoom{display:none}.stage-hint{display:none}.view-preset{left:13px;bottom:73px}.scale-readout{right:15px;bottom:78px}.probe-card{padding:15px 13px}.probe-grid{grid-template-columns:repeat(3,1fr);row-gap:19px}.probe-cell:nth-child(3){border:0}.probe-value{font-size:15px}.probe-coordinates{font-size:9px}.probe-heading{margin-bottom:18px}.sidebar{display:block}.control-section:first-child{padding-bottom:18px}.control-section:nth-child(2){border-right:0;border-bottom:1px solid var(--border)}.mode-tabs{max-width:none}.control-section{padding:20px}.mode-tab{font-size:11px}.source-note,.small-note,.display-note{font-size:11px}.source-stats{font-size:11px}.toggle-row,.slider-heading{font-size:12px}.footer{font-size:9px;gap:8px}.dialog-head{padding:19px}.dialog-body{padding:5px 19px 20px;font-size:12px}.dialog-head h2{font-size:19px}.definition-grid{grid-template-columns:78px 1fr;font-size:11px}.shortcut-grid{grid-template-columns:1fr}.toast{top:132px;max-width:86%;font-size:11px}.canvas-empty{max-width:230px;width:75%;font-size:11px}}
+@media(max-width:365px){.speed-select{display:none}.zoom-label{display:none}.canvas-title{max-width:195px;font-size:13px}.canvas-subtitle{max-width:210px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* Version 2: direct manipulation, placement, and temporal-field highlights. */
+:root{--active:#ffb071}
+.interaction-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;min-height:40px}
+.interaction-toolset{display:flex;gap:3px;padding:3px;border:1px solid var(--border);border-radius:9px;background:#0e141d;flex:none}
+.tool-button{display:flex;align-items:center;gap:7px;border:0;border-radius:5px;background:none;color:#98a6b9;padding:7px 11px;font-size:11px;white-space:nowrap}
+.tool-button:hover{background:#1c2532;color:#dbe3ef}.tool-button.active{background:#302b1b;color:var(--yellow)}
+.tool-button[data-tool=probe].active{background:#152d28;color:var(--mint)}.tool-button[data-tool=pan].active{background:#232e40;color:#c5d4e9}
+.tool-glyph{font:17px var(--mono);line-height:16px}.tool-status{font-size:10px;line-height:1.5;color:#8897ad;text-align:right}
+.placement-message{position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);width:285px;max-width:85%;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;pointer-events:none;padding:24px 20px;background:#0f1723ed;border:1px dashed #4b4a39;border-radius:14px;box-shadow:0 15px 60px #0003}
+.placement-symbol{font-size:30px;font-weight:300;color:var(--yellow);line-height:1}.placement-message strong{font-size:17px;font-weight:550;color:#eadbad;letter-spacing:-.2px}.placement-message>span:last-child{font-size:11px;line-height:1.8;color:#99a7ba}
+.place-charge-button{width:100%;border:1px solid #3c4655;color:#c2ccd9;background:#171f2b;border-radius:7px;padding:9px 8px;font-size:11px;margin-bottom:12px}.place-charge-button:hover{background:#222d3c}.place-charge-button.armed{border-color:#675a36;background:#2c281a;color:var(--yellow)}
+.manual-readout{display:flex;justify-content:space-between;gap:8px;font:10px var(--mono);color:#acb8c9;margin-bottom:18px}.manual-readout span:last-child{color:var(--yellow);white-space:nowrap}
+.manual-rate-row{margin-bottom:8px}.rate-note{font-size:10px;line-height:1.6;color:#78899f;margin:0 0 2px}.source-tabs{gap:12px;justify-content:space-between}.source-tab{font-size:10px;white-space:nowrap}
+.motion-highlight-control{padding:12px 11px;margin:2px -11px 16px;border:1px solid #413529;background:#231b132e;border-radius:8px}.motion-highlight-control .toggle-row{margin-bottom:9px;gap:6px}.motion-highlight-control .toggle-name{gap:6px;font-size:10px}
+.motion-key{display:inline-block;width:10px;height:3px;border-radius:3px;background:var(--active);box-shadow:0 0 7px #ff985c44}.changing{color:var(--active)}
+.highlight-detail{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:9px;line-height:1.6;color:#939aaa}.highlight-detail output{font:9px var(--mono);color:#768396;white-space:nowrap}.highlight-detail output.enabled{color:var(--active)}
+.switch.orange input:checked+.switch-track{background:#4a2e1d;border-color:#956044}.switch.orange input:checked+.switch-track:after{background:var(--active)}
+.probe-move-button{border:1px solid #2c4b44;border-radius:5px;background:#13261f;color:var(--mint);padding:4px 7px;font-size:9px;margin-left:auto;white-space:nowrap}.probe-move-button:hover{background:#1e392e}
+.probe-heading{flex-wrap:wrap;gap:8px}.canvas-legend{gap:12px}.stage-hint{bottom:69px;font-size:9px}
+@media(min-width:1500px){.stage{height:clamp(500px,calc(100vh - 400px),770px)}}
+@media(max-width:1150px){.tool-status{display:none}.interaction-toolbar{justify-content:flex-start}.source-tabs{gap:7px}.source-tab{font-size:9px}}
+@media(max-width:860px){.tool-status{display:block}.interaction-toolbar{justify-content:space-between}.source-tab{font-size:11px}}
+@media(max-width:540px){.tool-status{display:none}.interaction-toolbar{margin-bottom:9px}.desktop-word{display:none}.tool-button{font-size:11px;padding:7px 13px;text-transform:capitalize}.tool-glyph{font-size:18px}.interaction-toolset{width:100%;justify-content:space-between}.tool-button{flex:1;justify-content:center}.stage{height:505px}.canvas-legend{gap:10px;font-size:9px;max-width:calc(100% - 30px);flex-wrap:wrap;row-gap:5px}.canvas-legend .key-symbol{font-size:14px}.manual-readout{font-size:11px}.motion-highlight-control .toggle-name{font-size:12px}.highlight-detail{font-size:10px}.probe-heading-label{font-size:10px}.probe-coordinates{width:100%;margin-top:2px}.probe-move-button{font-size:10px}.source-tabs{justify-content:flex-start;gap:20px}.source-tab{font-size:11px}.placement-message{width:260px;padding:22px 17px}.placement-message strong{font-size:16px}}
+
+/* Lesson embeds can be narrower than a standalone phone viewport. */
+@media(max-width:360px){.footer-right{white-space:normal}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-left"><div class="brand"><svg class="brand-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M2 17h5l4-10 5 19 5-19 4 10h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>FIELD LAB</div><div class="breadcrumb">INTERACTIVE PHYSICS <span>/ &nbsp; ELECTROMAGNETISM</span></div></div>
+  <div class="header-right"><div class="live-label"><span class="live-dot" id="liveDot"></span><span id="liveText">Simulation running</span></div><button class="text-button" id="physicsButton">The physics <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8" stroke="currentColor" stroke-width="1.4"/></svg></button></div>
+</header>
+<main>
+  <div class="intro"><div><h1>A charge in motion.</h1><p>Place a charge. Move it by hand. Watch the field respond, near and far.</p></div><div class="slice-badge">2D SLICE &nbsp;·&nbsp; 3D FIELDS</div></div>
+  <div class="workspace">
+    <div class="visual-column">
+  <div class="interaction-toolbar">
+    <div class="interaction-toolset" role="group" aria-label="Pointer tool">
+      <button class="tool-button active" data-tool="charge" aria-pressed="true" title="Move the charge (Q)"><span class="tool-glyph charge-glyph">⊕</span><span><span class="desktop-word">Move </span>charge</span></button>
+      <button class="tool-button" data-tool="probe" aria-pressed="false" title="Move the probe (P)"><span class="tool-glyph probe-glyph">⌖</span><span><span class="desktop-word">Move </span>probe</span></button>
+      <button class="tool-button" data-tool="pan" aria-pressed="false" title="Pan the view (G). Shift-drag also pans."><span class="tool-glyph">✥</span><span>Pan</span></button>
+    </div>
+    <span class="tool-status" id="toolStatus">Click anywhere to place your charge</span>
+  </div>
+      <section class="stage" id="stage" aria-label="Interactive electromagnetic field visualization">
+        <canvas id="fieldCanvas" class="field-canvas" tabindex="0" aria-label="Electric and magnetic fields. Choose a position for the charge, then drag it. Drag the probe to measure. Shift-drag or use Pan to move the view. Scroll to zoom. Arrow keys move the probe.">This simulation needs a browser with HTML canvas support. Its field measurements are also shown in the probe panel below.</canvas>
+        <div class="canvas-heading"><div class="canvas-kicker" id="canvasKicker">01 / SUPERPOSITION</div><div class="canvas-title" id="canvasTitle">The complete electromagnetic field</div><div class="canvas-subtitle equation" id="canvasEquation">E = E<sub>velocity</sub> + E<sub>radiation</sub></div></div>
+        <div class="canvas-tools"><button class="icon-button" id="snapshotButton" title="Save a snapshot" aria-label="Save a snapshot"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 5h3l1-2h4l1 2h3v10H3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="9" cy="10" r="2.5" stroke="currentColor" stroke-width="1.3"/></svg></button><button class="icon-button" id="fullscreenButton" title="Full screen" aria-label="Full screen"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2.5 6V2.5H6M12 2.5h3.5V6M15.5 12v3.5H12M6 15.5H2.5V12" stroke="currentColor" stroke-width="1.4"/></svg></button></div>
+        <div class="canvas-legend"><div class="legend-item" id="electricLegend"><span class="electric key-symbol">↗</span> Electric field</div><div class="legend-item" id="magneticLegend"><span class="magnetic key-symbol">⊙ ⊗</span> Magnetic field</div><div class="legend-item" id="changingLegend" hidden><span class="changing key-symbol">↗</span>Changing field</div></div>
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+        <div class="placement-message" id="placementMessage"><span class="placement-symbol">⊕</span><strong>Place your charge</strong><span>Click or tap anywhere, then drag.<br>You choose where the experiment begins.</span></div>
+  <div class="canvas-empty" id="emptyMessage" hidden>Both field layers are hidden. Turn on an electric or magnetic layer to see the field.</div>
+        <div class="view-preset" role="group" aria-label="View presets"><button data-view="near" title="Inspect the field close to the charge">Near</button><button data-view="wide" class="active" title="Show both near and far fields">Overview</button><button data-view="far" title="Zoom out to see the radiation zone">Far</button></div>
+        <div class="stage-hint">Drag charge or probe &nbsp;·&nbsp; Shift-drag to pan &nbsp;·&nbsp; Scroll to zoom</div>
+        <div class="scale-readout"><span id="scaleLabel">5 units</span><div class="scale-rule" id="scaleRule"></div></div>
+        <div class="canvas-bottom">
+          <div class="transport" role="group" aria-label="Playback"><button class="play-button" id="playButton" aria-label="Pause simulation"><span id="playIcon"></span><span id="playLabel">Pause</span></button><button class="icon-button" id="stepButton" title="Step forward (.)" aria-label="Step forward"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="m4 4 7 5-7 5zM13 4v10" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></button><button class="icon-button" id="resetButton" title="Restart time (R)" aria-label="Restart time"><svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="transport-divider"></div><span class="time-readout" id="timeReadout" title="Time in normalized units">t = 6.50</span><select class="speed-select" id="speedSelect" aria-label="Playback speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></div>
+          <div class="zoom-tools" role="group" aria-label="Zoom"><button class="icon-button" id="zoomOut" aria-label="Zoom out" title="Zoom out (−)"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10" stroke="currentColor" stroke-width="1.5"/></svg></button><span class="zoom-label" id="zoomLabel">100%</span><button class="icon-button" id="zoomIn" aria-label="Zoom in" title="Zoom in (+)"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="1.5"/></svg></button><button class="icon-button home-zoom" id="homeButton" aria-label="Recenter view" title="Recenter view (H)"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m2 8 6-5 6 5M4 6.5V13h8V6.5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button></div>
+        </div>
+      </section>
+      <section class="probe-card" aria-label="Field probe measurements">
+        <div class="probe-heading"><div class="probe-heading-label"><span class="probe-indicator"></span>Field probe <span style="color:var(--subtle);font-weight:400" id="probeComponent">/ total field</span></div><button class="probe-move-button" id="moveProbeButton" title="Select the probe tool">Move probe</button><span class="probe-coordinates" id="probeCoordinates">x 13.50 &nbsp; y 3.10</span></div>
+        <div class="probe-grid">
+          <div class="probe-cell"><div class="probe-key">Velocity |E<sub>v</sub>|</div><div class="probe-value" id="probeVelocity">0.000</div><div class="probe-unit">normalized field</div></div>
+          <div class="probe-cell"><div class="probe-key">Radiation |E<sub>r</sub>|</div><div class="probe-value electric" id="probeRadiation">0.000</div><div class="probe-unit" id="probeRatio">ratio 0.0×</div></div>
+          <div class="probe-cell"><div class="probe-key">Angle ∠(E, n)</div><div class="probe-value" id="probeAngle">90.0°</div><div class="probe-unit">90° = transverse</div></div>
+          <div class="probe-cell"><div class="probe-key">Magnetic B<sub>z</sub></div><div class="probe-value small magnetic" id="probeMagnetic">+0.000</div><div class="probe-unit" id="probeMagneticSign">⊙ out of screen</div></div>
+          <div class="probe-cell"><div class="probe-key">Propagation delay</div><div class="probe-value" id="probeDelay">0.00</div><div class="probe-unit" id="probeEmission">t emitted 0.00</div></div>
+        </div>
+      </section>
+      <div class="insight"><svg class="insight-icon" width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.2"/><path d="M9 8v4M9 5.5v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><p><strong>Transverse from the start.</strong> The radiation term is perpendicular to the retarded propagation direction at every distance. Far away, its 1/R decay lets it dominate the 1/R² velocity term, except at radiation zeros. <button class="inline-button" id="isolateRadiation">Isolate the radiation ↗</button></p></div>
+    </div>
+    <aside class="sidebar" aria-label="Simulation controls">
+      <section class="control-section"><h2 class="section-title">Field composition <span class="section-number">01</span></h2><div class="mode-tabs" role="group" aria-label="Field component"><button class="mode-tab active" data-mode="total" aria-pressed="true">Total</button><button class="mode-tab" data-mode="velocity" aria-pressed="false">Velocity</button><button class="mode-tab" data-mode="radiation" aria-pressed="false">Radiation</button></div><p class="mode-caption" id="modeCaption"><span class="decay-tag">1/R² + 1/R</span><br>The sum of the velocity and acceleration fields.</p></section>
+      <section class="control-section">
+  <h2 class="section-title">Source motion <span class="section-number">02</span></h2>
+  <div class="source-tabs" role="group" aria-label="Source motion">
+    <button class="source-tab active" data-motion="manual" aria-pressed="true">Mouse</button>
+    <button class="source-tab" data-motion="continuous" aria-pressed="false">Continuous wave</button>
+    <button class="source-tab" data-motion="pulse" aria-pressed="false">Single pulse</button>
+  </div>
+  <div id="manualControls">
+    <button class="place-charge-button armed" id="placeChargeButton">Click the canvas to place</button>
+    <div class="manual-readout"><span id="chargeCoordinates">Not placed</span><span id="liveSourceSpeed">0.00 c</span></div>
+    <div class="slider-row manual-rate-row"><div class="slider-heading"><label for="manualRate">Mouse time rate</label><output class="slider-value" id="manualRateValue" for="manualRate">24 / second</output></div><input class="range" id="manualRate" type="range" min="8" max="48" step="4" value="24"></div>
+    <p class="rate-note">Simulation time units per real second at 1×.</p>
+  </div>
+  <div id="automaticControls" hidden>
+    <button class="pulse-button" id="pulseButton" hidden>Emit another pulse</button>
+    <div class="slider-row"><div class="slider-heading"><label for="amplitude">Amplitude</label><output class="slider-value" id="amplitudeValue" for="amplitude">0.70 units</output></div><input class="range" id="amplitude" type="range" min="0" max="1.5" step="0.02" value="0.70"></div>
+    <div class="slider-row"><div class="slider-heading"><label id="frequencyLabel" for="frequency">Frequency</label><output class="slider-value" id="frequencyValue" for="frequency">0.100 / time</output></div><input class="range" id="frequency" type="range" min="0.015" max="0.2" step="0.005" value="0.1"></div>
+    <div class="source-stats"><span>v<sub>peak</sub> <b id="peakSpeed">0.44 c</b></span><span id="wavelengthLabel">λ <b id="wavelength">10.0 units</b></span></div>
+  </div>
+  <p class="source-note" id="sourceNote">Motion is smoothed and limited to 0.65c. The outlined target shows your drop point. Dragging resumes playback.</p>
+</section>
+      <section class="control-section display-section"><h2 class="section-title">Display layers <span class="section-number">03</span></h2><label class="toggle-row" for="showElectric"><span class="toggle-name"><span class="line-key"></span>Electric vectors</span><span class="switch"><input id="showElectric" type="checkbox" checked><span class="switch-track"></span></span></label><label class="toggle-row" for="showMagnetic"><span class="toggle-name"><span class="circle-key"></span>Magnetic dots / crosses</span><span class="switch blue"><input id="showMagnetic" type="checkbox" checked><span class="switch-track"></span></span></label><div class="motion-highlight-control"><label class="toggle-row" for="highlightMotion"><span class="toggle-name"><span class="motion-key"></span>Highlight changing arrows</span><span class="switch orange"><input type="checkbox" id="highlightMotion" aria-describedby="highlightNote"><span class="switch-track"></span></span></label><div class="highlight-detail"><span id="highlightNote">Direction or strength changes.<br>Camera movement does not count.</span><output id="highlightStatus">Off</output></div></div>
+  <label class="toggle-row" for="showGuides"><span class="toggle-name"><span class="guide-key"></span>Propagation guides</span><span class="switch"><input id="showGuides" type="checkbox" checked><span class="switch-track"></span></span></label><div class="slider-row"><div class="slider-heading"><label for="gain">Field visibility</label><output class="slider-value" id="gainValue" for="gain">1.5×</output></div><input class="range" id="gain" type="range" min="0.25" max="4" step="0.05" value="1.5"></div><div class="display-note" id="scalingNote">Log-compressed lengths reveal weak fields.<br>Read exact magnitudes at the probe.</div><details class="advanced"><summary>More display settings</summary><div class="advanced-body"><div class="setting-line"><label for="vectorScale">Arrow lengths</label><select id="vectorScale"><option value="magnitude">Log magnitude</option><option value="direction">Direction only</option></select></div><div class="setting-line"><label for="density">Sample density</label><select id="density"><option value="50">Sparse</option><option value="38" selected>Balanced</option><option value="29">Dense</option></select></div><label class="toggle-row" for="showRay"><span>Retarded source ray</span><span class="switch"><input id="showRay" type="checkbox" checked><span class="switch-track"></span></span></label><p class="small-note">Blue ⊙ points toward you. Blue ⊗ points away. The magnetic field matches the selected component. Faint circles are timing guides, not field lines.</p></div></details></section>
+    </aside>
+  </div>
+  <footer class="footer"><span>LIÉNARD–WIECHERT FIELDS &nbsp; / &nbsp; c = 1 &nbsp; / &nbsp; q/(4πε₀) = 1</span><span class="footer-right"><span class="keycap">SPACE</span> play / pause &nbsp; <span class="keycap">1 2 3</span> isolate &nbsp; <button class="inline-button" id="shortcutsButton" style="font:inherit;color:inherit">All shortcuts ↗</button></span></footer>
+</main>
+<dialog id="physicsDialog" aria-labelledby="physicsTitle">
+  <div class="dialog-head"><h2 id="physicsTitle">The physics behind the field</h2><button class="icon-button" id="closePhysics" aria-label="Close physics notes"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+  <div class="dialog-body">
+    <p>This is a two-dimensional slice through the <strong>three-dimensional vacuum fields</strong> of one positive point charge. Its motion is prescribed along the vertical axis. This is not a two-dimensional version of Coulomb’s law, and it does not integrate the charge’s response to its own radiation.</p>
+    <h3>1. What does a distant point know?</h3>
+    <p>The fields use the charge’s position, velocity and acceleration at the <strong>retarded time</strong>, the earlier time at which its influence left the source. Every sample solves the implicit equation below. This is why a new pulse does not reach the whole screen at once.</p>
+    <div class="math-block"><div class="math-row">t<sub>r</sub> + R(t<sub>r</sub>)/c = t</div><div class="math-row">R(t<sub>r</sub>) = |<b>x</b> − <b>r</b><sub>q</sub>(t<sub>r</sub>)|</div><div class="math-row"><b>n</b> = [<b>x</b> − <b>r</b><sub>q</sub>(t<sub>r</sub>)] / R(t<sub>r</sub>)</div></div>
+    <p>Here <b>x</b> is the observation point, <b>r</b><sub>q</sub> is the source position, R is the retarded distance, c is the speed of light, and <b>n</b> is the unit direction from the retarded source to the observer. The numerical solver uses safeguarded Newton iterations with a bracket guaranteed by the source speed bound. If D is the distance from the current source and V is its maximum speed, the triangle inequality gives D/(c + V) ≤ t − t<sub>r</sub> ≤ D/(c − V). This remains valid for a freely moved charge. Its target equation residual is 10<sup>−10</sup> normalized time units.</p>
+    <h3>2. Two contributions, one electric field</h3>
+    <p>The simulation evaluates the <strong>Liénard–Wiechert field formula</strong>, as given in Michael Fowler’s University of Virginia lecture, “The Lienard-Weichert Potentials and Fields.” It is used because it separates the velocity contribution from the acceleration contribution without a slow-motion approximation.</p>
+    <div class="math-block"><div class="math-row"><b>E</b> = <b>E</b><sub>v</sub> + <b>E</b><sub>r</sub></div><div class="math-row"><b>E</b><sub>v</sub> = K (1 − |<b>β</b>|²)(<b>n</b> − <b>β</b>) / [κ³ R²]</div><div class="math-row"><b>E</b><sub>r</sub> = K <b>n</b> × [(<b>n</b> − <b>β</b>) × <b>a</b>] / [c² κ³ R]</div><div class="math-row"><b>B</b> = <b>n</b> × <b>E</b> / c</div></div>
+    <dl class="definition-grid"><dt>K</dt><dd>q/(4πε₀), where q is charge and ε₀ is vacuum permittivity.</dd><dt><b>β</b></dt><dd><b>v</b>/c, the source velocity as a fraction of the speed of light.</dd><dt>κ</dt><dd>1 − <b>n</b> · <b>β</b>, the retarded directional factor.</dd><dt><b>a</b></dt><dd>The source acceleration, the derivative of its velocity.</dd><dt>Subscripts v, r</dt><dd>Velocity field and radiation field. Every source quantity in these expressions is evaluated at t<sub>r</sub>.</dd></dl>
+    <p>In this plane, <b>E</b> has x and y components. The cross product gives B<sub>z</sub> = (n<sub>x</sub>E<sub>y</sub> − n<sub>y</sub>E<sub>x</sub>)/c. A positive value points out of the screen (⊙), and a negative value points into it (⊗). This relationship is applied separately to each selectable contribution.</p>
+    <div class="note-box"><strong>Two important distinctions.</strong> The velocity term is Coulomb-like, but is not generally radial from the retarded source. Its direction is <b>n</b> − <b>β</b>. The acceleration term is already transverse at every distance, not only in the far field.</div>
+    <h3>3. Why does the far field look transverse?</h3>
+    <p>The cross product of a vector with <b>n</b> is perpendicular to <b>n</b>. With <b>u</b> = (<b>n</b> − <b>β</b>) × <b>a</b>, the formula therefore gives</p>
+    <div class="math-block"><div class="math-row"><b>n</b> · <b>E</b><sub>r</sub> = K [<b>n</b> · (<b>n</b> × <b>u</b>)] / [c² κ³ R] = 0.</div></div>
+    <p>For fixed emission conditions and direction, the velocity term decreases as 1/R² while radiation decreases as 1/R. Their magnitude ratio thus grows in proportion to R whenever the radiation coefficient is nonzero. The total field approaches a transverse field as the velocity term becomes negligible. It is not necessarily exactly transverse at any finite distance.</p>
+    <p>There are exceptions to radiation dominance. For the automatic vertical motion, the radiation field is zero on the vertical line through the motion center, and it is also zero at phases with zero acceleration. An angle is undefined for a zero field. The probe shows an empty angle rather than inventing a direction there.</p>
+    <h3>4. Motion, units and honest visualization</h3>
+    <p><strong>Continuous wave.</strong> Around your chosen center (x₀, y₀), the source follows x(t) = x₀ and y(t) = y₀ + A sin(2πft), where A is amplitude and f is frequency. Its derivatives are v<sub>y</sub>(t) = 2πfA cos(2πft) and a<sub>y</sub>(t) = −(2πf)²A sin(2πft). This steady oscillation exists for all earlier times, including negative times. Changing source parameters restarts this steady-state experiment rather than simulating a causal change of the drive.</p>
+    <p><strong>Single pulse.</strong> The charge is stationary before t = 0 and after t = T, where T = 1/f. During the pulse, set u = πt/T and use x(t) = x₀ and y(t) = y₀ + A sin⁴u. Differentiation gives v<sub>y</sub> = 4A(π/T)sin³u cos u and a<sub>y</sub> = 4A(π/T)²(3sin²u cos²u − sin⁴u). Position, velocity and acceleration join continuously to the stationary portions. “Emit another pulse” restarts this experiment.</p>
+    <p>Normalized units set c = 1 and q/(4πε₀) = 1. Distances and times are not labeled as meters or seconds. Source speed is limited to 0.65c. Automatic parameters are clamped when necessary. Mouse motion follows a speed-limited target controller. A small disk of radius 0.14 units around the current charge is excluded because the point-charge field is singular there. A larger visual source marker can cover nearby samples at distant zoom levels.</p>
+    <p><strong>Vector scale.</strong> Directions are unmodified. In the default display, let s = ln(1 + g|<b>E</b>|), where g is 250 times the visibility setting. The arrow length is L = L<sub>max</sub>s/(1 + s). This chosen display mapping is monotonic but is not proportional to physical field strength. Magnetic symbols similarly encode c|B<sub>z</sub>|. “Direction only” gives every nonzero electric vector the same length. Probe readings always use the unscaled numerical field.</p>
+    <p>Electric arrows and magnetic glyphs use interleaved grids, each evaluated at its own actual sample position. Propagation guides are circles of constant emission time centered on the source position at that time. They are not electric field lines or a claim of equal radiation in every direction. Dashed gray rays join the retarded source position to the probe. The probe’s angle uses the selected electric component and this retarded direction, not the direction from the current charge.</p>
+    <p>The two probe component magnitudes are always shown for comparison. Their displayed ratio is |<b>E</b><sub>r</sub>|/|<b>E</b><sub>v</sub>|, not a power fraction or a fraction of the total vector magnitude. The electric contributions can reinforce or cancel each other.</p>
+<p><strong>Mouse motion.</strong> There is no pre-placed charge. Your first click chooses a stationary initial condition: the charge is assumed to have existed at that location for all earlier times. This is not a charge suddenly created in empty space. “Place charge again” and restarting in Mouse mode establish a new stationary initial condition and clear the old history.</p>
+    <p>The cursor specifies a target, not an instantaneous teleport. The source follows it with bounded speed and acceleration. Very fast drags show an outlined target while the real charge catches up. Mouse mode defaults to 24 normalized time units per real second at 1× playback. The Mouse time rate control changes that display clock, not the speed of light in the field equations. Dragging a paused charge explicitly resumes playback.</p>
+    <p>The recorded path uses steps no longer than 0.05 normalized time units. Let Δ = t<sub>k+1</sub> − t<sub>k</sub> and u = t − t<sub>k</sub> within one step. The implementation chooses bounded endpoint velocities and defines</p>
+    <div class="math-block"><div class="math-row"><b>a</b><sub>k</sub> = (<b>v</b><sub>k+1</sub> − <b>v</b><sub>k</sub>) / Δ</div><div class="math-row"><b>r</b>(t) = <b>r</b><sub>k</sub> + <b>v</b><sub>k</sub>u + ½<b>a</b><sub>k</sub>u²</div><div class="math-row">d<b>r</b>/dt = <b>v</b><sub>k</sub> + <b>a</b><sub>k</sub>u = <b>v</b>(t)</div><div class="math-row">d<b>v</b>/dt = <b>a</b><sub>k</sub></div></div>
+    <p>These expressions follow by integrating constant acceleration over a step. Position and velocity remain continuous. Acceleration is piecewise constant and may jump at step boundaries. Because velocity interpolates between two vectors whose magnitudes do not exceed 0.65c, the triangle inequality keeps every intermediate velocity below the same bound. The full stored trajectory is used for retarded fields, including after you release the mouse. Only decorative guide circles are limited in number.</p>
+    <p>Switching from an automatic trajectory to Mouse control preserves its earlier analytic history. Switching to an automatic motion starts a new experiment centered at the current charge position. The charge is prescribed externally, with no self-force, radiation reaction, or response to the noninteracting probe.</p>
+    <p><strong>Changing-arrow highlight.</strong> The orange overlay measures a change in the selected electric field at the <em>same physical point</em>. It compares <b>E</b>(<b>x</b>,t) and <b>E</b>(<b>x</b>,t − 0.06). A sample is highlighted when the vector difference divided by 0.06 exceeds both 0.03 times the larger vector magnitude and a numerical floor of 10<sup>−9</sup>. This is a visualization threshold, not a physical radiation criterion. Both direction and strength changes count, including with direction-only arrow lengths. Camera, probe, gain, and density changes are not interpreted as field motion. Highlights clear while paused and when electric vectors are hidden.</p>
+    <p>Arrow bases are spatial sample points. They do not represent particles moving through space. The highlight identifies where a field is changing over time, while the propagating disturbance reaches successively more distant points.</p>
+    <h3 id="shortcutsHeading">Keyboard and pointer controls</h3>
+    <div class="shortcut-grid"><div><span>Charge / probe / pan tools</span><span class="keycap">Q / P / G</span></div><div><span>Changing-arrow highlight</span><span class="keycap">M</span></div><div><span>Play or pause</span><span class="keycap">SPACE</span></div><div><span>One time step</span><span class="keycap">.</span></div><div><span>Total / velocity / radiation</span><span class="keycap">1 / 2 / 3</span></div><div><span>Restart time</span><span class="keycap">R</span></div><div><span>Zoom in / out</span><span class="keycap">+ / −</span></div><div><span>Recenter overview</span><span class="keycap">H</span></div><div><span>Move focused canvas probe</span><span class="keycap">ARROWS</span></div><div><span>Close these notes</span><span class="keycap">ESC</span></div></div>
+    <p>Click or tap to place your first charge. Drag the charge or the probe directly. The Charge tool can also set a new target anywhere. The Probe tool places or drags the probe anywhere. Use the Pan tool, Shift-drag, or the middle mouse button to pan. Scroll or pinch to zoom. Q selects Charge, P selects Probe, G selects Pan, and M toggles changing-arrow highlights. Arrow keys move the probe when the canvas is focused. Hold Shift for a larger keyboard step. View presets change only the camera and never relocate your source or probe. A snapshot exports the current canvas with its field mode, time and numerical probe readings. The page starts paused with no charge. Placing or dragging the charge is an explicit action that starts playback.</p>
+    <div class="source-reference"><strong>Formula references</strong><p><a href="https://galileoandeinstein.phys.virginia.edu/Elec_Mag/2022_Lectures/EM_67_Lienard_Weichert.html" target="_blank" rel="noopener noreferrer">Michael Fowler, University of Virginia. The Lienard-Weichert Potentials and Fields.</a><br>Electric-field decomposition, retarded geometry, and the transverse radiation field.</p><p><a href="https://www.feynmanlectures.caltech.edu/II_21.html" target="_blank" rel="noopener noreferrer">The Feynman Lectures on Physics, Volume II, Chapter 21. Solutions of Maxwell’s Equations with Currents and Charges.</a><br>Retarded potentials and fields of a moving point charge.</p><p>The analytic trajectory, visual mapping and numerical solver are implemented locally. There are no libraries, fonts, trackers or remote assets required to run this file.</p></div>
+  </div>
+</dialog>
+<script id="physics-engine">
+"use strict";
+/** Retarded Lienard-Wiechert fields for a prescribed planar trajectory.
+ * Reference: Michael Fowler, University of Virginia, lecture 67.
+ * c = 1 and q/(4*pi*epsilon_0) = 1. This is a slice of 3D vacuum fields.
+ * Mouse input controls a recorded, subluminal trajectory, not an instantaneous
+ * translation of the field. Numerical physics is independent of the renderer.
+ */
+const ChargeFieldPhysics = (() => {
+  const C = 1;
+  const CORE_RADIUS = 0.14;
+  const MAX_BETA = 0.65;
+  const HISTORY_STEP = 0.05;
+  const HIGHLIGHT_WINDOW = 0.06;
+  const HIGHLIGHT_RATE = 0.03;
+  const TWO_PI = 2 * Math.PI;
+  function point(x, y, vx = 0, vy = 0, ax = 0, ay = 0) {
+    // v and a are retained as vertical-component aliases for version-one callers.
+    return { x, y, vx, vy, ax, ay, v: vy, a: ay };
+  }
+  function trajectory(t, p) {
+    if (p.motion === "manual") return p.history.at(t);
+    const A = p.amplitude, f = p.frequency;
+    const x = p.anchorX || 0, y = p.anchorY || 0;
+    if (p.motion === "pulse") {
+      const T = 1 / f;
+      if (t <= 0 || t >= T) return point(x, y);
+      const k = Math.PI * f, s = Math.sin(k * t), co = Math.cos(k * t);
+      return point(x, y + A * s ** 4, 0, 4 * A * k * s ** 3 * co,
+        0, 4 * A * k * k * (3 * s * s * co * co - s ** 4));
+    }
+    const w = TWO_PI * f, s = Math.sin(w * t), co = Math.cos(w * t);
+    return point(x, y + A * s, 0, A * w * co, 0, -A * w * w * s);
+  }
+  function peakSpeed(p) {
+    if (p.motion === "manual") return MAX_BETA * C;
+    const factor = p.motion === "pulse" ? 3 * Math.sqrt(3) * Math.PI / 4 : TWO_PI;
+    return p.amplitude * p.frequency * factor;
+  }
+  /** A continuous-position, continuous-velocity history with piecewise constant
+   * acceleration. Each segment is integrated analytically, so its position,
+   * velocity and acceleration are mutually consistent, including between steps.
+   * Velocities interpolate within a convex ball of radius 0.65c. No segment can
+   * become superluminal. Past segments are immutable except exact coasting merges.
+   */
+  class MotionHistory {
+    constructor(x, y, time = 0, prehistory = null) {
+      if (![x, y, time].every(Number.isFinite)) throw new TypeError("Finite source coordinates and time are required.");
+      this.startTime = time;
+      this.prehistory = prehistory ? { ...prehistory } : null;
+      this.initial = prehistory ? trajectory(time, this.prehistory) : point(x, y);
+      if ((prehistory && peakSpeed(prehistory) > MAX_BETA * C + 1e-12) || Math.hypot(this.initial.vx, this.initial.vy) > MAX_BETA * C + 1e-12) {
+        throw new RangeError("The initial source velocity exceeds the manual speed limit.");
+      }
+      this.time = time;
+      this.end = { ...this.initial };
+      this.segments = [];
+    }
+    at(t) {
+      if (!Number.isFinite(t)) throw new TypeError("The sample time must be finite.");
+      if (t <= this.startTime) {
+        return this.prehistory ? trajectory(t, this.prehistory) : { ...this.initial };
+      }
+      // Forward extrapolation is ballistic. The live app records its motion
+      // before drawing, so displayed fields never need an unknown future path.
+      if (t > this.time || !this.segments.length) {
+        const dt = t - this.time, q = this.end;
+        return point(q.x + q.vx * dt, q.y + q.vy * dt, q.vx, q.vy);
+      }
+      let lo = 0, hi = this.segments.length - 1;
+      while (lo < hi) {
+        const mid = (lo + hi) >>> 1;
+        if (this.segments[mid].t1 < t) lo = mid + 1; else hi = mid;
+      }
+      const s = this.segments[lo], u = Math.max(0, Math.min(t, s.t1) - s.t0);
+      return point(s.x + s.vx * u + .5 * s.ax * u * u,
+        s.y + s.vy * u + .5 * s.ay * u * u,
+        s.vx + s.ax * u, s.vy + s.ay * u, s.ax, s.ay);
+    }
+    advanceTo(t, target) {
+      if (!Number.isFinite(t) || t < this.time - 1e-10 ||
+          !target || ![target.x, target.y].every(Number.isFinite)) {
+        throw new RangeError("History advances forward to a finite time and target.");
+      }
+      const vmax = MAX_BETA * C, response = .25, attraction = 3, maxAcceleration = 1.5;
+      while (t - this.time > 1e-12) {
+        const h = Math.min(HISTORY_STEP, t - this.time), q = this.end;
+        const dx = target.x - q.x, dy = target.y - q.y, distance = Math.hypot(dx, dy);
+        let dvx = attraction * dx, dvy = attraction * dy;
+        const desiredSpeed = Math.hypot(dvx, dvy);
+        if (desiredSpeed > vmax) { dvx *= vmax / desiredSpeed; dvy *= vmax / desiredSpeed; }
+        const blend = 1 - Math.exp(-h / response);
+        let changeX = (dvx - q.vx) * blend, changeY = (dvy - q.vy) * blend;
+        const change = Math.hypot(changeX, changeY), maxChange = maxAcceleration * h;
+        if (change > maxChange) { changeX *= maxChange / change; changeY *= maxChange / change; }
+        let vx = q.vx + changeX, vy = q.vy + changeY;
+        // A tiny deadband makes a released, settled charge exactly stationary.
+        // It changes velocity through a finite acceleration, never position.
+        if (distance < 1e-7 && Math.hypot(q.vx, q.vy) < Math.min(1e-7, maxChange)) vx = vy = 0;
+        const ax = (vx - q.vx) / h, ay = (vy - q.vy) / h;
+        const segment = { t0: this.time, t1: this.time + h, x: q.x, y: q.y, vx: q.vx, vy: q.vy, ax, ay };
+        const previous = this.segments[this.segments.length - 1];
+        if (previous && ax === 0 && ay === 0 && previous.ax === 0 && previous.ay === 0 &&
+            previous.vx === q.vx && previous.vy === q.vy) previous.t1 = segment.t1;
+        else this.segments.push(segment);
+        this.end = point(q.x + (q.vx + vx) * h * .5, q.y + (q.vy + vy) * h * .5, vx, vy, ax, ay);
+        this.time = segment.t1;
+      }
+      return { ...this.end };
+    }
+  }
+  /** Solve tr + |observer - source(tr)|/c = t by safeguarded Newton iteration.
+   * For D = |observer - source(t)| and a global speed bound V < c,
+   * D/(c+V) <= t-tr <= D/(c-V), from the triangle inequality.
+   * Thus a guaranteed bracket is available even for unbounded mouse paths.
+   */
+  function retarded(x, y, t, p, current = trajectory(t, p)) {
+    const D = Math.hypot(x - current.x, y - current.y), vmax = peakSpeed(p);
+    let lo = t - D / (C - vmax) - 1e-9;
+    let hi = Math.min(t, t - D / (C + vmax) + 1e-9);
+    let tr = Math.max(lo, Math.min(hi, t - D / C));
+    let q, R = 0, residual = 0;
+    for (let i = 0; i < 64; i++) {
+      q = trajectory(tr, p);
+      const rx = x - q.x, ry = y - q.y;
+      R = Math.hypot(rx, ry); residual = tr + R / C - t;
+      if (Math.abs(residual) < 1e-10) break;
+      if (residual > 0) hi = tr; else lo = tr;
+      const derivative = 1 - (rx * q.vx + ry * q.vy) / (Math.max(R, 1e-15) * C);
+      const candidate = tr - residual / derivative;
+      tr = candidate > lo && candidate < hi ? candidate : (lo + hi) * .5;
+    }
+    q = trajectory(tr, p); R = Math.hypot(x - q.x, y - q.y);
+    return { tr, R, q, residual: tr + R / C - t };
+  }
+  function sample(x, y, t, p) {
+    if (p.placed === false) return { valid: false, reason: "Place a charge to start" };
+    const manual = p.motion === "manual";
+    if (![x, y, t].every(Number.isFinite) ||
+        (manual && (!p.history || typeof p.history.at !== "function")) ||
+        (!manual && (![p.amplitude, p.frequency, p.anchorX ?? 0, p.anchorY ?? 0].every(Number.isFinite) ||
+          p.amplitude < 0 || p.frequency <= 0 || peakSpeed(p) >= C))) {
+      return { valid: false, reason: "Invalid or superluminal source parameters" };
+    }
+    const current = trajectory(t, p);
+    if (Math.hypot(x - current.x, y - current.y) < CORE_RADIUS) {
+      return { valid: false, reason: "Inside the point-charge exclusion disk" };
+    }
+    const r = retarded(x, y, t, p, current);
+    if (r.R < 1e-12) return { valid: false, reason: "At the singularity" };
+    const nx = (x - r.q.x) / r.R, ny = (y - r.q.y) / r.R;
+    const bx = r.q.vx / C, by = r.q.vy / C, beta2 = bx * bx + by * by;
+    if (beta2 >= 1) return { valid: false, reason: "Superluminal source history" };
+    const kappa = 1 - nx * bx - ny * by, k3 = kappa ** 3;
+    const vf = (1 - beta2) / (k3 * r.R * r.R);
+    const evx = vf * (nx - bx), evy = vf * (ny - by);
+    // Full planar cross product, allowing horizontal AND vertical acceleration.
+    const cross = (nx - bx) * r.q.ay - (ny - by) * r.q.ax;
+    const af = 1 / (C * C * k3 * r.R);
+    const erx = ny * cross * af, ery = -nx * cross * af;
+    const bv = (nx * evy - ny * evx) / C, br = (nx * ery - ny * erx) / C;
+    return { valid: true, evx, evy, erx, ery, ex: evx + erx, ey: evy + ery,
+      bv, br, bz: bv + br, nx, ny, tr: r.tr, R: r.R,
+      sourceX: r.q.x, sourceY: r.q.y, sourceVx: r.q.vx, sourceVy: r.q.vy,
+      sourceAx: r.q.ax, sourceAy: r.q.ay, sourceV: r.q.vy, sourceA: r.q.ay, residual: r.residual };
+  }
+  function component(field, mode) {
+    if (!field.valid) return { x: 0, y: 0, b: 0 };
+    if (mode === "velocity") return { x: field.evx, y: field.evy, b: field.bv };
+    if (mode === "radiation") return { x: field.erx, y: field.ery, b: field.br };
+    return { x: field.ex, y: field.ey, b: field.bz };
+  }
+  function isChanging(current, previous, dt = HIGHLIGHT_WINDOW) {
+    if (!current || !previous || dt <= 0) return false;
+    const rate = Math.hypot(current.x - previous.x, current.y - previous.y) / dt;
+    const magnitude = Math.max(Math.hypot(current.x, current.y), Math.hypot(previous.x, previous.y));
+    return Number.isFinite(rate) && rate > Math.max(1e-9, HIGHLIGHT_RATE * magnitude);
+  }
+  return Object.freeze({ C, CORE_RADIUS, MAX_BETA, HISTORY_STEP, HIGHLIGHT_WINDOW, HIGHLIGHT_RATE,
+    MotionHistory, trajectory, retarded, peakSpeed, sample, component, isChanging });
+})();
+
+</script>
+<script>
+
+"use strict";
+(() => {
+  const $ = id => document.getElementById(id);
+  const canvas = $("fieldCanvas"), stage = $("stage");
+  const ctx = canvas.getContext("2d", { alpha: false });
+  if (!ctx) { $("emptyMessage").hidden = false; $("emptyMessage").textContent = "Your browser could not initialize a 2D canvas."; return; }
+  const P = ChargeFieldPhysics;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const state = { time: 0, playing: false, speed: 1, mode: "total", motion: "manual",
+    amplitude: .70, frequency: .10, gain: 1.5, density: 38, scaleMode: "magnitude",
+    showElectric: true, showMagnetic: true, showGuides: true, showRay: true,
+    highlightMotion: false, highlightedCount: 0, visibleArrowCount: 0,
+    placed: false, awaitingPlacement: true, tool: "charge", manualRate: 24,
+    anchorX: 0, anchorY: 0, zoom: 1, cameraX: 0, cameraY: 0, probeX: 13.5, probeY: 3.1 };
+  let W = 0, H = 0, dpr = 1, baseScale = 1, dirty = true, lastFrame = 0, lastProbeUpdate = 0;
+  let toastTimeout = 0, lastField = null, renderCounter = 0;
+  let history = null, target = null, hover = null;
+  let manualEmissions = [], nextEmission = 0;
+  const EPS = 1e-12;
+  const modeData = {
+    total: { kicker: "01 / SUPERPOSITION", title: "The complete electromagnetic field", equation: "E = E<sub>velocity</sub> + E<sub>radiation</sub>", caption: '<span class="decay-tag">1/R² + 1/R</span><br>The sum of the velocity and acceleration fields.' },
+    velocity: { kicker: "02 / VELOCITY FIELD", title: "The Coulomb-like near field", equation: "E<sub>velocity</sub> ∝ (n − β) / R²", caption: '<span class="decay-tag">1/R²</span><br>Coulomb-like, but not generally radial from the retarded source.' },
+    radiation: { kicker: "03 / ACCELERATION FIELD", title: "The outward-traveling radiation", equation: "E<sub>radiation</sub> ⊥ n &nbsp;·&nbsp; |E<sub>radiation</sub>| ∝ 1/R", caption: '<span class="decay-tag">1/R</span><br>Transverse to the retarded direction, even close to the source.' }
+  };
+  const icons = { play: '<svg viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="m4 2 8 5-8 5z"/></svg>', pause: '<svg viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><rect x="3" y="2" width="3" height="10" rx=".7"/><rect x="8" y="2" width="3" height="10" rx=".7"/></svg>' };
+  function params() { return { amplitude: state.amplitude, frequency: state.frequency, motion: state.motion,
+    anchorX: state.anchorX, anchorY: state.anchorY, placed: state.placed, history }; }
+  function sourceNow() { return state.placed ? P.trajectory(state.time, params()) : null; }
+  function simulationActive() { return state.placed && state.playing && !document.hidden && !$('physicsDialog').open; }
+  function advanceTime(dt) {
+    if (!state.placed || !Number.isFinite(dt) || dt <= 0) return;
+    const end = state.time + dt;
+    if (state.motion === "manual") {
+      history.advanceTo(end, target);
+      // Timing guides are emitted only while the source has appreciable motion.
+      const interval = .9;
+      while (nextEmission <= end) {
+        const q = history.at(nextEmission);
+        if (Math.hypot(q.vx, q.vy) > .01 || Math.hypot(q.ax, q.ay) > .02) {
+          manualEmissions.push({ t: nextEmission, x: q.x, y: q.y });
+        }
+        nextEmission += interval;
+      }
+      // This bounds the decorative guides, not the physical trajectory history.
+      if (manualEmissions.length > 200) manualEmissions.splice(0, manualEmissions.length - 200);
+    }
+    state.time = end; dirty = true;
+  }
+  function updateInteraction() {
+    document.querySelectorAll("[data-tool]").forEach(b => {
+      b.classList.toggle("active", b.dataset.tool === state.tool);
+      b.setAttribute("aria-pressed", String(b.dataset.tool === state.tool));
+    });
+    canvas.dataset.tool = state.tool;
+    $('placementMessage').hidden = state.placed;
+    $('toolStatus').textContent = state.awaitingPlacement && state.tool === "charge" ?
+      (state.placed ? "Next click starts a new experiment" : "Click anywhere to place your charge") :
+      state.tool === "charge" ? "Drag the charge or set a target" :
+      state.tool === "probe" ? "Click or drag to measure the field" : "Drag the background to pan";
+    $('placeChargeButton').textContent = state.awaitingPlacement ?
+      (state.placed ? "Cancel placement" : "Click the canvas to place") : "Place charge again";
+    $('placeChargeButton').classList.toggle('armed', state.awaitingPlacement);
+    $('emptyMessage').hidden = !state.placed || state.showElectric || state.showMagnetic;
+    dirty = true;
+  }
+  function setTool(tool) {
+    if (!["charge", "probe", "pan"].includes(tool)) return;
+    state.tool = tool; updateInteraction();
+  }
+  function placeCharge(x, y) {
+    if (![x, y].every(Number.isFinite)) throw new TypeError("Finite charge coordinates are required.");
+    state.placed = true; state.awaitingPlacement = false; state.motion = "manual";
+    state.anchorX = x; state.anchorY = y; state.time = 0;
+    history = new P.MotionHistory(x, y); target = { x, y };
+    manualEmissions = []; nextEmission = 0;
+    setTool("charge"); updateSourceControls(); setPlaying(true);
+    clearTimeout(toastTimeout); $("toast").classList.remove("visible");
+  }
+  function takeManualControl() {
+    if (!state.placed || state.motion === "manual") return;
+    const old = params(), q = P.trajectory(state.time, old);
+    // Preserve the automatic past instead of teleporting or rewriting old fields.
+    history = new P.MotionHistory(q.x, q.y, state.time, old);
+    target = { x: q.x, y: q.y }; state.motion = "manual";
+    manualEmissions = []; nextEmission = state.time;
+    updateSourceControls(); dirty = true;
+  }
+  function aimCharge(x, y, resume = true) {
+    if (!state.placed) { placeCharge(x, y); return; }
+    takeManualControl(); target = { x, y };
+    if (resume && !state.playing) { setPlaying(true); toast("Dragging resumes time so the field can respond."); }
+    dirty = true;
+  }
+  function scale() { return baseScale * state.zoom; }
+  function worldToScreen(x, y) { const s = scale(); return { x: W * .5 + (x - state.cameraX) * s, y: H * .5 - (y - state.cameraY) * s }; }
+  function screenToWorld(x, y) { const s = scale(); return { x: state.cameraX + (x - W * .5) / s, y: state.cameraY - (y - H * .5) / s }; }
+  function localPointer(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  function toast(message) { clearTimeout(toastTimeout); $("toast").textContent = message; $("toast").classList.add("visible"); toastTimeout = setTimeout(() => $("toast").classList.remove("visible"), 3200); }
+  function paintRange(input) { const v = (Number(input.value) - Number(input.min)) / (Number(input.max) - Number(input.min)); input.style.setProperty("--fill", (v * 100).toFixed(1) + "%"); }
+  function updatePlayback() {
+    $("playIcon").innerHTML = state.playing ? icons.pause : icons.play;
+    $("playLabel").textContent = state.playing ? "Pause" : "Play";
+    $("playButton").setAttribute("aria-label", state.playing ? "Pause simulation" : "Play simulation");
+    $("playButton").disabled = !state.placed;
+    $("stepButton").disabled = !state.placed;
+    $("resetButton").disabled = !state.placed;
+    $("liveText").textContent = !state.placed ? "Place a charge to begin" : state.playing ? "Simulation running" : "Simulation paused";
+    $("liveDot").style.background = state.playing ? "var(--mint)" : "var(--subtle)";
+    $("liveDot").style.boxShadow = state.playing ? "0 0 10px #8edac040" : "none";
+    if (!state.playing) state.highlightedCount = 0;
+    updateHighlightStatus(); dirty = true;
+  }
+  function setPlaying(value) { state.playing = Boolean(value && state.placed); lastFrame = performance.now(); updatePlayback(); }
+  function setMode(mode) {
+    if (!modeData[mode]) return;
+    state.mode = mode;
+    const m = modeData[mode];
+    $("canvasKicker").textContent = m.kicker; $("canvasTitle").textContent = m.title;
+    $("canvasEquation").innerHTML = m.equation; $("modeCaption").innerHTML = m.caption;
+    $("probeComponent").textContent = "/ " + mode + " field";
+    document.querySelectorAll("[data-mode]").forEach(b => { b.classList.toggle("active", b.dataset.mode === mode); b.setAttribute("aria-pressed", String(b.dataset.mode === mode)); });
+    dirty = true;
+  }
+  function updateSourceControls() {
+    const manual = state.motion === "manual";
+    document.querySelectorAll("[data-motion]").forEach(b => {
+      b.classList.toggle("active", b.dataset.motion === state.motion);
+      b.setAttribute("aria-pressed", String(b.dataset.motion === state.motion));
+      b.disabled = !state.placed && b.dataset.motion !== "manual";
+    });
+    $('manualControls').hidden = !manual;
+    $('automaticControls').hidden = manual;
+    $("amplitude").value = state.amplitude; $("frequency").value = state.frequency;
+    $("amplitudeValue").textContent = state.amplitude.toFixed(2) + " units";
+    $("frequencyValue").textContent = state.frequency.toFixed(3) + " / time";
+    $("frequencyLabel").textContent = state.motion === "pulse" ? "Inverse pulse duration" : "Frequency";
+    $("peakSpeed").textContent = (P.peakSpeed(params()) / P.C).toFixed(2) + " c";
+    $("wavelengthLabel").innerHTML = (state.motion === "pulse" ? "T " : "λ ") + '<b id="wavelength">' + (1 / state.frequency).toFixed(1) + (state.motion === "pulse" ? " time" : " units") + '</b>';
+    $("sourceNote").textContent = manual ? "Motion is smoothed and limited to 0.65c. The outlined target shows your drop point. Dragging resumes playback." :
+      state.motion === "pulse" ? "A smooth excursion starts at your chosen position, then the charge rests. Changing settings restarts this experiment." :
+      "The charge oscillates around your chosen position. Changing settings starts a new steady-state experiment, including its past history.";
+    $("pulseButton").hidden = state.motion !== "pulse";
+    $("manualRate").value = state.manualRate;
+    $("manualRateValue").textContent = state.manualRate.toFixed(0) + " / second";
+    paintRange($("amplitude")); paintRange($("frequency")); paintRange($("manualRate"));
+    updateInteraction();
+  }
+  function updateHighlightStatus() {
+    $('changingLegend').hidden = !state.highlightMotion;
+    $('highlightStatus').textContent = !state.highlightMotion ? "Off" : !state.showElectric ? "Vectors hidden" :
+      !state.placed ? "No charge" : !state.playing ? "Paused" : state.highlightedCount + " changing";
+    $('highlightStatus').classList.toggle('enabled', state.highlightMotion);
+  }
+  function enforceSpeed(edited) {
+    if (P.peakSpeed(params()) <= P.MAX_BETA * P.C) return false;
+    const factor = state.motion === "pulse" ? 3 * Math.sqrt(3) * Math.PI / 4 : 2 * Math.PI;
+    if (edited === "amplitude") state.amplitude = Math.floor(P.MAX_BETA * P.C / (factor * state.frequency) / .02) * .02;
+    else state.frequency = Math.floor(P.MAX_BETA * P.C / (factor * state.amplitude) / .005) * .005;
+    return true;
+  }
+  function restart(play = false) {
+    if (!state.placed) return;
+    if (state.motion === "manual") {
+      const q = sourceNow();
+      history = new P.MotionHistory(q.x, q.y); target = { x: q.x, y: q.y };
+      state.anchorX = q.x; state.anchorY = q.y; manualEmissions = []; nextEmission = 0;
+    }
+    state.time = 0; lastFrame = performance.now();
+    if (play) setPlaying(true); dirty = true;
+  }
+  function setMotion(motion) {
+    if (!["manual", "continuous", "pulse"].includes(motion) || motion === state.motion) return;
+    if (!state.placed) { toast("Place your charge on the canvas first."); return; }
+    state.awaitingPlacement = false;
+    if (motion === "manual") {
+      takeManualControl(); setTool("charge");
+      toast("Mouse control enabled. Earlier fields keep their original source history."); return;
+    }
+    const q = sourceNow(); state.anchorX = q.x; state.anchorY = q.y;
+    state.motion = motion; history = null; target = null; manualEmissions = [];
+    const limited = enforceSpeed("frequency");
+    updateSourceControls(); restart(true);
+    toast(limited ? "Frequency adjusted to keep the source below 0.65 c." :
+      motion === "pulse" ? "Pulse started at your chosen position." : "New oscillation started at your chosen position, including its past history.");
+  }
+  function setView(view) {
+    // View presets change only the camera, never the user's source or probe.
+    const q = sourceNow();
+    state.cameraX = q ? q.x : 0; state.cameraY = q ? q.y : 0;
+    state.zoom = view === "near" ? 3.2 : view === "far" ? .48 : 1;
+    document.querySelectorAll("[data-view]").forEach(b => b.classList.toggle("active", b.dataset.view === view));
+    updateZoom(); dirty = true;
+  }
+  function clearPreset() { document.querySelectorAll("[data-view]").forEach(b => b.classList.remove("active")); }
+  function updateZoom() {
+    $("zoomLabel").textContent = Math.round(state.zoom * 100) + "%";
+    const targetWorld = 78 / scale();
+    const pow = 10 ** Math.floor(Math.log10(targetWorld));
+    const ratio = targetWorld / pow;
+    const units = (ratio >= 5 ? 5 : ratio >= 2 ? 2 : 1) * pow;
+    $("scaleLabel").textContent = (units < 1 ? units.toFixed(1) : units.toFixed(0)) + " units";
+    $("scaleRule").style.width = (units * scale()).toFixed(1) + "px";
+    $("zoomOut").disabled = state.zoom <= .25001;
+    $("zoomIn").disabled = state.zoom >= 5.9999;
+  }
+  function zoomAt(factor, sx = W / 2, sy = H / 2) {
+    const before = screenToWorld(sx, sy);
+    state.zoom = Math.max(.25, Math.min(6, state.zoom * factor));
+    state.cameraX = before.x - (sx - W / 2) / scale();
+    state.cameraY = before.y + (sy - H / 2) / scale();
+    clearPreset(); updateZoom(); dirty = true;
+  }
+  function resize() {
+    W = Math.max(1, stage.clientWidth); H = Math.max(1, stage.clientHeight);
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    baseScale = Math.min(W / 44, H / 28);
+    updateZoom(); dirty = true;
+  }
+  function drawArrow(x, y, vx, vy, length, color, alpha = 1, width = 1.3) {
+    const mag = Math.hypot(vx, vy); if (mag < EPS || length < .8) return;
+    const ux = vx / mag, uy = -vy / mag;
+    const x1 = x - ux * length * .5, y1 = y - uy * length * .5;
+    const x2 = x + ux * length * .5, y2 = y + uy * length * .5;
+    const head = Math.min(4.6, Math.max(2.2, length * .27));
+    ctx.strokeStyle = color; ctx.globalAlpha = alpha; ctx.lineWidth = width;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+    ctx.moveTo(x2 - ux * head - uy * head * .57, y2 - uy * head + ux * head * .57);
+    ctx.lineTo(x2, y2); ctx.lineTo(x2 - ux * head + uy * head * .57, y2 - uy * head - ux * head * .57); ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+  function strength(mag) { const z = Math.log1p(250 * state.gain * mag); return z / (1 + z); }
+  function drawMagnet(x, y, b, maxRadius = 4.9) {
+    if (Math.abs(b) < EPS) return;
+    const power = strength(Math.abs(b) * P.C);
+    if (power < .025) return;
+    const r = 1.9 + maxRadius * power * .55;
+    ctx.strokeStyle = "#68b8ff"; ctx.fillStyle = "#68b8ff"; ctx.lineWidth = .9;
+    ctx.globalAlpha = .16 + .60 * power;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI); ctx.stroke();
+    if (b > 0) { ctx.beginPath(); ctx.arc(x, y, Math.max(.8, r * .23), 0, 2 * Math.PI); ctx.fill(); }
+    else { const d = r * .40; ctx.beginPath(); ctx.moveTo(x - d, y - d); ctx.lineTo(x + d, y + d); ctx.moveTo(x + d, y - d); ctx.lineTo(x - d, y + d); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+  }
+  function drawBackground() {
+    ctx.fillStyle = "#0b1017"; ctx.fillRect(0, 0, W, H);
+    const origin = worldToScreen(0, 0);
+    const glow = ctx.createRadialGradient(origin.x, origin.y, 0, origin.x, origin.y, Math.max(W, H) * .55);
+    glow.addColorStop(0, "#1a22282d"); glow.addColorStop(1, "#0b101700"); ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "#364254"; ctx.globalAlpha = .32;
+    const grid = state.density;
+    const gx = ((origin.x % grid) + grid) % grid, gy = ((origin.y % grid) + grid) % grid;
+    for (let y = gy; y < H; y += grid) for (let x = gx; x < W; x += grid) ctx.fillRect(x - .6, y - .6, 1.2, 1.2);
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = "#2a3546"; ctx.lineWidth = .8; ctx.setLineDash([3, 7]);
+    ctx.beginPath(); ctx.moveTo(0, origin.y); ctx.lineTo(W, origin.y); ctx.moveTo(origin.x, 0); ctx.lineTo(origin.x, H); ctx.stroke(); ctx.setLineDash([]);
+    ctx.font = "10px ui-monospace, monospace"; ctx.fillStyle = "#738298";
+    if (origin.y > 140 && origin.y < H - 130) ctx.fillText("x", W - 19, origin.y - 9);
+    if (origin.x > 200 && origin.x < W - 100) ctx.fillText("y", origin.x + 9, 24);
+  }
+  function visibleRadius() {
+    const q = sourceNow() || { x: 0, y: 0 };
+    return Math.max(...[[0,0], [W,0], [0,H], [W,H]].map(([x,y]) => {
+      const w = screenToWorld(x,y); return Math.hypot(w.x - q.x, w.y - q.y);
+    })) + state.amplitude;
+  }
+  function drawGuides(p) {
+    if (!state.placed || !state.showGuides) return;
+    const maxR = visibleRadius(), s = scale();
+    let emissions = [];
+    if (state.motion === "manual") {
+      emissions = manualEmissions.map((e,i) => ({...e, dashed: i % 2 === 1}));
+    } else if (state.amplitude > 0 && state.motion === "continuous") {
+      const T = 1 / state.frequency;
+      const low = Math.floor((state.time - maxR / P.C) / (T / 2) - .5);
+      const high = Math.floor(state.time / (T / 2) - .5);
+      for (let i = low; i <= high && emissions.length < 160; i++) emissions.push({ t: (i + .5) * T / 2, dashed: (i % 2 + 2) % 2 === 1 });
+    } else if (state.amplitude > 0) {
+      const T = 1 / state.frequency;
+      emissions = [0, T * .25, T * .5, T * .75, T].map((t, i) => ({ t, dashed: i % 2 !== 0 }));
+    }
+    for (const emission of emissions) {
+      const age = state.time - emission.t;
+      if (age <= 0) continue;
+      const q = emission.x !== undefined ? emission : P.trajectory(emission.t, p), o = worldToScreen(q.x, q.y);
+      const radius = age * P.C * s;
+      const farthest = Math.max(Math.hypot(o.x, o.y), Math.hypot(o.x-W, o.y), Math.hypot(o.x, o.y-H), Math.hypot(o.x-W, o.y-H));
+      if (radius > farthest + 3 || o.x + radius < 0 || o.x - radius > W || o.y + radius < 0 || o.y - radius > H) continue;
+      ctx.strokeStyle = state.motion === "pulse" && emission.t === 0 ? "#6f95b8" : "#668393";
+      ctx.globalAlpha = state.motion === "pulse" && emission.t === 0 ? .42 : .18;
+      ctx.lineWidth = state.motion === "pulse" && emission.t === 0 ? 1.1 : .8;
+      ctx.setLineDash(emission.dashed ? [3, 6] : []);
+      ctx.beginPath(); ctx.arc(o.x, o.y, radius, 0, 2 * Math.PI); ctx.stroke();
+    }
+    ctx.globalAlpha = 1; ctx.setLineDash([]);
+  }
+  function drawFields(p) {
+    state.highlightedCount = 0; state.visibleArrowCount = 0;
+    if (!state.placed || (!state.showElectric && !state.showMagnetic)) return;
+    const origin = worldToScreen(0, 0), gap = state.density;
+    const startX = ((origin.x % gap) + gap) % gap, startY = ((origin.y % gap) + gap) % gap;
+    const source = P.trajectory(state.time, p), current = worldToScreen(source.x, source.y);
+    const maxLength = gap * .67, highlight = state.highlightMotion && simulationActive();
+    for (let sy = startY; sy < H + gap; sy += gap) {
+      for (let sx = startX; sx < W + gap; sx += gap) {
+        if (state.showElectric && Math.hypot(sx - current.x, sy - current.y) > 15) {
+          const w = screenToWorld(sx, sy), f = P.sample(w.x, w.y, state.time, p);
+          if (f.valid) {
+            const e = P.component(f, state.mode), mag = Math.hypot(e.x, e.y);
+            const power = state.scaleMode === "direction" ? .78 : strength(mag);
+            if (mag > EPS && maxLength * power >= .8) {
+              let active = false;
+              if (highlight) {
+                // Same WORLD position at both times. Camera/probe movement,
+                // frame rate, zoom, and visual gain cannot create false motion.
+                const previous = P.sample(w.x, w.y, state.time - P.HIGHLIGHT_WINDOW, p);
+                active = previous.valid && P.isChanging(e, P.component(previous, state.mode));
+              }
+              if (sx < W && sy < H) {
+                state.visibleArrowCount++;
+                if (active) state.highlightedCount++;
+              }
+              const length = maxLength * power;
+              if (active) {
+                drawArrow(sx, sy, e.x, e.y, length, "#ff985c", .14, 7);
+                drawArrow(sx, sy, e.x, e.y, length, "#ffb071", 1, 2.1);
+              } else {
+                drawArrow(sx, sy, e.x, e.y, length, "#f5d36b", state.scaleMode === "direction" ? .85 : .23 + .75 * power, 1.2);
+              }
+            }
+          }
+        }
+        if (state.showMagnetic) {
+          const mx = sx + gap / 2, my = sy + gap / 2;
+          if (mx < W + 5 && my < H + 5 && Math.hypot(mx - current.x, my - current.y) > 16) {
+            const w = screenToWorld(mx, my), f = P.sample(w.x, w.y, state.time, p);
+            if (f.valid) drawMagnet(mx, my, P.component(f, state.mode).b);
+          }
+        }
+      }
+    }
+  }
+  function label(text, x, y, color = "#bdc9d9", align = "left") {
+    ctx.font = "10px ui-monospace, monospace";
+    const width = ctx.measureText(text).width;
+    const bx = align === "right" ? x - width : x;
+    ctx.fillStyle = "#0c121be8"; ctx.fillRect(bx - 4, y - 11, width + 8, 17);
+    ctx.fillStyle = color; ctx.fillText(text, bx, y + 1);
+  }
+  function drawSource(p) {
+    if (!state.placed) return;
+    const q = P.trajectory(state.time, p), center = worldToScreen(q.x, q.y);
+    if (state.motion !== "manual") {
+      const top = worldToScreen(state.anchorX, state.anchorY + state.amplitude);
+      const bottom = worldToScreen(state.anchorX, state.anchorY + (state.motion === "pulse" ? 0 : -state.amplitude));
+      ctx.strokeStyle = "#6c6850"; ctx.lineWidth = 1; ctx.setLineDash([2, 3]);
+      ctx.beginPath(); ctx.moveTo(top.x, top.y); ctx.lineTo(bottom.x, bottom.y); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = "#74705a"; ctx.beginPath(); ctx.moveTo(top.x-4, top.y); ctx.lineTo(top.x+4, top.y); ctx.moveTo(bottom.x-4, bottom.y); ctx.lineTo(bottom.x+4, bottom.y); ctx.stroke();
+    } else if (target && Math.hypot(target.x - q.x, target.y - q.y) * scale() > 10) {
+      const t = worldToScreen(target.x, target.y);
+      ctx.strokeStyle = "#cfba7480"; ctx.lineWidth = 1; ctx.setLineDash([3,5]);
+      ctx.beginPath(); ctx.moveTo(center.x, center.y); ctx.lineTo(t.x,t.y); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = "#e5c675"; ctx.beginPath(); ctx.arc(t.x,t.y,7,0,2*Math.PI); ctx.stroke();
+      label("TARGET", t.x + 13, t.y - 12, "#aa9968");
+    }
+    const halo = ctx.createRadialGradient(center.x, center.y, 1, center.x, center.y, 31);
+    halo.addColorStop(0, "#ffe59950"); halo.addColorStop(.35, "#f5d36b22"); halo.addColorStop(1, "#f5d36b00");
+    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(center.x, center.y, 31, 0, 2 * Math.PI); ctx.fill();
+    if (drag?.kind === "charge") {
+      ctx.strokeStyle = "#f5d36b88"; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(center.x,center.y,15,0,2*Math.PI); ctx.stroke();
+    }
+    ctx.fillStyle = "#f6d97e"; ctx.strokeStyle = "#fff0bb"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(center.x, center.y, 8, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = "#514020"; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(center.x - 3, center.y); ctx.lineTo(center.x + 3, center.y); ctx.moveTo(center.x, center.y - 3); ctx.lineTo(center.x, center.y + 3); ctx.stroke();
+    const right = center.x > W - 115;
+    label("+q · drag", center.x + (right ? -16 : 16), center.y - 13, "#e9d898", right ? "right" : "left");
+  }
+  function drawPlacementGhost() {
+    if (!state.awaitingPlacement || state.tool !== "charge" || !hover) return;
+    ctx.strokeStyle = "#f5d36b99"; ctx.lineWidth = 1; ctx.setLineDash([3,3]);
+    ctx.beginPath(); ctx.arc(hover.x, hover.y, 11,0,2*Math.PI); ctx.stroke(); ctx.setLineDash([]);
+    ctx.beginPath(); ctx.moveTo(hover.x-4,hover.y); ctx.lineTo(hover.x+4,hover.y); ctx.moveTo(hover.x,hover.y-4); ctx.lineTo(hover.x,hover.y+4); ctx.stroke();
+    label("PLACE +q", hover.x + 16, hover.y - 13, "#cab974");
+  }
+  function drawProbe(p) {
+    const point = worldToScreen(state.probeX, state.probeY);
+    const f = P.sample(state.probeX, state.probeY, state.time, p); lastField = f;
+    if (f.valid && state.showRay) {
+      const source = worldToScreen(f.sourceX, f.sourceY);
+      ctx.strokeStyle = "#9faebf"; ctx.globalAlpha = .30; ctx.lineWidth = 1; ctx.setLineDash([3, 6]);
+      ctx.beginPath(); ctx.moveTo(source.x, source.y); ctx.lineTo(point.x, point.y); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
+      ctx.strokeStyle = "#a4b0c3"; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(source.x, source.y, 5, 0, 2 * Math.PI); ctx.stroke();
+      const currentSource = P.trajectory(state.time, p);
+      if (Math.hypot(f.sourceX - currentSource.x, f.sourceY - currentSource.y) * scale() > 21) label("retarded", source.x - 14, source.y + 3, "#8291a6", "right");
+      if (point.x > 50 && point.x < W - 50 && point.y > 150 && point.y < H - 130) {
+        drawArrow(point.x - f.nx * 42, point.y + f.ny * 42, f.nx, f.ny, 21, "#a4b0c1", .6, 1.1);
+        label("n", point.x - f.nx * 45 + f.ny * 12, point.y + f.ny * 45 + f.nx * 12, "#9eabbc");
+      }
+    }
+    ctx.strokeStyle = "#8edac0"; ctx.fillStyle = "#102018d0"; ctx.lineWidth = 1.25;
+    ctx.beginPath(); ctx.arc(point.x, point.y, 6.5, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+    ctx.globalAlpha = .65; ctx.beginPath(); ctx.moveTo(point.x - 12, point.y); ctx.lineTo(point.x - 8, point.y); ctx.moveTo(point.x + 8, point.y); ctx.lineTo(point.x + 12, point.y); ctx.moveTo(point.x, point.y - 12); ctx.lineTo(point.x, point.y - 8); ctx.moveTo(point.x, point.y + 8); ctx.lineTo(point.x, point.y + 12); ctx.stroke(); ctx.globalAlpha = 1;
+    if (f.valid) {
+      const e = P.component(f, state.mode);
+      const mag = Math.hypot(e.x, e.y);
+      if (state.showElectric && mag > EPS) drawArrow(point.x + e.x / mag * 23, point.y - e.y / mag * 23, e.x, e.y, 28, "#ffe6a0", 1, 1.8);
+    }
+    const right = point.x > W - 140;
+    label(!state.placed ? "PROBE · drag" : f.valid ? "PROBE · drag" : "SINGULAR CORE", point.x + (right ? -16 : 16), point.y + 20, "#8edac0", right ? "right" : "left");
+  }
+  function prettyField(value, signed = false) {
+    const a = Math.abs(value);
+    if (a < EPS) return "0.000";
+    const num = a < .001 || a >= 100 ? a.toExponential(2) : a < 1 ? a.toPrecision(3) : a.toFixed(2);
+    return (value < 0 ? "−" : signed ? "+" : "") + num;
+  }
+  function updateProbe() {
+    $("timeReadout").textContent = "t = " + state.time.toFixed(2);
+    $("probeCoordinates").textContent = "x " + state.probeX.toFixed(2) + "   y " + state.probeY.toFixed(2);
+    const q = sourceNow();
+    $('chargeCoordinates').textContent = q ? "x " + q.x.toFixed(2) + "   y " + q.y.toFixed(2) : "Not placed";
+    $('liveSourceSpeed').textContent = q ? (Math.hypot(q.vx,q.vy)/P.C).toFixed(2) + " c" : "0.00 c";
+    updateHighlightStatus();
+    const f = lastField;
+    if (!f || !f.valid) {
+      ["probeVelocity", "probeRadiation", "probeAngle", "probeMagnetic", "probeDelay"].forEach(id => $(id).textContent = "—");
+      $("probeEmission").textContent = state.placed ? "inside excluded core" : "place a charge first"; $("probeRatio").textContent = "undefined"; $("probeMagneticSign").textContent = "undefined"; return;
+    }
+    const e = P.component(f, state.mode), mag = Math.hypot(e.x, e.y);
+    const vm = Math.hypot(f.evx, f.evy), rm = Math.hypot(f.erx, f.ery);
+    $("probeVelocity").textContent = prettyField(vm);
+    $("probeRadiation").textContent = prettyField(rm);
+    $("probeRatio").textContent = "ratio " + (vm > EPS ? (rm / vm).toFixed(2) + "×" : "undefined");
+    if (mag > EPS) {
+      const cosine = Math.max(-1, Math.min(1, (e.x * f.nx + e.y * f.ny) / mag));
+      $("probeAngle").textContent = (Math.acos(cosine) * 180 / Math.PI).toFixed(1) + "°";
+    } else $("probeAngle").textContent = "—";
+    $("probeMagnetic").textContent = prettyField(e.b, true);
+    $("probeMagneticSign").textContent = Math.abs(e.b) < EPS ? "zero field" : e.b > 0 ? "⊙ out of screen" : "⊗ into screen";
+    $("probeDelay").textContent = (f.R / P.C).toFixed(2);
+    $("probeEmission").textContent = "t emitted " + f.tr.toFixed(2);
+  }
+  function draw() {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.lineCap = "round"; ctx.lineJoin = "round";
+    const p = params();
+    drawBackground(); drawGuides(p); drawFields(p); drawProbe(p); drawSource(p); drawPlacementGhost();
+    // Reserve calm, legible regions behind labels without hiding the central simulation.
+    const topShade = ctx.createLinearGradient(0, 0, 0, 120);
+    topShade.addColorStop(0, "#0b1017e8"); topShade.addColorStop(.6, "#0b101758"); topShade.addColorStop(1, "#0b101700"); ctx.fillStyle = topShade; ctx.fillRect(0, 0, W, 120);
+    const bottomShade = ctx.createLinearGradient(0, H - 100, 0, H);
+    bottomShade.addColorStop(0, "#0b101700"); bottomShade.addColorStop(.6, "#0b101758"); bottomShade.addColorStop(1, "#0b1017e8"); ctx.fillStyle = bottomShade; ctx.fillRect(0, H - 100, W, 100);
+    renderCounter++;
+  }
+  function frame(now) {
+    const dt = lastFrame ? Math.min((now - lastFrame) / 1000, .05) : 0;
+    lastFrame = now;
+    const canAnimate = simulationActive();
+    if (canAnimate) advanceTime(dt * state.speed * (state.motion === "manual" ? state.manualRate : 1));
+    if (dirty) {
+      draw();
+      if (now - lastProbeUpdate > 75 || !canAnimate) { updateProbe(); lastProbeUpdate = now; }
+      dirty = false;
+    }
+    requestAnimationFrame(frame);
+  }
+  function openPhysics(shortcuts = false) {
+    if (!$("physicsDialog").open) $("physicsDialog").showModal();
+    if (shortcuts) requestAnimationFrame(() => $("shortcutsHeading").scrollIntoView({ block: "center" }));
+    else $("physicsDialog").scrollTop = 0;
+  }
+  function closePhysics() { $("physicsDialog").close(); lastFrame = performance.now(); dirty = true; }
+  function snapshot() {
+    draw(); updateProbe();
+    const out = document.createElement("canvas");
+    out.width = canvas.width; out.height = canvas.height + Math.round(108 * dpr);
+    const oc = out.getContext("2d"); oc.fillStyle = "#0b1017"; oc.fillRect(0, 0, out.width, out.height); oc.drawImage(canvas, 0, 0);
+    oc.scale(dpr, dpr); oc.fillStyle = "#f5d36b"; oc.font = "600 18px sans-serif";
+    oc.fillText("FIELD LAB / " + state.mode.toUpperCase() + " FIELD", 22, 30);
+    oc.fillStyle = "#aab7ca"; oc.font = "12px monospace"; oc.fillText("t = " + state.time.toFixed(3) + "   " + state.motion + (state.motion === "manual" ? "   " + $('chargeCoordinates').textContent : "   A = " + state.amplitude.toFixed(2) + "   f = " + state.frequency.toFixed(3)), 22, 53);
+    oc.fillStyle = "#b7c5d7"; oc.font = "11px monospace";
+    const line1 = "Probe (" + state.probeX.toFixed(2) + ", " + state.probeY.toFixed(2) + ")   Ev " + $("probeVelocity").textContent + "   Er " + $("probeRadiation").textContent;
+    const line2 = "Angle " + $("probeAngle").textContent + "   Bz " + $("probeMagnetic").textContent + "   Delay " + $("probeDelay").textContent;
+    oc.fillText(line1, 20, H + 23); oc.fillText(line2, 20, H + 46);
+    oc.fillStyle = "#7c8ca2"; oc.font = "10px monospace";
+    oc.fillText("3D vacuum fields in a 2D slice. c = 1. Arrow lengths: " + (state.scaleMode === "direction" ? "direction only" : "log compressed"), 20, H + 71);
+    oc.fillText("Yellow: E. Blue: Bz. Orange: changing E when enabled. Visibility: " + state.gain.toFixed(2), 20, H + 91);
+    out.toBlob(blob => {
+      if (!blob) { toast("Snapshot could not be generated in this browser."); return; }
+      const url = URL.createObjectURL(blob), a = document.createElement("a"); a.href = url;
+      a.download = "field-lab-" + state.mode + "-t" + state.time.toFixed(2) + ".png";
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }, "image/png");
+  }
+  function stepTime() { setPlaying(false); advanceTime(state.motion === "manual" ? .20 : 1 / (120 * state.frequency)); }
+  document.querySelectorAll('[data-tool]').forEach(b => b.addEventListener('click', () => setTool(b.dataset.tool)));
+  $('placeChargeButton').addEventListener('click', () => {
+    if (state.awaitingPlacement && state.placed) { state.awaitingPlacement = false; updateInteraction(); return; }
+    state.awaitingPlacement = true; setTool('charge'); setPlaying(false);
+    toast(state.placed ? 'Click the canvas to start a new stationary-charge experiment. Escape cancels.' : 'Click or tap anywhere on the canvas to place your charge.');
+  });
+  $('moveProbeButton').addEventListener('click', () => { setTool('probe'); canvas.focus({preventScroll:true}); });
+  $('manualRate').addEventListener('input', e => {
+    state.manualRate = Number(e.target.value); $('manualRateValue').textContent = state.manualRate.toFixed(0) + ' / second'; paintRange(e.target);
+  });
+  $('highlightMotion').addEventListener('change', e => {
+    state.highlightMotion = e.target.checked; updateHighlightStatus(); dirty = true;
+  });
+  $("playButton").addEventListener("click", () => setPlaying(!state.playing));
+  $("stepButton").addEventListener("click", stepTime);
+  $("resetButton").addEventListener("click", () => { restart(); toast(state.motion === "manual" ? "New stationary history at the current charge position." : "Time restarted at t = 0."); });
+  $("speedSelect").addEventListener("change", e => { state.speed = Number(e.target.value); });
+  document.querySelectorAll("[data-mode]").forEach(b => b.addEventListener("click", () => setMode(b.dataset.mode)));
+  document.querySelectorAll("[data-motion]").forEach(b => b.addEventListener("click", () => setMotion(b.dataset.motion)));
+  document.querySelectorAll("[data-view]").forEach(b => b.addEventListener("click", () => setView(b.dataset.view)));
+  $("isolateRadiation").addEventListener("click", () => setMode("radiation"));
+  $("pulseButton").addEventListener("click", () => { restart(true); toast("New pulse experiment started at t = 0."); });
+  for (const id of ["amplitude", "frequency"]) {
+    $(id).addEventListener("input", e => {
+      state[id] = Number(e.target.value);
+      const limited = enforceSpeed(id); updateSourceControls(); restart();
+      if (limited) toast("Source speed limited to 0.65 c. The edited setting was adjusted.");
+    });
+  }
+  $("gain").addEventListener("input", e => { state.gain = Number(e.target.value); $("gainValue").textContent = state.gain.toFixed(1) + "×"; paintRange(e.target); dirty = true; });
+  for (const id of ["showElectric", "showMagnetic", "showGuides", "showRay"]) {
+    $(id).addEventListener("change", e => {
+      state[id] = e.target.checked;
+      $("electricLegend").classList.toggle("legend-hidden", !state.showElectric);
+      $("magneticLegend").classList.toggle("legend-hidden", !state.showMagnetic);
+      $("emptyMessage").hidden = !state.placed || state.showElectric || state.showMagnetic; updateHighlightStatus(); dirty = true;
+    });
+  }
+  $("vectorScale").addEventListener("change", e => {
+    state.scaleMode = e.target.value;
+    $("scalingNote").innerHTML = state.scaleMode === "direction" ? "Equal arrow lengths show direction only.<br>Read exact magnitudes at the probe." : "Log-compressed lengths reveal weak fields.<br>Read exact magnitudes at the probe.";
+    dirty = true;
+  });
+  $("density").addEventListener("change", e => { state.density = Number(e.target.value); dirty = true; });
+  $("zoomIn").addEventListener("click", () => zoomAt(1.25)); $("zoomOut").addEventListener("click", () => zoomAt(.8));
+  $("homeButton").addEventListener("click", () => setView("wide"));
+  $("physicsButton").addEventListener("click", () => openPhysics()); $("shortcutsButton").addEventListener("click", () => openPhysics(true));
+  $("closePhysics").addEventListener("click", closePhysics);
+  $("physicsDialog").addEventListener("click", e => { if (e.target !== $("physicsDialog")) return; const r = e.target.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) closePhysics(); });
+  $("physicsDialog").addEventListener("close", () => { lastFrame = performance.now(); dirty = true; });
+  $("snapshotButton").addEventListener("click", snapshot);
+  $("fullscreenButton").addEventListener("click", async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else if (stage.requestFullscreen) await stage.requestFullscreen();
+      else toast("Full screen is not supported by this browser.");
+    } catch (error) { toast("Full screen is unavailable in this preview. Open the standalone file in a browser."); }
+  });
+  document.addEventListener("fullscreenchange", () => { $("fullscreenButton").setAttribute("aria-label", document.fullscreenElement ? "Exit full screen" : "Full screen"); resize(); });
+  canvas.addEventListener("wheel", e => { e.preventDefault(); const pt = localPointer(e); zoomAt(Math.exp(-Math.max(-200, Math.min(200, e.deltaY)) * .0017), pt.x, pt.y); }, { passive: false });
+  const pointers = new Map(); let drag = null, pinch = null;
+  function hitKind(pt, e) {
+    if (e.shiftKey || e.button === 1 || state.tool === "pan") return "pan";
+    const radius = e.pointerType === "touch" ? 26 : 20;
+    const probe = worldToScreen(state.probeX,state.probeY);
+    const onProbe = Math.hypot(pt.x-probe.x,pt.y-probe.y) <= radius;
+    const q = sourceNow(), source = q ? worldToScreen(q.x,q.y) : null;
+    const onCharge = source && Math.hypot(pt.x-source.x,pt.y-source.y) <= radius;
+    if (onProbe && onCharge) return state.tool === "probe" ? "probe" : "charge";
+    if (onProbe) return "probe";
+    if (onCharge) return "charge";
+    return state.tool;
+  }
+  function updateCursor(pt, e) {
+    if (drag) { canvas.style.cursor = "grabbing"; return; }
+    if (state.awaitingPlacement && state.tool === "charge") { canvas.style.cursor = "crosshair"; return; }
+    const kind = hitKind(pt,e), q = sourceNow();
+    const marker = kind === "probe" ? worldToScreen(state.probeX,state.probeY) : q ? worldToScreen(q.x,q.y) : null;
+    canvas.style.cursor = kind === "pan" || (marker && Math.hypot(marker.x-pt.x,marker.y-pt.y) < 22) ? "grab" : "crosshair";
+  }
+  canvas.addEventListener("pointerdown", e => {
+    if (e.pointerType === "mouse" && e.button !== 0 && e.button !== 1) return;
+    e.preventDefault();
+    const pt = localPointer(e); hover = pt; canvas.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, pt); canvas.focus({ preventScroll: true });
+    if (pointers.size === 2) {
+      const [a,b] = [...pointers.values()];
+      pinch = {distance: Math.hypot(a.x-b.x,a.y-b.y), center: {x:(a.x+b.x)/2,y:(a.y+b.y)/2}};
+      drag = null; canvas.classList.remove("dragging"); dirty = true; return;
+    }
+    if (pointers.size !== 1) return;
+    const world = screenToWorld(pt.x,pt.y);
+    const placing = state.awaitingPlacement && state.tool === "charge" && !e.shiftKey && e.button !== 1;
+    if (placing) placeCharge(world.x,world.y);
+    const kind = placing ? "charge" : hitKind(pt,e);
+    const q = sourceNow(), probe = worldToScreen(state.probeX,state.probeY);
+    const source = q ? worldToScreen(q.x,q.y) : null;
+    const onMarker = kind === "charge" ? source && Math.hypot(source.x-pt.x,source.y-pt.y)<27 :
+      kind === "probe" && Math.hypot(probe.x-pt.x,probe.y-pt.y)<27;
+    drag = { kind, pointerId: e.pointerId, x: pt.x, y: pt.y,
+      cameraX: state.cameraX, cameraY: state.cameraY,
+      offsetX: onMarker ? (kind === "charge" ? q.x : state.probeX)-world.x : 0,
+      offsetY: onMarker ? (kind === "charge" ? q.y : state.probeY)-world.y : 0 };
+    if (kind === "charge") aimCharge(world.x+drag.offsetX,world.y+drag.offsetY);
+    else if (kind === "probe") { state.probeX = world.x+drag.offsetX; state.probeY = world.y+drag.offsetY; }
+    canvas.classList.add("dragging"); canvas.style.cursor = "grabbing"; dirty = true;
+  });
+  canvas.addEventListener("pointermove", e => {
+    const pt = localPointer(e); hover = pt;
+    if (!pointers.has(e.pointerId)) { updateCursor(pt,e); if (state.awaitingPlacement) dirty = true; return; }
+    pointers.set(e.pointerId,pt);
+    if (pointers.size >= 2) {
+      const [a,b] = [...pointers.values()];
+      const distance = Math.hypot(a.x-b.x,a.y-b.y), center = {x:(a.x+b.x)/2,y:(a.y+b.y)/2};
+      if (pinch && pinch.distance > 1) {
+        zoomAt(distance/pinch.distance,pinch.center.x,pinch.center.y);
+        state.cameraX -= (center.x-pinch.center.x)/scale(); state.cameraY += (center.y-pinch.center.y)/scale(); dirty = true;
+      }
+      pinch = {distance,center}; return;
+    }
+    if (!drag || drag.pointerId !== e.pointerId) return;
+    const world = screenToWorld(pt.x,pt.y);
+    if (drag.kind === "charge") aimCharge(world.x+drag.offsetX,world.y+drag.offsetY,false);
+    else if (drag.kind === "probe") { state.probeX = world.x+drag.offsetX; state.probeY = world.y+drag.offsetY; }
+    else {
+      state.cameraX = drag.cameraX-(pt.x-drag.x)/scale(); state.cameraY = drag.cameraY+(pt.y-drag.y)/scale(); clearPreset();
+    }
+    dirty = true;
+  });
+  function endPointer(e, cancelled = false) {
+    if (!pointers.has(e.pointerId)) return;
+    // Use release coordinates too, since a last movement event is not guaranteed.
+    if (!cancelled && drag?.pointerId === e.pointerId && pointers.size === 1) {
+      const pt = localPointer(e), w = screenToWorld(pt.x,pt.y);
+      if (drag.kind === "charge") aimCharge(w.x+drag.offsetX,w.y+drag.offsetY,false);
+      else if (drag.kind === "probe") { state.probeX=w.x+drag.offsetX; state.probeY=w.y+drag.offsetY; }
+    }
+    pointers.delete(e.pointerId);
+    drag = null; pinch = null;
+    // After a pinch, a remaining finger can pan, never accidentally grab a charge.
+    if (pointers.size === 1) {
+      const [id,pt] = [...pointers.entries()][0];
+      drag = {kind:"pan",pointerId:id,x:pt.x,y:pt.y,cameraX:state.cameraX,cameraY:state.cameraY,offsetX:0,offsetY:0};
+    }
+    if (!pointers.size) { canvas.classList.remove("dragging"); canvas.style.cursor = "crosshair"; }
+    if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
+    dirty = true;
+  }
+  canvas.addEventListener("pointerup", e => endPointer(e));
+  canvas.addEventListener("pointercancel", e => endPointer(e,true));
+  canvas.addEventListener("lostpointercapture", e => { if(pointers.has(e.pointerId)) endPointer(e,true); });
+  canvas.addEventListener("pointerleave", () => { if (!drag) { hover = null; dirty = true; } });
+  canvas.addEventListener("contextmenu", e => e.preventDefault());
+  window.addEventListener("blur", () => {
+    pointers.clear(); drag = pinch = null; canvas.classList.remove("dragging"); canvas.style.cursor = "crosshair";
+  });
+  document.addEventListener("keydown", e => {
+    if ($( "physicsDialog").open) return;
+    const tag = document.activeElement?.tagName;
+    if (["INPUT", "SELECT", "TEXTAREA"].includes(tag)) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    // Focused buttons keep native Enter/Space activation for keyboard accessibility.
+    if (e.code === "Space" && tag !== "BUTTON" && tag !== "SUMMARY") { e.preventDefault(); setPlaying(!state.playing); }
+    else if (e.key === "1") setMode("total"); else if (e.key === "2") setMode("velocity"); else if (e.key === "3") setMode("radiation");
+    else if (e.key.toLowerCase() === "r") restart(); else if (e.key.toLowerCase() === "h") setView("wide");
+    else if (e.key === "+" || e.key === "=") { e.preventDefault(); zoomAt(1.2); }
+    else if (e.key === "-" || e.key === "_") { e.preventDefault(); zoomAt(1 / 1.2); }
+    else if (e.key === ".") stepTime();
+    else if (e.key.toLowerCase() === "q") setTool("charge");
+    else if (e.key.toLowerCase() === "p") setTool("probe");
+    else if (e.key.toLowerCase() === "g") setTool("pan");
+    else if (e.key.toLowerCase() === "m") { $('highlightMotion').click(); }
+    else if (e.key === "Escape" && state.placed) { state.awaitingPlacement=false; updateInteraction(); }
+    else if (e.key === "?") openPhysics();
+    else if (document.activeElement === canvas && e.key.startsWith("Arrow")) {
+      e.preventDefault(); const d = (e.shiftKey ? 4 : 1) * 8 / scale();
+      if (e.key === "ArrowRight") state.probeX += d; else if (e.key === "ArrowLeft") state.probeX -= d; else if (e.key === "ArrowUp") state.probeY += d; else if (e.key === "ArrowDown") state.probeY -= d; dirty = true;
+    }
+  });
+  document.addEventListener("visibilitychange", () => { lastFrame = performance.now(); });
+  const observer = new ResizeObserver(resize); observer.observe(stage);
+  document.querySelectorAll("input[type=range]").forEach(paintRange);
+  updatePlayback(); updateSourceControls(); resize();
+  if (W < 500) { state.probeX = 12; state.probeY = 3.1; }
+  requestAnimationFrame(frame);
+  // Inspection and automation helpers for reproducible numerical and interface checks.
+  window.FieldLab = Object.freeze({
+    getState: () => { const q=sourceNow(); return {...state, sourceX:q?.x ?? null, sourceY:q?.y ?? null,
+      sourceVx:q?.vx ?? 0, sourceVy:q?.vy ?? 0, targetX:target?.x ?? null, targetY:target?.y ?? null,
+      historySegments:history?.segments.length ?? 0, interaction:drag?.kind ?? null}; },
+    probe: () => P.sample(state.probeX, state.probeY, state.time, params()),
+    sample: (x, y, t = state.time) => P.sample(x, y, t, params()),
+    trajectoryAt: t => state.placed ? P.trajectory(t,params()) : null,
+    setTime: t => {
+      if (!Number.isFinite(t) || t < 0) throw new RangeError("Time must be a finite nonnegative number.");
+      if (state.motion === "manual") {
+        if (t < state.time) throw new RangeError("A recorded mouse trajectory cannot be rewound. Use Restart for a new experiment.");
+        advanceTime(t-state.time);
+      } else { state.time=t; dirty=true; }
+    },
+    placeCharge, moveChargeTo: (x,y) => {
+      if (![x,y].every(Number.isFinite)) throw new TypeError("Finite target coordinates are required.");
+      aimCharge(x,y);
+    },
+    advance: dt => { if(!Number.isFinite(dt)||dt<0) throw new RangeError("Use a finite nonnegative time interval."); advanceTime(dt); },
+    pause: () => setPlaying(false), play: () => setPlaying(true),
+    render: () => { draw(); updateProbe(); }, renderCount: () => renderCounter
+  });
+
+})();
+
+</script>
+</body>
+</html>

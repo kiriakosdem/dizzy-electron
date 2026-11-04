@@ -19,8 +19,9 @@
 		<link rel="stylesheet"
 			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 		<!-- Our Custom CSS -->
-		<link rel="stylesheet" href="styleIndex.css">
-		<link rel="stylesheet" href="styleCommon.css?v=aligned-cards-2">
+		<link rel="stylesheet" href="assets/css/home.css">
+		<link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/cards.css">
 
 
 		<!-- JAVASCRIPT LIBRARIES -->		
@@ -48,10 +49,10 @@
 		<!-- Geogebra -->
 		<script src="https://www.geogebra.org/apps/deployggb.js"></script>
 		<!-- p5.js Libraries -->
-		<script src="libraries/jsLibraries/p5.js"></script>
-		<!--<script src="libraries/p5/p5.dom.min.js"></script>	-->
-		<!--<script src="libraries/p5/p5.sound.min.js"></script>-->
-		<!--<script src="libraries/jsLibraries/matter.js"></script>-->
+		<script src="assets/vendor/p5/p5.js"></script>
+		<!--<script src="assets/vendor/p5/p5.dom.min.js"></script>	-->
+		<!--<script src="assets/vendor/p5/p5.sound.min.js"></script>-->
+		<!--<script src="assets/vendor/matter/matter.js"></script>-->
 
 		<!-- EXTRA JAVASCRIPT CODE -->		
 		<!-- Scroll to Top Button -->
@@ -102,7 +103,7 @@
 				//"customToolbar":"0 || 1 || 2",
 				//"capturingThreshold":null,
 				//"errorDialogsActive":true,
-				//"filename":"geogebra/elipses.ggb" 
+				//"filename":"resources/geogebra/elipses.ggb"
 				"playButton":true,
 				//"autoHeight":true,
 
@@ -128,7 +129,7 @@
 				//"customToolbar":"0 || 1 || 2",
 				//"capturingThreshold":null,
 				//"errorDialogsActive":true,
-				//"filename":"geogebra/elipses.ggb" 
+				//"filename":"resources/geogebra/elipses.ggb"
 				"playButton":true,
 				//"autoHeight":true,
 
@@ -168,7 +169,7 @@
 					<ul class="navbar-nav mr-auto">
 						<a class="navbar-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
 						    <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
-						        <image href="images/dizzy-electron-feynman-logo-titlecase.png" width="1983" height="793" />
+						        <image href="assets/brand/logo.png" width="1983" height="793" />
 						    </svg>
 						</a>
 
@@ -187,9 +188,9 @@
 								</button>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
 									<a class="dropdown-item" 
-									   href="Contents.html#physics-lessons">Φυσική</a>
+									   href="contents/index.html#physics-lessons">Φυσική</a>
 									<a class="dropdown-item" 
-									   href="Contents.html#math-lessons">Μαθηματικά</a>
+									   href="contents/index.html#math-lessons">Μαθηματικά</a>
 								</div>
 							</div>
 						</div>
@@ -200,23 +201,23 @@
 									Υλικό για Σχολεία
 								</button>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-									<a class="dropdown-item" href="Contents.html">Α' Γυμνασίου</a>
-									<a class="dropdown-item" href="Contents.html">Β' Γυμνασίου</a>
-									<a class="dropdown-item" href="Contents.html">Γ' Γυμνασίου</a>
+									<a class="dropdown-item" href="contents/index.html">Α' Γυμνασίου</a>
+									<a class="dropdown-item" href="contents/index.html">Β' Γυμνασίου</a>
+									<a class="dropdown-item" href="contents/index.html">Γ' Γυμνασίου</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="Contents.html">Α' Λυκείου</a>
-									<a class="dropdown-item" href="Contents.html">Β' Λυκείου</a>
-									<a class="dropdown-item" href="Contents.html">Γ' Λυκείου</a>
+									<a class="dropdown-item" href="contents/index.html">Α' Λυκείου</a>
+									<a class="dropdown-item" href="contents/index.html">Β' Λυκείου</a>
+									<a class="dropdown-item" href="contents/index.html">Γ' Λυκείου</a>
 								</div>
 							</div>
 						</div>
 
 						<div class="nav-item">
-							<button class="btn" onclick="window.location.href = 'Contents.html';">Σχετικά</button>
+							<button class="btn" onclick="window.location.href = 'contents/index.html';">Σχετικά</button>
 						</div>
 
 						<div class="nav-item">
-							<button class="btn" onclick="window.location.href = 'Contents.html';">Επικοινωνία</button>
+							<button class="btn" onclick="window.location.href = 'contents/index.html';">Επικοινωνία</button>
 						</div>
 					</ul>
 				</div>
@@ -242,19 +243,19 @@
 			<!--Slides-->
 			<div class="carousel-inner" role="listbox">
 				<div class="carousel-item text-center active">
-					<img src="images/background1%20(3).jpg">
+					<img src="assets/images/background1-3.jpg">
 					<div class="carousel-caption text-center">
 						<h3>Καλωσορίσατε! </h3>
 					</div>
 				</div>
 				<div class="carousel-item text-center">
-					<img src="images/background2%20(1).jpg">
+					<img src="assets/images/background2-1.jpg">
 					<div class="carousel-caption text-center">
 						<h3>Ανακαλύψτε τη μαγεία της Φύσης...</h3>
 					</div>
 				</div>
 				<div class="carousel-item text-center">
-					<img src="images/background3%20(1).jpg">
+					<img src="assets/images/background3-1.jpg">
 					<div class="carousel-caption text-center">
 						<h3>...μέσα από μοναδικά διαδραστικά μαθήματα!</h3>
 					</div>
@@ -284,7 +285,7 @@
 						<p>
 							Απολαύστε μαθήματα Φυσικής και Μαθηματικών σε γλώσσα απλή και κατανοητή χωρίς δυσνόητη ορολογία και περίπλοκες διατυπώσεις.
 						</p>
-						<a class="btn" href="Contents.html">
+						<a class="btn" href="contents/index.html">
 							<h4>Μάθε παραπάνω...</h4>
 						</a>
 						<p><i>
@@ -307,13 +308,13 @@
 				<div class="row text-center">
                         <div class="col-xl-3 col-lg-4 col-md-6">
                             <div class="maincontainer">
-                                <a href="GravitationalFieldLesson.html">
+                                <a href="lessons/physics/gravitational-field.html">
                                     <div class="thecard">
                                         <div class="thefront">
                                             <div class="card card-physics">
                                                 <div class="inner">
                                                     <h3>Το Βαρυτικό Πεδίο</h3>
-                                                    <img class="lesson-icon" src="images/lesson-icons/gravity.svg" width="125" height="125" alt="" loading="lazy">
+                                                    <img class="lesson-icon" src="assets/icons/gravity.svg" width="125" height="125" alt="" loading="lazy">
                                                     <p>Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
                                                 </div>
                                             </div>
@@ -336,13 +337,13 @@
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6">
                             <div class="maincontainer">
-                                <a href="ElectricFieldLesson.html">
+                                <a href="lessons/physics/electric-field.html">
                                     <div class="thecard">
                                         <div class="thefront">
                                             <div class="card card-physics">
                                                 <div class="inner">
                                                     <h3>Το Ηλεκτρικό Πεδίο</h3>
-                                                    <img class="lesson-icon" src="images/lesson-icons/electric-field.svg" width="125" height="125" alt="" loading="lazy">
+                                                    <img class="lesson-icon" src="assets/icons/electric-field.svg" width="125" height="125" alt="" loading="lazy">
                                                     <p>Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
                                                 </div>
                                             </div>
@@ -365,13 +366,13 @@
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6">
                             <div class="maincontainer">
-                                <a href="ElectromagneticFieldLesson.html">
+                                <a href="lessons/physics/electromagnetic-field.html">
                                     <div class="thecard">
                                         <div class="thefront">
                                             <div class="card card-physics">
                                                 <div class="inner">
                                                     <h3>Το Ηλεκτρομαγνητικό Πεδίο</h3>
-                                                    <img class="lesson-icon" src="images/lesson-icons/electromagnetic-field.svg" width="125" height="125" alt="" loading="lazy">
+                                                    <img class="lesson-icon" src="assets/icons/electromagnetic-field.svg" width="125" height="125" alt="" loading="lazy">
                                                     <p>Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
                                                 </div>
                                             </div>
@@ -394,13 +395,13 @@
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-6">
                             <div class="maincontainer">
-                                <a href="HydrogenEigenstatesLesson.html">
+                                <a href="lessons/physics/hydrogen-eigenstates.html">
                                     <div class="thecard">
                                         <div class="thefront">
                                             <div class="card card-physics">
                                                 <div class="inner">
                                                     <h3>Οι Ιδιοκαταστάσεις του Υδρογόνου</h3>
-                                                    <img class="lesson-icon" src="images/lesson-icons/hydrogen-orbitals.svg" width="125" height="125" alt="" loading="lazy">
+                                                    <img class="lesson-icon" src="assets/icons/hydrogen-orbitals.svg" width="125" height="125" alt="" loading="lazy">
                                                     <p>Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
                                                 </div>
                                             </div>
@@ -423,7 +424,7 @@
                         </div>
                     </div>
 
-				<a class="btn" href="Contents.html">
+				<a class="btn" href="contents/index.html">
 					<h4>Δείτε ΟΛΑ τα μαθήματα εδώ!</h4>
 				</a>
 			</div>
@@ -434,7 +435,7 @@
 			<footer>
 			    <a class="footer-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
 			        <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
-			            <image href="images/dizzy-electron-feynman-logo-titlecase.png" width="1983" height="793" />
+			            <image href="assets/brand/logo.png" width="1983" height="793" />
 			        </svg>
 			    </a>
 			</footer>
