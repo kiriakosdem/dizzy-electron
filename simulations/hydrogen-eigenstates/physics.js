@@ -103,5 +103,14 @@
         }
         return { positions, radius99: quantile(d.radial, 0.99) };
     }
-    return { MAX_N, validState, constrainState, radial, angularDensity, distributions, quantile, sample };
+    // Condon–Shortley convention; Y_l^-m = (-1)^m conjugate(Y_l^m).
+    // A stationary snapshot omits the physically irrelevant common time phase.
+    function phase(n, l, m, x, y, z) {
+        const r = Math.hypot(x, y, z);
+        const amplitude = radial(n, l, r) * legendre(l, Math.abs(m), r ? z / r : 1) *
+            (m < 0 && Math.abs(m) % 2 ? -1 : 1);
+        const angle = m * Math.atan2(y, x) + (amplitude < 0 ? Math.PI : 0);
+        return (angle % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+    }
+    return { MAX_N, validState, constrainState, radial, angularDensity, distributions, quantile, sample, phase };
 }));

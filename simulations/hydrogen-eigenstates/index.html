@@ -3,22 +3,24 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>Hydrogen Eigenstates Laboratory</title>
+    <title>The Hydrogen Atom Laboratory</title>
     <link rel="stylesheet" href="lab.css">
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script defer src="physics.js"></script>
+    <script defer src="physics.js?v=phase-1"></script>
+    <script defer src="surface.js"></script>
     <script defer src="lab.js"></script>
 </head>
 <body>
 <header class="banner">
-    <div class="banner-copy"><h1>Hydrogen Eigenstates</h1><p class="subtitle">Explore the probability cloud of a single electron.</p></div>
+    <div class="banner-copy"><h1>The Hydrogen Atom</h1><p class="subtitle">Explore the probability cloud of a single electron.</p></div>
     <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls"><svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg></button>
 </header>
 <main id="lab" class="controls-open">
     <div id="viewport">
         <div id="canvas-container"></div>
-        <div class="state-label"><strong id="stateName">1s · m = 0</strong><span>Probability density |ψ|²</span></div>
+        <div class="state-label"><strong id="stateName">1s · m = 0</strong><span id="viewLabel">Probability density |ψ|²</span></div>
+        <div class="phase-legend" id="phaseLegend" hidden><span>Wavefunction phase · arg ψ</span><div class="phase-ramp"></div><div class="phase-ticks"><span>0</span><span>π/2</span><span>π</span><span>3π/2</span><span>2π</span></div></div>
         <div class="canvas-footer"><span id="scaleLabel">Distances in Bohr radii (a₀)</span><span>Drag to rotate · Scroll or pinch to zoom</span></div>
         <div id="renderStatus" class="render-status" role="status">Preparing the probability cloud…</div>
     </div>
@@ -41,22 +43,35 @@
         </section>
         <section class="panel-section">
             <h2 class="section-title">Visualization</h2>
-            <label class="control-label" for="density">Point density <output id="densityValue" for="density">6,000 spheres</output></label>
-            <input id="density" type="range" min="500" max="20000" step="500" value="6000" aria-describedby="densityHint">
-            <p class="muted" id="densityHint">More samples reveal finer detail. This changes the drawing, not the probability distribution.</p>
+            <label class="control-label" for="displayMode">Orbital display</label>
+            <select id="displayMode" class="display-mode"><option value="points">Point cloud</option><option value="surface">Phase-colored surface</option></select>
+            <div id="pointControls">
+                <label class="control-label" for="density">Point density <output id="densityValue" for="density">6,000 spheres</output></label>
+                <input id="density" type="range" min="500" max="20000" step="500" value="6000" aria-describedby="densityHint">
+                <p class="muted" id="densityHint">More samples reveal finer detail. This changes the drawing, not the probability distribution.</p>
+            </div>
+            <div id="surfaceControls" hidden>
+                <label class="control-label" for="enclosure">Enclosed probability <output id="enclosureValue" for="enclosure">99.0%</output></label>
+                <input id="enclosure" type="range" min="50" max="99.9" step="0.1" value="99" aria-describedby="enclosureHint">
+                <p class="muted" id="enclosureHint">Approximately this probability lies inside the surface. Increase it to include more of the orbital’s faint outer regions.</p>
+            </div>
             <div class="toggle-row"><span>Coordinate axes</span><button class="switch on" id="axesToggle" role="switch" aria-checked="true" aria-label="Coordinate axes"></button></div>
             <div class="toggle-row"><span>Rotate view</span><button class="switch" id="rotationToggle" role="switch" aria-checked="false" aria-label="Rotate view"></button></div>
-            <div class="toggle-row"><span>Detection highlights</span><button class="switch on" id="detectionToggle" role="switch" aria-checked="true" aria-label="Detection highlights" aria-describedby="detectionHint"></button></div>
-            <p class="muted" id="detectionHint">One amber sphere at a time, 10 times a second. Illustrative detection events; no path connects them.</p>
+            <div id="detectionControls">
+                <div class="toggle-row"><span>Detection highlights</span><button class="switch on" id="detectionToggle" role="switch" aria-checked="true" aria-label="Detection highlights" aria-describedby="detectionHint"></button></div>
+                <p class="muted" id="detectionHint">One amber sphere at a time, 10 times a second. Illustrative detection events; no path connects them.</p>
+            </div>
             <button class="action-button full-width" id="resetView">Reset view</button>
         </section>
         <section class="panel-section">
             <h2 class="section-title">Selected state</h2>
             <dl class="state-details"><div><dt>Energy</dt><dd id="energy">−13.60 eV</dd></div><div><dt>Radial nodes</dt><dd id="radialNodes">0</dd></div><div><dt>Polar nodes</dt><dd id="polarNodes">0</dd></div></dl>
-            <p class="muted">Each sphere is a possible measurement position, not a separate electron or a point on an orbit.</p>
+            <p class="muted" id="viewHint">Each sphere is a possible measurement position, not a separate electron or a point on an orbit.</p>
             <details><summary>About this model</summary>
                 <p>These are stationary hydrogen states with a fixed nucleus, without spin or external fields. The cloud samples |R<sub>nℓ</sub>Y<sub>ℓ</sub><sup>m</sup>|².</p>
                 <p>States with m and −m have the same density. For nonzero m, these angular-momentum states differ from the real p<sub>x</sub> and p<sub>y</sub> combinations often drawn in chemistry.</p>
+                <p>Surface colors show the phase of ψ in a stationary snapshot, using the standard spherical-harmonic convention. For m = 0, opposite signs have phases 0 and π; for nonzero m, phase winds around z. A common overall phase is arbitrary and does not change probability.</p>
+                <p>The surface bounds regions above a common probability-density threshold, chosen by integrating |ψ|² over their volume. The selected probability is shared by all enclosed regions together. Nodal gaps are excluded; inner boundaries can be hidden by outer shells. The electron can still be found outside the surface.</p>
                 <p>Axes use the z direction for m. The camera fits each new state automatically; use the radius readout to compare physical sizes. Sphere sizes are illustrative.</p>
                 <p>The highlights illustrate position measurements on identically prepared states. They do not simulate one electron travelling between points or its evolution after a measurement.</p>
                 <p><a href="https://openstax.org/books/university-physics-volume-3/pages/8-1-the-hydrogen-atom" target="_blank" rel="noopener">Hydrogen quantum numbers</a> · <a href="https://dlmf.nist.gov/14.30" target="_blank" rel="noopener">Spherical harmonics</a></p>

@@ -62,3 +62,14 @@ test('changing sample count preserves the existing cloud; +/-m give identical de
     assert.deepEqual(small,large.slice(0,small.length));
     assert.throws(()=>P.sample(1,0,0,0),RangeError);
 });
+
+test('surface phase includes radial signs, polar signs and signed azimuthal winding',()=>{
+    near(P.phase(1,0,0,1,0,0),0);
+    near(P.phase(2,0,0,3,0,0),Math.PI);
+    near(P.phase(2,1,0,0,0,2),0);
+    near(P.phase(2,1,0,0,0,-2),Math.PI);
+    near(P.phase(2,1,1,1,0,0),Math.PI);
+    near(P.phase(2,1,1,0,1,0),3*Math.PI/2);
+    near(P.phase(2,1,-1,1,0,0),0);
+    near(P.phase(2,1,-1,0,1,0),3*Math.PI/2);
+});
