@@ -64,11 +64,11 @@ NAVIGATION BAR
 	color: white;
 }
 
-/* Approved Feynman logo. The viewBox crops transparent padding only. */
+/* Orbital character and stacked, equal-width wordmark. */
 .site-logo {
     display: block;
     flex-shrink: 0;
-    width: 230px;
+    width: 210px;
     max-width: 100%;
     height: auto;
 }
@@ -102,7 +102,7 @@ footer .footer-brand {
     }
 
     #NavigationBar .site-logo {
-        width: min(230px, calc(100vw - 88px));
+        width: min(210px, calc(100vw - 88px));
     }
 }
 
@@ -215,18 +215,23 @@ a:hover{
 	position: fixed;
 	bottom: 2rem;
 	right: 2rem;
-	line-height: 50px;
+	line-height: 1;
 	width: 50px;
 	height: 50px;
-	background-color: cadetblue;
+	background-color: #285b65;
 	color: #fff;
 	text-align: center;
 	display: none;
 	z-index: 1000;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
 }
 
+.scrollToTop > svg { position: absolute; width: 28px; height: 28px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 .scrollToTop:hover{
-	background-color: blue;
+	background-color: #173f48;
+	color: #fff;
 }
 
 

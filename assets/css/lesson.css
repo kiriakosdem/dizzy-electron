@@ -73,12 +73,13 @@ CARDS
 	margin-right: 7vw;
 	border-color: transparent;
 	font-size: 0.9rem;
-	background-color: lightgreen;
-	border-color: seagreen;
+	background-color: #e4eff0;
+	border-color: #285b65;
+	color: #173044;
 }
 
 .learning-goals-card .card-header{
-	background-color: seagreen;
+	background-color: #285b65;
 	color: white;
 	font-weight: bold;
 	font-size: 1rem;

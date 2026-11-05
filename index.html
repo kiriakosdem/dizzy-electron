@@ -1,446 +1,136 @@
-<!--DOCTYPE html-->
-
-<html lang="gr">
-
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-		<title>Dizzy Electron | Welcome Page</title>
-
-		<!-- CSS FILES -->
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" 
-			  href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" 
-			  integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" 
-			  crossorigin="anonymous">
-		<!-- Font Awesome CSS -->
-		<link rel="stylesheet"
-			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
-		<!-- Our Custom CSS -->
-		<link rel="stylesheet" href="assets/css/home.css">
-		<link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/cards.css">
-
-
-		<!-- JAVASCRIPT LIBRARIES -->		
-		<!-- Font Awesome -->
-		<script defer 
-				src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" 
-				integrity="sha384tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" 
-				crossorigin="anonymous"></script>
-		<script defer 
-				src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha3846OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" 
-				crossorigin="anonymous"></script>
-		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-		<!-- jQuery -->
-		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-		<!-- Popper -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-				integrity="sha384cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-		<!-- Bootstrap -->
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-				integrity="sha384uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-		<!-- Math -->
-		<script type="text/javascript" 
-				async 
-				src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
-		<!-- Geogebra -->
-		<script src="https://www.geogebra.org/apps/deployggb.js"></script>
-		<!-- p5.js Libraries -->
-		<script src="assets/vendor/p5/p5.js"></script>
-		<!--<script src="assets/vendor/p5/p5.dom.min.js"></script>	-->
-		<!--<script src="assets/vendor/p5/p5.sound.min.js"></script>-->
-		<!--<script src="assets/vendor/matter/matter.js"></script>-->
-
-		<!-- EXTRA JAVASCRIPT CODE -->		
-		<!-- Scroll to Top Button -->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$(window).scroll(function () {
-					if ($(this).scrollTop() > 500) {
-						$('.scrollToTop').fadeIn(100);
-					} else {
-						$('.scrollToTop').fadeOut(500);
-					}
-				});
-				// scroll body to 0px on click
-				$('.scrollToTop').click(function () {
-					$('body,html').animate({
-						scrollTop: 0
-					}, 500);
-					return false;
-				});
-			});
-		</script>
-		<!--Sidebar -->
-		<script type="text/javascript">
-			$(document).ready(function () {
-				$("#sidebar").mCustomScrollbar({
-					theme: "minimal"
-				});
-
-				$('#dismiss, .overlay').on('click', function () {
-					$('#sidebar').removeClass('active');
-					$('.overlay').removeClass('active');
-				});
-
-				$('#sidebarCollapse').on('click', function () {
-					$('#sidebar').addClass('active');
-					$('.overlay').addClass('active');
-					$('.collapse.in').toggleClass('in');
-					$('a[aria-expanded=true]').attr('aria-expanded', 'false');
-				});
-			});
-		</script>
-		<!-- Geogebra Applets -->
-		<script type="text/javascript">
-			var parameters1 = {
-				//"appName": "geometry",
-				//"width": parent.width,
-				//"height": 400,
-				//"customToolbar":"0 || 1 || 2",
-				//"capturingThreshold":null,
-				//"errorDialogsActive":true,
-				//"filename":"resources/geogebra/elipses.ggb"
-				"playButton":true,
-				//"autoHeight":true,
-
-				"material_id": "mwgjept9",
-				"showToolBar":false,
-				"showToolBarHelp":false,
-				"showMenuBar":false,
-				"showAlgebraInput":false,
-				"showResetIcon":true,
-				"showFullscreenButton": true,
-				"enableLabelDrags":true,
-				"enableShiftDragZoom":true,
-				"enableRightClick":true,
-				"useBrowserForJS":false,
-				"allowUpScale": true,
-				"scaleContainerClass":"col",	
-			};
-
-			var parameters2 = {
-				//"appName": "geometry",
-				//"width": parent.width,
-				//"height": 400,
-				//"customToolbar":"0 || 1 || 2",
-				//"capturingThreshold":null,
-				//"errorDialogsActive":true,
-				//"filename":"resources/geogebra/elipses.ggb"
-				"playButton":true,
-				//"autoHeight":true,
-
-				"material_id": "ethcgfs8",
-				"showToolBar":false,
-				"showToolBarHelp":false,
-				"showMenuBar":false,
-				"showAlgebraInput":false,
-				"showResetIcon":true,
-				"showFullscreenButton": true,
-				"enableLabelDrags":true,
-				"enableShiftDragZoom":true,
-				"enableRightClick":true,
-				"useBrowserForJS":false,
-				"allowUpScale": true,
-				"scaleContainerClass":"col",	
-			};
-
-			var applet1 = new GGBApplet(parameters1, '5.0');
-			var applet2 = new GGBApplet(parameters2, '5.0')
-
-			window.addEventListener("load", function() {
-				applet1.inject('applet-container1');
-				applet2.inject('applet-container2');
-			});
-		</script>
-
-	</head>
-
-	<body>
-
-		<!-- Navigation Bar -->
-		<div id="NavigationBar">
-			<nav class="navbar navbar-center navbar-expand-lg navbar-dark bg-dark">	
-				<div class="order-0 ">
-					<!-- Left Box -->
-					<ul class="navbar-nav mr-auto">
-						<a class="navbar-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
-						    <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
-						        <image href="assets/brand/logo.png" width="1983" height="793" />
-						    </svg>
-						</a>
-
-					</ul>
-				</div>
-				<!-- Central Box -->
-
-				<!-- Right Box -->
-				<div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
-					<ul class="navbar-nav ml-auto">
-
-						<div class="nav-item">
-							<div class="dropdown">
-								<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Μαθήματα
-								</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-									<a class="dropdown-item" 
-									   href="contents/index.html#physics-lessons">Φυσική</a>
-									<a class="dropdown-item" 
-									   href="contents/index.html#math-lessons">Μαθηματικά</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="nav-item">
-							<div class="dropdown">
-								<button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Υλικό για Σχολεία
-								</button>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-									<a class="dropdown-item" href="contents/index.html">Α' Γυμνασίου</a>
-									<a class="dropdown-item" href="contents/index.html">Β' Γυμνασίου</a>
-									<a class="dropdown-item" href="contents/index.html">Γ' Γυμνασίου</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="contents/index.html">Α' Λυκείου</a>
-									<a class="dropdown-item" href="contents/index.html">Β' Λυκείου</a>
-									<a class="dropdown-item" href="contents/index.html">Γ' Λυκείου</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="nav-item">
-							<button class="btn" onclick="window.location.href = 'contents/index.html';">Σχετικά</button>
-						</div>
-
-						<div class="nav-item">
-							<button class="btn" onclick="window.location.href = 'contents/index.html';">Επικοινωνία</button>
-						</div>
-					</ul>
-				</div>
-				<!-- Toggler Button -->
-				<button class="navbar-toggler" 
-						type="button" 
-						data-toggle="collapse" 
-						data-target=".dual-collapse">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-			</nav>
-		</div>
-
-		<!-- Carousel with Slides-->
-		<div id="MyCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
-
-			<!--Indicators-->
-			<ol class="carousel-indicators">
-				<li data-target="#MyCarousel" data-slide-to="0" class="active"></li>
-				<li data-target="#MyCarousel" data-slide-to="1"></li>
-				<li data-target="#MyCarousel" data-slide-to="2"></li>
-			</ol>
-			<!--Slides-->
-			<div class="carousel-inner" role="listbox">
-				<div class="carousel-item text-center active">
-					<img src="assets/images/background1-3.jpg">
-					<div class="carousel-caption text-center">
-						<h3>Καλωσορίσατε! </h3>
-					</div>
-				</div>
-				<div class="carousel-item text-center">
-					<img src="assets/images/background2-1.jpg">
-					<div class="carousel-caption text-center">
-						<h3>Ανακαλύψτε τη μαγεία της Φύσης...</h3>
-					</div>
-				</div>
-				<div class="carousel-item text-center">
-					<img src="assets/images/background3-1.jpg">
-					<div class="carousel-caption text-center">
-						<h3>...μέσα από μοναδικά διαδραστικά μαθήματα!</h3>
-					</div>
-				</div>
-			</div>
-			<!--Previous and Next Buttons-->
-			<a class="carousel-control-prev" 
-			   href="#MyCarousel" 
-			   role="button" 
-			   data-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			</a>
-			<a class="carousel-control-next" 
-			   href="#MyCarousel" 
-			   role="button" 
-			   data-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			</a>
-		</div>
-
-		<!-- Jumbotron -->
-		<div id="About">
-			<div class="jumbotron container-fluid">
-				<div class="row text-center">
-					<div class="col-xl-3 text-center"></div>
-					<div class="col-xl-6 text-center">
-						<p>
-							Απολαύστε μαθήματα Φυσικής και Μαθηματικών σε γλώσσα απλή και κατανοητή χωρίς δυσνόητη ορολογία και περίπλοκες διατυπώσεις.
-						</p>
-						<a class="btn" href="contents/index.html">
-							<h4>Μάθε παραπάνω...</h4>
-						</a>
-						<p><i>
-							“If you can't explain it simply, you don't understand it well enough.” 
-							<br>
-							- Einstein 
-							</i></p>
-					</div>
-					<div class="col-xl-3 text-center"></div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Selected Courses -->
-		<div id="Courses">
-			<div class="container text-center">
-				<h2 class="heading">Επιλεγμενα Μαθηματα</h2>
-				<div class="heading-underline"></div>
-
-				<div class="row text-center">
-                        <div class="col-xl-3 col-lg-4 col-md-6">
-                            <div class="maincontainer">
-                                <a href="lessons/physics/gravitational-field.html">
-                                    <div class="thecard">
-                                        <div class="thefront">
-                                            <div class="card card-physics">
-                                                <div class="inner">
-                                                    <h3>Το Βαρυτικό Πεδίο</h3>
-                                                    <img class="lesson-icon" src="assets/icons/gravity.svg" width="125" height="125" alt="" loading="lazy">
-                                                    <p>Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="theback">
-                                            <div class="card backface-card">
-                                                <div class="card-header text-center">Το Βαρυτικό Πεδίο</div>
-                                                <ul class="list-unstyled components">
-                                                    <li>Εισαγωγή</li>
-                                                    <li>Βασικές έννοιες</li>
-                                                    <li>Διαδραστικό εργαστήριο</li>
-                                                    <li>Δοκίμασέ το</li>
-                                                    <li>Τι κρατάμε</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6">
-                            <div class="maincontainer">
-                                <a href="lessons/physics/electric-field.html">
-                                    <div class="thecard">
-                                        <div class="thefront">
-                                            <div class="card card-physics">
-                                                <div class="inner">
-                                                    <h3>Το Ηλεκτρικό Πεδίο</h3>
-                                                    <img class="lesson-icon" src="assets/icons/electric-field.svg" width="125" height="125" alt="" loading="lazy">
-                                                    <p>Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="theback">
-                                            <div class="card backface-card">
-                                                <div class="card-header text-center">Το Ηλεκτρικό Πεδίο</div>
-                                                <ul class="list-unstyled components">
-                                                    <li>Εισαγωγή</li>
-                                                    <li>Βασικές έννοιες</li>
-                                                    <li>Διαδραστικό εργαστήριο</li>
-                                                    <li>Δοκίμασέ το</li>
-                                                    <li>Τι κρατάμε</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6">
-                            <div class="maincontainer">
-                                <a href="lessons/physics/electromagnetic-field.html">
-                                    <div class="thecard">
-                                        <div class="thefront">
-                                            <div class="card card-physics">
-                                                <div class="inner">
-                                                    <h3>Το Ηλεκτρομαγνητικό Πεδίο</h3>
-                                                    <img class="lesson-icon" src="assets/icons/electromagnetic-field.svg" width="125" height="125" alt="" loading="lazy">
-                                                    <p>Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="theback">
-                                            <div class="card backface-card">
-                                                <div class="card-header text-center">Το Ηλεκτρομαγνητικό Πεδίο</div>
-                                                <ul class="list-unstyled components">
-                                                    <li>Εισαγωγή</li>
-                                                    <li>Βασικές έννοιες</li>
-                                                    <li>Διαδραστικό εργαστήριο</li>
-                                                    <li>Δοκίμασέ το</li>
-                                                    <li>Τι κρατάμε</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-6">
-                            <div class="maincontainer">
-                                <a href="lessons/physics/hydrogen-eigenstates.html">
-                                    <div class="thecard">
-                                        <div class="thefront">
-                                            <div class="card card-physics">
-                                                <div class="inner">
-                                                    <h3>Το Άτομο του Υδρογόνου</h3>
-                                                    <img class="lesson-icon" src="assets/icons/hydrogen-orbitals.svg" width="125" height="125" alt="" loading="lazy">
-                                                    <p>Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="theback">
-                                            <div class="card backface-card">
-                                                <div class="card-header text-center">Το Άτομο του Υδρογόνου</div>
-                                                <ul class="list-unstyled components">
-                                                    <li>Εισαγωγή</li>
-                                                    <li>Βασικές έννοιες</li>
-                                                    <li>Διαδραστικό εργαστήριο</li>
-                                                    <li>Δοκίμασέ το</li>
-                                                    <li>Τι κρατάμε</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Μάθε, παίξε και πειραματίσου με τη Φυσική. Διαδραστικά μαθήματα και οπτικοποιήσεις για να εξερευνήσεις τις έννοιες με τον δικό σου ρυθμό.">
+    <title>Dizzy Electron | Φυσική στην πράξη</title>
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/common.css?v=controls-1">
+    <link rel="stylesheet" href="assets/css/cards.css?v=catalog-2">
+    <link rel="stylesheet" href="assets/css/home.css?v=controls-1">
+    <script src="assets/js/lesson.js" defer></script>
+    <script src="assets/js/home-carousel.js" defer></script>
+</head>
+<body class="home-page" id="top">
+    <a class="home-skip-link" href="#home-content">Μετάβαση στο περιεχόμενο</a>
+        <div id="NavigationBar">
+            <nav class="navbar navbar-center navbar-expand-lg navbar-dark bg-dark" aria-label="Κύρια πλοήγηση">
+                <div class="order-0">
+                    <div class="navbar-nav mr-auto">
+                        <a class="navbar-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
+                            <img class="site-logo site-logo--inverse" src="assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+                        </a>
                     </div>
+                </div>
+                <div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</button>
+                                <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
+                                    <a class="dropdown-item" href="contents/index.html#physics-lessons">Φυσική</a>
+                                    <a class="dropdown-item" href="contents/index.html#math-lessons">Μαθηματικά</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-lesson-dropdown aria-controls="lesson-school-years" aria-expanded="false">Υλικό για Σχολεία</button>
+                                <div class="dropdown-menu" id="lesson-school-years" aria-labelledby="dropdownMenu2">
+                                    <a class="dropdown-item" href="contents/index.html">Α' Γυμνασίου</a>
+                                    <a class="dropdown-item" href="contents/index.html">Β' Γυμνασίου</a>
+                                    <a class="dropdown-item" href="contents/index.html">Γ' Γυμνασίου</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="contents/index.html">Α' Λυκείου</a>
+                                    <a class="dropdown-item" href="contents/index.html">Β' Λυκείου</a>
+                                    <a class="dropdown-item" href="contents/index.html">Γ' Λυκείου</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="btn" href="about/index.html">Σχετικά</a></li>
+                        <li class="nav-item"><a class="btn" href="contact/index.html">Επικοινωνία</a></li>
+                    </ul>
+                </div>
+                <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
 
-				<a class="btn" href="contents/index.html">
-					<h4>Δείτε ΟΛΑ τα μαθήματα εδώ!</h4>
-				</a>
-			</div>
-		</div>
 
-		<!-- Footer -->
-		<div id="Footer">
-			<footer>
-			    <a class="footer-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
-			        <svg class="site-logo site-logo--inverse" viewBox="80 145 1825 520" width="230" height="66" aria-hidden="true" focusable="false">
-			            <image href="assets/brand/logo.png" width="1983" height="793" />
-			        </svg>
-			    </a>
-			</footer>
-		</div>
-
-	</body>
-
+    <main id="home-content" tabindex="-1">
+        <section class="welcome-carousel" id="MyCarousel" aria-label="Καλώς ήρθες στο Dizzy Electron" aria-roledescription="carousel">
+            <div class="welcome-slides" aria-live="off">
+                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="1 από 3">
+                    <img src="assets/images/background1-3.jpg" alt="" fetchpriority="high">
+                    <p>Καλωσορίσατε!</p>
+                </div>
+                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="2 από 3" hidden>
+                    <img src="assets/images/background2-1.jpg" alt="">
+                    <p>Ανακαλύψτε τη μαγεία της Φύσης...</p>
+                </div>
+                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="3 από 3" hidden>
+                    <img src="assets/images/background3-1.jpg" alt="">
+                    <p>...μέσα από μοναδικά διαδραστικά μαθήματα!</p>
+                </div>
+            </div>
+            <div class="welcome-controls" hidden>
+                <button class="welcome-arrow welcome-previous" type="button" aria-label="Προηγούμενη διαφάνεια"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14 6 8 12 14 18"/></svg></button>
+                <button class="welcome-arrow welcome-next" type="button" aria-label="Επόμενη διαφάνεια"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="10 6 16 12 10 18"/></svg></button>
+                <div class="welcome-pagination">
+                    <button class="welcome-dot" type="button" data-slide="0" aria-label="Διαφάνεια 1" aria-current="true"></button>
+                    <button class="welcome-dot" type="button" data-slide="1" aria-label="Διαφάνεια 2" aria-current="false"></button>
+                    <button class="welcome-dot" type="button" data-slide="2" aria-label="Διαφάνεια 3" aria-current="false"></button>
+                    <button class="welcome-playback" type="button" aria-label="Παύση εναλλαγής διαφανειών">Ⅱ</button>
+                </div>
+            </div>
+        </section>
+        <header class="home-heading">
+            <div class="home-shell">
+            <p>Απολαύστε μαθήματα Φυσικής και Μαθηματικών σε γλώσσα απλή και κατανοητή χωρίς δυσνόητη ορολογία και περίπλοκες διατυπώσεις.</p>
+            <p>“If you can't explain it simply, you don't understand it well enough.”</p>
+            <p>— Einstein</p>
+            </div>
+        </header>
+        <section class="home-band home-band--shaded" id="Courses" aria-labelledby="featured-title">
+            <div class="home-shell">
+                <h2 id="featured-title">Επιλεγμένα μαθήματα</h2>
+                <div class="catalog-grid">
+                        <a class="catalog-card" href="lessons/physics/gravitational-field.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
+                            <span class="catalog-icon"><img src="assets/icons/gravity.svg" width="48" height="48" alt="" aria-hidden="true"></span>
+                            <h3 id="lesson-1-title">Το Βαρυτικό Πεδίο</h3>
+                            <p id="lesson-1-description">Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
+                            <span class="catalog-card-action" aria-hidden="true">Άνοιγμα μαθήματος <span>→</span></span>
+                        </a>
+                        <a class="catalog-card" href="lessons/physics/electric-field.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
+                            <span class="catalog-icon"><img src="assets/icons/electric-field.svg" width="48" height="48" alt="" aria-hidden="true"></span>
+                            <h3 id="lesson-2-title">Το Ηλεκτρικό Πεδίο</h3>
+                            <p id="lesson-2-description">Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
+                            <span class="catalog-card-action" aria-hidden="true">Άνοιγμα μαθήματος <span>→</span></span>
+                        </a>
+                        <a class="catalog-card" href="lessons/physics/electromagnetic-field.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
+                            <span class="catalog-icon"><img src="assets/icons/electromagnetic-field.svg" width="48" height="48" alt="" aria-hidden="true"></span>
+                            <h3 id="lesson-3-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
+                            <p id="lesson-3-description">Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
+                            <span class="catalog-card-action" aria-hidden="true">Άνοιγμα μαθήματος <span>→</span></span>
+                        </a>
+                        <a class="catalog-card" href="lessons/physics/hydrogen-eigenstates.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
+                            <span class="catalog-icon"><img src="assets/icons/hydrogen-orbitals.svg" width="48" height="48" alt="" aria-hidden="true"></span>
+                            <h3 id="lesson-4-title">Το Άτομο του Υδρογόνου</h3>
+                            <p id="lesson-4-description">Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
+                            <span class="catalog-card-action" aria-hidden="true">Άνοιγμα μαθήματος <span>→</span></span>
+                        </a>
+                </div>
+                <p class="home-more"><a class="home-button" href="contents/index.html">Όλα τα μαθήματα <span aria-hidden="true">→</span></a></p>
+            </div>
+        </section>
+    </main>
+    <a href="#top" class="scrollToTop btn-primary" aria-label="Επιστροφή στην κορυφή"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
+    <footer id="Footer">
+        <a class="footer-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
+            <img class="site-logo site-logo--inverse" src="assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+        </a>
+    </footer>
+</body>
 </html>

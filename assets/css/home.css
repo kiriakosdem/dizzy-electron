@@ -1,86 +1,58 @@
-/* ---------------------------------------------------
-BUTTONS AND LINKS
------------------------------------------------------ */
-a:hover{
-	text-decoration: none;
+/* The same compact layout and alternating bands as About, Contact and Contents. */
+.home-page { min-height: 100%; height: auto; background: #fff; color: #173044; }
+.home-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
+.home-page p { text-indent: 0; line-height: 1.8; }
+.home-heading { padding: 48px 0 40px; text-align: center; background: #001e3c; color: #fff; }
+.home-heading h1 { font-size: 2.25rem; line-height: 1.3; margin: 0 0 24px; }
+.home-heading p { max-width: 680px; margin: 0 auto 26px; }
+.home-heading p:last-child { margin-bottom: 0; }
+.home-button { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: 1px solid #285b65; border-radius: 6px; background: #285b65; color: #fff; font-size: .95rem; font-weight: 600; line-height: 1.6; }
+.home-button:hover { background: #173f48; border-color: #173f48; color: #fff; text-decoration: none; }
+.home-band { padding: 48px 0 54px; background: #fff; }
+.home-band--shaded { background: #eef0f1; }
+.home-band h2 { font-size: 1.6rem; line-height: 1.4; margin: 0 0 24px; }
+.home-band p { font-size: .95rem; color: #52616b; }
+.home-intro { margin-bottom: 28px; }
+.home-page .home-more { margin: 28px 0 0; }
+.home-links { display: flex; flex-wrap: wrap; gap: 18px 32px; margin-top: 26px; }
+.home-text-link { color: #246977; font-size: .9rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.home-text-link span { display: inline-block; margin-left: 8px; }
+.home-text-link:hover { color: #173f48; text-decoration: underline; }
+.home-page section { scroll-margin-top: 24px; }
+.home-page footer { margin-top: 0; padding-bottom: 20px; }
+.home-skip-link { position: fixed; top: -100px; left: 16px; z-index: 1100; background: #fff; padding: 14px; color: #001e3c; }
+.home-skip-link:focus { top: 10px; }
+.home-page a:focus-visible, .home-page button:focus-visible { outline: 3px solid #398886; outline-offset: 4px; }
+@media (max-width: 575px) {
+    .home-shell { width: calc(100% - 40px); }
+    .home-heading { padding: 32px 0; }
+    .home-heading h1 { font-size: 1.9rem; }
+    .home-heading p { font-size: .95rem; }
+    .home-band { padding: 34px 0 40px; }
+    .home-band h2 { font-size: 1.4rem; }
 }
 
-
-#Courses .btn, #About .btn{
-	background-color: cadetblue;
-	border-radius: 1.5rem;
-	color: white;
-	margin: 2rem;
-}
-
-#Courses .btn:hover, #About .btn:hover{
-	background-color: blue;
-	border-color: transparent;
-}
-
-#Courses .btn h4, #About .btn h4{
-	font-size: 1.1rem;
-	margin: 0 auto;
-	padding: 0.3rem;
-}
-
-
-/* ---------------------------------------------------
-CAROUSEL STYLE
------------------------------------------------------ */
-
-.carousel-item img{
-	position: relative;
-	text-align: center;
-	width: 100%;
-}
-
-.carousel-caption{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	padding-bottom: 3rem;
-	padding-left: 4rem;
-	padding-right: 4rem;
-	margin: 0;
-	background-image: linear-gradient( rgb(0,0,0,1), transparent, rgb(0,0,0,1));
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
-}
-
-.carousel-caption h3{
-	font-size: 1.5rem;
-	font-weight: normal;
-	text-shadow: 0.1rem 0.1rem 0.5rem black;
-}
-
-
-
-/* ---------------------------------------------------
-OTHER ELEMENTS STYLE
------------------------------------------------------ */
-.jumbotron{
-	margin-bottom: 5rem;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	border-bottom-left-radius: 2rem;
-	border-bottom-right-radius: 2rem;
-	background-color: rgb(0,30,60);
-	color: lightgray;
-}
-
-.jumbotron p{
-	font-size: 1rem;
-}
-
-h2{
-	margin-top: 3rem;
-	font-size: 2rem;
-	font-weight: bold;
-	font-variant: small-caps;
-	font-weight: bold;
-	text-align: center;
+/* Original welcome photographs, with controls that also work on touch screens. */
+.welcome-carousel { position: relative; background: #001e3c; color: #fff; }
+.welcome-slide { position: relative; height: clamp(280px, 31vw, 440px); }
+.welcome-slide[hidden], .welcome-controls[hidden] { display: none; }
+.welcome-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 15, 30, .12), rgba(0, 15, 30, .12) 30%, rgba(0, 15, 30, .8)); }
+.welcome-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.home-page .welcome-slide p { position: absolute; z-index: 1; bottom: 70px; left: 64px; right: 64px; margin: 0 auto; max-width: 850px; color: #fff; font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.45; text-align: center; text-shadow: 0 2px 8px #001e3c; }
+.welcome-carousel button { border: 0; color: #fff; cursor: pointer; }
+.welcome-arrow { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border-radius: 50%; background: rgba(0, 30, 60, .65); }
+.welcome-arrow svg { display: block; flex-shrink: 0; }
+.welcome-previous { left: 20px; }
+.welcome-next { right: 20px; }
+.welcome-pagination { position: absolute; z-index: 2; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; }
+.welcome-dot { width: 36px; height: 36px; padding: 12px 5px; background: transparent; }
+.welcome-dot::after { content: ''; display: block; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .45); }
+.welcome-dot[aria-current="true"]::after { background: #fff; }
+.welcome-playback { width: 36px; height: 36px; margin-left: 10px; border-radius: 50%; background: rgba(0, 30, 60, .7); font-size: .9rem; }
+.welcome-arrow:hover, .welcome-playback:hover { background: #285b65; }
+.home-page .welcome-carousel button:focus-visible { outline-color: #fff; }
+@media (max-width: 575px) {
+    .welcome-previous { left: 8px; }
+    .welcome-next { right: 8px; }
+    .home-page .welcome-slide p { left: 60px; right: 60px; bottom: 66px; font-size: 1.35rem; }
 }

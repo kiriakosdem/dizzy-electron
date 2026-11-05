@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Επικοινώνησε με τον δημιουργό του Dizzy Electron, στείλε μια ερώτηση ή ανέφερε ένα τεχνικό πρόβλημα ή λάθος σε μάθημα.">
+    <title>Dizzy Electron | Επικοινωνία</title>
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/common.css?v=retro-logo-1">
+    <link rel="stylesheet" href="../assets/css/contact.css?v=2">
+    <script src="../assets/js/lesson.js" defer></script>
+    <script src="../assets/js/contact.js?v=2" defer></script>
+</head>
+<body class="contact-page" id="top">
+    <a class="contact-skip-link" href="#contact-content">Μετάβαση στο περιεχόμενο</a>
+        <div id="NavigationBar">
+            <nav class="navbar navbar-center navbar-expand-lg navbar-dark bg-dark" aria-label="Κύρια πλοήγηση">
+                <div class="order-0">
+                    <div class="navbar-nav mr-auto">
+                        <a class="navbar-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
+                            <img class="site-logo site-logo--inverse" src="../assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+                        </a>
+                    </div>
+                </div>
+                <div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</button>
+                                <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
+                                    <a class="dropdown-item" href="../contents/index.html#physics-lessons">Φυσική</a>
+                                    <a class="dropdown-item" href="../contents/index.html#math-lessons">Μαθηματικά</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-lesson-dropdown aria-controls="lesson-school-years" aria-expanded="false">Υλικό για Σχολεία</button>
+                                <div class="dropdown-menu" id="lesson-school-years" aria-labelledby="dropdownMenu2">
+                                    <a class="dropdown-item" href="../contents/index.html">Α' Γυμνασίου</a>
+                                    <a class="dropdown-item" href="../contents/index.html">Β' Γυμνασίου</a>
+                                    <a class="dropdown-item" href="../contents/index.html">Γ' Γυμνασίου</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="../contents/index.html">Α' Λυκείου</a>
+                                    <a class="dropdown-item" href="../contents/index.html">Β' Λυκείου</a>
+                                    <a class="dropdown-item" href="../contents/index.html">Γ' Λυκείου</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="btn" href="../about/index.html">Σχετικά</a></li>
+                        <li class="nav-item"><a class="btn" href="index.html" aria-current="page">Επικοινωνία</a></li>
+                    </ul>
+                </div>
+                <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
+
+    <main id="contact-content" tabindex="-1">
+        <header class="contact-heading contact-shell">
+            <h1>Επικοινωνία</h1>
+            <p>Έχεις μια ερώτηση, μια ιδέα ή εντόπισες κάτι που χρειάζεται διόρθωση;<br>Στείλε μου ένα μήνυμα και βοήθησε το Dizzy Electron να γίνει καλύτερο.</p>
+        </header>
+        <section class="contact-form-band" aria-labelledby="form-title">
+            <div class="contact-shell">
+                <h2 id="form-title">Στείλε ένα μήνυμα</h2>
+                <p class="contact-hint">Τα πεδία με αστερίσκο (*) είναι απαραίτητα.</p>
+                <form id="contact-form" action="https://formsubmit.co/kirkdemeroukas@icloud.com" method="POST" accept-charset="UTF-8">
+                    <input type="hidden" name="_subject" id="mail-subject" value="Dizzy Electron — Νέο μήνυμα">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_next" id="return-url" disabled>
+                    <div class="contact-honeypot" aria-hidden="true"><label for="website">Άφησε αυτό το πεδίο κενό</label><input id="website" type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+                    <div class="contact-row">
+                        <div class="contact-field">
+                            <label for="sender-name">Όνομα <span>(προαιρετικό)</span></label>
+                            <input id="sender-name" name="name" type="text" autocomplete="name" maxlength="100">
+                        </div>
+                        <div class="contact-field">
+                            <label for="sender-email">Email *</label>
+                            <input id="sender-email" name="email" type="email" autocomplete="email" maxlength="254" required aria-describedby="email-hint">
+                            <p class="contact-hint" id="email-hint">Για να μπορέσω να σου απαντήσω.</p>
+                        </div>
+                    </div>
+                    <div class="contact-field">
+                        <label for="message-type">Για ποιο θέμα γράφεις; *</label>
+                        <select id="message-type" name="category" required>
+                            <option value="">Επίλεξε θέμα</option>
+                            <option value="general">Ερώτηση ή πρόταση</option>
+                            <option value="bug">Τεχνικό πρόβλημα</option>
+                            <option value="correction">Λάθος ή διόρθωση σε μάθημα</option>
+                        </select>
+                    </div>
+                    <div class="contact-row">
+                        <div class="contact-field">
+                            <label for="related-lesson">Σχετικό μάθημα <span>(προαιρετικό)</span></label>
+                            <select id="related-lesson" name="lesson">
+                                <option value="">Δεν αφορά συγκεκριμένο μάθημα</option>
+                                <option value="gravitational-field">Το Βαρυτικό Πεδίο</option>
+                                <option value="electric-field">Το Ηλεκτρικό Πεδίο</option>
+                                <option value="electromagnetic-field">Το Ηλεκτρομαγνητικό Πεδίο</option>
+                                <option value="hydrogen-eigenstates">Το Άτομο του Υδρογόνου</option>
+                                <option value="other">Άλλο μάθημα ή σελίδα</option>
+                            </select>
+                        </div>
+                        <div class="contact-field">
+                            <label for="page-url">Σύνδεσμος σελίδας <span>(προαιρετικός)</span></label>
+                            <input id="page-url" name="page_url" type="url" placeholder="https://…" maxlength="2000">
+                        </div>
+                    </div>
+                    <div class="contact-field">
+                        <label for="message">Το μήνυμά σου *</label>
+                        <p class="contact-hint" id="message-hint">Πες μου τι θα ήθελες να συζητήσουμε.</p>
+                        <textarea id="message" name="message" rows="7" maxlength="10000" required aria-describedby="message-hint"></textarea>
+                    </div>
+                    <details id="technical-details" class="contact-details">
+                        <summary>Στοιχεία για τεχνικό πρόβλημα <span>(προαιρετικά)</span></summary>
+                        <div class="contact-row">
+                            <div class="contact-field">
+                                <label for="device">Συσκευή και λειτουργικό σύστημα</label>
+                                <input id="device" name="device" type="text" placeholder="π.χ. κινητό με Android" maxlength="200">
+                            </div>
+                            <div class="contact-field">
+                                <label for="browser">Πρόγραμμα περιήγησης</label>
+                                <input id="browser" name="browser" type="text" placeholder="π.χ. Safari, Firefox, Chrome" maxlength="200">
+                            </div>
+                        </div>
+                    </details>
+                    <p class="contact-privacy">Η φόρμα αποστέλλει τα στοιχεία σου μέσω της υπηρεσίας <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener">FormSubmit</a>, για την επικοινωνία σχετικά με το μήνυμά σου.</p>
+                    <button class="contact-submit" type="submit">Αποστολή μηνύματος <span aria-hidden="true">→</span></button>
+                </form>
+            </div>
+        </section>
+        <section class="contact-direct contact-shell" aria-labelledby="direct-title">
+            <h2 id="direct-title">Προτιμάς να στείλεις email;</h2>
+            <p>Μπορείς επίσης να γράψεις απευθείας στο <a href="mailto:kirkdemeroukas@icloud.com">kirkdemeroukas@icloud.com</a>.</p>
+        </section>
+    </main>
+    <footer>
+        <a class="footer-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
+            <img class="site-logo site-logo--inverse" src="../assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+        </a>
+    </footer>
+</body>
+</html>

@@ -18,6 +18,8 @@ Open <http://127.0.0.1:8765/>. Stop the server with Ctrl+C. Some pages load font
 | --- | --- |
 | `index.html` | Homepage and featured available lessons |
 | `contents/index.html` | Catalogue of available and coming-soon lessons |
+| `about/index.html` | Project background, author biography, content reuse terms and browser support, linked from every About navbar item |
+| `contact/index.html`, `contact/thanks.html` | Contact/report form and submission confirmation page |
 | `lessons/physics/` | Lesson text, activities, navigation and simulation embeds |
 | `simulations/<topic>/index.html` | Standalone interactive simulation |
 | `simulations/<topic>/tests/` | Tests and retained validation reports for that simulation |
@@ -28,7 +30,7 @@ Open <http://127.0.0.1:8765/>. Stop the server with Ctrl+C. Some pages load font
 | `assets/css/main-page.css` | Retained legacy stylesheet; currently unused |
 | `assets/js/` | Shared site behaviour |
 | `assets/icons/` | Topic SVGs for lesson cards |
-| `assets/brand/logo.png` | Approved logo; CSS makes it white on dark backgrounds |
+| `assets/brand/logo.svg` | Orbital character and retro wordmark; CSS makes it white on dark backgrounds |
 | `assets/images/` | Site photographs and illustrations, including retained older assets |
 | `assets/vendor/` | Bundled third-party libraries and their source maps |
 | `resources/geogebra/` | GeoGebra project files |
@@ -71,3 +73,13 @@ Use `index.html` for the homepage, `contents/index.html` for the catalogue, `les
 All navigation and embeds use these locations directly. Legacy root HTML pages and the old animation URLs have been removed; old bookmarks should be updated to the new paths. Only the homepage HTML remains in the repository root.
 
 The project retains `_config.yml` for its existing hosting setup. No hosting or deployment settings were changed.
+
+## Contact form
+
+The Contact navbar item opens `contact/index.html`. Lesson pages include a known lesson ID in the link so the form can prefill the lesson and its URL. Visitors can send a general message, report a technical problem, or suggest a lesson correction. Optional device/browser details are entered by the visitor, not collected automatically.
+
+The form uses native HTTPS POST to FormSubmit, addressed to `kirkdemeroukas@icloud.com`. It works without JavaScript; JavaScript adds contextual prompts, whitespace validation, lesson prefilling and an absolute return URL to `contact/thanks.html`. FormSubmit's default CAPTCHA remains enabled, with an additional honeypot. No delivery credentials are stored in the site.
+
+**Activation required:** submit the form once from the intended hosted site, then follow FormSubmit's activation email sent to the receiving address (check spam too). Until the owner confirms, email forwarding is not active. Local layout/validation checks do not verify mailbox delivery. The fallback email link remains available if the form service cannot be reached.
+
+The page tells visitors that FormSubmit processes submissions and links to its privacy policy. Keep the recipient in the form action and the fallback email link in sync if it changes. See [FormSubmit documentation](https://formsubmit.co/documentation) and [activation help](https://formsubmit.co/help).
