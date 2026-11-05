@@ -89,14 +89,15 @@
             return ((t ^ t >>> 14) >>> 0) / 4294967296;
         };
     }
-    function sample(n, l, m, count, seed = 12345) {
+    function sample(n, l, m, count, seed = 12345, basis = 'complex') {
         if (!Number.isInteger(count) || count < 1 || count > 100000) throw new RangeError('Invalid sample count');
         const d = distributions(n, l, m), random = randomGenerator(seed);
+        const azimuth = basis !== 'complex' && m !== 0 ? table(phi => 2 * (basis === 'sin' ? Math.sin(m * phi) : Math.cos(m * phi)) ** 2, 0, 2 * Math.PI) : null;
         const positions = new Float32Array(count * 3);
         for (let i = 0; i < count; i++) {
             const r = quantile(d.radial, random());
             const mu = quantile(d.angular, random());
-            const phi = 2 * Math.PI * random(), s = Math.sqrt(Math.max(0, 1 - mu * mu));
+            const phi = azimuth ? quantile(azimuth, random()) : 2 * Math.PI * random(), s = Math.sqrt(Math.max(0, 1 - mu * mu));
             positions[3 * i] = r * s * Math.cos(phi);
             positions[3 * i + 1] = r * s * Math.sin(phi);
             positions[3 * i + 2] = r * mu;
@@ -105,12 +106,34 @@
     }
     // Condon–Shortley convention; Y_l^-m = (-1)^m conjugate(Y_l^m).
     // A stationary snapshot omits the physically irrelevant common time phase.
-    function phase(n, l, m, x, y, z) {
+    function phase(n, l, m, x, y, z, basis = 'complex') {
+        if (basis !== 'complex') return realAmplitude(n, l, m, x, y, z, basis) < 0 ? Math.PI : 0;
         const r = Math.hypot(x, y, z);
         const amplitude = radial(n, l, r) * legendre(l, Math.abs(m), r ? z / r : 1) *
             (m < 0 && Math.abs(m) % 2 ? -1 : 1);
         const angle = m * Math.atan2(y, x) + (amplitude < 0 ? Math.PI : 0);
         return (angle % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
     }
-    return { MAX_N, validState, constrainState, radial, angularDensity, distributions, quantile, sample, phase };
+    function realAmplitude(n, l, m, x, y, z, basis = 'cos') {
+        m = Math.abs(m);
+        const r = Math.hypot(x, y, z), mu = r ? z / r : 1;
+        const norm = Math.sqrt((2 * l + 1) / (4 * Math.PI) * factorial(l - m) / factorial(l + m));
+        const azimuth = m === 0 ? 1 : Math.sqrt(2) * (-1) ** m *
+            (basis === 'sin' ? Math.sin(m * Math.atan2(y, x)) : Math.cos(m * Math.atan2(y, x)));
+        return radial(n, l, r) * norm * legendre(l, m, mu) * azimuth;
+    }
+    function realOrbitals(n, l) {
+        const letters = ['s','p','d','f','g','h'];
+        const names = [ [''], ['z','y','x'], ['z²','yz','xz','xy','x²−y²'],
+            ['z³','yz²','xz²','xyz','z(x²−y²)','y(3x²−y²)','x(x²−3y²)'] ];
+        const result = [];
+        for (let m = 0; m <= l; m++) for (const basis of (m ? ['sin','cos'] : ['cos'])) {
+            const index = result.length;
+            const suffix = l <= 3 ? names[l][index] : (m ? `${m}${basis === 'sin' ? 's' : 'c'}` : '0');
+            result.push({m, basis, label: `${n}${letters[l]}${suffix ? ' · ' + suffix : ''}`,
+                description: m ? `Real ±${m} combination: ${basis}(${m}φ)` : 'Real m = 0 orbital'});
+        }
+        return result;
+    }
+    return { realAmplitude, realOrbitals, MAX_N, validState, constrainState, radial, angularDensity, distributions, quantile, sample, phase };
 }));

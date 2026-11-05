@@ -1,20 +1,23 @@
 (function () {
     'use strict';
     const P = window.HydrogenPhysics;
-    const S = window.HydrogenSurface;
+    const S = window.HydrogenSurface, RS = window.HydrogenRealSurface;
+    let basis = 'complex';
     const $ = id => document.getElementById(id);
     const lab = $('lab'), panel = $('controlsPanel'), viewport = $('viewport');
     const compact = matchMedia('(max-width:750px), (max-height:500px) and (max-width:950px)');
     const nSelect = $('nSelect'), lSelect = $('lSelect'), mSelect = $('mSelect');
     const density = $('density'), status = $('renderStatus');
     const displayMode = $('displayMode'), enclosure = $('enclosure');
+    // One world unit is 25 Bohr radii for every state and display mode.
+    const WORLD_SCALE = 0.04, VIEW_RADIUS = 3.8;
     const MAX_POINTS = Number(density.max);
     let state = { n: 1, l: 0, m: 0 }, drawCount = Number(density.value);
     let renderer, scene, camera, orbit, cloud, axes, rebuildFrame, detection, detectionMatrix;
     let surface, surfaceModel, surfaceState, cloudState, surfaceProbability, surfaceRadius, cloudRadius99;
     let probability = Number(enclosure.value) / 100, resetOnBuild = false;
     let needsRender = true, ready = false, radius99 = 1;
-    let detectionsEnabled = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let detectionsEnabled = false;
     let lastDetectionAt = -Infinity;
     const DETECTION_INTERVAL = 100;
     const labels = ['s', 'p', 'd', 'f', 'g', 'h'];
@@ -52,29 +55,45 @@
         fillSelect(nSelect, 1, P.MAX_N, state.n);
         fillSelect(lSelect, 0, state.n - 1, state.l);
         fillSelect(mSelect, -state.l, state.l, state.m);
-        $('stateName').textContent = `${state.n}${labels[state.l]} · m = ${state.m}`;
+        if (basis !== 'complex' && state.m) {
+            mSelect.add(new Option(`±${state.m} (real)`, 'real')); mSelect.value = 'real';
+        }
+        const selected = P.realOrbitals(state.n, state.l).find(o => o.m === state.m && o.basis === basis);
+        $('stateName').textContent = selected ? selected.label : `${state.n}${labels[state.l]} · m = ${state.m}`;
+        $('basisHint').textContent = selected ? (state.m ? `Real combination of m = ±${state.m}. Select m above to return to a complex eigenstate.` : 'Real m = 0 orbital.') : 'Select a real orbital below, or choose a complex eigenstate with m above.';
         $('energy').textContent = `−${(13.6057 / (state.n * state.n)).toFixed(2)} eV`;
         $('radialNodes').textContent = state.n - state.l - 1;
         $('polarNodes').textContent = state.l - Math.abs(state.m);
-        for (const button of document.querySelectorAll('[data-state]')) {
-            button.setAttribute('aria-pressed', String(button.dataset.state === `${state.n},${state.l},${state.m}`));
+        const row = $('realOrbitals'), group = `${state.n},${state.l}`;
+        if (row.dataset.group !== group) {
+            row.replaceChildren(); row.dataset.group = group; row.scrollLeft = 0;
+            for (const orbital of P.realOrbitals(state.n, state.l)) {
+                const button = document.createElement('button');
+                button.type = 'button'; button.className = 'action-button';
+                button.textContent = orbital.label; button.title = orbital.description;
+                button.dataset.m = orbital.m; button.dataset.basis = orbital.basis;
+                button.addEventListener('click', () => changeState(state.n, state.l, orbital.m, orbital.basis));
+                row.appendChild(button);
+            }
         }
-        $('actionStatus').textContent = `Selected n = ${state.n}, l = ${state.l}, m = ${state.m}.` +
+        for (const button of row.children) button.setAttribute('aria-pressed', String(
+            Number(button.dataset.m) === state.m && button.dataset.basis === basis));
+        $('azimuthalNodes').textContent = basis === 'complex' ? 0 : Math.abs(state.m);
+        $('actionStatus').textContent = (selected ? `Selected ${selected.label}, ${selected.description}.` : `Selected n = ${state.n}, l = ${state.l}, m = ${state.m}.`) +
             (previous && (previous.l !== state.l || previous.m !== state.m) ? ' Dependent values updated to an allowed combination.' : '');
     }
-    function changeState(n, l, m) {
+    function changeState(n, l, m, nextBasis = basis) {
+        basis = nextBasis;
         const previous = { n, l, m };
         state = P.constrainState(n, l, m);
+        if (basis !== 'complex') { state.m = Math.abs(state.m); if (!state.m) basis = 'cos'; }
         reflectState(previous);
         if (!ready) return;
         scheduleBuild(true);
     }
     nSelect.addEventListener('change', () => changeState(Number(nSelect.value), state.l, state.m));
     lSelect.addEventListener('change', () => changeState(state.n, Number(lSelect.value), state.m));
-    mSelect.addEventListener('change', () => changeState(state.n, state.l, Number(mSelect.value)));
-    for (const button of document.querySelectorAll('[data-state]')) {
-        button.addEventListener('click', () => changeState(...button.dataset.state.split(',').map(Number)));
-    }
+    mSelect.addEventListener('change', () => { if (mSelect.value !== 'real') changeState(state.n, state.l, Number(mSelect.value), 'complex'); });
     function setDensity() {
         drawCount = Number(density.value);
         $('densityValue').textContent = `${drawCount.toLocaleString('en-US')} spheres`;
@@ -115,7 +134,9 @@
         status.textContent = displayMode.value === 'surface' ? 'Preparing the probability surface…' : 'Preparing the probability cloud…';
         status.hidden = false;
         cancelAnimationFrame(rebuildFrame);
-        rebuildFrame = requestAnimationFrame(() => { buildVisualization(resetOnBuild); resetOnBuild = false; });
+        rebuildFrame = requestAnimationFrame(() => {
+            rebuildFrame = requestAnimationFrame(() => { buildVisualization(resetOnBuild); resetOnBuild = false; });
+        });
     }
     function toggle(button, callback) {
         const on = button.getAttribute('aria-checked') !== 'true';
@@ -133,6 +154,8 @@
     $('detectionToggle').classList.toggle('on', detectionsEnabled);
     document.addEventListener('visibilitychange', () => { lastDetectionAt = -Infinity; });
     $('resetView').addEventListener('click', resetCamera);
+    $('zoomIn').addEventListener('click', () => zoomView(1 / 1.25));
+    $('zoomOut').addEventListener('click', () => zoomView(1.25));
     reflectState(); setDensity(); setEnclosure(); reflectDisplay();
 
     function highlightSample(now, force = false) {
@@ -155,12 +178,20 @@
         needsRender = true;
     }
 
+    function zoomView(factor) {
+        if (!camera || !orbit) return;
+        const offset = camera.position.clone().sub(orbit.target);
+        const distance = Math.max(orbit.minDistance, Math.min(orbit.maxDistance, offset.length() * factor));
+        camera.position.copy(orbit.target).add(offset.setLength(distance));
+        orbit.update(); needsRender = true;
+    }
+
     function resetCamera() {
         if (!camera) return;
         const halfFov = camera.fov * Math.PI / 360;
         const halfAngle = Math.min(halfFov, Math.atan(Math.tan(halfFov) * camera.aspect));
-        // Keep a fixed scale while adjusting enclosure, so expansion is visible.
-        const distance = (displayMode.value === 'surface' ? 4.6 : 3.5) / Math.sin(halfAngle);
+        // Every state and mode starts with the same physical field of view.
+        const distance = VIEW_RADIUS / Math.sin(halfAngle);
         camera.position.copy(new THREE.Vector3(1, -1.6, 0.85).normalize().multiplyScalar(distance));
         orbit.target.set(0, 0, 0);
         orbit.update(); needsRender = true;
@@ -183,24 +214,25 @@
     }
     function buildVisualization(reset = true) {
         try {
-            const key = `${state.n},${state.l},${Math.abs(state.m)}`;
+            const key = `${state.n},${state.l},${Math.abs(state.m)},${basis}`;
             const isSurface = displayMode.value === 'surface';
             if (isSurface) {
-                const phaseKey = `${state.n},${state.l},${state.m}`;
+                const phaseKey = `${state.n},${state.l},${state.m},${basis}`;
+                const surfaceEngine = basis !== 'complex' && state.m !== 0 ? RS : S;
                 if (surfaceState !== phaseKey) {
-                    surfaceModel = S.prepare(state.n, state.l, state.m);
+                    surfaceModel = surfaceEngine.prepare(state.n, state.l, state.m, basis);
                     surfaceState = phaseKey;
                     surfaceProbability = undefined;
                 }
                 radius99 = surfaceModel.radius99;
                 if (surfaceProbability !== probability) {
-                    const mesh = S.build(surfaceModel, probability);
+                    const mesh = surfaceEngine.build(surfaceModel, probability);
                     const geometry = new THREE.BufferGeometry();
                     geometry.setAttribute('position', new THREE.BufferAttribute(mesh.positions, 3));
                     geometry.setAttribute('normal', new THREE.BufferAttribute(mesh.normals, 3));
                     const colors = new Float32Array(mesh.positions.length), color = new THREE.Color();
                     for (let i = 0; i < mesh.positions.length; i += 3) {
-                        const phase = P.phase(state.n, state.l, state.m, ...mesh.positions.subarray(i, i + 3));
+                        const phase = P.phase(state.n, state.l, state.m, ...mesh.positions.subarray(i, i + 3), basis);
                         color.setHSL(phase / (2 * Math.PI), 0.7, 0.58).convertSRGBToLinear();
                         color.toArray(colors, i);
                     }
@@ -209,7 +241,7 @@
                     geometry.computeBoundingSphere();
                     surface.geometry.dispose();
                     surface.geometry = geometry;
-                    surface.scale.setScalar(3 / radius99);
+                    surface.scale.setScalar(WORLD_SCALE);
                     surfaceProbability = probability;
                     surfaceRadius = mesh.maxRadius;
                 }
@@ -217,9 +249,9 @@
                 // +/-m share both their density and sample seed. Increasing point count
                 // reveals a longer prefix of the same sample, without reshuffling it.
                 const seed = state.n * 1000 + state.l * 100 + Math.abs(state.m);
-                const sample = P.sample(state.n, state.l, state.m, MAX_POINTS, seed);
+                const sample = P.sample(state.n, state.l, state.m, MAX_POINTS, seed, basis);
                 cloudRadius99 = sample.radius99;
-                const scale = 3 / cloudRadius99;
+                const scale = WORLD_SCALE;
                 const dummy = new THREE.Object3D();
                 for (let i = 0; i < MAX_POINTS; i++) {
                     dummy.position.set(sample.positions[3*i]*scale,sample.positions[3*i+1]*scale,sample.positions[3*i+2]*scale);
@@ -258,6 +290,7 @@
         orbit.enableDamping = true; orbit.dampingFactor = 0.08; orbit.enablePan = false;
         orbit.rotateSpeed = 1.25;
         orbit.minDistance = 1; orbit.maxDistance = 100; orbit.autoRotateSpeed = 0.9;
+        orbit.autoRotate = true;
         orbit.addEventListener('change', () => { needsRender = true; });
         scene.add(new THREE.HemisphereLight(0xbad9ff,0x203150,0.85));
         const key = new THREE.DirectionalLight(0xffffff,0.9); key.position.set(-4,-6,9); scene.add(key);
@@ -269,7 +302,7 @@
         }));
         surface.visible = false; scene.add(surface);
         // Smaller diffuse spheres: no specular reflections, with light transparency.
-        const sphereGeometry = new THREE.SphereGeometry(0.012,10,8);
+        const sphereGeometry = new THREE.SphereGeometry(0.004,10,8);
         cloud = new THREE.InstancedMesh(sphereGeometry,new THREE.MeshLambertMaterial({color:0x77b1f6,transparent:true,opacity:0.58,depthWrite:false}),MAX_POINTS);
         cloud.instanceMatrix.setUsage(THREE.DynamicDrawUsage); cloud.frustumCulled = false; scene.add(cloud);
         detection = new THREE.Mesh(sphereGeometry,new THREE.MeshBasicMaterial({color:0xffd482,transparent:true,opacity:1,depthWrite:false,depthTest:false}));
