@@ -20,7 +20,7 @@
     const show = (index) => {
         current = (index + slides.length) % slides.length;
         elapsed = 0;
-        slides.forEach((slide, i) => { slide.hidden = i !== current; });
+        slides.forEach((slide, i) => { slide.inert = i !== current; });
         paint();
     };
     const tick = (time) => {
@@ -49,5 +49,6 @@
     document.addEventListener('visibilitychange', schedule);
     reducedMotion.addEventListener('change', schedule);
     show(0);
+    slides.forEach(slide => { slide.hidden = false; });
     schedule();
 })();

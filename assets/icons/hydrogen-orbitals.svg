@@ -1,5 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M48 43C20 37 24 10 48 10s28 27 0 33ZM48 53C20 59 24 86 48 86s28-27 0-33Z" />
-  <path d="M15 48h66" stroke-dasharray="3 6" />
-  <path d="M48 18c-10 0-15 8-11 15M48 78c10 0 15-8 11-15" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Four lobes of a d orbital, with inner density contours and nodal axes. -->
+  <defs>
+    <g id="lobe">
+      <path d="M43 43C30 42 10 33 12 19c1-7 8-10 14-7 12 5 16 20 17 31Z" fill="currentColor" fill-opacity=".14" stroke-width="3"/>
+      <path d="M37 36c-7-1-17-7-17-13 0-4 4-5 7-2 4 3 8 9 10 15Z" stroke-width="1.9"/>
+    </g>
+  </defs>
+  <path d="M5 48h86M48 5v86" stroke-width="1.6" stroke-dasharray="2 5"/>
+  <use href="#lobe"/><use href="#lobe" transform="rotate(90 48 48)"/>
+  <use href="#lobe" transform="rotate(180 48 48)"/><use href="#lobe" transform="rotate(270 48 48)"/>
+  <circle cx="48" cy="48" r="3.6" fill="currentColor" stroke="none"/>
 </svg>

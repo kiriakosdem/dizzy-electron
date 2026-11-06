@@ -1,3 +1,7 @@
+@media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+}
+
 /* ---------------------------------------------------
 MAIN
 ----------------------------------------------------- */
@@ -84,7 +88,7 @@ CARDS
 	border-color: var(--color-navy);
 	padding-bottom: 1rem;
 	font-size: 0.9rem;
-	background-color: var(--color-paper);
+	background-color: var(--color-white);
 	width: 265px;
 	margin: auto;
 }
@@ -160,14 +164,16 @@ ul.breadcrumb li+li:before {
 }
 
 /* Add a color to all links inside the list */
-ul.breadcrumb li a {
+ul.breadcrumb a[href] {
 	--hover-background: transparent;
-	color: var(--color-logo-cyan);
+	color: var(--color-navy);
 	text-decoration: none;
 }
 
 /* Add a color on mouse-over */
-ul.breadcrumb li a:hover {
+ul.breadcrumb [aria-current="page"] { color: var(--color-logo-cyan); }
+
+ul.breadcrumb a[href]:hover {
 	color: var(--color-logo-orange);
 	text-decoration: underline;
 }

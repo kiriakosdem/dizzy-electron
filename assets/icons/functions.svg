@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M18 83V12m-5 6 5-6 5 6M10 74h75m-6-5 6 5-6 5" />
-  <path d="M27 61c8-41 19-42 27-12s17 19 26-25" />
-  <path d="M42 71v6m24-6v6M15 50h6m-6-24h6" />
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none" color="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- A curve and the projection of one input/output pair onto the axes. -->
+  <path d="M15 81V12l-5 8m5-8 5 8M8 74h80l-7-5m7 5-7 5"/>
+  <path d="M15 36h45v38" stroke-dasharray="3 5" stroke-width="2"/>
+  <path d="M21 62c12 0 13-17 21-17s11 3 18-9 12-16 22-18" stroke-width="4"/>
+  <circle cx="60" cy="36" r="4.2" fill="currentColor"/>
+  <path d="M34 71v6m26-6v6M12 55h6m-6-19h6" stroke-width="2"/>
 </svg>

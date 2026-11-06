@@ -124,15 +124,14 @@
     width: 100%;
     max-width: 320px;
     margin: 0 auto 36px;
-    padding: 22px 18px 16px;
-    background: var(--color-paper);
+    padding: 16px 18px;
+    background: var(--color-white);
     border: var(--border-width) solid var(--color-border);
     border-radius: var(--corner-radius);
     box-shadow: none;
     color: var(--color-navy);
     text-align: left;
 }
-.lesson-sidebar .contents-card h2,
 .lesson-sidebar .sidebar-heading {
     font-size: 1.12rem;
     font-weight: 600;
@@ -141,7 +140,6 @@
     text-align: left;
     color: var(--color-navy);
 }
-.lesson-sidebar .contents-card h2 { margin: 0 0 16px; }
 .lesson-sidebar .contents-card ul { display: grid; gap: 4px; }
 .lesson-sidebar .contents-card ul a {
     padding: 10px 12px;
@@ -160,7 +158,7 @@
 }
 .lesson-sidebar .sidebar-heading { max-width: 320px; margin: 0 auto 18px; }
 .lesson-sidebar .catalog-grid--sidebar { gap: 18px; }
-.lesson-sidebar .catalog-card { padding: 22px; }
+.lesson-sidebar .catalog-card { padding: 16px; }
 .lesson-sidebar a:focus-visible { outline-color: var(--color-navy); }
 @media (max-width: 991px) {
     .lesson-sidebar { margin-top: 32px; }

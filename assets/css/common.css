@@ -194,6 +194,8 @@ footer .footer-brand {
 #NavigationBar .dropdown-toggle:hover::after { color: var(--color-logo-orange); }
 #NavigationBar .dropdown-toggle[aria-current="page"]::after { color: var(--color-logo-cyan); }
 
+#NavigationBar #dropdownMenu1::after { color: inherit; }
+
 /* No gap between the parent link and the panel, so hover stays continuous. */
 #NavigationBar .dropdown-menu {
     min-width: 190px;
@@ -477,14 +479,14 @@ footer .footer-navigation a:focus-visible { outline: 3px solid var(--color-logo-
 }
 
 
-/* Apply hover feedback to the control and its text, including linked lesson cards. */
+/* Lesson cards define their own hover colours for each part of the card. */
 @media (any-hover: hover) {
-    :is(a[href], button:enabled, summary, [role="button"]):not([aria-disabled="true"]):hover {
+    :is(a[href], button:enabled, summary, [role="button"]):not([aria-disabled="true"], .catalog-card):hover {
         color: var(--color-logo-orange) !important;
         background-color: var(--hover-background, var(--color-navy)) !important;
     }
 
-    :is(a[href], button:enabled, summary, [role="button"]):not([aria-disabled="true"]):hover
+    :is(a[href], button:enabled, summary, [role="button"]):not([aria-disabled="true"], .catalog-card):hover
     :where(span, strong, em, small, h2, h3, h4, p) {
         color: var(--color-logo-orange) !important;
     }

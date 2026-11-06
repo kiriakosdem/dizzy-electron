@@ -1,7 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="26" cy="48" r="10" />
-  <circle cx="70" cy="48" r="10" />
-  <path d="M21 48h10m-5-5v10m39-5h10M39 48h18m-5-4 5 4-5 4" />
-  <path d="M26 34C26 10 70 10 70 34M26 62c0 24 44 24 44 0" />
-  <path d="m45 16 6 4-6 4m0 48 6 4-6 4" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Follow a dipole field line from the positive charge to the negative charge. -->
+  <g stroke-width="2.5">
+    <path d="M20 37C13 0 83 0 76 37M20 59c-7 37 63 37 56 0"/>
+    <path d="M27 39c12-18 30-18 42 0M27 57c12 18 30 18 42 0M33 48h30"/>
+    <path d="M12 40 5 34m7 22-7 6m79-22 7-6m-7 22 7 6"/>
+  </g>
+  <path d="m45 8 7 3-7 4m0 66 7 4-7 3m1-44 6 4-6 4" stroke-width="2.5"/>
+  <circle cx="20" cy="48" r="10" stroke-width="3.4"/>
+  <circle cx="76" cy="48" r="10" stroke-width="3.4"/>
+  <path d="M15 48h10m-5-5v10m51-5h10" stroke-width="3"/>
 </svg>

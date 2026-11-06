@@ -1,4 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M12 37h16l20-16v54L28 59H12V37ZM28 37v22" />
-  <path d="M59 35a19 19 0 0 1 0 26M69 25a33 33 0 0 1 0 46M79 15a47 47 0 0 1 0 66" />
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none" color="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- A vibrating tuning fork sends sound towards the ear. -->
+  <g transform="rotate(-14 23 48)">
+    <path d="M13 17v31a10 10 0 0 0 20 0V17M23 58v21" stroke-width="5"/>
+    <path d="M6 24v12m34-12v12" stroke-width="2"/>
+  </g>
+  <path d="M42 37q8 10 0 20m7-26q13 16 0 32" stroke-width="2.6"/>
+  <path d="M60 34c0-17 22-23 29-6 7 18-12 25-15 40-3 13-18 12-18 0" />
+  <path d="M65 35c1-9 13-12 16-3 2 7-3 10-8 15-4 4-4 9-7 11m0-18c6 1 7 6 5 10" stroke-width="2.4"/>
 </svg>

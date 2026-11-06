@@ -1,5 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="48" cy="48" r="9" />
-  <path d="M48 9v22m-6-6 6 6 6-6M48 87V65m-6 6 6-6 6 6M9 48h22m-6-6 6 6-6 6M87 48H65m6-6-6 6 6 6" />
-  <path d="m20 20 14 14m-8 0h8v-8m42-6L62 34m0-8v8h8M20 76l14-14m-8 0h8v8m42 6L62 62m0 8v-8h8" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+  <g transform="rotate(-26 48 48)">
+    <!-- A satellite follows an inclined orbit around a shaded planet. -->
+    <path d="M25 63C5 62 1 55 13 47c5-4 11-7 18-10M66 35c14 0 23 3 23 9" stroke-width="2" stroke-dasharray="3 5"/>
+    <circle cx="46" cy="45" r="23" stroke-width="3.4"/>
+    <path d="M40 23c-12 12-12 31 0 44M51 23c12 12 12 32 0 44M24 39c13 5 30 5 44-1M24 50c13 5 29 5 44-1" stroke-width="1.8"/>
+    <path d="M7 54c-1 11 27 12 51 4 15-5 26-12 30-18" stroke-width="3.3"/>
+    <circle cx="76" cy="50" r="5" fill="currentColor" stroke="none"/>
+    <path d="M23 17l-2 7-7-2m7 2-7-11" stroke-width="2.8"/>
+  </g>
 </svg>

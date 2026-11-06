@@ -2,10 +2,9 @@
 .home-page { min-height: 100%; height: auto; background: var(--color-white); color: var(--color-navy); }
 .home-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .home-page p { text-indent: 0; line-height: 1.8; }
-.home-heading { padding: 48px 0 40px; text-align: center; background: var(--color-navy); color: var(--color-white); }
-.home-heading h1 { font-size: 2.25rem; line-height: 1.3; margin: 0 0 24px; }
-.home-heading p { max-width: 680px; margin: 0 auto 26px; }
-.home-heading p:last-child { margin-bottom: 0; }
+.home-heading { padding: 52px 0; border-radius: 0 0 var(--corner-radius) var(--corner-radius); text-align: center; background: var(--color-navy); color: var(--color-white); }
+.home-heading h2 { font-size: 2.25rem; line-height: 1.3; margin: 0 0 24px; }
+.home-heading p { max-width: 62ch; margin: 0 auto; line-height: 1.9; }
 .home-button { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); background: var(--color-logo-orange); color: var(--color-navy); font-size: .95rem; font-weight: 600; line-height: 1.6; }
 .home-button:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); color: var(--color-navy); text-decoration: none; }
 .home-band { padding: 48px 0 54px; background: var(--color-white); }
@@ -26,7 +25,7 @@
 @media (max-width: 575px) {
     .home-shell { width: calc(100% - 40px); }
     .home-heading { padding: 32px 0; }
-    .home-heading h1 { font-size: 1.9rem; }
+    .home-heading h2 { font-size: 1.9rem; }
     .home-heading p { font-size: .95rem; }
     .home-band { padding: 34px 0 40px; }
     .home-band h2 { font-size: 1.4rem; }
@@ -34,7 +33,12 @@
 
 /* Original welcome photographs, with controls that also work on touch screens. */
 .welcome-carousel { position: relative; background: var(--color-navy); color: var(--color-white); }
-.welcome-slide { position: relative; height: clamp(480px, 40vw, 580px); }
+.welcome-slides { display: grid; isolation: isolate; }
+.welcome-slide { grid-area: 1 / 1; position: relative; height: clamp(480px, 40vw, 580px); }
+.welcome-slide[inert] { opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) {
+    .welcome-slide { transition: opacity 600ms ease-in-out; }
+}
 .welcome-slide[hidden], .welcome-controls[hidden] { display: none; }
 .welcome-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--color-navy) 12%, transparent), color-mix(in srgb, var(--color-navy) 12%, transparent) 30%, color-mix(in srgb, var(--color-navy) 80%, transparent)); }
 .welcome-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -72,11 +76,11 @@
     text-align: center;
 }
 .home-quote blockquote { position: relative; margin: 0; padding: 12px 46px; }
-.home-page .home-quote p { margin: 0; color: var(--color-white); font-size: clamp(1rem, 1.6vw, 1.25rem); line-height: 1.8; }
-.home-quote-mark { position: absolute; top: 0; left: 0; color: var(--color-logo-cyan); font-family: Georgia, serif; font-size: 5rem; line-height: 1; }
-.home-quote-mark--closing { color: var(--color-logo-orange); top: auto; left: auto; bottom: -20px; right: 0; }
+.home-page .home-quote p { font-style: italic; margin: 0; color: var(--color-white); font-size: clamp(1rem, 1.6vw, 1.25rem); line-height: 1.8; }
+.home-quote-mark { position: absolute; top: 0; left: 0; color: var(--color-logo-orange); font-family: Georgia, serif; font-size: 5rem; line-height: 1; }
+.home-quote-mark--closing { top: auto; left: auto; bottom: -20px; right: 0; }
 .home-quote figcaption { margin-top: 22px; }
-.home-quote figcaption em { display: block; font-size: 1.05rem; color: var(--color-white); }
+.home-quote figcaption strong { display: block; font-style: normal; font-weight: 700; font-size: 1.05rem; color: var(--color-white); }
 .home-quote figcaption span { display: block; margin-top: 6px; font-size: .78rem; line-height: 1.6; color: var(--color-white); }
 @media (max-width: 575px) {
     .welcome-slide { height: 640px; }
@@ -86,7 +90,7 @@
     .home-quote-mark--closing { top: auto; bottom: -14px; }
     .home-page .home-quote p { font-size: .9rem; line-height: 1.7; }
     .home-quote figcaption { margin-top: 12px; }
-    .home-quote figcaption em { font-size: .95rem; }
+    .home-quote figcaption strong { font-size: .95rem; }
     .home-quote figcaption span { font-size: .7rem; }
 }
 
