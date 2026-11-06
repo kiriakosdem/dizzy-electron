@@ -76,9 +76,9 @@ The project retains `_config.yml` for its existing hosting setup. No hosting or 
 
 ## Contact form
 
-The Contact navbar item opens `contact/index.html`. Lesson pages include a known lesson ID in the link so the form can prefill the lesson and its URL. Visitors can send a general message, report a technical problem, or suggest a lesson correction. Optional device/browser details are entered by the visitor, not collected automatically.
+The Contact navbar item opens `contact/index.html`. Visitors can send a general message, report a technical problem, or suggest a lesson correction. The form has three required fields: email, subject category and message.
 
-The form uses native HTTPS POST to FormSubmit, addressed to `kirkdemeroukas@icloud.com`. It works without JavaScript; JavaScript adds contextual prompts, whitespace validation, lesson prefilling and an absolute return URL to `contact/thanks.html`. FormSubmit's default CAPTCHA remains enabled, with an additional honeypot. No delivery credentials are stored in the site.
+The form uses native HTTPS POST to FormSubmit, addressed to `kirkdemeroukas@icloud.com`. It works without JavaScript; JavaScript adds contextual prompts, whitespace validation, an absolute return URL to `contact/thanks.html`. FormSubmit's default CAPTCHA remains enabled, with an additional honeypot. No delivery credentials are stored in the site.
 
 **Activation required:** submit the form once from the intended hosted site, then follow FormSubmit's activation email sent to the receiving address (check spam too). Until the owner confirms, email forwarding is not active. Local layout/validation checks do not verify mailbox delivery. The fallback email link remains available if the form service cannot be reached.
 

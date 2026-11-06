@@ -1,10 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none" color="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Two boundary conditions define a half-open interval. -->
-  <path d="m5 25 5-4v16m70-15c9-4 14 4 5 7 10 0 8 11-5 8" stroke-width="2.6"/>
-  <path d="m30 20-12 8 12 8m-13 6h14m43-22-12 8 12 8" />
-  <path d="m40 22 13 15m-1-15L40 37" stroke-width="2.6"/>
-  <path d="M8 72h80m-6-5 6 5-6 5M17 69v7m16-7v7m16-7v7m16-7v7m16-7v7" stroke-width="2.2"/>
-  <path d="M32 58h29" stroke-width="5"/>
-  <path d="M32 63v6m33-6v6" stroke-width="1.8"/>
-  <circle cx="32" cy="58" r="4.3" fill="currentColor"/><circle cx="66" cy="58" r="4.3"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <title>x greater than or equal to two on a number line</title>
+  <!-- The filled endpoint includes two; the ray extends toward larger values. -->
+  <path d="m13 14 8 9m0-9-8 9m14-12 10 6-10 5m0 5h10m6-13c0-6 12-6 11 1 0 4-7 7-11 11h12"/>
+  <path d="M6 46h52m-4-3 4 3-4 3M12 43v6m12-6v6m12-6v6m12-6v6" stroke-width="1.6"/>
+  <path d="M24 43v-6h33m-5-4 5 4-5 4"/>
+  <circle cx="24" cy="37" r="3.4" fill="currentColor" stroke="none"/>
+  <path d="M21 53c0-3 6-3 6 0 0 2-4 3-6 5h6" stroke-width="1.6"/>
 </svg>

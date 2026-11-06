@@ -1,11 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-  <!-- An accelerating source sends wavefronts toward a field probe. -->
-  <g stroke-width="2.7">
-    <path d="M24 34a16 16 0 0 1 0 28M30 25a27 27 0 0 1 0 46M37 16a38 38 0 0 1 0 64M44 8a49 49 0 0 1 0 80"/>
-    <path d="M4 27c5 0 5 11 10 11" stroke-dasharray="2 4"/>
-    <circle cx="16" cy="48" r="8" stroke-width="3.4"/>
-    <path d="M12.5 48h7m-3.5-3.5v7"/>
-    <rect x="65" y="33" width="25" height="29" rx="4" stroke-width="3.2"/>
-    <path d="M68 49h4l3-8 4 13 3-7h5M77.5 63v8m-6 1h12"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <!-- A transverse field pulse travels from an oscillating charge to a probe. -->
+  <circle cx="12.5" cy="35" r="6"/>
+  <path d="M10 35h5m-2.5-2.5v5" stroke-width="1.6"/>
+  <path d="M12.5 23v-9m-3.2 3.6 3.2-3.6 3.2 3.6M12.5 47v7m-3.2-3.6 3.2 3.6 3.2-3.6" stroke-width="1.6"/>
+  <path d="M21 35c3 0 3.8-4.5 6-4.5 3 0 3.4 15.5 6.5 15.5S37 21 40.5 21s4 14 9.5 14"/>
+  <path d="M30 13h16m-4-3.5 4 3.5-4 3.5" stroke-width="1.6"/>
+  <circle cx="54" cy="35" r="3.8"/>
+  <path d="M54 39v12m-4 0h8" stroke-width="1.6"/>
 </svg>

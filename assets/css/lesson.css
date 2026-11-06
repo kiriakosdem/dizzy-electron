@@ -1,3 +1,8 @@
+/* The root canvas remains visible beneath the long, positioned lesson layout. */
+:root[data-theme="dark"] {
+    background-color: var(--page);
+}
+
 @media (prefers-reduced-motion: no-preference) {
     html { scroll-behavior: smooth; }
 }
@@ -22,15 +27,17 @@ BUTTONS & LINKS
 ----------------------------------------------------- */
 
 #change-chapter .btn{
+	--hover-background: transparent;
+	font-weight: 400;
 	font-size: 0.8rem;
 	background-color: transparent;
-	color: var(--color-navy);
+	color: var(--ink);
 	margin-top: 4rem;
 	margin-bottom: 2rem;
 }
 
 #change-chapter .btn:hover{
-	color: var(--color-navy);
+	color: var(--color-logo-orange);
 	text-decoration: underline;
 }
 
@@ -51,7 +58,7 @@ CARDS
 
 /* Examples Card */
 .example-card{
-	background-color: var(--color-white);
+	background-color: var(--surface);
 	border-color: var(--color-logo-orange);
 	font-size: 0.9rem;
 
@@ -70,9 +77,9 @@ CARDS
 	margin-left: 7vw;
 	margin-right: 7vw;
 	font-size: 0.9rem;
-	background-color: var(--color-white);
-	border-color: var(--color-navy);
-	color: var(--color-navy);
+	background-color: var(--surface);
+	border-color: var(--panel-edge);
+	color: var(--ink);
 }
 
 .learning-goals-card .card-header{
@@ -85,10 +92,10 @@ CARDS
 /* Contents Card */
 .contents-card{
 	border-radius: var(--corner-radius);
-	border-color: var(--color-navy);
+	border-color: var(--panel-edge);
 	padding-bottom: 1rem;
 	font-size: 0.9rem;
-	background-color: var(--color-white);
+	background-color: var(--surface);
 	width: 265px;
 	margin: auto;
 }
@@ -96,7 +103,7 @@ CARDS
 .contents-card .card-header{
 	font-size: 1rem;
 	font-weight: bold;
-	background-color: var(--color-paper);
+	background-color: var(--band);
 }
 
 .contents-card img{
@@ -113,7 +120,7 @@ CARDS
 
 .contents-card ul a{
 	/*color: #0275d8;*/
-	color: var(--color-navy);
+	color: var(--ink);
 	display: block;
 
 	padding-left: 1rem;
@@ -147,7 +154,7 @@ ul.breadcrumb {
     border-radius: 0 0 var(--corner-radius) var(--corner-radius);
 	padding: 0.7rem;
 	list-style: none;
-	background-color: var(--color-white);
+	background-color: var(--surface);
 }
 
 /* Display list items side by side */
@@ -156,18 +163,19 @@ ul.breadcrumb li {
 	font-size: 0.9rem;
 }
 
-/* Add a slash symbol (/) before/behind each list item */
+/* Chevrons separate breadcrumb levels. */
 ul.breadcrumb li+li:before {
 	padding: 5px;
-	color: var(--color-navy);
-	content: "/\00a0";
+	color: var(--ink);
+	content: ">";
 }
 
 /* Add a color to all links inside the list */
 ul.breadcrumb a[href] {
 	--hover-background: transparent;
-	color: var(--color-navy);
-	text-decoration: none;
+	color: var(--ink);
+	text-decoration: underline;
+	text-underline-offset: 3px;
 }
 
 /* Add a color on mouse-over */
@@ -199,14 +207,14 @@ IMAGES, MEDIA & ANIMATIONS
 	margin: 0;
 	padding: 1rem;
 	padding-bottom: 0rem;
-	background-color: var(--color-paper);
+	background-color: var(--band);
 
 }
 
 .figure-caption{
-	background-color: var(--color-paper);
+	background-color: var(--band);
 	padding: 1rem;
-	color: var(--color-navy);
+	color: var(--ink);
 	margin: auto 0;
 	text-align: left;
 	font-weight: bold;
@@ -229,13 +237,13 @@ IMAGES, MEDIA & ANIMATIONS
 
 #jscode{
 	padding: 0;
-	background-color: var(--color-paper);
+	background-color: var(--band);
 	margin: 0rem;
 	height: 50vh;
 }
 
 #animation{
-	background-color: var(--color-paper);
+	background-color: var(--band);
 
 }
 
@@ -292,7 +300,7 @@ p {
 }
 
 .col{
-	background: var(--color-paper);
+	background: var(--band);
 	padding: 0rem;
 	text-align: center;
 	justify-content: center;

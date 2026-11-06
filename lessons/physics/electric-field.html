@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../../assets/brand/favicon.svg?v=original-art">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.">
     <title>Dizzy Electron | Το Ηλεκτρικό Πεδίο</title>
+    <script src="../../assets/js/theme.js?v=theme-icons"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=card-icon-hover">
-    <link rel="stylesheet" href="../../assets/css/cards.css?v=compact-cards">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=smooth-motion">
-    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=compact-cards">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=text-link-hover">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=opposite-card-surfaces">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=theme-chapter-text">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=theme-1">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <script src="../../assets/js/lesson.js?v=smooth-top-1" defer></script>
@@ -34,6 +36,7 @@
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="../../contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="../../contents/index.html#math-lessons">Μαθηματικά</a>
+                                    <a class="dropdown-item" href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
                                 </div>
                             </div>
                         </li>
@@ -52,7 +55,7 @@
                             </div>
                         </li>
                         <li class="nav-item"><a class="btn" href="../../about/index.html">Σχετικά</a></li>
-                        <li class="nav-item"><a class="btn" href="../../contact/index.html?lesson=electric-field">Επικοινωνία</a></li>
+                        <li class="nav-item"><a class="btn" href="../../contact/index.html">Επικοινωνία</a></li>
                     </ul>
                 </div>
                 <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
@@ -63,7 +66,7 @@
         <nav aria-label="Διαδρομή μαθήματος">
             <ul class="breadcrumb">
                 <li><a href="../../contents/index.html#physics-lessons">Φυσική</a></li>
-                <li><a href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a></li>
+
                 <li><span aria-current="page">Το Ηλεκτρικό Πεδίο</span></li>
             </ul>
         </nav>
@@ -75,24 +78,24 @@
                         <div class="card-header text-center" id="goals-title">Διδακτικοί Στόχοι</div>
                         <div class="card-body">
                             <p>Στο τέλος αυτού του μαθήματος θα είσαι σε θέση:</p>
-                            <ul>
+                            <ul class="lesson-bullets" role="list">
                                 <li>Να προσδιορίζεις τη φορά του ηλεκτρικού πεδίου γύρω από θετικά και αρνητικά φορτία.</li>
                                 <li>Να συνθέτεις τα πεδία πολλών φορτίων με την αρχή της επαλληλίας.</li>
                                 <li>Να διακρίνεις την ένταση του πεδίου, την ηλεκτρική δύναμη και το δυναμικό.</li>
                             </ul>
                         </div>
                     </section>
-                    <section id="introduction" aria-labelledby="introduction-title">
+                    <section id="introduction" class="lesson-section" aria-labelledby="introduction-title">
                         <h2 id="introduction-title">Εισαγωγή</h2>
                         <p>Πώς αλληλεπιδρούν δύο φορτία χωρίς να ακουμπούν; Κάθε ηλεκτρικό φορτίο δημιουργεί ένα ηλεκτρικό πεδίο. Η φορά του πεδίου ορίζεται ως η φορά της δύναμης που θα δεχόταν ένα μικρό θετικό δοκιμαστικό φορτίο.</p>
                     </section>
-                    <section id="theory" aria-labelledby="theory-title">
+                    <section id="theory" class="lesson-section" aria-labelledby="theory-title">
                         <h2 id="theory-title">Φορτία, δυνάμεις και δυναμικές γραμμές</h2>
                         <p>Για ένα σημειακό φορτίο <var>Q</var>, το μέτρο του πεδίου σε απόσταση <var>r</var> δίνεται από τον νόμο του Coulomb:</p>
                         <div class="lesson-equation">\[E=\frac{k|Q|}{r^2},\qquad \vec{F}=q\vec{E}\]</div>
                         <p>Το <var>k</var> είναι η σταθερά του Coulomb. Το πεδίο κατευθύνεται μακριά από ένα θετικό φορτίο και προς ένα αρνητικό. Ένα θετικό δοκιμαστικό φορτίο δέχεται δύναμη κατά τη φορά του πεδίου, ενώ ένα αρνητικό δέχεται δύναμη με αντίθετη φορά. Τα πεδία πολλών φορτίων προστίθενται διανυσματικά.</p>
                     </section>
-                    <section id="simulation" aria-labelledby="simulation-title">
+                    <section id="simulation" class="lesson-section" aria-labelledby="simulation-title">
                         <h2 id="simulation-title">Διαδραστικό Εργαστήριο</h2>
                         <p>Σύρε θετικά και αρνητικά φορτία στον καμβά ή επίλεξε μια έτοιμη διάταξη από τις ρυθμίσεις. Με το <span lang="en">Dipole</span> δημιουργείς δύο ίσα και αντίθετα φορτία. Ενεργοποίησε το <span lang="en">Electric potential</span> για να συγκρίνεις το δυναμικό με τα βέλη και τις γραμμές του πεδίου.</p>
                         <figure class="lesson-simulation">
@@ -107,19 +110,19 @@
                         </figure>
                         <p class="simulation-status" role="status" aria-live="polite"></p>
                     </section>
-                    <section id="activities" class="card example-card" aria-labelledby="activities-title">
+                    <section id="activities" class="card learning-goals-card" aria-labelledby="activities-title">
                         <div class="card-header text-center" id="activities-title">Δοκίμασέ το</div>
                         <div class="card-body">
                             <p>Εξερεύνησε την προσομοίωση βήμα προς βήμα:</p>
-                            <ol>
+                            <ul class="lesson-bullets" role="list">
                                 <li>Ξεκίνα με το <span lang="en">Single</span>. Σύγκρινε τη φορά των βελών για ένα θετικό και για ένα αρνητικό φορτίο.</li>
                                 <li>Επίλεξε <span lang="en">Dipole</span> και ενεργοποίησε το <span lang="en">Field lines</span>. Από ποιο φορτίο ξεκινούν οι γραμμές και σε ποιο καταλήγουν;</li>
                                 <li>Πρόσθεσε ένα <span lang="en">Test charge</span>. Άλλαξε το πρόσημό του από τις ρυθμίσεις και παρατήρησε πώς αλλάζει η δύναμη και η κίνησή του.</li>
                                 <li>Ενεργοποίησε το <span lang="en">Electric potential</span>. Ανάμεσα σε δύο ίσα και αντίθετα φορτία, το δυναμικό στο μέσο είναι μηδέν. Είναι μηδέν και το πεδίο;</li>
-                            </ol>
+                            </ul>
                         </div>
                     </section>
-                    <section id="takeaway" aria-labelledby="takeaway-title">
+                    <section id="takeaway" class="lesson-section" aria-labelledby="takeaway-title">
                         <h2 id="takeaway-title">Τι κρατάμε</h2>
                         <p>Το ηλεκτρικό πεδίο είναι διάνυσμα, ενώ το δυναμικό είναι μονόμετρο μέγεθος. Μηδενικό δυναμικό σε ένα σημείο δεν σημαίνει απαραίτητα μηδενικό πεδίο. Η κατεύθυνση της δύναμης εξαρτάται και από το πρόσημο του δοκιμαστικού φορτίου.</p>
                     </section>
@@ -143,19 +146,19 @@
                     <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electromagnetic-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/electromagnetic-field.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-1-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
                             <p id="related-1-description">Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="gravitational-field.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/gravity.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-2-title">Το Βαρυτικό Πεδίο</h3>
                             <p id="related-2-description">Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="hydrogen-eigenstates.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/hydrogen-orbitals.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/hydrogen-orbitals.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-3-title">Το Άτομο του Υδρογόνου</h3>
                             <p id="related-3-description">Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>

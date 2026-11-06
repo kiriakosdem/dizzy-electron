@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../../assets/brand/favicon.svg?v=original-art">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.">
     <title>Dizzy Electron | Το Ηλεκτρομαγνητικό Πεδίο</title>
+    <script src="../../assets/js/theme.js?v=theme-icons"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=card-icon-hover">
-    <link rel="stylesheet" href="../../assets/css/cards.css?v=compact-cards">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=smooth-motion">
-    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=compact-cards">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=text-link-hover">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=opposite-card-surfaces">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=theme-chapter-text">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=theme-1">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <script src="../../assets/js/lesson.js?v=smooth-top-1" defer></script>
@@ -34,6 +36,7 @@
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="../../contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="../../contents/index.html#math-lessons">Μαθηματικά</a>
+                                    <a class="dropdown-item" href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
                                 </div>
                             </div>
                         </li>
@@ -52,7 +55,7 @@
                             </div>
                         </li>
                         <li class="nav-item"><a class="btn" href="../../about/index.html">Σχετικά</a></li>
-                        <li class="nav-item"><a class="btn" href="../../contact/index.html?lesson=electromagnetic-field">Επικοινωνία</a></li>
+                        <li class="nav-item"><a class="btn" href="../../contact/index.html">Επικοινωνία</a></li>
                     </ul>
                 </div>
                 <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
@@ -63,7 +66,7 @@
         <nav aria-label="Διαδρομή μαθήματος">
             <ul class="breadcrumb">
                 <li><a href="../../contents/index.html#physics-lessons">Φυσική</a></li>
-                <li><a href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a></li>
+
                 <li><span aria-current="page">Το Ηλεκτρομαγνητικό Πεδίο</span></li>
             </ul>
         </nav>
@@ -75,24 +78,24 @@
                         <div class="card-header text-center" id="goals-title">Διδακτικοί Στόχοι</div>
                         <div class="card-body">
                             <p>Στο τέλος αυτού του μαθήματος θα είσαι σε θέση:</p>
-                            <ul>
+                            <ul class="lesson-bullets" role="list">
                                 <li>Να περιγράφεις τη διάδοση μιας μεταβολής του πεδίου με πεπερασμένη ταχύτητα.</li>
                                 <li>Να διακρίνεις τη συνεισφορά της ταχύτητας από τη συνεισφορά της επιτάχυνσης στο πεδίο.</li>
                                 <li>Να χρησιμοποιείς έναν ανιχνευτή για να συγκρίνεις το πεδίο κοντά και μακριά από την πηγή.</li>
                             </ul>
                         </div>
                     </section>
-                    <section id="introduction" aria-labelledby="introduction-title">
+                    <section id="introduction" class="lesson-section" aria-labelledby="introduction-title">
                         <h2 id="introduction-title">Εισαγωγή</h2>
                         <p>Όταν ένα φορτίο αλλάζει κίνηση, το πεδίο σε ένα μακρινό σημείο δεν ενημερώνεται ακαριαία. Η πληροφορία διαδίδεται με την ταχύτητα του φωτός. Στο εργαστήριο μπορείς να μετακινήσεις την πηγή και να παρακολουθήσεις αυτή την καθυστέρηση.</p>
                     </section>
-                    <section id="theory" aria-labelledby="theory-title">
+                    <section id="theory" class="lesson-section" aria-labelledby="theory-title">
                         <h2 id="theory-title">Η πληροφορία ταξιδεύει με το φως</h2>
                         <p>Το πεδίο που παρατηρούμε τη στιγμή <var>t</var> εξαρτάται από την κατάσταση της πηγής σε μια προηγούμενη στιγμή, τον καθυστερημένο χρόνο <var>t<sub>r</sub></var>:</p>
                         <div class="lesson-equation">\[t-t_r=\frac{R(t_r)}{c}\]</div>
                         <p>Το <var>R(t<sub>r</sub>)</var> είναι η απόσταση από την παλαιότερη θέση της πηγής μέχρι το σημείο παρατήρησης. Η προσομοίωση χωρίζει το πεδίο σε έναν όρο ταχύτητας, που μειώνεται ως 1/R<sup>2</sup>, και έναν όρο ακτινοβολίας λόγω επιτάχυνσης, που μειώνεται ως 1/R. Χρησιμοποιεί κανονικοποιημένες μονάδες με <var>c = 1</var>.</p>
                     </section>
-                    <section id="simulation" aria-labelledby="simulation-title">
+                    <section id="simulation" class="lesson-section" aria-labelledby="simulation-title">
                         <h2 id="simulation-title">Διαδραστικό Εργαστήριο</h2>
                         <p>Πάτησε στον καμβά για να τοποθετήσεις το φορτίο και σύρε το κίτρινο σημάδι για να το κινήσεις. Μετακίνησε τον πράσινο ανιχνευτή <span lang="en">Field probe</span> και σύγκρινε τις επιλογές <span lang="en">Total</span>, <span lang="en">Velocity</span> και <span lang="en">Radiation</span>. Οι ρυθμίσεις βρίσκονται δεξιά ή, σε στενές οθόνες, χαμηλότερα μέσα στο εργαστήριο.</p>
                         <figure class="lesson-simulation">
@@ -107,19 +110,19 @@
                         </figure>
                         <p class="simulation-status" role="status" aria-live="polite"></p>
                     </section>
-                    <section id="activities" class="card example-card" aria-labelledby="activities-title">
+                    <section id="activities" class="card learning-goals-card" aria-labelledby="activities-title">
                         <div class="card-header text-center" id="activities-title">Δοκίμασέ το</div>
                         <div class="card-body">
                             <p>Εξερεύνησε την προσομοίωση βήμα προς βήμα:</p>
-                            <ol>
+                            <ul class="lesson-bullets" role="list">
                                 <li>Τοποθέτησε ένα φορτίο και άφησέ το ακίνητο. Παρατήρησε τη μορφή του ηλεκτρικού πεδίου πριν το κινήσεις.</li>
                                 <li>Σύρε το φορτίο και άφησέ το. Παρατήρησε πώς η διαταραχή συνεχίζει να διαδίδεται προς τα έξω.</li>
                                 <li>Επίλεξε <span lang="en">Continuous wave</span> και μετά <span lang="en">Radiation</span>. Σύγκρινε την εικόνα κοντά στην πηγή και μακριά της με τα <span lang="en">Near</span> και <span lang="en">Far</span>.</li>
                                 <li>Ενεργοποίησε το <span lang="en">Highlight changing arrows</span> και μετακίνησε τον ανιχνευτή. Η επισήμανση δείχνει μεταβολές του πεδίου και δεν αποτελεί από μόνη της ένδειξη ακτινοβολίας.</li>
-                            </ol>
+                            </ul>
                         </div>
                     </section>
-                    <section id="takeaway" aria-labelledby="takeaway-title">
+                    <section id="takeaway" class="lesson-section" aria-labelledby="takeaway-title">
                         <h2 id="takeaway-title">Τι κρατάμε</h2>
                         <p>Το ηλεκτρικό και το μαγνητικό πεδίο μεταφέρουν την επίδραση της πηγής με πεπερασμένη ταχύτητα. Οι μπλε τελείες δείχνουν μαγνητικό πεδίο προς εμάς και οι σταυροί προς το εσωτερικό της οθόνης. Τα μήκη των βελών έχουν προσαρμοστεί για ευκρινή απεικόνιση· για αριθμητικές συγκρίσεις χρησιμοποίησε τον ανιχνευτή.</p>
                     </section>
@@ -143,19 +146,19 @@
                     <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electric-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/electric-field.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/electric-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-1-title">Το Ηλεκτρικό Πεδίο</h3>
                             <p id="related-1-description">Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="gravitational-field.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/gravity.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-2-title">Το Βαρυτικό Πεδίο</h3>
                             <p id="related-2-description">Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="hydrogen-eigenstates.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/hydrogen-orbitals.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/hydrogen-orbitals.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-3-title">Το Άτομο του Υδρογόνου</h3>
                             <p id="related-3-description">Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>

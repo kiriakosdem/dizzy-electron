@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../assets/brand/favicon.svg?v=original-art">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Επικοινώνησε με τον δημιουργό του Dizzy Electron, στείλε μια ερώτηση ή ανέφερε ένα τεχνικό πρόβλημα ή λάθος σε μάθημα.">
     <title>Dizzy Electron | Επικοινωνία</title>
+    <script src="../assets/js/theme.js?v=theme-icons"></script>
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/common.css?v=card-icon-hover">
-    <link rel="stylesheet" href="../assets/css/contact.css?v=rounded-panels">
+    <link rel="stylesheet" href="../assets/css/common.css?v=text-link-hover">
+    <link rel="stylesheet" href="../assets/css/contact.css?v=centred-submit">
     <script src="../assets/js/lesson.js?v=smooth-top-1" defer></script>
-    <script src="../assets/js/contact.js?v=2" defer></script>
+    <script src="../assets/js/contact.js?v=field-placeholders" defer></script>
 </head>
 <body class="contact-page" id="top">
     <a class="contact-skip-link" href="#contact-content">Μετάβαση στο περιεχόμενο</a>
@@ -30,6 +32,7 @@
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="../contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="../contents/index.html#math-lessons">Μαθηματικά</a>
+                                    <a class="dropdown-item" href="../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
                                 </div>
                             </div>
                         </li>
@@ -60,30 +63,22 @@
     <main id="contact-content" tabindex="-1">
         <header class="contact-heading contact-shell">
             <h1>Επικοινωνία</h1>
-            <p>Έχεις μια ερώτηση, μια ιδέα ή εντόπισες κάτι που χρειάζεται διόρθωση;<br>Στείλε μου ένα μήνυμα και βοήθησε το Dizzy Electron να γίνει καλύτερο.</p>
+            <p>Έχεις κάποια ερώτηση, μια ιδέα ή εντόπισες κάτι που χρειάζεται διόρθωση;</p>
         </header>
-        <section class="contact-form-band" aria-labelledby="form-title">
+        <section class="contact-form-band section-divider" aria-labelledby="form-title">
             <div class="contact-shell">
                 <h2 id="form-title">Στείλε ένα μήνυμα</h2>
-                <p class="contact-hint">Τα πεδία με αστερίσκο (*) είναι απαραίτητα.</p>
                 <form id="contact-form" action="https://formsubmit.co/kirkdemeroukas@icloud.com" method="POST" accept-charset="UTF-8">
                     <input type="hidden" name="_subject" id="mail-subject" value="Dizzy Electron — Νέο μήνυμα">
                     <input type="hidden" name="_template" value="table">
                     <input type="hidden" name="_next" id="return-url" disabled>
                     <div class="contact-honeypot" aria-hidden="true"><label for="website">Άφησε αυτό το πεδίο κενό</label><input id="website" type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
-                    <div class="contact-row">
-                        <div class="contact-field">
-                            <label for="sender-name">Όνομα <span>(προαιρετικό)</span></label>
-                            <input id="sender-name" name="name" type="text" autocomplete="name" maxlength="100">
-                        </div>
-                        <div class="contact-field">
-                            <label for="sender-email">Email *</label>
-                            <input id="sender-email" name="email" type="email" autocomplete="email" maxlength="254" required aria-describedby="email-hint">
-                            <p class="contact-hint" id="email-hint">Για να μπορέσω να σου απαντήσω.</p>
-                        </div>
+                    <div class="contact-field">
+                        <label for="sender-email">Email *</label>
+                        <input id="sender-email" name="email" type="email" autocomplete="email" maxlength="254" required placeholder="Για να μπορέσω να σου απαντήσω.">
                     </div>
                     <div class="contact-field">
-                        <label for="message-type">Για ποιο θέμα γράφεις; *</label>
+                        <label for="message-type">Θέμα *</label>
                         <select id="message-type" name="category" required>
                             <option value="">Επίλεξε θέμα</option>
                             <option value="general">Ερώτηση ή πρόταση</option>
@@ -91,49 +86,21 @@
                             <option value="correction">Λάθος ή διόρθωση σε μάθημα</option>
                         </select>
                     </div>
-                    <div class="contact-row">
-                        <div class="contact-field">
-                            <label for="related-lesson">Σχετικό μάθημα <span>(προαιρετικό)</span></label>
-                            <select id="related-lesson" name="lesson">
-                                <option value="">Δεν αφορά συγκεκριμένο μάθημα</option>
-                                <option value="gravitational-field">Το Βαρυτικό Πεδίο</option>
-                                <option value="electric-field">Το Ηλεκτρικό Πεδίο</option>
-                                <option value="electromagnetic-field">Το Ηλεκτρομαγνητικό Πεδίο</option>
-                                <option value="hydrogen-eigenstates">Το Άτομο του Υδρογόνου</option>
-                                <option value="other">Άλλο μάθημα ή σελίδα</option>
-                            </select>
-                        </div>
-                        <div class="contact-field">
-                            <label for="page-url">Σύνδεσμος σελίδας <span>(προαιρετικός)</span></label>
-                            <input id="page-url" name="page_url" type="url" placeholder="https://…" maxlength="2000">
-                        </div>
-                    </div>
                     <div class="contact-field">
-                        <label for="message">Το μήνυμά σου *</label>
-                        <p class="contact-hint" id="message-hint">Πες μου τι θα ήθελες να συζητήσουμε.</p>
-                        <textarea id="message" name="message" rows="7" maxlength="10000" required aria-describedby="message-hint"></textarea>
+                        <label for="message">Μήνυμα *</label>
+                        <textarea id="message" name="message" rows="7" maxlength="10000" required placeholder="Πες μου τι θα ήθελες να συζητήσουμε."></textarea>
                     </div>
-                    <details id="technical-details" class="contact-details">
-                        <summary>Στοιχεία για τεχνικό πρόβλημα <span>(προαιρετικά)</span></summary>
-                        <div class="contact-row">
-                            <div class="contact-field">
-                                <label for="device">Συσκευή και λειτουργικό σύστημα</label>
-                                <input id="device" name="device" type="text" placeholder="π.χ. κινητό με Android" maxlength="200">
-                            </div>
-                            <div class="contact-field">
-                                <label for="browser">Πρόγραμμα περιήγησης</label>
-                                <input id="browser" name="browser" type="text" placeholder="π.χ. Safari, Firefox, Chrome" maxlength="200">
-                            </div>
-                        </div>
-                    </details>
+                    <p class="contact-hint">Τα πεδία με αστερίσκο (*) είναι απαραίτητα.</p>
                     <p class="contact-privacy">Η φόρμα αποστέλλει τα στοιχεία σου μέσω της υπηρεσίας <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener">FormSubmit</a>, για την επικοινωνία σχετικά με το μήνυμά σου.</p>
-                    <button class="contact-submit" type="submit">Αποστολή μηνύματος <span aria-hidden="true">→</span></button>
+                    <div class="contact-actions">
+                        <button class="contact-submit" type="submit">Αποστολή μηνύματος</button>
+                    </div>
                 </form>
             </div>
         </section>
-        <section class="contact-direct contact-shell" aria-labelledby="direct-title">
+        <section class="contact-direct contact-shell section-divider" aria-labelledby="direct-title">
             <h2 id="direct-title">Προτιμάς να στείλεις email;</h2>
-            <p>Μπορείς επίσης να γράψεις απευθείας στο <a href="mailto:kirkdemeroukas@icloud.com">kirkdemeroukas@icloud.com</a>.</p>
+            <p>Μπορείς επίσης να γράψεις απευθείας στο <a href="mailto:kiriakosdemeroukas@gmail.com">kiriakosdemeroukas@gmail.com</a>.</p>
         </section>
     </main>
     <footer>

@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="assets/brand/favicon.svg?v=original-art">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Μάθε, παίξε και πειραματίσου με τη Φυσική. Διαδραστικά μαθήματα και οπτικοποιήσεις για να εξερευνήσεις τις έννοιες με τον δικό σου ρυθμό.">
     <title>Dizzy Electron | Φυσική στην πράξη</title>
+    <script src="assets/js/theme.js?v=theme-icons"></script>
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/common.css?v=card-icon-hover">
-    <link rel="stylesheet" href="assets/css/cards.css?v=compact-cards">
-    <link rel="stylesheet" href="assets/css/home.css?v=quote-typography">
+    <link rel="stylesheet" href="assets/css/common.css?v=text-link-hover">
+    <link rel="stylesheet" href="assets/css/cards.css?v=opposite-card-surfaces">
+    <link rel="stylesheet" href="assets/css/home.css?v=theme-welcome">
     <script src="assets/js/lesson.js?v=smooth-top-1" defer></script>
     <script src="assets/js/home-carousel.js?v=smooth-motion" defer></script>
 </head>
@@ -31,6 +33,7 @@
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="contents/index.html#math-lessons">Μαθηματικά</a>
+                                    <a class="dropdown-item" href="contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
                                 </div>
                             </div>
                         </li>
@@ -73,7 +76,7 @@
                     <figcaption>
                         <img class="scientist-portrait" src="assets/images/feynman-bongos.jpg" width="76" height="76" alt="">
                         <div class="scientist-credit"><strong>Richard Feynman</strong><span>1966 · What is Science?</span>
-                            <a class="portrait-credit" href="https://www.aip.org/library/ex-libris-universum/may-2016-photos-of-the-month">Photo: © California Institute of Technology</a>
+                            <!-- Photo: © California Institute of Technology — https://www.aip.org/library/ex-libris-universum/may-2016-photos-of-the-month -->
                         </div>
                     </figcaption>
                 </figure>
@@ -89,7 +92,7 @@
                     <figcaption>
                         <img class="scientist-portrait" src="assets/images/heisenberg.jpg" width="76" height="76" alt="">
                         <div class="scientist-credit"><strong>Werner Heisenberg</strong><span>1958 · Physics and Philosophy</span>
-                            <a class="portrait-credit" href="https://commons.wikimedia.org/wiki/File:Portrait_of_Werner_Heisenberg.jpg">Photo: AIP Emilio Segrè Visual Archives, Segrè Collection</a>
+                            <!-- Photo: AIP Emilio Segrè Visual Archives, Segrè Collection — https://commons.wikimedia.org/wiki/File:Portrait_of_Werner_Heisenberg.jpg -->
                         </div>
                     </figcaption>
                 </figure>
@@ -105,7 +108,7 @@
                     <figcaption>
                         <img class="scientist-portrait" src="assets/images/einstein-tongue.jpg" width="76" height="76" alt="">
                         <div class="scientist-credit"><strong>Albert Einstein</strong><span>1933 · On the Method of Theoretical Physics</span>
-                            <a class="portrait-credit" href="https://commons.wikimedia.org/wiki/File:Albert_Einstein_sticks_his_tongue_2.jpg">Photo: Arthur Sasse / International News Service</a>
+                            <!-- Photo: Arthur Sasse / International News Service — https://commons.wikimedia.org/wiki/File:Albert_Einstein_sticks_his_tongue_2.jpg -->
                         </div>
                     </figcaption>
                 </figure>
@@ -121,7 +124,7 @@
                         <figcaption>
                             <img class="scientist-portrait" src="assets/images/newton.jpg" width="76" height="76" alt="">
                             <div class="scientist-credit"><strong>Sir Isaac Newton</strong><span>1728</span>
-                                <a class="portrait-credit" href="https://commons.wikimedia.org/wiki/File:GodfreyKneller-IsaacNewton-1689_(cropped).jpg">Portrait: Godfrey Kneller · Public domain</a>
+                                <!-- Portrait: Godfrey Kneller · Public domain — https://commons.wikimedia.org/wiki/File:GodfreyKneller-IsaacNewton-1689_(cropped).jpg -->
                             </div>
                         </figcaption>
                     </figure>
@@ -137,7 +140,7 @@
                         <figcaption>
                             <img class="scientist-portrait" src="assets/images/dirac.jpg" width="76" height="76" alt="">
                             <div class="scientist-credit"><strong>Paul Dirac</strong><span>1939 · The Relation between Mathematics and Physics</span>
-                                <a class="portrait-credit" href="https://commons.wikimedia.org/wiki/File:Paul_Dirac,_1933,_head_and_shoulders_portrait,_bw.jpg">Photo: Cavendish Laboratory · Public domain</a>
+                                <!-- Photo: Cavendish Laboratory · Public domain — https://commons.wikimedia.org/wiki/File:Paul_Dirac,_1933,_head_and_shoulders_portrait,_bw.jpg -->
                             </div>
                         </figcaption>
                     </figure>
@@ -161,30 +164,30 @@
             <p>Απολαύστε μαθήματα Φυσικής και Μαθηματικών σε γλώσσα απλή και κατανοητή χωρίς δυσνόητη ορολογία και περίπλοκες διατυπώσεις.</p>
             </div>
         </header>
-        <section class="home-band home-band--shaded" id="Courses" aria-labelledby="featured-title">
+        <section class="home-band section-divider" id="Courses" aria-labelledby="featured-title">
             <div class="home-shell">
                 <h2 id="featured-title">Επιλεγμένα μαθήματα</h2>
                 <div class="catalog-grid">
                         <a class="catalog-card" href="lessons/physics/gravitational-field.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
-                            <span class="catalog-icon"><img src="assets/icons/gravity.svg" width="48" height="48" alt="" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
                             <h3 id="lesson-1-title">Το Βαρυτικό Πεδίο</h3>
                             <p id="lesson-1-description">Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="lessons/physics/electric-field.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
-                            <span class="catalog-icon"><img src="assets/icons/electric-field.svg" width="48" height="48" alt="" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="assets/icons/electric-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
                             <h3 id="lesson-2-title">Το Ηλεκτρικό Πεδίο</h3>
                             <p id="lesson-2-description">Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="lessons/physics/electromagnetic-field.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
-                            <span class="catalog-icon"><img src="assets/icons/electromagnetic-field.svg" width="48" height="48" alt="" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="assets/icons/electromagnetic-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
                             <h3 id="lesson-3-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
                             <p id="lesson-3-description">Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="lessons/physics/hydrogen-eigenstates.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
-                            <span class="catalog-icon"><img src="assets/icons/hydrogen-orbitals.svg" width="48" height="48" alt="" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="assets/icons/hydrogen-orbitals.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
                             <h3 id="lesson-4-title">Το Άτομο του Υδρογόνου</h3>
                             <p id="lesson-4-description">Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>

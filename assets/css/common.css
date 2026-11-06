@@ -17,6 +17,7 @@ MAIN BODY AND TEXT
 
 /* The two logo accents and four supporting colours. */
 :root {
+    color-scheme: light;
     --corner-radius: 8px;
     --border-width: 1px;
     --color-logo-cyan: #00bed0;
@@ -26,6 +27,34 @@ MAIN BODY AND TEXT
     --color-paper: #f6f3ed;
     --color-white: #ffffff;
     --color-border: color-mix(in srgb, var(--color-navy) 18%, var(--color-paper));
+    --bullet-overlap: var(--color-paper);
+    --page: var(--color-white);
+    --band: var(--color-paper);
+    --surface: var(--color-white);
+    --ink: var(--color-navy);
+    --muted-ink: var(--color-graphite);
+    --focus-ring: var(--color-navy);
+    --panel-edge: var(--color-navy);
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --bullet-overlap: var(--color-navy);
+    --page: color-mix(in srgb, var(--color-navy) 51%, var(--color-graphite));
+    --band: color-mix(in srgb, var(--color-navy) 70%, var(--color-graphite));
+    --surface: color-mix(in srgb, var(--color-navy) 84%, var(--color-graphite));
+    --ink: var(--color-paper);
+    --muted-ink: color-mix(in srgb, var(--color-paper) 80%, var(--color-graphite));
+    --color-border: var(--color-navy);
+    --focus-ring: var(--color-logo-cyan);
+    --panel-edge: var(--color-border);
+}
+
+:root[data-theme="dark"] body { background: var(--page); color: var(--ink); }
+:root[data-theme="dark"] main a:where(:not([class])) { color: var(--color-logo-cyan); }
+/* Use the same dark edge for every component, including hover states. */
+:root[data-theme="dark"] :where(body, body *) {
+    border-color: var(--color-navy) !important;
 }
 
 /* One outside edge for cards, figures and embedded content. */
@@ -64,7 +93,7 @@ html, body{
 	font-family: 'Literata', sans-serif;
 	font-size: 1rem;
 
-	background-color: var(--color-paper);
+	background-color: var(--band);
 }
 
 /* Paragraph Element Styling*/
@@ -196,12 +225,23 @@ footer .footer-brand {
 
 #NavigationBar #dropdownMenu1::after { color: inherit; }
 
+#NavigationBar .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+}
+.theme-toggle .theme-sun,
+[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
+[data-theme="dark"] .theme-toggle .theme-sun { display: inline; }
+
 /* No gap between the parent link and the panel, so hover stays continuous. */
 #NavigationBar .dropdown-menu {
     min-width: 190px;
     margin-top: 0;
     padding: 8px;
-    background: var(--color-white);
+    background: var(--surface);
     border: var(--border-width) solid var(--color-border);
     border-radius: var(--corner-radius);
 
@@ -211,7 +251,7 @@ footer .footer-brand {
     padding: 10px 14px;
     margin: 0;
     background: transparent;
-    color: var(--color-navy);
+    color: var(--ink);
     border: 0;
     border-radius: var(--corner-radius);
     letter-spacing: normal;
@@ -220,8 +260,8 @@ footer .footer-brand {
 
 #NavigationBar .dropdown-item:hover,
 #NavigationBar .dropdown-item:focus-visible {
-    background: var(--color-paper);
-    color: var(--color-navy);
+    background: var(--band);
+    color: var(--ink);
     text-decoration: none;
 }
 
@@ -230,7 +270,7 @@ footer .footer-brand {
     text-underline-offset: 4px;
 }
 
-#NavigationBar .dropdown-item:focus-visible { outline-color: var(--color-navy); }
+#NavigationBar .dropdown-item:focus-visible { outline-color: var(--focus-ring); }
 
 #NavigationBar .dropdown-divider { border-color: var(--color-border); }
 
@@ -249,7 +289,7 @@ a:hover{
 
 .btn{
 	border-radius: var(--corner-radius);
-	background: var(--color-white);
+	background: var(--surface);
 }
 
 .btn:hover{
@@ -265,7 +305,7 @@ a:hover{
 	border-radius: var(--corner-radius);
 	border-width: var(--border-width);
 	border-color: transparent;
-	color: var(--color-navy);
+	color: var(--ink);
 	line-height: 3rem;
 }
 
@@ -316,20 +356,20 @@ SOCIAL ICONS STYLE
 }
 
 .fa-facebook{
-	color: var(--color-navy)
+	color: var(--ink)
 }
 .fa-twitter{
-	color: var(--color-navy)
+	color: var(--ink)
 }
 .fa-google-plus-g{
-	color: var(--color-navy)
+	color: var(--ink)
 }
 .fa-instagram{
-	color: var(--color-navy);
-	color: var(--color-navy);
+	color: var(--ink);
+	color: var(--ink);
 }
 .fa-youtube{
-	color: var(--color-navy)
+	color: var(--ink)
 }
 
 .fa-facebook:hover,
@@ -490,4 +530,99 @@ footer .footer-navigation a:focus-visible { outline: 3px solid var(--color-logo-
     :where(span, strong, em, small, h2, h3, h4, p) {
         color: var(--color-logo-orange) !important;
     }
+}
+
+
+/* Only contrasting page bands carry full-width waves. */
+:where(.home-page, .contents-page, .about-page, .contact-page) > main {
+    overflow-x: clip;
+}
+.section-divider {
+    position: relative;
+}
+.section-divider::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 28px;
+    transform: translate(-50%, -50%);
+    --packet-width: clamp(300px, 34vw, 440px);
+    --tail-width: calc((100% - var(--packet-width)) / 2);
+    --tail-color: color-mix(in srgb, color-mix(in srgb, var(--color-logo-cyan) 54%, var(--color-logo-orange)) 29%, transparent);
+    background:
+        url("../images/divider-packet.svg?v=packet-train") center / var(--packet-width) 100% no-repeat,
+        linear-gradient(var(--tail-color), var(--tail-color)) left center / var(--tail-width) 2px no-repeat,
+        linear-gradient(var(--tail-color), var(--tail-color)) right center / var(--tail-width) 2px no-repeat;
+    pointer-events: none;
+}
+@media (max-width: 575px) {
+    .section-divider::before { --packet-width: 100%; height: 22px; }
+}
+.lesson-section {
+    margin-top: 32px;
+    padding-top: 24px;
+}
+.simulation-lesson .lesson-section > h2 {
+    margin-top: 0;
+}
+.sidebar-heading {
+    position: relative;
+    padding-inline-start: 1.2em;
+}
+.sidebar-heading::before,
+.sidebar-heading::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    width: .64em;
+    height: .64em;
+    border-radius: 50%;
+    pointer-events: none;
+}
+.sidebar-heading::before {
+    top: calc(.5lh - .51em);
+    background: var(--color-logo-orange);
+}
+.sidebar-heading::after {
+    top: calc(.5lh - .13em);
+    background: radial-gradient(circle at center calc(50% - .38em),
+        var(--bullet-overlap) calc(.32em - .4px), transparent .32em),
+        var(--color-logo-cyan);
+}
+
+/* The lens is the part of the cyan circle shared with the orange circle. */
+.lesson-bullets {
+    list-style: none;
+    padding-inline-start: 1.6em;
+}
+.lesson-bullets > li {
+    position: relative;
+}
+.lesson-bullets > li::before,
+.lesson-bullets > li::after {
+    content: "";
+    position: absolute;
+    top: calc(.5lh - .32em);
+    width: .64em;
+    height: .64em;
+    border-radius: 50%;
+    pointer-events: none;
+}
+.lesson-bullets > li::before {
+    inset-inline-start: -1.5em;
+    background: var(--color-logo-orange);
+}
+.lesson-bullets > li::after {
+    inset-inline-start: -1.12em;
+    background: radial-gradient(circle at calc(50% - .38em) center,
+        var(--bullet-overlap) calc(.32em - .4px), transparent .32em),
+        var(--color-logo-cyan);
+}
+
+.lab-links a,
+a[rel~="license"],
+a[href*="creativecommons.org/"] {
+    --hover-background: transparent;
 }

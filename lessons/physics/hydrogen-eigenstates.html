@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../../assets/brand/favicon.svg?v=original-art">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.">
     <title>Dizzy Electron | Το Άτομο του Υδρογόνου</title>
+    <script src="../../assets/js/theme.js?v=theme-icons"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=card-icon-hover">
-    <link rel="stylesheet" href="../../assets/css/cards.css?v=compact-cards">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=smooth-motion">
-    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=compact-cards">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=text-link-hover">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=opposite-card-surfaces">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=theme-chapter-text">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=theme-1">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <script src="../../assets/js/lesson.js?v=smooth-top-1" defer></script>
@@ -34,6 +36,7 @@
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="../../contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="../../contents/index.html#math-lessons">Μαθηματικά</a>
+                                    <a class="dropdown-item" href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
                                 </div>
                             </div>
                         </li>
@@ -52,7 +55,7 @@
                             </div>
                         </li>
                         <li class="nav-item"><a class="btn" href="../../about/index.html">Σχετικά</a></li>
-                        <li class="nav-item"><a class="btn" href="../../contact/index.html?lesson=hydrogen-eigenstates">Επικοινωνία</a></li>
+                        <li class="nav-item"><a class="btn" href="../../contact/index.html">Επικοινωνία</a></li>
                     </ul>
                 </div>
                 <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
@@ -63,7 +66,7 @@
         <nav aria-label="Διαδρομή μαθήματος">
             <ul class="breadcrumb">
                 <li><a href="../../contents/index.html#physics-lessons">Φυσική</a></li>
-                <li><a href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a></li>
+
                 <li><span aria-current="page">Το Άτομο του Υδρογόνου</span></li>
             </ul>
         </nav>
@@ -75,24 +78,24 @@
                         <div class="card-header text-center" id="goals-title">Διδακτικοί Στόχοι</div>
                         <div class="card-body">
                             <p>Στο τέλος αυτού του μαθήματος θα είσαι σε θέση:</p>
-                            <ul>
+                            <ul class="lesson-bullets" role="list">
                                 <li>Να ερμηνεύεις το ηλεκτρονιακό νέφος ως απεικόνιση πυκνότητας πιθανότητας.</li>
                                 <li>Να αναγνωρίζεις τις διαφορετικές μορφές των τροχιακών 1s, 2p και 3d.</li>
                                 <li>Να συνδέεις μια ιδιοκατάσταση με τους κβαντικούς αριθμούς n, ℓ και m.</li>
                             </ul>
                         </div>
                     </section>
-                    <section id="introduction" aria-labelledby="introduction-title">
+                    <section id="introduction" class="lesson-section" aria-labelledby="introduction-title">
                         <h2 id="introduction-title">Εισαγωγή</h2>
                         <p>Στην κβαντική περιγραφή, το ηλεκτρόνιο του υδρογόνου δεν ακολουθεί μια καθορισμένη πλανητική τροχιά. Μια κυματοσυνάρτηση περιγράφει την κατάστασή του και μας επιτρέπει να υπολογίσουμε πόσο πιθανό είναι να το ανιχνεύσουμε σε διαφορετικές περιοχές του χώρου.</p>
                     </section>
-                    <section id="theory" aria-labelledby="theory-title">
+                    <section id="theory" class="lesson-section" aria-labelledby="theory-title">
                         <h2 id="theory-title">Από την κυματοσυνάρτηση στο νέφος</h2>
                         <p>Η πυκνότητα πιθανότητας προκύπτει από το τετράγωνο του μέτρου της κυματοσυνάρτησης:</p>
                         <div class="lesson-equation">\[\rho(x,y,z)=|\psi_{n\ell m}(x,y,z)|^2\]</div>
                         <p>Ο κύριος κβαντικός αριθμός <var>n</var> καθορίζει την ενεργειακή στάθμη στο απλό μοντέλο του υδρογόνου. Οι αριθμοί <var>ℓ</var> και <var>m</var> περιγράφουν ιδιότητες της στροφορμής και της γωνιακής μορφής της κατάστασης. Στην απεικόνιση, περισσότερα σημεία σε μια περιοχή αντιστοιχούν σε μεγαλύτερη πυκνότητα πιθανότητας.</p>
                     </section>
-                    <section id="standing-waves-video" aria-labelledby="standing-waves-video-title">
+                    <section id="standing-waves-video" class="lesson-section" aria-labelledby="standing-waves-video-title">
                         <h2 id="standing-waves-video-title">Από τις πλάκες Chladni στα ατομικά τροχιακά</h2>
                         <p>Στο βίντεο της <span lang="en">Physics Girl</span>, μια μεταλλική πλάκα που δονείται σχηματίζει διαφορετικά στάσιμα κυματικά μοτίβα. Η άμμος συγκεντρώνεται στις κομβικές γραμμές, όπου το πλάτος της ταλάντωσης μηδενίζεται. Καθώς αλλάζει η συχνότητα διέγερσης, εμφανίζονται διαφορετικοί τρόποι ταλάντωσης με χαρακτηριστικά σχήματα και συμμετρίες.</p>
                         <figure class="figure d-block mt-4 mb-4">
@@ -106,7 +109,7 @@
                         <p>Αυτή η εικόνα μάς βοηθά να προσεγγίσουμε τις ιδιοκαταστάσεις του υδρογόνου: όπως η πλάκα έχει συγκεκριμένους τρόπους ταλάντωσης, έτσι και η εξίσωση Schrödinger για το άτομο δίνει επιτρεπτές δεσμευμένες καταστάσεις με συγκεκριμένες ενέργειες και κυματικές μορφές. Τα τροχιακά έχουν χαρακτηριστικές συμμετρίες και κομβικές επιφάνειες, όπου η κυματοσυνάρτηση ψ και η πυκνότητα πιθανότητας |ψ|² μηδενίζονται.</p>
                         <p>Η αναλογία αφορά τις κυματικές μορφές και τους κόμβους. Στην πλάκα ταλαντώνεται ένα υλικό σώμα και η άμμος μαζεύεται στους κόμβους· στο άτομο η ψ περιγράφει την κβαντική κατάσταση και στους κόμβους η πυκνότητα πιθανότητας ανίχνευσης του ηλεκτρονίου είναι μηδενική. Στο εργαστήριο που ακολουθεί, σύγκρινε τα τροχιακά και αναζήτησε πώς αλλάζουν οι κομβικές περιοχές όταν μεταβάλλεις τα n και ℓ.</p>
                     </section>
-                    <section id="simulation" aria-labelledby="simulation-title">
+                    <section id="simulation" class="lesson-section" aria-labelledby="simulation-title">
                         <h2 id="simulation-title">Διαδραστικό Εργαστήριο</h2>
                         <p>Ρύθμισε ξεχωριστά τους κβαντικούς αριθμούς <var>n</var>, <var>ℓ</var> και <var>m</var> στην ενότητα <span lang="en">Quantum numbers</span>. Το εργαστήριο υποστηρίζει <var>n</var> από 1 έως 6 και προσφέρει μόνο επιτρεπτές τιμές: 0 ≤ ℓ &lt; n και −ℓ ≤ m ≤ ℓ. Με το <span lang="en">Point density</span> άλλαξε τον αριθμό των σφαιρικών δειγμάτων. Σύρε το φόντο για περιστροφή και χρησιμοποίησε τη ροδέλα ή τη χειρονομία μεγέθυνσης για να πλησιάσεις. Σε μικρή οθόνη, άνοιξε τα χειριστήρια από το κουμπί επάνω δεξιά.</p>
                         <p>Στο <span lang="en">Orbital display</span> επίλεξε <span lang="en">Phase-colored surface</span> για να δεις το τροχιακό ως επιφάνεια χρωματισμένη ανάλογα με τη φάση. Το <span lang="en">Enclosed probability</span> ρυθμίζει τη συνολική πιθανότητα μέσα στις περιοχές που περικλείει, από 50% έως 99,9%, με αρχική τιμή 70%. Η επιφάνεια αντιστοιχεί σε σταθερή πυκνότητα πιθανότητας και δεν αποτελεί στερεό όριο του ηλεκτρονίου· υπάρχει πάντα πιθανότητα ανίχνευσης και έξω από αυτήν.</p>
@@ -124,21 +127,21 @@
                         </figure>
                         <p class="simulation-status" role="status" aria-live="polite"></p>
                     </section>
-                    <section id="activities" class="card example-card" aria-labelledby="activities-title">
+                    <section id="activities" class="card learning-goals-card" aria-labelledby="activities-title">
                         <div class="card-header text-center" id="activities-title">Δοκίμασέ το</div>
                         <div class="card-body">
                             <p>Εξερεύνησε την προσομοίωση βήμα προς βήμα:</p>
-                            <ol>
+                            <ul class="lesson-bullets" role="list">
                                 <li>Θέσε n = 1 και ℓ = 0 και επίλεξε το <span lang="en">1s</span> και περιστρέψε την προβολή. Αλλάζει η σφαιρική συμμετρία όταν κοιτάζεις από άλλη διεύθυνση;</li>
                                 <li>Θέσε n = 2 και ℓ = 1 και επίλεξε το <span lang="en">2p · z</span>. Εντόπισε τους δύο λοβούς και την περιοχή ανάμεσά τους όπου η πυκνότητα μηδενίζεται.</li>
                                 <li>Θέσε n = 3 και ℓ = 2 και επίλεξε το <span lang="en">3d · z²</span>. Παρατήρησε τους λοβούς και τον δακτύλιο από διαφορετικές γωνίες.</li>
                                 <li>Κράτησε n = 2 και ℓ = 1 και σύγκρινε m = 0, +1 και −1. Οι δύο τελευταίες καταστάσεις έχουν την ίδια πυκνότητα πιθανότητας, παρότι οι κυματοσυναρτήσεις τους διαφέρουν.</li>
                                 <li>Μείωσε το <span lang="en">Point density</span> και αύξησέ το ξανά. Αλλάζει η κατάσταση ή μόνο η λεπτομέρεια της απεικόνισης;</li>
                                 <li>Επίλεξε <span lang="en">Phase-colored surface</span> και σύγκρινε τις επιφάνειες για πιθανότητα 50%, 90% και 99%. Πώς αλλάζει το μέγεθός τους καθώς συμπεριλαμβάνουν μεγαλύτερο μέρος της πιθανότητας;</li>
-                            </ol>
+                            </ul>
                         </div>
                     </section>
-                    <section id="takeaway" aria-labelledby="takeaway-title">
+                    <section id="takeaway" class="lesson-section" aria-labelledby="takeaway-title">
                         <h2 id="takeaway-title">Τι κρατάμε</h2>
                         <p>Τα φωτεινά σημεία είναι δείγματα μιας κατανομής πιθανότητας, όχι πολλά ηλεκτρόνια ή διαδοχικές θέσεις μιας τροχιάς. Η περιστροφή του νέφους βοηθά την παρατήρηση του σχήματος· δεν παριστάνει την κίνηση ενός ηλεκτρονίου γύρω από τον πυρήνα.</p>
                     </section>
@@ -163,19 +166,19 @@
                     <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electric-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/electric-field.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/electric-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-1-title">Το Ηλεκτρικό Πεδίο</h3>
                             <p id="related-1-description">Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="electromagnetic-field.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/electromagnetic-field.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-2-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
                             <p id="related-2-description">Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="gravitational-field.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/gravity.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-3-title">Το Βαρυτικό Πεδίο</h3>
                             <p id="related-3-description">Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>

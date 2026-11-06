@@ -1,8 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none" color="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-  <!-- A curve and the projection of one input/output pair onto the axes. -->
-  <path d="M15 81V12l-5 8m5-8 5 8M8 74h80l-7-5m7 5-7 5"/>
-  <path d="M15 36h45v38" stroke-dasharray="3 5" stroke-width="2"/>
-  <path d="M21 62c12 0 13-17 21-17s11 3 18-9 12-16 22-18" stroke-width="4"/>
-  <circle cx="60" cy="36" r="4.2" fill="currentColor"/>
-  <path d="M34 71v6m26-6v6M12 55h6m-6-19h6" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <title>Reading a point on a parabola</title>
+  <path d="M12 57V7m-4 5 4-5 4 5M6 51h52m-5-4 5 4-5 4" stroke-width="1.6"/>
+  <path d="M12 26h38v25" stroke-dasharray="3 4" stroke-width="1.6"/>
+  <path d="M15 12q20 64 40 0"/>
+  <circle cx="50" cy="26" r="3" fill="currentColor" stroke="none"/>
 </svg>

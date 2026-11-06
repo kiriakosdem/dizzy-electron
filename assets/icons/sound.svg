@@ -1,10 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" fill="none" color="#fff" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-  <!-- A vibrating tuning fork sends sound towards the ear. -->
-  <g transform="rotate(-14 23 48)">
-    <path d="M13 17v31a10 10 0 0 0 20 0V17M23 58v21" stroke-width="5"/>
-    <path d="M6 24v12m34-12v12" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <title>Sound and hearing</title>
+  <!-- Successive wavefronts reach the outer ear. -->
+  <path d="M28 22c0-9 6.4-15 15-15 9.2 0 15.2 7.2 15.2 16.2 0 8.4-4.1 13.6-9.4 19.1-3.2 3.4-4.1 5.4-5.3 8.5-1.5 3.8-3.9 6.2-7.5 6.2-4.2 0-7-3.1-7-7.2"/>
+  <g stroke-width="1.6">
+    <path d="M34 22c0-5.3 3.7-8.7 8.8-8.7 5.7 0 9.5 4.5 9.5 10.3 0 5.4-2.2 9.1-5.6 12.9"/>
+    <path d="M42.4 22c-3.6 0-6 2.7-6 5.7 0 3.2 3.6 4.4 3.6 7.5 0 2.5-1.9 4.5-4.5 4.5"/>
   </g>
-  <path d="M42 37q8 10 0 20m7-26q13 16 0 32" stroke-width="2.6"/>
-  <path d="M60 34c0-17 22-23 29-6 7 18-12 25-15 40-3 13-18 12-18 0" />
-  <path d="M65 35c1-9 13-12 16-3 2 7-3 10-8 15-4 4-4 9-7 11m0-18c6 1 7 6 5 10" stroke-width="2.4"/>
+  <circle cx="7" cy="32.5" r="2" fill="currentColor" stroke="none"/>
+  <path d="M12 27a8 8 0 0 1 0 11m5-16a15 15 0 0 1 0 21m5-26a22 22 0 0 1 0 31"/>
 </svg>

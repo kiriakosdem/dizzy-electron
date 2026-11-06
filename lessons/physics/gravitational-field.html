@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../../assets/brand/favicon.svg?v=original-art">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.">
     <title>Dizzy Electron | Το Βαρυτικό Πεδίο</title>
+    <script src="../../assets/js/theme.js?v=theme-icons"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=card-icon-hover">
-    <link rel="stylesheet" href="../../assets/css/cards.css?v=compact-cards">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=smooth-motion">
-    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=compact-cards">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=text-link-hover">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=opposite-card-surfaces">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=theme-chapter-text">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=theme-1">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <script src="../../assets/js/lesson.js?v=smooth-top-1" defer></script>
@@ -34,6 +36,7 @@
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="../../contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="../../contents/index.html#math-lessons">Μαθηματικά</a>
+                                    <a class="dropdown-item" href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
                                 </div>
                             </div>
                         </li>
@@ -52,7 +55,7 @@
                             </div>
                         </li>
                         <li class="nav-item"><a class="btn" href="../../about/index.html">Σχετικά</a></li>
-                        <li class="nav-item"><a class="btn" href="../../contact/index.html?lesson=gravitational-field">Επικοινωνία</a></li>
+                        <li class="nav-item"><a class="btn" href="../../contact/index.html">Επικοινωνία</a></li>
                     </ul>
                 </div>
                 <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
@@ -63,7 +66,7 @@
         <nav aria-label="Διαδρομή μαθήματος">
             <ul class="breadcrumb">
                 <li><a href="../../contents/index.html#physics-lessons">Φυσική</a></li>
-                <li><a href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a></li>
+
                 <li><span aria-current="page">Το Βαρυτικό Πεδίο</span></li>
             </ul>
         </nav>
@@ -75,24 +78,24 @@
                         <div class="card-header text-center" id="goals-title">Διδακτικοί Στόχοι</div>
                         <div class="card-body">
                             <p>Στο τέλος αυτού του μαθήματος θα είσαι σε θέση:</p>
-                            <ul>
+                            <ul class="lesson-bullets" role="list">
                                 <li>Να συνδέεις το βαρυτικό πεδίο με τη δύναμη που ασκείται σε μια μάζα.</li>
                                 <li>Να περιγράφεις πώς η μάζα και η απόσταση επηρεάζουν την ένταση του πεδίου.</li>
                                 <li>Να εξερευνάς την επαλληλία των πεδίων και την κίνηση δοκιμαστικών μαζών.</li>
                             </ul>
                         </div>
                     </section>
-                    <section id="introduction" aria-labelledby="introduction-title">
+                    <section id="introduction" class="lesson-section" aria-labelledby="introduction-title">
                         <h2 id="introduction-title">Εισαγωγή</h2>
                         <p>Μια μάζα δημιουργεί γύρω της βαρυτικό πεδίο. Αν τοποθετήσουμε μια δεύτερη μάζα σε αυτόν τον χώρο, δέχεται ελκτική δύναμη. Με τα βέλη του πεδίου μπορούμε να δούμε τη διεύθυνση αυτής της δύναμης σε κάθε σημείο, ακόμη κι αν εκεί δεν υπάρχει κάποιο σώμα.</p>
                     </section>
-                    <section id="theory" aria-labelledby="theory-title">
+                    <section id="theory" class="lesson-section" aria-labelledby="theory-title">
                         <h2 id="theory-title">Από τη δύναμη στο πεδίο</h2>
                         <p>Η ένταση <var>g</var> του βαρυτικού πεδίου είναι η δύναμη ανά μονάδα μάζας. Για μια σημειακή πηγή μάζας <var>M</var>, σε απόσταση <var>r</var>, το μέτρο της είναι:</p>
                         <div class="lesson-equation">\[g=\frac{F}{m}=\frac{GM}{r^2}\]</div>
                         <p>Το <var>G</var> είναι η παγκόσμια σταθερά της βαρύτητας. Το πεδίο έχει κατεύθυνση προς την πηγή. Αν διπλασιάσουμε την απόσταση από μία μεμονωμένη πηγή, το μέτρο του πεδίου γίνεται τέσσερις φορές μικρότερο. Με πολλές πηγές, προσθέτουμε τα πεδία διανυσματικά.</p>
                     </section>
-                    <section id="simulation" aria-labelledby="simulation-title">
+                    <section id="simulation" class="lesson-section" aria-labelledby="simulation-title">
                         <h2 id="simulation-title">Διαδραστικό Εργαστήριο</h2>
                         <p>Σύρε μάζες από τη γραμμή εργαλείων στον καμβά. Άνοιξε τις ρυθμίσεις από το κουμπί επάνω δεξιά και δοκίμασε τα <span lang="en">Field arrows</span>, <span lang="en">Field lines</span> και <span lang="en">Gravitational potential</span>. Το <span lang="en">Pair</span> δημιουργεί δύο μάζες σε αμοιβαία τροχιά.</p>
                         <figure class="lesson-simulation">
@@ -107,19 +110,19 @@
                         </figure>
                         <p class="simulation-status" role="status" aria-live="polite"></p>
                     </section>
-                    <section id="activities" class="card example-card" aria-labelledby="activities-title">
+                    <section id="activities" class="card learning-goals-card" aria-labelledby="activities-title">
                         <div class="card-header text-center" id="activities-title">Δοκίμασέ το</div>
                         <div class="card-body">
                             <p>Εξερεύνησε την προσομοίωση βήμα προς βήμα:</p>
-                            <ol>
+                            <ul class="lesson-bullets" role="list">
                                 <li>Επίλεξε <span lang="en">Single</span> και πάτησε παύση. Παρατήρησε τη φορά των βελών γύρω από τη μάζα.</li>
                                 <li>Επίλεξε τη μάζα και άλλαξε την τιμή της. Πώς μεταβάλλεται το πεδίο όταν η μάζα αυξάνεται;</li>
                                 <li>Επίλεξε <span lang="en">Pair</span> και άφησε την προσομοίωση να τρέξει. Παρατήρησε πώς αλλάζει το πεδίο καθώς οι δύο πηγές κινούνται.</li>
                                 <li>Πρόσθεσε μια δοκιμαστική μάζα με το <span lang="en">Test mass</span> και παρακολούθησε την κίνησή της. Τα βέλη δείχνουν την επιτάχυνση, όχι απαραίτητα τη διεύθυνση της ταχύτητας.</li>
-                            </ol>
+                            </ul>
                         </div>
                     </section>
-                    <section id="takeaway" aria-labelledby="takeaway-title">
+                    <section id="takeaway" class="lesson-section" aria-labelledby="takeaway-title">
                         <h2 id="takeaway-title">Τι κρατάμε</h2>
                         <p>Το βαρυτικό πεδίο υπάρχει ανεξάρτητα από τη δοκιμαστική μάζα που χρησιμοποιούμε για να το εξετάσουμε. Η δύναμη είναι <var>F = m g</var>, ενώ το βαρυτικό δυναμικό περιγράφει τη δυναμική ενέργεια ανά μονάδα μάζας.</p>
                     </section>
@@ -143,19 +146,19 @@
                     <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electric-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/electric-field.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/electric-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-1-title">Το Ηλεκτρικό Πεδίο</h3>
                             <p id="related-1-description">Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="electromagnetic-field.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/electromagnetic-field.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-2-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
                             <p id="related-2-description">Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="hydrogen-eigenstates.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/hydrogen-orbitals.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon"><img src="../../assets/icons/hydrogen-orbitals.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-3-title">Το Άτομο του Υδρογόνου</h3>
                             <p id="related-3-description">Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>

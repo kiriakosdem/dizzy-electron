@@ -1,11 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-  <g transform="rotate(-26 48 48)">
-    <!-- A satellite follows an inclined orbit around a shaded planet. -->
-    <path d="M25 63C5 62 1 55 13 47c5-4 11-7 18-10M66 35c14 0 23 3 23 9" stroke-width="2" stroke-dasharray="3 5"/>
-    <circle cx="46" cy="45" r="23" stroke-width="3.4"/>
-    <path d="M40 23c-12 12-12 31 0 44M51 23c12 12 12 32 0 44M24 39c13 5 30 5 44-1M24 50c13 5 29 5 44-1" stroke-width="1.8"/>
-    <path d="M7 54c-1 11 27 12 51 4 15-5 26-12 30-18" stroke-width="3.3"/>
-    <circle cx="76" cy="50" r="5" fill="currentColor" stroke="none"/>
-    <path d="M23 17l-2 7-7-2m7 2-7-11" stroke-width="2.8"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <!-- The central mass occupies a focus. The test mass accelerates toward it. -->
+  <g transform="rotate(-26 32 32)">
+    <ellipse cx="32" cy="32" rx="26" ry="20" stroke-width="1.6"/>
+    <circle cx="15.4" cy="32" r="6.1"/>
+    <path d="M12 29.4a4 4 0 0 0 0 5" stroke-width="1.6"/>
+    <circle cx="50.4" cy="17.9" r="3.6" fill="currentColor" stroke="none"/>
+    <path d="m44.4 20.3-17.6 7.1m3-6-3 6 6.5 1.2"/>
   </g>
 </svg>

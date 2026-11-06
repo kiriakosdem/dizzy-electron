@@ -1,13 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" color="#fff" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-  <!-- Four lobes of a d orbital, with inner density contours and nodal axes. -->
-  <defs>
-    <g id="lobe">
-      <path d="M43 43C30 42 10 33 12 19c1-7 8-10 14-7 12 5 16 20 17 31Z" fill="currentColor" fill-opacity=".14" stroke-width="3"/>
-      <path d="M37 36c-7-1-17-7-17-13 0-4 4-5 7-2 4 3 8 9 10 15Z" stroke-width="1.9"/>
-    </g>
-  </defs>
-  <path d="M5 48h86M48 5v86" stroke-width="1.6" stroke-dasharray="2 5"/>
-  <use href="#lobe"/><use href="#lobe" transform="rotate(90 48 48)"/>
-  <use href="#lobe" transform="rotate(180 48 48)"/><use href="#lobe" transform="rotate(270 48 48)"/>
-  <circle cx="48" cy="48" r="3.6" fill="currentColor" stroke="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <!-- A 3d z-squared orbital has two axial lobes and an equatorial torus. -->
+  <path d="M32 28c-3-3.6-8.4-9.7-8.4-15.1a8.4 8.4 0 0 1 16.8 0C40.4 18.3 35 24.4 32 28Z"/>
+  <path d="M32 36c-3 3.6-8.4 9.7-8.4 15.1a8.4 8.4 0 0 0 16.8 0C40.4 45.7 35 39.6 32 36Z"/>
+  <path d="M23 26.9c-7.2 1-12 2.9-12 5.1 0 3.4 9.4 6.1 21 6.1s21-2.7 21-6.1c0-2.2-4.8-4.1-12-5.1"/>
+  <ellipse cx="32" cy="32" rx="8.7" ry="2.1" stroke-width="1.6"/>
 </svg>

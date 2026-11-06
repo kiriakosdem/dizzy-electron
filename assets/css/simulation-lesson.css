@@ -22,19 +22,19 @@
 
 .simulation-toolbar .btn {
     background: transparent;
-    color: var(--color-navy);
+    color: var(--ink);
     font-size: 0.8rem;
     white-space: normal;
 }
 
 .simulation-toolbar .btn:hover {
-    color: var(--color-navy);
+    color: var(--ink);
     text-decoration: underline;
 }
 
 .lesson-simulation {
     height: auto;
-    background: var(--color-paper);
+    background: var(--band);
     border: var(--border-width) solid var(--color-border);
 
 }
@@ -48,7 +48,7 @@
     padding: 12px 16px;
     margin: 0;
     text-align: left;
-    background: var(--color-paper);
+    background: var(--band);
 }
 
 .simulation-caption-bar > span {
@@ -94,8 +94,8 @@
     left: 1rem;
     z-index: 1100;
     padding: 0.75rem;
-    background: var(--color-white);
-    color: var(--color-navy);
+    background: var(--surface);
+    color: var(--ink);
 }
 
 .lesson-skip-link:focus {
@@ -105,7 +105,7 @@
 .simulation-lesson a:focus-visible,
 .simulation-lesson button:focus-visible,
 .simulation-lesson iframe:focus-visible {
-    outline: 3px solid var(--color-navy);
+    outline: 3px solid var(--focus-ring);
     outline-offset: 3px;
 }
 
@@ -125,11 +125,11 @@
     max-width: 320px;
     margin: 0 auto 36px;
     padding: 16px 18px;
-    background: var(--color-white);
+    background: var(--surface);
     border: var(--border-width) solid var(--color-border);
     border-radius: var(--corner-radius);
     box-shadow: none;
-    color: var(--color-navy);
+    color: var(--ink);
     text-align: left;
 }
 .lesson-sidebar .sidebar-heading {
@@ -138,28 +138,28 @@
     font-variant: normal;
     line-height: 1.5;
     text-align: left;
-    color: var(--color-navy);
+    color: var(--ink);
 }
 .lesson-sidebar .contents-card ul { display: grid; gap: 4px; }
 .lesson-sidebar .contents-card ul a {
     padding: 10px 12px;
     border-radius: var(--corner-radius);
     background: transparent;
-    color: var(--color-navy);
+    color: var(--ink);
     font-size: .88rem;
     line-height: 1.6;
     transition: background-color .18s ease, color .18s ease;
 }
 .lesson-sidebar .contents-card ul a:hover,
 .lesson-sidebar .contents-card ul a:focus-visible {
-    background: var(--color-paper);
-    color: var(--color-navy);
+    background: var(--band);
+    color: var(--ink);
     text-decoration: none;
 }
 .lesson-sidebar .sidebar-heading { max-width: 320px; margin: 0 auto 18px; }
 .lesson-sidebar .catalog-grid--sidebar { gap: 18px; }
 .lesson-sidebar .catalog-card { padding: 16px; }
-.lesson-sidebar a:focus-visible { outline-color: var(--color-navy); }
+.lesson-sidebar a:focus-visible { outline-color: var(--focus-ring); }
 @media (max-width: 991px) {
     .lesson-sidebar { margin-top: 32px; }
 }

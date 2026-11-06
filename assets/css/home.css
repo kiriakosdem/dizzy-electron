@@ -1,27 +1,27 @@
 /* The same compact layout and alternating bands as About, Contact and Contents. */
-.home-page { min-height: 100%; height: auto; background: var(--color-white); color: var(--color-navy); }
+.home-page { min-height: 100%; height: auto; background: var(--page); color: var(--ink); }
 .home-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .home-page p { text-indent: 0; line-height: 1.8; }
-.home-heading { padding: 52px 0; border-radius: 0 0 var(--corner-radius) var(--corner-radius); text-align: center; background: var(--color-navy); color: var(--color-white); }
+.home-heading { padding: 52px 0; border-radius: 0 0 var(--corner-radius) var(--corner-radius); text-align: center; background: var(--band); color: var(--ink); }
 .home-heading h2 { font-size: 2.25rem; line-height: 1.3; margin: 0 0 24px; }
 .home-heading p { max-width: 62ch; margin: 0 auto; line-height: 1.9; }
 .home-button { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); background: var(--color-logo-orange); color: var(--color-navy); font-size: .95rem; font-weight: 600; line-height: 1.6; }
 .home-button:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); color: var(--color-navy); text-decoration: none; }
-.home-band { padding: 48px 0 54px; background: var(--color-white); }
-.home-band--shaded { background: var(--color-paper); }
+.home-band { padding: 48px 0 54px; background: var(--page); }
+.home-band--shaded { background: var(--band); }
 .home-band h2 { font-size: 1.6rem; line-height: 1.4; margin: 0 0 24px; }
-.home-band p { font-size: .95rem; color: var(--color-graphite); }
+.home-band p { font-size: .95rem; color: var(--muted-ink); }
 .home-intro { margin-bottom: 28px; }
 .home-page .home-more { margin: 28px 0 0; text-align: center; }
 .home-links { display: flex; flex-wrap: wrap; gap: 18px 32px; margin-top: 26px; }
-.home-text-link { color: var(--color-navy); font-size: .9rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.home-text-link { color: var(--ink); font-size: .9rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
 .home-text-link span { display: inline-block; margin-left: 8px; }
-.home-text-link:hover { color: var(--color-navy); text-decoration: underline; }
+.home-text-link:hover { color: var(--ink); text-decoration: underline; }
 .home-page section { scroll-margin-top: 24px; }
 .home-page footer { margin-top: 0; padding-bottom: 20px; }
-.home-skip-link { position: fixed; top: -100px; left: 16px; z-index: 1100; background: var(--color-white); padding: 14px; color: var(--color-navy); }
+.home-skip-link { position: fixed; top: -100px; left: 16px; z-index: 1100; background: var(--surface); padding: 14px; color: var(--ink); }
 .home-skip-link:focus { top: 10px; }
-.home-page a:focus-visible, .home-page button:focus-visible { outline: 3px solid var(--color-navy); outline-offset: 4px; }
+.home-page a:focus-visible, .home-page button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }
 @media (max-width: 575px) {
     .home-shell { width: calc(100% - 40px); }
     .home-heading { padding: 32px 0; }
@@ -97,8 +97,6 @@
 .home-quote figcaption { display: flex; align-items: center; justify-content: center; gap: 14px; }
 .welcome-slide .scientist-portrait { width: 76px; height: 76px; flex: 0 0 76px; border-radius: 50%; object-fit: cover; object-position: center 25%; border: var(--border-width) solid var(--color-navy); }
 .scientist-credit { text-align: left; min-width: 0; }
-.home-quote .portrait-credit { display: block; margin-top: 5px; color: var(--color-white); font-size: .6rem; line-height: 1.5; }
-.home-quote .portrait-credit:hover { color: var(--color-white); text-decoration: underline; }
 @media (max-width: 575px) {
     .home-quote figcaption { gap: 10px; }
     .welcome-slide .scientist-portrait { width: 60px; height: 60px; flex-basis: 60px; }

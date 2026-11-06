@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../assets/brand/favicon.svg?v=original-art">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Εξερεύνησε τα μαθήματα Φυσικής και Μαθηματικών του Dizzy Electron. Διάλεξε ένα διαδραστικό εργαστήριο και δες ποια θέματα ετοιμάζονται.">
     <title>Dizzy Electron | Μαθήματα</title>
+    <script src="../assets/js/theme.js?v=theme-icons"></script>
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/common.css?v=card-icon-hover">
-    <link rel="stylesheet" href="../assets/css/cards.css?v=compact-cards">
-    <link rel="stylesheet" href="../assets/css/contents.css?v=rounded-panels">
+    <link rel="stylesheet" href="../assets/css/common.css?v=text-link-hover">
+    <link rel="stylesheet" href="../assets/css/cards.css?v=opposite-card-surfaces">
+    <link rel="stylesheet" href="../assets/css/contents.css?v=opposite-card-surfaces">
     <script src="../assets/js/lesson.js?v=smooth-top-1" defer></script>
 </head>
 <body class="contents-page" id="top">
@@ -30,6 +32,7 @@
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="index.html#math-lessons">Μαθηματικά</a>
+                                    <a class="dropdown-item" href="index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
                                 </div>
                             </div>
                         </li>
@@ -61,96 +64,99 @@
     <main id="contents-content" tabindex="-1">
         <header class="contents-heading contents-shell">
             <h1>Μαθήματα</h1>
-            <p>Διάλεξε ένα θέμα και εξερεύνησέ το με τον δικό σου ρυθμό.<br>Θεωρία, εικόνες και διαδραστικά εργαστήρια για τη Φυσική και τα Μαθηματικά.</p>
+            <p>Εδώ μπορείς να εξερεύνησεις όλα τα διαθέσιμα μαθήματα φυσικής και μαθηματικών.</p>
         </header>
-        <section id="physics-lessons" aria-labelledby="physics-title">
-            <div class="contents-band contents-band--shaded">
-                <div class="contents-shell">
-                    <h2 id="physics-title">Φυσική</h2>
-                    <section id="interactive-lessons" aria-labelledby="interactive-lessons-title">
-                        <div class="contents-section-intro">
-                            <h3 id="interactive-lessons-title">Διαδραστικά εργαστήρια</h3>
-                            <p>Τέσσερα μαθήματα διαθέσιμα για εξερεύνηση. Άνοιξε ένα εργαστήριο, άλλαξε τις παραμέτρους και παρατήρησε τι συμβαίνει.</p>
-                        </div>
-                        <div class="catalog-grid">
-                        <a class="catalog-card" href="../lessons/physics/gravitational-field.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
-                            <span class="catalog-icon"><img src="../assets/icons/gravity.svg" width="48" height="48" alt="" aria-hidden="true"></span>
-                            <h4 id="lesson-1-title">Το Βαρυτικό Πεδίο</h4>
-                            <p id="lesson-1-description">Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
-                        </a>
-                        <a class="catalog-card" href="../lessons/physics/electric-field.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
-                            <span class="catalog-icon"><img src="../assets/icons/electric-field.svg" width="48" height="48" alt="" aria-hidden="true"></span>
-                            <h4 id="lesson-2-title">Το Ηλεκτρικό Πεδίο</h4>
-                            <p id="lesson-2-description">Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
-                        </a>
-                        <a class="catalog-card" href="../lessons/physics/electromagnetic-field.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
-                            <span class="catalog-icon"><img src="../assets/icons/electromagnetic-field.svg" width="48" height="48" alt="" aria-hidden="true"></span>
-                            <h4 id="lesson-3-title">Το Ηλεκτρομαγνητικό Πεδίο</h4>
-                            <p id="lesson-3-description">Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
-                        </a>
-                        <a class="catalog-card" href="../lessons/physics/hydrogen-eigenstates.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
-                            <span class="catalog-icon"><img src="../assets/icons/hydrogen-orbitals.svg" width="48" height="48" alt="" aria-hidden="true"></span>
-                            <h4 id="lesson-4-title">Το Άτομο του Υδρογόνου</h4>
-                            <p id="lesson-4-description">Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
-                        </a>
-                        </div>
-                    </section>
-                </div>
-            </div>
-            <div class="contents-band">
-                <div class="contents-shell">
-                    <h3 class="contents-subject-heading" id="upcoming-physics-title">Περισσότερα θέματα Φυσικής</h3>
-                    <p class="contents-intro">Τα παρακάτω μαθήματα ετοιμάζονται και θα είναι διαθέσιμα αργότερα.</p>
-                    <ul class="catalog-topic-list" aria-labelledby="upcoming-physics-title">
-                    <li class="catalog-topic">
-                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/sound.svg" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
-                        <div class="catalog-topic-copy"><h4>Ήχος και Ακοή</h4><p>Σε πολλούς αρέσει το να ακούνε μουσική αλλά σε κανέναν δεν αρέσει ο θόρυβος. Ποια είναι η φυσική διαφορά μεταξύ ήχου και θορύβου;</p></div>
-                        <span class="catalog-status">Προσεχώς</span>
-                    </li>
-                    <li class="catalog-topic">
-                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/thermal.svg" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
-                        <div class="catalog-topic-copy"><h4>Θερμικές Ιδιότητες της Ύλης</h4><p>Πόσο πιο γρήγορα κινούνται τα μόρια του αέρα πάνω από ένα καυτό τηγάνι σε σχέση με τον περιβάλλοντα αέρα της κουζίνας;</p></div>
-                        <span class="catalog-status">Προσεχώς</span>
-                    </li>
-                    <li class="catalog-topic">
-                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/light.svg" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
-                        <div class="catalog-topic-copy"><h4>Η Φύση και η Διάδοση του Φωτός</h4><p>Γιατί εμφανίζεται ένα ουράνιο τόξο χρωμάτων όταν πέσουν λάδια στην άσφαλτο;</p></div>
-                        <span class="catalog-status">Προσεχώς</span>
-                    </li>
-                    </ul>
+        <section id="physics-lessons" class="contents-band contents-band--shaded section-divider" aria-labelledby="physics-title">
+            <div class="contents-shell">
+                <h2 id="physics-title">Φυσική</h2>
+                <div class="catalog-grid">
+                    <a class="catalog-card" href="../lessons/physics/gravitational-field.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
+                        <span class="catalog-icon"><img src="../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
+                        <h3 id="lesson-1-title">Το Βαρυτικό Πεδίο</h3>
+                        <p id="lesson-1-description">Εξερεύνησε το βαρυτικό πεδίο, το δυναμικό και την κίνηση μαζών σε ένα διαδραστικό εργαστήριο.</p>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                    </a>
+                    <a class="catalog-card" href="../lessons/physics/electric-field.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
+                        <span class="catalog-icon"><img src="../assets/icons/electric-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
+                        <h3 id="lesson-2-title">Το Ηλεκτρικό Πεδίο</h3>
+                        <p id="lesson-2-description">Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.</p>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                    </a>
+                    <a class="catalog-card" href="../lessons/physics/electromagnetic-field.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
+                        <span class="catalog-icon"><img src="../assets/icons/electromagnetic-field.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
+                        <h3 id="lesson-3-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
+                        <p id="lesson-3-description">Κίνησε ένα φορτίο και παρατήρησε πώς οι μεταβολές του ηλεκτρομαγνητικού πεδίου διαδίδονται στον χώρο.</p>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                    </a>
+                    <a class="catalog-card" href="../lessons/physics/hydrogen-eigenstates.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
+                        <span class="catalog-icon"><img src="../assets/icons/hydrogen-orbitals.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
+                        <h3 id="lesson-4-title">Το Άτομο του Υδρογόνου</h3>
+                        <p id="lesson-4-description">Εξερεύνησε σε τρεις διαστάσεις τα τροχιακά 1s, 2p και 3d του ατόμου του υδρογόνου.</p>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                    </a>
+                    <article class="catalog-card catalog-card--upcoming">
+                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/sound.svg?v=lesson-diagrams-2" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3>Ήχος και Ακοή</h3>
+                        <p>Σε πολλούς αρέσει το να ακούνε μουσική αλλά σε κανέναν δεν αρέσει ο θόρυβος. Ποια είναι η φυσική διαφορά μεταξύ ήχου και θορύβου;</p>
+                        <span class="catalog-status">Υπό προετοιμασία</span>
+                    </article>
+                    <article class="catalog-card catalog-card--upcoming">
+                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/thermal.svg?v=lesson-diagrams-2" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3>Θερμικές Ιδιότητες της Ύλης</h3>
+                        <p>Πόσο πιο γρήγορα κινούνται τα μόρια του αέρα πάνω από ένα καυτό τηγάνι σε σχέση με τον περιβάλλοντα αέρα της κουζίνας;</p>
+                        <span class="catalog-status">Υπό προετοιμασία</span>
+                    </article>
+                    <article class="catalog-card catalog-card--upcoming">
+                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/light.svg?v=lesson-diagrams-2" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3>Η Φύση και η Διάδοση του Φωτός</h3>
+                        <p>Γιατί εμφανίζεται ένα ουράνιο τόξο χρωμάτων όταν πέσουν λάδια στην άσφαλτο;</p>
+                        <span class="catalog-status">Υπό προετοιμασία</span>
+                    </article>
                 </div>
             </div>
         </section>
-        <section id="math-lessons" class="contents-band contents-band--shaded" aria-labelledby="math-title">
+        <section id="interactive-lessons" class="contents-band section-divider" aria-labelledby="interactive-lessons-title">
+            <div class="contents-shell">
+                <h2 id="interactive-lessons-title">Διαδραστικά εργαστήρια</h2>
+                <p class="contents-intro">Κάθε εργαστήριο ανοίγει σε νέα καρτέλα.</p>
+                <ul class="lab-links">
+                    <li><a href="../simulations/gravitational-field/index.html" target="_blank" rel="noopener">Το Βαρυτικό Πεδίο <span aria-hidden="true">↗</span></a></li>
+                    <li><a href="../simulations/electric-field/index.html" target="_blank" rel="noopener">Το Ηλεκτρικό Πεδίο <span aria-hidden="true">↗</span></a></li>
+                    <li><a href="../simulations/electromagnetic-field/index.html" target="_blank" rel="noopener">Το Ηλεκτρομαγνητικό Πεδίο <span aria-hidden="true">↗</span></a></li>
+                    <li><a href="../simulations/hydrogen-eigenstates/index.html" target="_blank" rel="noopener">Το Άτομο του Υδρογόνου <span aria-hidden="true">↗</span></a></li>
+                </ul>
+            </div>
+        </section>
+        <section id="math-lessons" class="contents-band contents-band--shaded section-divider" aria-labelledby="math-title">
             <div class="contents-shell">
                 <h2 id="math-title">Μαθηματικά</h2>
-                <p class="contents-intro">Από τις σχέσεις των τριγώνων έως τις γραφικές παραστάσεις. Τα πρώτα μαθήματα της ενότητας βρίσκονται υπό προετοιμασία.</p>
-                <ul class="catalog-topic-list" aria-labelledby="math-title">
-                    <li class="catalog-topic">
-                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/trigonometry.svg" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
-                        <div class="catalog-topic-copy"><h3>Τριγωνομετρία</h3><p>Πώς μπορείς να υπολογίσεις το ύψος ενός κτιρίου από τη σκιά του; Ανακάλυψε τις σχέσεις ανάμεσα στις γωνίες και τις πλευρές των τριγώνων.</p></div>
-                        <span class="catalog-status">Προσεχώς</span>
-                    </li>
-                    <li class="catalog-topic">
-                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/functions.svg" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
-                        <div class="catalog-topic-copy"><h3>Συναρτήσεις</h3><p>Πώς συνδέονται δύο ποσότητες που μεταβάλλονται; Εξερεύνησε συναρτήσεις και μάθε να διαβάζεις τις γραφικές τους παραστάσεις.</p></div>
-                        <span class="catalog-status">Προσεχώς</span>
-                    </li>
-                    <li class="catalog-topic">
-                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/inequalities.svg" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
-                        <div class="catalog-topic-copy"><h3>Ανισώσεις</h3><p>Ποιες τιμές ικανοποιούν μια ανίσωση; Μάθε να συγκρίνεις παραστάσεις και να παρουσιάζεις τις λύσεις στην αριθμογραμμή.</p></div>
-                        <span class="catalog-status">Προσεχώς</span>
-                    </li>
-                    <li class="catalog-topic">
-                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/geometry.svg" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
-                        <div class="catalog-topic-copy"><h3>Γεωμετρία</h3><p>Πώς υπολογίζουμε αποστάσεις, εμβαδά και όγκους; Εξερεύνησε τις ιδιότητες των σχημάτων και τις σχέσεις μεταξύ τους.</p></div>
-                        <span class="catalog-status">Προσεχώς</span>
-                    </li>
-                </ul>
+                <!-- <p class="contents-intro">Από τις σχέσεις των τριγώνων έως τις γραφικές παραστάσεις. Τα πρώτα μαθήματα της ενότητας βρίσκονται υπό προετοιμασία.</p> -->
+                <div class="catalog-grid">
+                    <article class="catalog-card catalog-card--upcoming">
+                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/trigonometry.svg?v=lesson-diagrams-2" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3>Τριγωνομετρία</h3>
+                        <p>Πώς μπορείς να υπολογίσεις το ύψος ενός κτιρίου από τη σκιά του; Ανακάλυψε τις σχέσεις ανάμεσα στις γωνίες και τις πλευρές των τριγώνων.</p>
+                        <span class="catalog-status">Υπό προετοιμασία</span>
+                    </article>
+                    <article class="catalog-card catalog-card--upcoming">
+                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/functions.svg?v=lesson-diagrams-2" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3>Συναρτήσεις</h3>
+                        <p>Πώς συνδέονται δύο ποσότητες που μεταβάλλονται; Εξερεύνησε συναρτήσεις και μάθε να διαβάζεις τις γραφικές τους παραστάσεις.</p>
+                        <span class="catalog-status">Υπό προετοιμασία</span>
+                    </article>
+                    <article class="catalog-card catalog-card--upcoming">
+                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/inequalities.svg?v=lesson-diagrams-2" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3>Ανισώσεις</h3>
+                        <p>Ποιες τιμές ικανοποιούν μια ανίσωση; Μάθε να συγκρίνεις παραστάσεις και να παρουσιάζεις τις λύσεις στην αριθμογραμμή.</p>
+                        <span class="catalog-status">Υπό προετοιμασία</span>
+                    </article>
+                    <article class="catalog-card catalog-card--upcoming">
+                        <span class="catalog-icon catalog-icon--muted"><img src="../assets/icons/geometry.svg?v=lesson-diagrams-2" width="36" height="36" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3>Γεωμετρία</h3>
+                        <p>Πώς υπολογίζουμε αποστάσεις, εμβαδά και όγκους; Εξερεύνησε τις ιδιότητες των σχημάτων και τις σχέσεις μεταξύ τους.</p>
+                        <span class="catalog-status">Υπό προετοιμασία</span>
+                    </article>
+                </div>
             </div>
         </section>
     </main>
