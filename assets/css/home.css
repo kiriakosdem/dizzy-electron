@@ -13,7 +13,7 @@
 .home-band h2 { font-size: 1.6rem; line-height: 1.4; margin: 0 0 24px; }
 .home-band p { font-size: .95rem; color: #52616b; }
 .home-intro { margin-bottom: 28px; }
-.home-page .home-more { margin: 28px 0 0; }
+.home-page .home-more { margin: 28px 0 0; text-align: center; }
 .home-links { display: flex; flex-wrap: wrap; gap: 18px 32px; margin-top: 26px; }
 .home-text-link { color: #246977; font-size: .9rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
 .home-text-link span { display: inline-block; margin-left: 8px; }
@@ -34,25 +34,68 @@
 
 /* Original welcome photographs, with controls that also work on touch screens. */
 .welcome-carousel { position: relative; background: #001e3c; color: #fff; }
-.welcome-slide { position: relative; height: clamp(280px, 31vw, 440px); }
+.welcome-slide { position: relative; height: clamp(480px, 40vw, 580px); }
 .welcome-slide[hidden], .welcome-controls[hidden] { display: none; }
 .welcome-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 15, 30, .12), rgba(0, 15, 30, .12) 30%, rgba(0, 15, 30, .8)); }
 .welcome-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.home-page .welcome-slide p { position: absolute; z-index: 1; bottom: 70px; left: 64px; right: 64px; margin: 0 auto; max-width: 850px; color: #fff; font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.45; text-align: center; text-shadow: 0 2px 8px #001e3c; }
 .welcome-carousel button { border: 0; color: #fff; cursor: pointer; }
 .welcome-arrow { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border-radius: 50%; background: rgba(0, 30, 60, .65); }
 .welcome-arrow svg { display: block; flex-shrink: 0; }
 .welcome-previous { left: 20px; }
 .welcome-next { right: 20px; }
 .welcome-pagination { position: absolute; z-index: 2; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; }
-.welcome-dot { width: 36px; height: 36px; padding: 12px 5px; background: transparent; }
-.welcome-dot::after { content: ''; display: block; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .45); }
-.welcome-dot[aria-current="true"]::after { background: #fff; }
-.welcome-playback { width: 36px; height: 36px; margin-left: 10px; border-radius: 50%; background: rgba(0, 30, 60, .7); font-size: .9rem; }
-.welcome-arrow:hover, .welcome-playback:hover { background: #285b65; }
+/* The same progress value drives the fill and the slide change. */
+.welcome-dot { position: relative; width: 46px; height: 36px; padding: 12px 5px; background: transparent; }
+.welcome-dot::before, .welcome-dot::after { content: ''; position: absolute; left: 5px; right: 5px; top: 16px; height: 4px; border-radius: 2px; }
+.welcome-dot::before { background: rgba(255, 255, 255, .45); }
+.welcome-dot::after { right: auto; width: calc((100% - 10px) * var(--progress, 0)); background: #fff; border-radius: 2px; }
+.welcome-arrow:hover { background: #285b65; }
 .home-page .welcome-carousel button:focus-visible { outline-color: #fff; }
 @media (max-width: 575px) {
     .welcome-previous { left: 8px; }
     .welcome-next { right: 8px; }
-    .home-page .welcome-slide p { left: 60px; right: 60px; bottom: 66px; font-size: 1.35rem; }
+    }
+
+/* One quotation per photograph, above a dark overlay for legibility. */
+.welcome-slide::after { background: rgba(0, 15, 30, .72); }
+.welcome-slide .home-quote {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: min(850px, calc(100% - 160px));
+    height: auto;
+    margin: 0 auto !important;
+    padding: 28px 0 64px;
+    text-align: center;
+}
+.home-quote blockquote { position: relative; margin: 0; padding: 12px 46px; }
+.home-page .home-quote p { margin: 0; color: #fff; font-size: clamp(1rem, 1.6vw, 1.25rem); line-height: 1.8; text-shadow: 0 2px 8px #001e3c; }
+.home-quote-mark { position: absolute; top: 0; left: 0; color: #67aaa9; font-family: Georgia, serif; font-size: 5rem; line-height: 1; }
+.home-quote-mark--closing { top: auto; left: auto; bottom: -20px; right: 0; }
+.home-quote figcaption { margin-top: 22px; }
+.home-quote figcaption em { display: block; font-size: 1.05rem; color: #a5d1d0; }
+.home-quote figcaption span { display: block; margin-top: 6px; font-size: .78rem; line-height: 1.6; color: #d4dfe8; }
+@media (max-width: 575px) {
+    .welcome-slide { height: 640px; }
+    .welcome-slide .home-quote { width: calc(100% - 112px); padding-top: 20px; }
+    .home-quote blockquote { padding: 28px 0; }
+    .home-quote-mark { font-size: 3.5rem; top: -6px; }
+    .home-quote-mark--closing { top: auto; bottom: -14px; }
+    .home-page .home-quote p { font-size: .9rem; line-height: 1.7; }
+    .home-quote figcaption { margin-top: 12px; }
+    .home-quote figcaption em { font-size: .95rem; }
+    .home-quote figcaption span { font-size: .7rem; }
+}
+
+.home-quote figcaption { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.welcome-slide .scientist-portrait { width: 76px; height: 76px; flex: 0 0 76px; border-radius: 50%; object-fit: cover; object-position: center 25%; border: 2px solid #67aaa9; }
+.scientist-credit { text-align: left; min-width: 0; }
+.home-quote .portrait-credit { display: block; margin-top: 5px; color: #b3c5cc; font-size: .6rem; line-height: 1.5; }
+.home-quote .portrait-credit:hover { color: #fff; text-decoration: underline; }
+@media (max-width: 575px) {
+    .home-quote figcaption { gap: 10px; }
+    .welcome-slide .scientist-portrait { width: 60px; height: 60px; flex-basis: 60px; }
 }

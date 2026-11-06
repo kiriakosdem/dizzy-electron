@@ -39,7 +39,7 @@ NAVIGATION BAR
 ---------------------------------------------------*/
 
 #NavigationBar .navbar{
-	padding: 0.4rem;
+	padding: 0.25rem 0.4rem;
 	font-weight: bold;
 	letter-spacing: 0.1rem;
 	background: rgb(0,30,60) !important;
@@ -68,18 +68,18 @@ NAVIGATION BAR
 .site-logo {
     display: block;
     flex-shrink: 0;
-    width: 210px;
+    width: 240px;
     max-width: 100%;
     height: auto;
 }
 
-/* A reversible white treatment for the navy headers and footers. */
-.site-logo--inverse {
-    filter: brightness(0) invert(1);
-}
 
 #NavigationBar .navbar-brand {
     display: block;
+}
+
+#NavigationBar .site-logo {
+    width: 180px;
 }
 
 
@@ -102,7 +102,7 @@ footer .footer-brand {
     }
 
     #NavigationBar .site-logo {
-        width: min(210px, calc(100vw - 88px));
+        width: min(180px, calc(100vw - 88px));
     }
 }
 
@@ -111,62 +111,84 @@ footer .footer-brand {
 	margin-left: 0.4rem;
 }
 
-/* Navigation Buttons */
-#NavigationBar .btn{
-	padding: 0.7rem;
-	padding-right: 1rem;
-	padding-left: 1rem;
-	height: 100%;
-	width: 100%;
-	text-align: left;
-	background-color: rgb(0,30,60);
-	color: white;
-	letter-spacing: normal;
-	border-width: 0;
-	border-radius: 1.5rem;
-	transition: all 0.5s ease;
+/* Navigation follows the site's teal link and underline treatment. */
+#NavigationBar .btn {
+    padding: .7rem 1rem;
+    height: 100%;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: #fff;
+    letter-spacing: normal;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    transition: color .18s ease, text-decoration-color .18s ease;
 }
 
-#NavigationBar .btn:hover{
-	background-color: white;
-	color:  rgb(0,30,60);
+#NavigationBar .btn:hover,
+#NavigationBar .btn:focus-visible {
+    background: transparent;
+    color: #a5d1d0;
 }
 
-/* Dropdowns*/
-#NavigationBar .dropdown{
-	transition: all 0.3s ease 0s;
+#NavigationBar .btn[aria-current="page"] {
+    color: #a5d1d0;
+    text-decoration: underline;
+    text-decoration-color: currentColor;
 }
 
-#NavigationBar .dropdown-menu{
-	min-width: 100%;
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
-	background-color:  cadetblue;
-	border-color: rgb(0,30,60);
-	border-radius: 0;
-	border-radius: 0.5rem;
-	transition: all 0.5s ease;
+#NavigationBar .btn:focus-visible,
+#NavigationBar .dropdown-item:focus-visible {
+    outline: 2px solid #67aaa9;
+    outline-offset: 3px;
 }
 
-#NavigationBar .dropdown-item{
-	background-color: cadetblue;
-	color: rgb(0,30,60);
-	margin: 0;
-	border-color: transparent;
-	letter-spacing: normal;
+#NavigationBar .dropdown-toggle::after { color: #a5d1d0; vertical-align: .15em; }
+
+/* No gap between the parent link and the panel, so hover stays continuous. */
+#NavigationBar .dropdown-menu {
+    min-width: 190px;
+    margin-top: 0;
+    padding: 8px;
+    background: #fff;
+    border: 1px solid #d7e1e3;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 30, 60, .14);
 }
 
-#NavigationBar .dropdown-item:hover{
-	background: rgb(0,30,60);
-	color: white;
+#NavigationBar .dropdown-item {
+    padding: 10px 14px;
+    margin: 0;
+    background: transparent;
+    color: #173044;
+    border: 0;
+    border-radius: 3px;
+    letter-spacing: normal;
+    transition: background-color .18s ease, color .18s ease;
 }
 
-#NavigationBar .dropdown-divider{
-	border-width: 1px;
-	border-color: rgb(0,30,60);
+#NavigationBar .dropdown-item:hover,
+#NavigationBar .dropdown-item:focus-visible {
+    background: #eef0f1;
+    color: #246977;
+    text-decoration: none;
 }
 
+#NavigationBar .dropdown-item[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
 
+#NavigationBar .dropdown-divider { border-color: #d7e1e3; }
+
+@media (max-width: 991px) {
+    #NavigationBar .dropdown-menu { margin: 0 1rem 8px; box-shadow: none; }
+}
 
 
 /* ---------------------------------------------------
@@ -277,7 +299,7 @@ SOCIAL ICONS STYLE
 FOOTER STYLE
 ----------------------------------------------------- */
 footer{
-	background-color: rgb(0,30,60);
+	background-color: #001e3c;
 	color: wheat;
 	margin-top: 7rem;
 	font-size: 0.8rem;
@@ -380,5 +402,31 @@ figure{
 @media (max-width: 768px) {
 }
 @media (max-width: 576px) {
+}
+
+
+/* Shared footer: brand and a compact list of the main navigation links. */
+footer .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 64px;
+    width: min(800px, calc(100% - 64px));
+    margin-inline: auto;
+    padding: 32px 0;
+}
+footer .footer-inner .footer-brand { margin: 0; padding: 0; }
+footer .footer-navigation ul { list-style: none; margin: 0; padding: 0; }
+footer .footer-navigation li + li { margin-top: 10px; }
+footer .footer-navigation a { display: inline-block; padding: 2px 0; font-size: .95rem; }
+footer .footer-navigation a:hover { color: #a5d1d0; }
+footer .footer-navigation a[aria-current="page"] {
+    color: #a5d1d0;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+}
+footer .footer-navigation a:focus-visible { outline: 3px solid #67aaa9; outline-offset: 4px; }
+@media (max-width: 575px) {
+    footer .footer-inner { width: calc(100% - 40px); flex-direction: column; gap: 24px; text-align: center; }
 }
 

@@ -6,11 +6,11 @@
     <meta name="description" content="Μάθε, παίξε και πειραματίσου με τη Φυσική. Διαδραστικά μαθήματα και οπτικοποιήσεις για να εξερευνήσεις τις έννοιες με τον δικό σου ρυθμό.">
     <title>Dizzy Electron | Φυσική στην πράξη</title>
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/common.css?v=controls-1">
+    <link rel="stylesheet" href="assets/css/common.css?v=navy-logo-3">
     <link rel="stylesheet" href="assets/css/cards.css?v=catalog-2">
-    <link rel="stylesheet" href="assets/css/home.css?v=controls-1">
-    <script src="assets/js/lesson.js" defer></script>
-    <script src="assets/js/home-carousel.js" defer></script>
+    <link rel="stylesheet" href="assets/css/home.css?v=center-button-1">
+    <script src="assets/js/lesson.js?v=smooth-top-1" defer></script>
+    <script src="assets/js/home-carousel.js?v=fifteen-seconds-1" defer></script>
 </head>
 <body class="home-page" id="top">
     <a class="home-skip-link" href="#home-content">Μετάβαση στο περιεχόμενο</a>
@@ -19,7 +19,7 @@
                 <div class="order-0">
                     <div class="navbar-nav mr-auto">
                         <a class="navbar-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
-                            <img class="site-logo site-logo--inverse" src="assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+                            <img class="site-logo" src="assets/brand/logo-navy.svg?v=background-key-1" width="780" height="380" alt="" aria-hidden="true">
                         </a>
                     </div>
                 </div>
@@ -27,14 +27,14 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</button>
+                                <a class="btn dropdown-toggle" href="contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</a>
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="contents/index.html#math-lessons">Μαθηματικά</a>
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" hidden>
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-lesson-dropdown aria-controls="lesson-school-years" aria-expanded="false">Υλικό για Σχολεία</button>
                                 <div class="dropdown-menu" id="lesson-school-years" aria-labelledby="dropdownMenu2">
@@ -62,17 +62,85 @@
     <main id="home-content" tabindex="-1">
         <section class="welcome-carousel" id="MyCarousel" aria-label="Καλώς ήρθες στο Dizzy Electron" aria-roledescription="carousel">
             <div class="welcome-slides" aria-live="off">
-                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="1 από 3">
-                    <img src="assets/images/background1-3.jpg" alt="" fetchpriority="high">
-                    <p>Καλωσορίσατε!</p>
+                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="1 από 5">
+                    <img src="assets/images/carousel-wave.jpg" alt="" fetchpriority="high">
+                    <figure class="home-quote" lang="en">
+                    <blockquote>
+                        <span class="home-quote-mark" aria-hidden="true">“</span>
+                        <p>If you’re teaching a class and you say ‘the object will move because of friction,’ that's not science. That's just a word... If you want to know if you know it, try to see if you can explain it without using the word you just learned, in ordinary language.</p>
+                        <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">”</span>
+                    </blockquote>
+                    <figcaption>
+                        <img class="scientist-portrait" src="assets/images/feynman-bongos.jpg" width="76" height="76" alt="">
+                        <div class="scientist-credit"><em>Richard Feynman</em><span>1966 · What is Science?</span>
+                            <a class="portrait-credit" href="https://www.aip.org/library/ex-libris-universum/may-2016-photos-of-the-month">Photo: © California Institute of Technology</a>
+                        </div>
+                    </figcaption>
+                </figure>
                 </div>
-                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="2 από 3" hidden>
-                    <img src="assets/images/background2-1.jpg" alt="">
-                    <p>Ανακαλύψτε τη μαγεία της Φύσης...</p>
+                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="2 από 5" hidden>
+                    <img src="assets/images/carousel-magnet.jpg" alt="">
+                    <figure class="home-quote" lang="en">
+                    <blockquote>
+                        <span class="home-quote-mark" aria-hidden="true">“</span>
+                        <p>Even for the physicist the description in plain language will be a criterion of the degree of understanding that has been reached.</p>
+                        <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">”</span>
+                    </blockquote>
+                    <figcaption>
+                        <img class="scientist-portrait" src="assets/images/heisenberg.jpg" width="76" height="76" alt="">
+                        <div class="scientist-credit"><em>Werner Heisenberg</em><span>1958 · Physics and Philosophy</span>
+                            <a class="portrait-credit" href="https://commons.wikimedia.org/wiki/File:Portrait_of_Werner_Heisenberg.jpg">Photo: AIP Emilio Segrè Visual Archives, Segrè Collection</a>
+                        </div>
+                    </figcaption>
+                </figure>
                 </div>
-                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="3 από 3" hidden>
-                    <img src="assets/images/background3-1.jpg" alt="">
-                    <p>...μέσα από μοναδικά διαδραστικά μαθήματα!</p>
+                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="3 από 5" hidden>
+                    <img src="assets/images/carousel-galaxy.jpg" alt="">
+                    <figure class="home-quote" lang="en">
+                    <blockquote cite="https://www.oxfordreference.com/display/10.1093/acref/9780191826719.001.0001/q-oro-ed4-00003988">
+                        <span class="home-quote-mark" aria-hidden="true">“</span>
+                        <p>It can scarcely be denied that the supreme goal of all theory is to make the irreducible basic elements as simple and as few as possible without having to surrender the adequate representation of a single datum of experience.</p>
+                        <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">”</span>
+                    </blockquote>
+                    <figcaption>
+                        <img class="scientist-portrait" src="assets/images/einstein-tongue.jpg" width="76" height="76" alt="">
+                        <div class="scientist-credit"><em>Albert Einstein</em><span>1933 · On the Method of Theoretical Physics</span>
+                            <a class="portrait-credit" href="https://commons.wikimedia.org/wiki/File:Albert_Einstein_sticks_his_tongue_2.jpg">Photo: Arthur Sasse / International News Service</a>
+                        </div>
+                    </figcaption>
+                </figure>
+                </div>
+                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="4 από 5" hidden>
+                    <img src="assets/images/carousel-rainbow.jpg" alt="">
+                    <figure class="home-quote" lang="en">
+                        <blockquote>
+                            <span class="home-quote-mark" aria-hidden="true">“</span>
+                            <p>Truth is ever to be found in simplicity, and not in the multiplicity and confusion of things.</p>
+                            <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">”</span>
+                        </blockquote>
+                        <figcaption>
+                            <img class="scientist-portrait" src="assets/images/newton.jpg" width="76" height="76" alt="">
+                            <div class="scientist-credit"><em>Sir Isaac Newton</em><span>1728</span>
+                                <a class="portrait-credit" href="https://commons.wikimedia.org/wiki/File:GodfreyKneller-IsaacNewton-1689_(cropped).jpg">Portrait: Godfrey Kneller · Public domain</a>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="5 από 5" hidden>
+                    <img src="assets/images/carousel-bubblechamber.jpg" alt="">
+                    <figure class="home-quote" lang="en">
+                        <blockquote>
+                            <span class="home-quote-mark" aria-hidden="true">“</span>
+                            <p>A research worker, in his efforts to express the fundamental laws of Nature in mathematical form, should strive mainly for mathematical beauty... It often happens that the requirements of simplicity and beauty are the same.</p>
+                            <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">”</span>
+                        </blockquote>
+                        <figcaption>
+                            <img class="scientist-portrait" src="assets/images/dirac.jpg" width="76" height="76" alt="">
+                            <div class="scientist-credit"><em>Paul Dirac</em><span>1939 · The Relation between Mathematics and Physics</span>
+                                <a class="portrait-credit" href="https://commons.wikimedia.org/wiki/File:Paul_Dirac,_1933,_head_and_shoulders_portrait,_bw.jpg">Photo: Cavendish Laboratory · Public domain</a>
+                            </div>
+                        </figcaption>
+                    </figure>
                 </div>
             </div>
             <div class="welcome-controls" hidden>
@@ -82,15 +150,15 @@
                     <button class="welcome-dot" type="button" data-slide="0" aria-label="Διαφάνεια 1" aria-current="true"></button>
                     <button class="welcome-dot" type="button" data-slide="1" aria-label="Διαφάνεια 2" aria-current="false"></button>
                     <button class="welcome-dot" type="button" data-slide="2" aria-label="Διαφάνεια 3" aria-current="false"></button>
-                    <button class="welcome-playback" type="button" aria-label="Παύση εναλλαγής διαφανειών">Ⅱ</button>
+                    <button class="welcome-dot" type="button" data-slide="3" aria-label="Διαφάνεια 4" aria-current="false"></button>
+                    <button class="welcome-dot" type="button" data-slide="4" aria-label="Διαφάνεια 5" aria-current="false"></button>
                 </div>
             </div>
         </section>
         <header class="home-heading">
             <div class="home-shell">
+            <h2>Καλώς ορίσατε!</h2>
             <p>Απολαύστε μαθήματα Φυσικής και Μαθηματικών σε γλώσσα απλή και κατανοητή χωρίς δυσνόητη ορολογία και περίπλοκες διατυπώσεις.</p>
-            <p>“If you can't explain it simply, you don't understand it well enough.”</p>
-            <p>— Einstein</p>
             </div>
         </header>
         <section class="home-band home-band--shaded" id="Courses" aria-labelledby="featured-title">
@@ -122,15 +190,24 @@
                             <span class="catalog-card-action" aria-hidden="true">Άνοιγμα μαθήματος <span>→</span></span>
                         </a>
                 </div>
-                <p class="home-more"><a class="home-button" href="contents/index.html">Όλα τα μαθήματα <span aria-hidden="true">→</span></a></p>
+                <p class="home-more"><a class="home-button" href="contents/index.html">Όλα τα μαθήματα</a></p>
             </div>
         </section>
     </main>
     <a href="#top" class="scrollToTop btn-primary" aria-label="Επιστροφή στην κορυφή"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
     <footer id="Footer">
-        <a class="footer-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
-            <img class="site-logo site-logo--inverse" src="assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+        <div class="footer-inner">
+            <a class="footer-brand" href="index.html" aria-label="Dizzy Electron — Αρχική">
+            <img class="site-logo" src="assets/brand/logo-navy.svg?v=background-key-1" width="780" height="380" alt="" aria-hidden="true">
         </a>
+            <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
+                <ul>
+                <li><a href="contents/index.html">Μαθήματα</a></li>
+                <li><a href="about/index.html">Σχετικά</a></li>
+                <li><a href="contact/index.html">Επικοινωνία</a></li>
+                </ul>
+            </nav>
+        </div>
     </footer>
 </body>
 </html>

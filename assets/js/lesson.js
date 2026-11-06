@@ -22,11 +22,34 @@ if (menuToggle && navigation) {
 }
 
 dropdownButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        const open = button.getAttribute('aria-expanded') !== 'true';
+    const dropdown = button.closest('.dropdown');
+    dropdown.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'touch') return;
         closeDropdowns();
-        setDropdown(button, open);
+        setDropdown(button, true);
     });
+    dropdown.addEventListener('pointerleave', (event) => {
+        if (event.pointerType === 'touch') return;
+        setDropdown(button, false);
+    });
+    dropdown.addEventListener('focusout', (event) => {
+        if (!dropdown.contains(event.relatedTarget)) setDropdown(button, false);
+    });
+    button.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowDown') return;
+        event.preventDefault();
+        closeDropdowns();
+        setDropdown(button, true);
+        dropdown.querySelector('.dropdown-item').focus();
+    });
+    // Parent links navigate normally; buttons remain available for touch menus.
+    if (button.tagName === 'BUTTON') {
+        button.addEventListener('click', () => {
+            const open = button.getAttribute('aria-expanded') !== 'true';
+            closeDropdowns();
+            setDropdown(button, open);
+        });
+    }
 });
 
 document.addEventListener('click', (event) => {
@@ -48,6 +71,13 @@ document.addEventListener('keydown', (event) => {
 
 const scrollToTop = document.querySelector('.scrollToTop');
 if (scrollToTop) {
+    scrollToTop.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+        });
+    });
     const updateScrollButton = () => {
         scrollToTop.style.display = window.scrollY > 500 ? 'block' : 'none';
     };

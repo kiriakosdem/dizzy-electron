@@ -118,3 +118,50 @@
         min-height: 640px;
     }
 }
+
+/* Sidebar sections share the quiet panels and teal links of the main pages. */
+.lesson-sidebar .contents-card {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto 36px;
+    padding: 22px 18px 16px;
+    background: #f4f6f6;
+    border: 1px solid #d7e1e3;
+    border-radius: 8px;
+    box-shadow: none;
+    color: #173044;
+    text-align: left;
+}
+.lesson-sidebar .contents-card h2,
+.lesson-sidebar .sidebar-heading {
+    font-size: 1.12rem;
+    font-weight: 600;
+    font-variant: normal;
+    line-height: 1.5;
+    text-align: left;
+    color: #173044;
+}
+.lesson-sidebar .contents-card h2 { margin: 0 0 16px; }
+.lesson-sidebar .contents-card ul { display: grid; gap: 4px; }
+.lesson-sidebar .contents-card ul a {
+    padding: 10px 12px;
+    border-radius: 4px;
+    background: transparent;
+    color: #246977;
+    font-size: .88rem;
+    line-height: 1.6;
+    transition: background-color .18s ease, color .18s ease;
+}
+.lesson-sidebar .contents-card ul a:hover,
+.lesson-sidebar .contents-card ul a:focus-visible {
+    background: #e4eded;
+    color: #173f48;
+    text-decoration: none;
+}
+.lesson-sidebar .sidebar-heading { max-width: 320px; margin: 0 auto 18px; }
+.lesson-sidebar .catalog-grid--sidebar { gap: 18px; }
+.lesson-sidebar .catalog-card { padding: 22px; }
+.lesson-sidebar a:focus-visible { outline-color: #398886; }
+@media (max-width: 991px) {
+    .lesson-sidebar { margin-top: 32px; }
+}

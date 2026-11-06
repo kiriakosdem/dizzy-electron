@@ -6,13 +6,13 @@
     <meta name="description" content="Δημιούργησε φορτία και δίπολα και μελέτησε ηλεκτρικά πεδία, δυναμικό και δοκιμαστικά φορτία.">
     <title>Dizzy Electron | Το Ηλεκτρικό Πεδίο</title>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=controls-1">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=navy-logo-3">
     <link rel="stylesheet" href="../../assets/css/cards.css?v=sidebar-1">
     <link rel="stylesheet" href="../../assets/css/lesson.css?v=teal-1">
-    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=caption-controls-1">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=sidebar-2">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
-    <script src="../../assets/js/lesson.js" defer></script>
+    <script src="../../assets/js/lesson.js?v=smooth-top-1" defer></script>
 </head>
 <body class="simulation-lesson" id="top">
     <a class="lesson-skip-link" href="#lesson-content">Μετάβαση στο μάθημα</a>
@@ -22,7 +22,7 @@
                 <div class="order-0">
                     <div class="navbar-nav mr-auto">
                         <a class="navbar-brand" href="../../index.html" aria-label="Dizzy Electron — Αρχική">
-                            <img class="site-logo site-logo--inverse" src="../../assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+                            <img class="site-logo" src="../../assets/brand/logo-navy.svg?v=background-key-1" width="780" height="380" alt="" aria-hidden="true">
                         </a>
                     </div>
                 </div>
@@ -30,14 +30,14 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</button>
+                                <a class="btn dropdown-toggle" href="../../contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</a>
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="../../contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="../../contents/index.html#math-lessons">Μαθηματικά</a>
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" hidden>
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-lesson-dropdown aria-controls="lesson-school-years" aria-expanded="false">Υλικό για Σχολεία</button>
                                 <div class="dropdown-menu" id="lesson-school-years" aria-labelledby="dropdownMenu2">
@@ -130,10 +130,8 @@
                 </main>
                 <div class="col-lg-1 p-0" aria-hidden="true"></div>
                 <aside class="col-lg-3 p-0 lesson-sidebar" aria-label="Πλοήγηση μαθημάτων">
-                    <h4 id="lesson-contents-title">Περιεχόμενα Μαθήματος</h4>
-                    <div class="heading-underline"></div>
                     <nav class="card contents-card" aria-labelledby="lesson-contents-title">
-                        <div class="card-header text-center">Το Ηλεκτρικό Πεδίο</div>
+                        <h2 id="lesson-contents-title">Σε αυτό το μάθημα</h2>
                         <ul class="list-unstyled components">
                             <li><a href="#introduction">Εισαγωγή</a></li>
                             <li><a href="#theory">Βασικές έννοιες</a></li>
@@ -142,8 +140,7 @@
                             <li><a href="#takeaway">Τι κρατάμε</a></li>
                         </ul>
                     </nav>
-                    <h4 id="related-lessons-title">Προτεινόμενα Μαθήματα</h4>
-                    <div class="heading-underline"></div>
+                    <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electromagnetic-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
                             <span class="catalog-icon"><img src="../../assets/icons/electromagnetic-field.svg" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
@@ -170,10 +167,19 @@
         <a href="#top" class="scrollToTop btn-primary" aria-label="Επιστροφή στην κορυφή"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
         <div id="Footer">
             <footer>
-                <a class="footer-brand" href="../../index.html" aria-label="Dizzy Electron — Αρχική">
-                    <img class="site-logo site-logo--inverse" src="../../assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+        <div class="footer-inner">
+            <a class="footer-brand" href="../../index.html" aria-label="Dizzy Electron — Αρχική">
+                    <img class="site-logo" src="../../assets/brand/logo-navy.svg?v=background-key-1" width="780" height="380" alt="" aria-hidden="true">
                 </a>
-            </footer>
+            <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
+                <ul>
+                <li><a href="../../contents/index.html">Μαθήματα</a></li>
+                <li><a href="../../about/index.html">Σχετικά</a></li>
+                <li><a href="../../contact/index.html">Επικοινωνία</a></li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
         </div>
     </div>
 </body>

@@ -6,9 +6,9 @@
     <meta name="description" content="Επικοινώνησε με τον δημιουργό του Dizzy Electron, στείλε μια ερώτηση ή ανέφερε ένα τεχνικό πρόβλημα ή λάθος σε μάθημα.">
     <title>Dizzy Electron | Επικοινωνία</title>
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/common.css?v=retro-logo-1">
+    <link rel="stylesheet" href="../assets/css/common.css?v=navy-logo-3">
     <link rel="stylesheet" href="../assets/css/contact.css?v=2">
-    <script src="../assets/js/lesson.js" defer></script>
+    <script src="../assets/js/lesson.js?v=smooth-top-1" defer></script>
     <script src="../assets/js/contact.js?v=2" defer></script>
 </head>
 <body class="contact-page" id="top">
@@ -18,7 +18,7 @@
                 <div class="order-0">
                     <div class="navbar-nav mr-auto">
                         <a class="navbar-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
-                            <img class="site-logo site-logo--inverse" src="../assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+                            <img class="site-logo" src="../assets/brand/logo-navy.svg?v=background-key-1" width="780" height="380" alt="" aria-hidden="true">
                         </a>
                     </div>
                 </div>
@@ -26,14 +26,14 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</button>
+                                <a class="btn dropdown-toggle" href="../contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</a>
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="../contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="../contents/index.html#math-lessons">Μαθηματικά</a>
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" hidden>
                             <div class="dropdown">
                                 <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-lesson-dropdown aria-controls="lesson-school-years" aria-expanded="false">Υλικό για Σχολεία</button>
                                 <div class="dropdown-menu" id="lesson-school-years" aria-labelledby="dropdownMenu2">
@@ -137,9 +137,18 @@
         </section>
     </main>
     <footer>
-        <a class="footer-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
-            <img class="site-logo site-logo--inverse" src="../assets/brand/logo.svg" width="298" height="88" alt="" aria-hidden="true">
+        <div class="footer-inner">
+            <a class="footer-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
+            <img class="site-logo" src="../assets/brand/logo-navy.svg?v=background-key-1" width="780" height="380" alt="" aria-hidden="true">
         </a>
+            <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
+                <ul>
+                <li><a href="../contents/index.html">Μαθήματα</a></li>
+                <li><a href="../about/index.html">Σχετικά</a></li>
+                <li><a href="index.html" aria-current="page">Επικοινωνία</a></li>
+                </ul>
+            </nav>
+        </div>
     </footer>
 </body>
 </html>
