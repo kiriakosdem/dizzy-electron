@@ -13,7 +13,7 @@ window.HydrogenFuzzy = (function () {
                 phaseColors: { value: phaseColors },
                 factors: { value: table }, scales: { value: new THREE.Vector2() },
                 worldRadius: { value: 1 }, magnetic: { value: 0 }, realBasis: { value: 0 },
-                signFactor: { value: 1 }
+                signFactor: { value: 1 }, fuzziness: { value: .5 }
             },
             vertexShader: `
                 varying vec3 exitPoint;
@@ -25,7 +25,7 @@ window.HydrogenFuzzy = (function () {
                 uniform sampler2D factors;
                 uniform vec2 scales;
                 uniform sampler2D phaseColors;
-                uniform float worldRadius, magnetic, realBasis, signFactor;
+                uniform float worldRadius, magnetic, realBasis, signFactor, fuzziness;
                 varying vec3 exitPoint;
                 float factorAt(vec2 bytes) {
                     return 2. * dot(bytes, vec2(256., 1.) / 257.) - 1.;
@@ -54,7 +54,12 @@ window.HydrogenFuzzy = (function () {
                         float phase = (realBasis < .5 ? angle / 6.2831853 : 0.) + (amp < 0. ? .5 : 0.);
                         float phaseU = (fract(phase) * 512. + .5) / 513.;
                         vec3 color = sRGBToLinear(texture2D(phaseColors, vec2(phaseU, .5))).rgb;
-                        float opacity = 1. - exp(-amp * amp * stepSize * 1.2 * (1. - smoothstep(.87, 1., r)));
+                        // Change the visibility of faint density while preserving nodes.
+                        // At 50%, the transfer function is the original density.
+                        float density = amp * amp;
+                        float edgePower = exp2(1. - 2. * fuzziness);
+                        float visualDensity = pow(min(density, 1.), edgePower) * max(density, 1.);
+                        float opacity = 1. - exp(-visualDensity * stepSize * 1.2 * (1. - smoothstep(.87, 1., r)));
                         fog = mix(fog, vec4(color, 1.), opacity);
                         pos += ray * stepSize;
                     }

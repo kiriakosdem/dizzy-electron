@@ -15,28 +15,45 @@ MAIN BODY AND TEXT
 /* Font to Use */
 @import url('https://fonts.googleapis.com/css?family=Literata:400,500,600');
 
-/* Shared 20-colour palette. Opacity variants use these same base colours. */
+/* The two logo accents and four supporting colours. */
 :root {
-    --color-white: #ffffff;
+    --corner-radius: 8px;
+    --border-width: 1px;
+    --color-logo-cyan: #00bed0;
+    --color-logo-orange: #ff984f;
     --color-navy: #001e3c;
-    --color-text: #173044;
-    --color-teal-dark: #173f48;
-    --color-link: #246977;
-    --color-teal: #285b65;
-    --color-focus: #398886;
-    --color-accent: #67aaa9;
-    --color-accent-light: #a5d1d0;
-    --color-muted: #52616b;
-    --color-border-strong: #89999f;
-    --color-border: #cbd5d8;
-    --color-band: #eef0f1;
-    --color-panel: #f7f9f9;
-    --color-teal-panel: #e4eff0;
-    --color-icon-muted: #667d87;
-    --color-text-light: #d4dfe8;
-    --color-black: #000000;
-    --color-example-bg: #dac3a4;
-    --color-example-heading: #522727;
+    --color-graphite: #55565a;
+    --color-paper: #f6f3ed;
+    --color-white: #ffffff;
+    --color-border: color-mix(in srgb, var(--color-navy) 18%, var(--color-paper));
+}
+
+/* One outside edge for cards, figures and embedded content. */
+.card,
+.catalog-card,
+.figure,
+.lesson-simulation,
+.media-panel {
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--corner-radius);
+    overflow: hidden;
+}
+
+.card > .card-header:first-child {
+    border-radius: 0;
+}
+
+.btn:focus,
+.btn.focus,
+.btn:not(:disabled):not(.disabled):active:focus,
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.btn:focus-visible,
+.navbar-toggler:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
 }
 
 /* Main Body Settings*/
@@ -47,7 +64,7 @@ html, body{
 	font-family: 'Literata', sans-serif;
 	font-size: 1rem;
 
-	background-color: var(--color-band);
+	background-color: var(--color-paper);
 }
 
 /* Paragraph Element Styling*/
@@ -157,22 +174,25 @@ footer .footer-brand {
 #NavigationBar .btn:hover,
 #NavigationBar .btn:focus-visible {
     background: transparent;
-    color: var(--color-accent-light);
+    color: var(--color-logo-cyan);
 }
 
 #NavigationBar .btn[aria-current="page"] {
-    color: var(--color-accent-light);
+    color: var(--color-logo-cyan);
     text-decoration: underline;
     text-decoration-color: currentColor;
 }
 
 #NavigationBar .btn:focus-visible,
 #NavigationBar .dropdown-item:focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-logo-cyan);
     outline-offset: 3px;
 }
 
-#NavigationBar .dropdown-toggle::after { color: var(--color-accent-light); vertical-align: .15em; }
+#NavigationBar .dropdown-toggle::after { color: var(--color-white); vertical-align: .15em; }
+#NavigationBar .dropdown-toggle[aria-expanded="true"]::after { color: var(--color-logo-cyan); }
+#NavigationBar .dropdown-toggle:hover::after { color: var(--color-logo-orange); }
+#NavigationBar .dropdown-toggle[aria-current="page"]::after { color: var(--color-logo-cyan); }
 
 /* No gap between the parent link and the panel, so hover stays continuous. */
 #NavigationBar .dropdown-menu {
@@ -180,26 +200,26 @@ footer .footer-brand {
     margin-top: 0;
     padding: 8px;
     background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    box-shadow: 0 8px 24px color-mix(in srgb, var(--color-navy) 14%, transparent);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--corner-radius);
+
 }
 
 #NavigationBar .dropdown-item {
     padding: 10px 14px;
     margin: 0;
     background: transparent;
-    color: var(--color-text);
+    color: var(--color-navy);
     border: 0;
-    border-radius: 3px;
+    border-radius: var(--corner-radius);
     letter-spacing: normal;
     transition: background-color .18s ease, color .18s ease;
 }
 
 #NavigationBar .dropdown-item:hover,
 #NavigationBar .dropdown-item:focus-visible {
-    background: var(--color-band);
-    color: var(--color-link);
+    background: var(--color-paper);
+    color: var(--color-navy);
     text-decoration: none;
 }
 
@@ -207,6 +227,8 @@ footer .footer-brand {
     text-decoration: underline;
     text-underline-offset: 4px;
 }
+
+#NavigationBar .dropdown-item:focus-visible { outline-color: var(--color-navy); }
 
 #NavigationBar .dropdown-divider { border-color: var(--color-border); }
 
@@ -224,7 +246,7 @@ a:hover{
 }
 
 .btn{
-	border-radius: 1rem;
+	border-radius: var(--corner-radius);
 	background: var(--color-white);
 }
 
@@ -238,17 +260,17 @@ a:hover{
 	font-weight: bold;
 	font-size: 1rem;
 	background-color: transparent;
-	border-radius: 1rem;
-	border-width: thin;
+	border-radius: var(--corner-radius);
+	border-width: var(--border-width);
 	border-color: transparent;
-	color: var(--color-black);
+	color: var(--color-navy);
 	line-height: 3rem;
 }
 
 .btn-secondary{
 	height: 40px;
-	border-width: thin;
-	border-radius: 0.3rem;
+	border-width: var(--border-width);
+	border-radius: var(--corner-radius);
 	padding: 15px;
 	padding-bottom: 0px;
 	padding-top: 0px;
@@ -264,19 +286,19 @@ a:hover{
 	line-height: 1;
 	width: 50px;
 	height: 50px;
-	background-color: var(--color-teal);
+	background-color: var(--color-navy);
 	color: var(--color-white);
 	text-align: center;
 	display: none;
 	z-index: 1000;
 	padding: 0;
 	border: 0;
-	border-radius: 50%;
+	border-radius: var(--corner-radius);
 }
 
 .scrollToTop > svg { position: absolute; width: 28px; height: 28px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 .scrollToTop:hover{
-	background-color: var(--color-teal-dark);
+	background-color: var(--color-navy);
 	color: var(--color-white);
 }
 
@@ -292,20 +314,20 @@ SOCIAL ICONS STYLE
 }
 
 .fa-facebook{
-	color: var(--color-link)
+	color: var(--color-navy)
 }
 .fa-twitter{
-	color: var(--color-link)
+	color: var(--color-navy)
 }
 .fa-google-plus-g{
-	color: var(--color-example-heading)
+	color: var(--color-navy)
 }
 .fa-instagram{
-	color: var(--color-link);
-	color: var(--color-example-heading);
+	color: var(--color-navy);
+	color: var(--color-navy);
 }
 .fa-youtube{
-	color: var(--color-example-heading)
+	color: var(--color-navy)
 }
 
 .fa-facebook:hover,
@@ -313,7 +335,7 @@ SOCIAL ICONS STYLE
 .fa-google-plus-g:hover,
 .fa-instagram:hover,
 .fa-youtube:hover {
-	color: var(--color-border);
+	color: var(--color-paper);
 }
 
 
@@ -324,7 +346,7 @@ FOOTER STYLE
 ----------------------------------------------------- */
 footer{
 	background-color: var(--color-navy);
-	color: var(--color-text-light);
+	color: var(--color-white);
 	margin-top: 7rem;
 	font-size: 0.8rem;
 }
@@ -332,7 +354,7 @@ footer{
 footer .container-fluid{
 	margin: 0;
 	padding: 0;
-	background-color: var(--color-example-heading);
+	background-color: var(--color-navy);
 }
 
 footer .row{
@@ -346,7 +368,7 @@ footer #copyright{
 }
 
 footer a{
-	color: var(--color-border);
+	color: var(--color-paper);
 	padding: 1rem;
 }
 
@@ -370,7 +392,7 @@ OTHER FIXES
 .heading-underline{
 	width: 100%;
 	height: 1px;
-	background-color:  var(--color-link);
+	background-color:  var(--color-navy);
 	margin: 0 auto;
 	margin-bottom: 2rem;
 }
@@ -443,14 +465,27 @@ footer .footer-inner .footer-brand { margin: 0; padding: 0; }
 footer .footer-navigation ul { list-style: none; margin: 0; padding: 0; }
 footer .footer-navigation li + li { margin-top: 10px; }
 footer .footer-navigation a { display: inline-block; padding: 2px 0; font-size: .95rem; }
-footer .footer-navigation a:hover { color: var(--color-accent-light); }
+footer .footer-navigation a:hover { color: var(--color-logo-cyan); }
 footer .footer-navigation a[aria-current="page"] {
-    color: var(--color-accent-light);
+    color: var(--color-logo-cyan);
     text-decoration: underline;
     text-underline-offset: 6px;
 }
-footer .footer-navigation a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 4px; }
+footer .footer-navigation a:focus-visible { outline: 3px solid var(--color-logo-cyan); outline-offset: 4px; }
 @media (max-width: 575px) {
     footer .footer-inner { width: calc(100% - 40px); flex-direction: column; gap: 24px; text-align: center; }
 }
 
+
+/* Apply hover feedback to the control and its text, including linked lesson cards. */
+@media (any-hover: hover) {
+    :is(a[href], button:enabled, summary, [role="button"]):not([aria-disabled="true"]):hover {
+        color: var(--color-logo-orange) !important;
+        background-color: var(--hover-background, var(--color-navy)) !important;
+    }
+
+    :is(a[href], button:enabled, summary, [role="button"]):not([aria-disabled="true"]):hover
+    :where(span, strong, em, small, h2, h3, h4, p) {
+        color: var(--color-logo-orange) !important;
+    }
+}

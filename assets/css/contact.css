@@ -1,42 +1,42 @@
-.contact-page { min-height: 100%; height: auto; background: var(--color-white); color: var(--color-text); }
+.contact-page { min-height: 100%; height: auto; background: var(--color-white); color: var(--color-navy); }
 .contact-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .contact-page p { text-indent: 0; line-height: 1.8; }
 .contact-heading { padding: 48px 0 34px; text-align: center; }
 .contact-heading h1, .contact-thanks h1 { font-size: 2.25rem; margin: 0 0 24px; }
 .contact-heading p { margin: 0; }
 .contact-page h2 { font-size: 1.5rem; line-height: 1.4; margin: 0 0 18px; }
-.contact-form-band { padding: 42px 0 48px; background: var(--color-band); }
+.contact-form-band { padding: 42px 0 48px; background: var(--color-paper); }
 .contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .contact-field { min-width: 0; margin-bottom: 24px; }
 .contact-field label { display: block; font-weight: 600; margin-bottom: 8px; font-size: .95rem; }
-.contact-field label span, .contact-details summary span { font-weight: normal; color: var(--color-muted); font-size: .82rem; }
+.contact-field label span, .contact-details summary span { font-weight: normal; color: var(--color-graphite); font-size: .82rem; }
 .contact-field input, .contact-field select, .contact-field textarea {
-    display: block; width: 100%; min-height: 46px; padding: 11px 12px; border: 1px solid var(--color-border-strong);
-    border-radius: 5px; background: var(--color-white); color: var(--color-text); font: inherit; font-size: 1rem;
+    display: block; width: 100%; min-height: 46px; padding: 11px 12px; border: var(--border-width) solid var(--color-graphite);
+    border-radius: var(--corner-radius); background: var(--color-white); color: var(--color-navy); font: inherit; font-size: 1rem;
 }
 .contact-field textarea { resize: vertical; line-height: 1.6; }
-.contact-field input::placeholder { color: var(--color-muted); opacity: 1; }
-.contact-page .contact-hint { font-size: .82rem; color: var(--color-muted); margin: 8px 0 10px; }
+.contact-field input::placeholder { color: var(--color-graphite); opacity: 1; }
+.contact-page .contact-hint { font-size: .82rem; color: var(--color-graphite); margin: 8px 0 10px; }
 .contact-form-band > .contact-shell > .contact-hint { margin-bottom: 28px; }
-.contact-details { margin: 0 0 24px; border-block: 1px solid var(--color-border); padding: 16px 0; }
+.contact-details { margin: 0 0 24px; border-block: var(--border-width) solid var(--color-border); padding: 16px 0; }
 .contact-details summary { cursor: pointer; line-height: 1.6; }
 .contact-details .contact-row { margin-top: 22px; }
 .contact-details .contact-field { margin-bottom: 4px; }
-.contact-page .contact-privacy { font-size: .8rem; color: var(--color-muted); margin-bottom: 22px; }
-.contact-page main a { color: var(--color-link); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.contact-page .contact-privacy { font-size: .8rem; color: var(--color-graphite); margin-bottom: 22px; }
+.contact-page main a { color: var(--color-navy); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
 .contact-page .contact-submit {
-    display: inline-block; border: 1px solid var(--color-navy); border-radius: 6px; padding: 13px 22px;
-    background: var(--color-navy); color: var(--color-white); font: inherit; font-size: .95rem; cursor: pointer; text-decoration: none;
+    display: inline-block; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); padding: 13px 22px;
+    background: var(--color-logo-orange); color: var(--color-navy); font: inherit; font-size: .95rem; cursor: pointer; text-decoration: none;
 }
-.contact-page .contact-submit:hover { background: var(--color-teal); border-color: var(--color-teal); }
+.contact-page .contact-submit:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); }
 .contact-direct { padding: 42px 0 46px; }
 .contact-direct p { margin: 0; }
 .contact-honeypot { display: none; }
 .contact-page footer { margin-top: 0; padding-bottom: 20px; }
-.contact-page #NavigationBar [aria-current="page"] { color: var(--color-accent-light); text-decoration: underline; text-underline-offset: 6px; }
+.contact-page #NavigationBar [aria-current="page"] { color: var(--color-logo-cyan); text-decoration: underline; text-underline-offset: 6px; }
 .contact-skip-link { position: fixed; top: -100px; left: 16px; z-index: 1100; background: var(--color-white); padding: 14px; color: var(--color-navy); }
 .contact-skip-link:focus { top: 10px; }
-.contact-page :is(a, button, input, select, textarea, summary):focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+.contact-page :is(a, button, input, select, textarea, summary):focus-visible { outline: 3px solid var(--color-navy); outline-offset: 3px; }
 .contact-thanks { padding: 64px 0; min-height: 65vh; }
 .contact-thanks .contact-submit { margin: 14px 0 26px; }
 @media (max-width: 575px) {

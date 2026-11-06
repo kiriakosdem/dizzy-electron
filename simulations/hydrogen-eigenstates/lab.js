@@ -10,7 +10,7 @@
     const compact = matchMedia('(max-width:750px), (max-height:500px) and (max-width:950px)');
     const nSelect = $('nSelect'), lSelect = $('lSelect'), mSelect = $('mSelect');
     const density = $('density'), status = $('renderStatus');
-    const displayMode = $('displayMode'), enclosure = $('enclosure');
+    const displayMode = $('displayMode'), enclosure = $('enclosure'), fuzziness = $('fuzziness');
     // One world unit is 25 Bohr radii for every state and display mode.
     const WORLD_SCALE = 0.04, VIEW_RADIUS = 3.8;
     const MAX_POINTS = Number(density.max);
@@ -115,6 +115,7 @@
         $('pointControls').hidden = !isPoints;
         $('detectionControls').hidden = !isPoints;
         $('surfaceControls').hidden = !isSurface;
+        $('fuzzyControls').hidden = displayMode.value !== 'fuzzy';
         $('phaseLegend').hidden = isPoints;
         $('colorLegendTitle').textContent = 'Wavefunction phase · arg ψ';
         $('viewLabel').textContent = isSurface ? `≈ ${(probability * 100).toFixed(1)}% probability surface` : 'Probability density |ψ|²';
@@ -123,6 +124,18 @@
             'Each sphere is a possible measurement position, not a separate electron or a point on an orbit.';
         if (renderer) renderer.domElement.setAttribute('aria-label', `Three-dimensional hydrogen ${isSurface ? 'probability surface' : 'probability cloud'}. Drag to rotate and scroll or pinch to zoom.`);
     }
+    function setFuzziness() {
+        const value = Number(fuzziness.value);
+        $('fuzzinessValue').textContent = `${value}%`;
+        fuzziness.setAttribute('aria-valuetext', `${value} percent fuzziness`);
+        fuzziness.style.setProperty('--range-fill', `${value}%`);
+        if (fuzzy) fuzzy.material.uniforms.fuzziness.value = value / 100;
+        needsRender = true;
+    }
+    fuzziness.addEventListener('input', setFuzziness);
+    fuzziness.addEventListener('change', () => {
+        $('actionStatus').textContent = `Cloud fuzziness set to ${fuzziness.value}%.`;
+    });
     function setEnclosure() {
         probability = Number(enclosure.value) / 100;
         $('enclosureValue').textContent = `${Number(enclosure.value).toFixed(1)}%`;
@@ -162,7 +175,7 @@
     $('resetView').addEventListener('click', resetCamera);
     $('zoomIn').addEventListener('click', () => zoomView(1 / 1.25));
     $('zoomOut').addEventListener('click', () => zoomView(1.25));
-    reflectState(); setDensity(); setEnclosure(); reflectDisplay();
+    reflectState(); setDensity(); setEnclosure(); setFuzziness(); reflectDisplay();
 
     function highlightSample(now, force = false) {
         if (!detection) return;
@@ -321,6 +334,7 @@
         surface.visible = false; scene.add(surface);
         fuzzy = window.HydrogenFuzzy.create(phasePalette.texture);
         fuzzy.visible = false; scene.add(fuzzy);
+        setFuzziness();
         // Smaller diffuse spheres: no specular reflections, with light transparency.
         const sphereGeometry = new THREE.SphereGeometry(0.004,10,8);
         cloud = new THREE.InstancedMesh(sphereGeometry,new THREE.MeshLambertMaterial({color:0x77b1f6,transparent:true,opacity:0.58,depthWrite:false}),MAX_POINTS);

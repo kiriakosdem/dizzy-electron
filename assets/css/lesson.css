@@ -20,13 +20,13 @@ BUTTONS & LINKS
 #change-chapter .btn{
 	font-size: 0.8rem;
 	background-color: transparent;
-	color: var(--color-link);
+	color: var(--color-navy);
 	margin-top: 4rem;
 	margin-bottom: 2rem;
 }
 
 #change-chapter .btn:hover{
-	color: var(--color-teal-dark);
+	color: var(--color-navy);
 	text-decoration: underline;
 }
 
@@ -42,28 +42,22 @@ CARDS
 	margin-bottom: 2rem;
 	margin-left: auto 0;
 	margin-right: auto 0;
-	border-top-left-radius: 1rem;
-	border-top-right-radius: 1rem;
-	border-bottom-left-radius: 1rem;
-	border-bottom-right-radius: 1rem;
-	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
+
 }
 
 /* Examples Card */
 .example-card{
-	background-color: var(--color-example-bg);
-	border-color: var(--color-example-heading);
+	background-color: var(--color-white);
+	border-color: var(--color-logo-orange);
 	font-size: 0.9rem;
 
 }
 
 .example-card .card-header{
-	background-color: var(--color-example-heading);
-	color: var(--color-white);
+	background-color: var(--color-logo-orange);
+	color: var(--color-navy);
 	font-weight: bold;
 	font-size: 1rem;
-	border-top-left-radius: 0.8rem;
-	border-top-right-radius: 0.8rem;
 }
 
 /* Learning Goals Card */
@@ -71,29 +65,26 @@ CARDS
 .learning-goals-card{
 	margin-left: 7vw;
 	margin-right: 7vw;
-	border-color: transparent;
 	font-size: 0.9rem;
-	background-color: var(--color-teal-panel);
-	border-color: var(--color-teal);
-	color: var(--color-text);
+	background-color: var(--color-white);
+	border-color: var(--color-navy);
+	color: var(--color-navy);
 }
 
 .learning-goals-card .card-header{
-	background-color: var(--color-teal);
+	background-color: var(--color-navy);
 	color: var(--color-white);
 	font-weight: bold;
 	font-size: 1rem;
-	border-top-left-radius: 0.8rem;
-	border-top-right-radius: 0.8rem;
 }
 
 /* Contents Card */
 .contents-card{
-	border-radius: 0.8rem;
+	border-radius: var(--corner-radius);
 	border-color: var(--color-navy);
 	padding-bottom: 1rem;
 	font-size: 0.9rem;
-	background-color: var(--color-border-strong);
+	background-color: var(--color-paper);
 	width: 265px;
 	margin: auto;
 }
@@ -101,9 +92,7 @@ CARDS
 .contents-card .card-header{
 	font-size: 1rem;
 	font-weight: bold;
-	border-top-left-radius: 0.8rem;
-	border-top-right-radius: 0.8rem;
-	background-color: var(--color-border-strong);
+	background-color: var(--color-paper);
 }
 
 .contents-card img{
@@ -120,9 +109,9 @@ CARDS
 
 .contents-card ul a{
 	/*color: #0275d8;*/
-	color: var(--color-black);
+	color: var(--color-navy);
 	display: block;
-	
+
 	padding-left: 1rem;
 	padding-right: 1rem;
 	padding-bottom: 0.2rem;
@@ -149,13 +138,12 @@ BREADCRUMB
 
 /* Style the list */
 ul.breadcrumb {
+    border: var(--border-width) solid var(--color-border);
+    border-top: 0;
+    border-radius: 0 0 var(--corner-radius) var(--corner-radius);
 	padding: 0.7rem;
 	list-style: none;
-	background-color: var(--color-border);
-	border-top-left-radius: 0rem;
-	border-top-right-radius: 0rem;
-	border-bottom-left-radius: 1.2rem;
-	border-bottom-right-radius: 1.2rem;
+	background-color: var(--color-white);
 }
 
 /* Display list items side by side */
@@ -167,19 +155,20 @@ ul.breadcrumb li {
 /* Add a slash symbol (/) before/behind each list item */
 ul.breadcrumb li+li:before {
 	padding: 5px;
-	color: var(--color-black);
+	color: var(--color-navy);
 	content: "/\00a0";
 }
 
 /* Add a color to all links inside the list */
 ul.breadcrumb li a {
-	color: var(--color-link);
+	--hover-background: transparent;
+	color: var(--color-logo-cyan);
 	text-decoration: none;
 }
 
 /* Add a color on mouse-over */
 ul.breadcrumb li a:hover {
-	color: var(--color-teal-dark);
+	color: var(--color-logo-orange);
 	text-decoration: underline;
 }
 
@@ -196,7 +185,7 @@ IMAGES, MEDIA & ANIMATIONS
 	padding: auto 0;
 	width: auto;
 	height: auto;
-	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
+
 }
 
 .figure-img{
@@ -204,14 +193,14 @@ IMAGES, MEDIA & ANIMATIONS
 	margin: 0;
 	padding: 1rem;
 	padding-bottom: 0rem;
-	background-color: var(--color-border);
-	
+	background-color: var(--color-paper);
+
 }
 
 .figure-caption{
-	background-color: var(--color-border);
+	background-color: var(--color-paper);
 	padding: 1rem;
-	color: var(--color-text);
+	color: var(--color-navy);
 	margin: auto 0;
 	text-align: left;
 	font-weight: bold;
@@ -229,19 +218,19 @@ IMAGES, MEDIA & ANIMATIONS
 	margin-left: 0;
 	margin-right: 0;
 	height: auto;
-	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
+
 }
 
 #jscode{
 	padding: 0;
-	background-color: var(--color-border);
+	background-color: var(--color-paper);
 	margin: 0rem;
 	height: 50vh;
 }
 
 #animation{
-	background-color: var(--color-border);
-	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
+	background-color: var(--color-paper);
+
 }
 
 
@@ -256,7 +245,7 @@ p {
 #content {
 	width: 100%;
 	padding: 0;
-	
+
 	min-height: 100vh;
 	transition: all 0.3s;
 	position: absolute;
@@ -287,21 +276,21 @@ p {
 .applet-container1{
 	margin: 0rem;
 	text-align: center;
-	
+
 }
 
 .applet-container2{
 	margin: 0rem;
 	text-align: center;
-	
+
 }
 
 .col{
-	background: var(--color-border-strong);
+	background: var(--color-paper);
 	padding: 0rem;
 	text-align: center;
 	justify-content: center;
-	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
+
 	margin-top: 2rem;
 	margin-bottom: 2rem;
 }

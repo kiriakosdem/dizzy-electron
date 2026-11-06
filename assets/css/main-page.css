@@ -3,9 +3,9 @@ CAROUSEL STYLE
 ----------------------------------------------------- */
 .carousel{
 /*	height: 80vh;*/
-	background-color: var(--color-icon-muted);
-	border-width: 3rem;
-	border-color:var(--color-example-heading);
+	background-color: var(--color-graphite);
+	border-width: var(--border-width);
+	border-color:var(--color-navy);
 }
 
 .carousel-item img{
@@ -13,25 +13,24 @@ CAROUSEL STYLE
 /*	height: 80vh;*/
 	margin-left: 3rem;
 	margin: 0 auto;
-	border-width: 2rem;
-	border: 2rem;
-	border-color: var(--color-example-heading);
-	border-image-width: 2rem;
-	
+	border-width: var(--border-width);
+	border: 0;
+	border-color: var(--color-navy);
+
 }
 
 .carousel-caption h1{
 	font-size: 4rem;
 	font-weight: 800;
 	letter-spacing: 0.3rem;
-	text-shadow: 0.1rem 0.1rem 0.8rem var(--color-black);
+
 	padding-bottom: 1rem;
 }
 
 .carousel-caption h3{
 	font-size: 2rem;
-	text-shadow: 0.1rem 0.1rem 0.5rem var(--color-black);
-	/*	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+
+	/*	*/
 	padding-bottom: 1rem;
 	font-style: italic;
 }
@@ -46,11 +45,8 @@ OTHER ELEMENTS STYLE
 	padding-right: 5rem;
 	padding-left: 5rem;
 	background-color: var(--color-navy);
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	border-bottom-left-radius: 2rem;
-	border-bottom-right-radius: 2rem;
-	color: var(--color-border);
+	border-radius: var(--corner-radius);
+	color: var(--color-paper);
 }
 
 .offset:before{
@@ -63,7 +59,7 @@ OTHER ELEMENTS STYLE
 .heading-underline{
 	width: 65%;
 	height: 2px;
-	background-color:  var(--color-link);
+	background-color:  var(--color-navy);
 	margin: 0 auto;
 	margin-bottom: 2rem;
 }

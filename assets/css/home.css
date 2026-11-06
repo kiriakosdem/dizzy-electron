@@ -1,28 +1,28 @@
 /* The same compact layout and alternating bands as About, Contact and Contents. */
-.home-page { min-height: 100%; height: auto; background: var(--color-white); color: var(--color-text); }
+.home-page { min-height: 100%; height: auto; background: var(--color-white); color: var(--color-navy); }
 .home-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .home-page p { text-indent: 0; line-height: 1.8; }
 .home-heading { padding: 48px 0 40px; text-align: center; background: var(--color-navy); color: var(--color-white); }
 .home-heading h1 { font-size: 2.25rem; line-height: 1.3; margin: 0 0 24px; }
 .home-heading p { max-width: 680px; margin: 0 auto 26px; }
 .home-heading p:last-child { margin-bottom: 0; }
-.home-button { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: 1px solid var(--color-teal); border-radius: 6px; background: var(--color-teal); color: var(--color-white); font-size: .95rem; font-weight: 600; line-height: 1.6; }
-.home-button:hover { background: var(--color-teal-dark); border-color: var(--color-teal-dark); color: var(--color-white); text-decoration: none; }
+.home-button { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); background: var(--color-logo-orange); color: var(--color-navy); font-size: .95rem; font-weight: 600; line-height: 1.6; }
+.home-button:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); color: var(--color-navy); text-decoration: none; }
 .home-band { padding: 48px 0 54px; background: var(--color-white); }
-.home-band--shaded { background: var(--color-band); }
+.home-band--shaded { background: var(--color-paper); }
 .home-band h2 { font-size: 1.6rem; line-height: 1.4; margin: 0 0 24px; }
-.home-band p { font-size: .95rem; color: var(--color-muted); }
+.home-band p { font-size: .95rem; color: var(--color-graphite); }
 .home-intro { margin-bottom: 28px; }
 .home-page .home-more { margin: 28px 0 0; text-align: center; }
 .home-links { display: flex; flex-wrap: wrap; gap: 18px 32px; margin-top: 26px; }
-.home-text-link { color: var(--color-link); font-size: .9rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.home-text-link { color: var(--color-navy); font-size: .9rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
 .home-text-link span { display: inline-block; margin-left: 8px; }
-.home-text-link:hover { color: var(--color-teal-dark); text-decoration: underline; }
+.home-text-link:hover { color: var(--color-navy); text-decoration: underline; }
 .home-page section { scroll-margin-top: 24px; }
 .home-page footer { margin-top: 0; padding-bottom: 20px; }
 .home-skip-link { position: fixed; top: -100px; left: 16px; z-index: 1100; background: var(--color-white); padding: 14px; color: var(--color-navy); }
 .home-skip-link:focus { top: 10px; }
-.home-page a:focus-visible, .home-page button:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 4px; }
+.home-page a:focus-visible, .home-page button:focus-visible { outline: 3px solid var(--color-navy); outline-offset: 4px; }
 @media (max-width: 575px) {
     .home-shell { width: calc(100% - 40px); }
     .home-heading { padding: 32px 0; }
@@ -39,17 +39,17 @@
 .welcome-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--color-navy) 12%, transparent), color-mix(in srgb, var(--color-navy) 12%, transparent) 30%, color-mix(in srgb, var(--color-navy) 80%, transparent)); }
 .welcome-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .welcome-carousel button { border: 0; color: var(--color-white); cursor: pointer; }
-.welcome-arrow { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border-radius: 50%; background: color-mix(in srgb, var(--color-navy) 65%, transparent); }
+.welcome-arrow { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border-radius: var(--corner-radius); background: color-mix(in srgb, var(--color-navy) 65%, transparent); }
 .welcome-arrow svg { display: block; flex-shrink: 0; }
 .welcome-previous { left: 20px; }
 .welcome-next { right: 20px; }
 .welcome-pagination { position: absolute; z-index: 2; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; }
 /* The same progress value drives the fill and the slide change. */
-.welcome-dot { position: relative; width: 46px; height: 36px; padding: 12px 5px; background: transparent; }
+.welcome-dot { --hover-background: transparent; position: relative; width: 46px; height: 36px; padding: 12px 5px; background: transparent; }
 .welcome-dot::before, .welcome-dot::after { content: ''; position: absolute; left: 5px; right: 5px; top: 16px; height: 4px; border-radius: 2px; }
 .welcome-dot::before { background: color-mix(in srgb, var(--color-white) 45%, transparent); }
 .welcome-dot::after { right: auto; width: calc((100% - 10px) * var(--progress, 0)); background: var(--color-white); border-radius: 2px; }
-.welcome-arrow:hover { background: var(--color-teal); }
+.welcome-arrow:hover { background: var(--color-navy); }
 .home-page .welcome-carousel button:focus-visible { outline-color: var(--color-white); }
 @media (max-width: 575px) {
     .welcome-previous { left: 8px; }
@@ -72,12 +72,12 @@
     text-align: center;
 }
 .home-quote blockquote { position: relative; margin: 0; padding: 12px 46px; }
-.home-page .home-quote p { margin: 0; color: var(--color-white); font-size: clamp(1rem, 1.6vw, 1.25rem); line-height: 1.8; text-shadow: 0 2px 8px var(--color-navy); }
-.home-quote-mark { position: absolute; top: 0; left: 0; color: var(--color-accent); font-family: Georgia, serif; font-size: 5rem; line-height: 1; }
-.home-quote-mark--closing { top: auto; left: auto; bottom: -20px; right: 0; }
+.home-page .home-quote p { margin: 0; color: var(--color-white); font-size: clamp(1rem, 1.6vw, 1.25rem); line-height: 1.8; }
+.home-quote-mark { position: absolute; top: 0; left: 0; color: var(--color-logo-cyan); font-family: Georgia, serif; font-size: 5rem; line-height: 1; }
+.home-quote-mark--closing { color: var(--color-logo-orange); top: auto; left: auto; bottom: -20px; right: 0; }
 .home-quote figcaption { margin-top: 22px; }
-.home-quote figcaption em { display: block; font-size: 1.05rem; color: var(--color-accent-light); }
-.home-quote figcaption span { display: block; margin-top: 6px; font-size: .78rem; line-height: 1.6; color: var(--color-text-light); }
+.home-quote figcaption em { display: block; font-size: 1.05rem; color: var(--color-white); }
+.home-quote figcaption span { display: block; margin-top: 6px; font-size: .78rem; line-height: 1.6; color: var(--color-white); }
 @media (max-width: 575px) {
     .welcome-slide { height: 640px; }
     .welcome-slide .home-quote { width: calc(100% - 112px); padding-top: 20px; }
@@ -91,9 +91,9 @@
 }
 
 .home-quote figcaption { display: flex; align-items: center; justify-content: center; gap: 14px; }
-.welcome-slide .scientist-portrait { width: 76px; height: 76px; flex: 0 0 76px; border-radius: 50%; object-fit: cover; object-position: center 25%; border: 2px solid var(--color-accent); }
+.welcome-slide .scientist-portrait { width: 76px; height: 76px; flex: 0 0 76px; border-radius: 50%; object-fit: cover; object-position: center 25%; border: var(--border-width) solid var(--color-navy); }
 .scientist-credit { text-align: left; min-width: 0; }
-.home-quote .portrait-credit { display: block; margin-top: 5px; color: var(--color-text-light); font-size: .6rem; line-height: 1.5; }
+.home-quote .portrait-credit { display: block; margin-top: 5px; color: var(--color-white); font-size: .6rem; line-height: 1.5; }
 .home-quote .portrait-credit:hover { color: var(--color-white); text-decoration: underline; }
 @media (max-width: 575px) {
     .home-quote figcaption { gap: 10px; }

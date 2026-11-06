@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>The Hydrogen Atom Laboratory</title>
-    <link rel="stylesheet" href="lab.css?v=phase-rainbow-2">
+    <link rel="stylesheet" href="lab.css?v=fuzziness-1">
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script defer src="physics.js?v=fuzzy-1"></script>
     <script defer src="surface.js"></script>
     <script defer src="real-surface.js"></script>
-    <script defer src="orbital-colors.js?v=phase-rainbow-2"></script>
-    <script defer src="fuzzy-cloud.js?v=phase-rainbow-2"></script>
-    <script defer src="lab.js?v=phase-rainbow-2"></script>
+    <script defer src="orbital-colors.js?v=fuzziness-1"></script>
+    <script defer src="fuzzy-cloud.js?v=fuzziness-1"></script>
+    <script defer src="lab.js?v=fuzziness-1"></script>
 </head>
 <body>
 <header class="banner">
@@ -55,6 +55,11 @@
                 <label class="control-label" for="density">Point density <output id="densityValue" for="density">10,000 spheres</output></label>
                 <input id="density" type="range" min="1000" max="30000" step="500" value="10000" aria-describedby="densityHint">
                 <p class="muted" id="densityHint">More samples reveal finer detail. This changes the drawing, not the probability distribution.</p>
+            </div>
+            <div id="fuzzyControls">
+                <label class="control-label" for="fuzziness">Fuzziness <output id="fuzzinessValue" for="fuzziness">50%</output></label>
+                <input id="fuzziness" type="range" min="0" max="100" step="1" value="50" aria-describedby="fuzzinessHint">
+                <p class="muted" id="fuzzinessHint">Lower values sharpen dense regions. Higher values reveal a softer halo.</p>
             </div>
             <div id="surfaceControls" hidden>
                 <label class="control-label" for="enclosure">Enclosed probability <output id="enclosureValue" for="enclosure">70.0%</output></label>
