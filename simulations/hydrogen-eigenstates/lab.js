@@ -2,6 +2,8 @@
     'use strict';
     const P = window.HydrogenPhysics;
     const S = window.HydrogenSurface, RS = window.HydrogenRealSurface;
+    const paletteStyle = getComputedStyle(document.documentElement);
+    let phasePalette;
     let basis = 'complex';
     const $ = id => document.getElementById(id);
     const lab = $('lab'), panel = $('controlsPanel'), viewport = $('viewport');
@@ -14,6 +16,7 @@
     const MAX_POINTS = Number(density.max);
     let state = { n: 1, l: 0, m: 0 }, drawCount = Number(density.value);
     let renderer, scene, camera, orbit, cloud, axes, rebuildFrame, detection, detectionMatrix;
+    let fuzzy, fuzzyState, fuzzyRadius99;
     let surface, surfaceModel, surfaceState, cloudState, surfaceProbability, surfaceRadius, cloudRadius99;
     let probability = Number(enclosure.value) / 100, resetOnBuild = false;
     let needsRender = true, ready = false, radius99 = 1;
@@ -108,12 +111,15 @@
     density.addEventListener('change', () => { $('actionStatus').textContent = `Showing ${drawCount.toLocaleString('en-US')} probability samples.`; });
     function reflectDisplay() {
         const isSurface = displayMode.value === 'surface';
-        $('pointControls').hidden = isSurface;
-        $('detectionControls').hidden = isSurface;
+        const isPoints = displayMode.value === 'points';
+        $('pointControls').hidden = !isPoints;
+        $('detectionControls').hidden = !isPoints;
         $('surfaceControls').hidden = !isSurface;
-        $('phaseLegend').hidden = !isSurface;
+        $('phaseLegend').hidden = isPoints;
+        $('colorLegendTitle').textContent = 'Wavefunction phase · arg ψ';
         $('viewLabel').textContent = isSurface ? `≈ ${(probability * 100).toFixed(1)}% probability surface` : 'Probability density |ψ|²';
         $('viewHint').textContent = isSurface ? 'The surface is a probability boundary, not a solid electron or an orbit. Some probability always remains outside.' :
+            !isPoints ? 'Denser regions appear more opaque. Color shows wavefunction phase, with orange at +1 and light blue at −1.' :
             'Each sphere is a possible measurement position, not a separate electron or a point on an orbit.';
         if (renderer) renderer.domElement.setAttribute('aria-label', `Three-dimensional hydrogen ${isSurface ? 'probability surface' : 'probability cloud'}. Drag to rotate and scroll or pinch to zoom.`);
     }
@@ -160,7 +166,7 @@
 
     function highlightSample(now, force = false) {
         if (!detection) return;
-        if (!detectionsEnabled || displayMode.value === 'surface' || !cloud || !cloud.visible) {
+        if (!detectionsEnabled || displayMode.value !== 'points' || !cloud || !cloud.visible) {
             if (detection.visible) {
                 detection.visible = false;
                 needsRender = true;
@@ -216,8 +222,14 @@
         try {
             const key = `${state.n},${state.l},${Math.abs(state.m)},${basis}`;
             const isSurface = displayMode.value === 'surface';
-            if (isSurface) {
-                const phaseKey = `${state.n},${state.l},${state.m},${basis}`;
+            const phaseKey = `${state.n},${state.l},${state.m},${basis}`;
+            if (displayMode.value === 'fuzzy') {
+                if (fuzzyState !== phaseKey) {
+                    fuzzyRadius99 = window.HydrogenFuzzy.update(fuzzy, state, basis, WORLD_SCALE);
+                    fuzzyState = phaseKey;
+                }
+                radius99 = fuzzyRadius99;
+            } else if (isSurface) {
                 const surfaceEngine = basis !== 'complex' && state.m !== 0 ? RS : S;
                 if (surfaceState !== phaseKey) {
                     surfaceModel = surfaceEngine.prepare(state.n, state.l, state.m, basis);
@@ -233,7 +245,7 @@
                     const colors = new Float32Array(mesh.positions.length), color = new THREE.Color();
                     for (let i = 0; i < mesh.positions.length; i += 3) {
                         const phase = P.phase(state.n, state.l, state.m, ...mesh.positions.subarray(i, i + 3), basis);
-                        color.setHSL(phase / (2 * Math.PI), 0.7, 0.58).convertSRGBToLinear();
+                        phasePalette.colorAt(phase, color).convertSRGBToLinear();
                         color.toArray(colors, i);
                     }
                     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
@@ -261,8 +273,9 @@
                 cloud.count = drawCount;
                 cloudState = key;
             }
-            if (!isSurface) radius99 = cloudRadius99;
-            cloud.visible = !isSurface;
+            cloud.visible = displayMode.value === 'points';
+            if (cloud.visible) radius99 = cloudRadius99;
+            fuzzy.visible = displayMode.value === 'fuzzy';
             surface.visible = isSurface;
             highlightSample(performance.now(), true);
             $('scaleLabel').textContent = isSurface ? `Surface extent: ${surfaceRadius.toFixed(2)} a₀ from the nucleus` :
@@ -271,14 +284,19 @@
             if (reset) resetCamera();
             status.hidden = true; needsRender = true;
         } catch (error) {
-            cloud.visible = false; surface.visible = false; detection.visible = false;
+            fuzzy.visible = false; cloud.visible = false; surface.visible = false; detection.visible = false;
             status.hidden = false; status.textContent = 'The orbital could not be generated. Try another state or reload the lab.';
             console.error(error);
         }
     }
     try {
         if (!window.THREE || !THREE.OrbitControls) throw new Error('The 3D libraries did not load');
-        scene = new THREE.Scene(); scene.background = new THREE.Color('#061126');
+        phasePalette = window.HydrogenOrbitalColors(
+            new THREE.Color(paletteStyle.getPropertyValue('--orbital-positive').trim()),
+            new THREE.Color(paletteStyle.getPropertyValue('--orbital-negative').trim())
+        );
+        $('phaseRamp').style.background = phasePalette.gradient;
+        scene = new THREE.Scene(); scene.background = new THREE.Color(getComputedStyle(lab).backgroundColor);
         camera = new THREE.PerspectiveCamera(40, 1, 0.01, 500); camera.up.set(0,0,1);
         renderer = new THREE.WebGLRenderer({antialias:true,alpha:false});
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -301,6 +319,8 @@
             side:THREE.DoubleSide
         }));
         surface.visible = false; scene.add(surface);
+        fuzzy = window.HydrogenFuzzy.create(phasePalette.texture);
+        fuzzy.visible = false; scene.add(fuzzy);
         // Smaller diffuse spheres: no specular reflections, with light transparency.
         const sphereGeometry = new THREE.SphereGeometry(0.004,10,8);
         cloud = new THREE.InstancedMesh(sphereGeometry,new THREE.MeshLambertMaterial({color:0x77b1f6,transparent:true,opacity:0.58,depthWrite:false}),MAX_POINTS);

@@ -63,10 +63,10 @@ CARDS
 	height: 350px;
 	width: 250px;
 	border-radius: 0.8rem;
-	border-color: black;
+	border-color: var(--color-black);
 	border-width: 1px;
 	justify-content: center;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.7);
+	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
 
 	background-position: center; 
 	background-repeat: no-repeat; /* Do not repeat the image */
@@ -87,10 +87,10 @@ CARDS
 	width: inherit;
 	padding: 0.5rem;
 	padding-top: 1rem;
-	color: white;
+	color: var(--color-white);
 	font-size: 1rem;
 	font-weight:800;
-	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	text-shadow: -1px 0 var(--color-black), 0 1px var(--color-black), 1px 0 var(--color-black), 0 -1px var(--color-black);
 	text-align: center;
 	/*justify-content: center;
 	display: flex;
@@ -103,8 +103,8 @@ CARDS
 	border-top-left-radius: 0.4rem;
 	border-top-right-radius: 0.4rem;
 	border-width: 0.3px;
-	border-bottom-color: gray;
-	color:white;
+	border-bottom-color: var(--color-border-strong);
+	color:var(--color-white);
 }
 
 .card-physics .inner p, .card-math .inner p{
@@ -115,7 +115,7 @@ CARDS
 	line-height: 1.3rem;
 	font-size: 0.8rem;
 	font-weight: normal;
-	color: white;
+	color: var(--color-white);
 	text-align: left;
 }
 
@@ -150,32 +150,32 @@ text-decoration-line: none;
 
 /* Physics Cards */
 .card-physics{
-	background-color: darkslategray;
+	background-color: var(--color-teal);
 }
 
 .card-physics .inner{
-	background-color: rgb(100,0,0,0);
+	background-color: transparent;
 }
 
 
 /* Math Cards */
 .card-math{
-	background-color: brown;
+	background-color: var(--color-example-heading);
 }
 
 .card-math .inner{
-	background-color: rgb(0,100,100,0);
+	background-color: transparent;
 }
 
 .backface-card{
 	height: 350px;
 	width: 250px;
 	border-radius: 0.8rem;
-	color: black;
-	border-color: #003366;
+	color: var(--color-black);
+	border-color: var(--color-navy);
 	padding-bottom: 1rem;
 	font-size: 0.8rem;
-	background-color: darkgray;
+	background-color: var(--color-border-strong);
 	margin: auto;
 	text-align: left;
 }
@@ -185,7 +185,7 @@ text-decoration-line: none;
 	font-weight: bold;
 	border-top-left-radius: 0.8rem;
 	border-top-right-radius: 0.8rem;
-	background-color: darkgray;
+	background-color: var(--color-border-strong);
 }
 
 .backface-card ul{
@@ -206,9 +206,9 @@ text-decoration-line: none;
 }
 
 .lesson-card--locked .card {
-    background-color: #48535d;
-    border-color: #66717b;
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    background-color: var(--color-muted);
+    border-color: var(--color-border-strong);
+    box-shadow: 0 3px 7px color-mix(in srgb, var(--color-black) 30%, transparent);
 }
 
 .lesson-card--locked .inner .lesson-icon {
@@ -223,10 +223,10 @@ text-decoration-line: none;
     align-self: center;
     flex-shrink: 0;
     padding: 0.25rem 0.75rem;
-    border: 1px solid #aebcc9;
+    border: 1px solid var(--color-border);
     border-radius: 999px;
-    background-color: #243442;
-    color: #fff;
+    background-color: var(--color-text);
+    color: var(--color-white);
     font-size: 0.8rem;
     font-weight: 600;
     line-height: 1.25rem;
@@ -237,7 +237,7 @@ text-decoration-line: none;
 }
 
 .lesson-card--locked .inner p {
-    color: #e3e9ee;
+    color: var(--color-text-light);
 }
 
 /* Shared rows keep titles, icons, availability and descriptions aligned. */
@@ -297,28 +297,28 @@ text-decoration-line: none;
 .catalog-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 .catalog-card {
     display: flex; flex-direction: column; align-items: flex-start; min-width: 0;
-    padding: 26px; border: 1px solid #cbd5d8; border-radius: 8px;
-    background: #fff; color: #173044; text-decoration: none;
-    box-shadow: 0 2px 5px rgba(0, 30, 60, .04);
+    padding: 26px; border: 1px solid var(--color-border); border-radius: 8px;
+    background: var(--color-white); color: var(--color-text); text-decoration: none;
+    box-shadow: 0 2px 5px color-mix(in srgb, var(--color-navy) 4%, transparent);
     transition: border-color .15s ease, box-shadow .15s ease;
 }
-.catalog-card:hover { color: #173044; border-color: #398886; box-shadow: 0 4px 12px rgba(0, 30, 60, .09); text-decoration: none; }
-.catalog-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 64px; height: 64px; border-radius: 10px; background: #285b65; }
+.catalog-card:hover { color: var(--color-text); border-color: var(--color-focus); box-shadow: 0 4px 12px color-mix(in srgb, var(--color-navy) 9%, transparent); text-decoration: none; }
+.catalog-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 64px; height: 64px; border-radius: 10px; background: var(--color-teal); }
 .catalog-icon img { display: block; width: 48px; height: 48px; }
 .catalog-card h3, .catalog-card h4 { font-size: 1.12rem; font-weight: 600; line-height: 1.5; margin: 20px 0 12px; }
-.catalog-card p { font-size: .9rem; color: #52616b; margin: 0 0 22px; line-height: 1.75; text-indent: 0; }
+.catalog-card p { font-size: .9rem; color: var(--color-muted); margin: 0 0 22px; line-height: 1.75; text-indent: 0; }
 .catalog-grid--sidebar { grid-template-columns: minmax(0, 1fr); max-width: 320px; margin-inline: auto; text-align: left; }
-.catalog-card-action { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; margin-top: auto; font-size: .85rem; font-weight: 600; color: #246977; }
+.catalog-card-action { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; margin-top: auto; font-size: .85rem; font-weight: 600; color: var(--color-link); }
 .catalog-card:hover .catalog-card-action { text-decoration: underline; text-underline-offset: 3px; }
 .catalog-card-action > span { font-size: 1.2rem; }
 .catalog-topic-list { list-style: none; padding: 0; margin: 28px 0 0; }
-.catalog-topic { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 20px; align-items: start; padding: 26px 0; border-top: 1px solid #d2dcdf; }
+.catalog-topic { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 20px; align-items: start; padding: 26px 0; border-top: 1px solid var(--color-border); }
 .catalog-topic:last-child { padding-bottom: 0; }
-.catalog-icon--muted { width: 52px; height: 52px; background: #667d87; border-radius: 8px; }
+.catalog-icon--muted { width: 52px; height: 52px; background: var(--color-icon-muted); border-radius: 8px; }
 .catalog-icon--muted img { width: 36px; height: 36px; }
 .catalog-topic-copy h3, .catalog-topic-copy h4 { font-size: 1rem; font-weight: 600; line-height: 1.5; margin: 0 0 10px; }
-.contents-page .catalog-topic-copy p { font-size: .9rem; color: #52616b; line-height: 1.75; margin: 0; }
-.catalog-status { display: inline-block; border: 1px solid #c6d1d4; border-radius: 999px; color: #52616b; background: #f7f9f9; font-size: .75rem; line-height: 1.5; padding: 4px 10px; white-space: nowrap; }
+.contents-page .catalog-topic-copy p { font-size: .9rem; color: var(--color-muted); line-height: 1.75; margin: 0; }
+.catalog-status { display: inline-block; border: 1px solid var(--color-border); border-radius: 999px; color: var(--color-muted); background: var(--color-panel); font-size: .75rem; line-height: 1.5; padding: 4px 10px; white-space: nowrap; }
 @media (max-width: 650px) {
     .catalog-grid { grid-template-columns: 1fr; gap: 18px; }
     .catalog-card { padding: 22px; }

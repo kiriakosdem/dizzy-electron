@@ -20,13 +20,13 @@ BUTTONS & LINKS
 #change-chapter .btn{
 	font-size: 0.8rem;
 	background-color: transparent;
-	color: #0275d8;
+	color: var(--color-link);
 	margin-top: 4rem;
 	margin-bottom: 2rem;
 }
 
 #change-chapter .btn:hover{
-	color: #01447e;
+	color: var(--color-teal-dark);
 	text-decoration: underline;
 }
 
@@ -46,20 +46,20 @@ CARDS
 	border-top-right-radius: 1rem;
 	border-bottom-left-radius: 1rem;
 	border-bottom-right-radius: 1rem;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.7);
+	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
 }
 
 /* Examples Card */
 .example-card{
-	background-color: #dac3a4;
-	border-color: #522727;
+	background-color: var(--color-example-bg);
+	border-color: var(--color-example-heading);
 	font-size: 0.9rem;
 
 }
 
 .example-card .card-header{
-	background-color: #522727;
-	color: white;
+	background-color: var(--color-example-heading);
+	color: var(--color-white);
 	font-weight: bold;
 	font-size: 1rem;
 	border-top-left-radius: 0.8rem;
@@ -73,14 +73,14 @@ CARDS
 	margin-right: 7vw;
 	border-color: transparent;
 	font-size: 0.9rem;
-	background-color: #e4eff0;
-	border-color: #285b65;
-	color: #173044;
+	background-color: var(--color-teal-panel);
+	border-color: var(--color-teal);
+	color: var(--color-text);
 }
 
 .learning-goals-card .card-header{
-	background-color: #285b65;
-	color: white;
+	background-color: var(--color-teal);
+	color: var(--color-white);
 	font-weight: bold;
 	font-size: 1rem;
 	border-top-left-radius: 0.8rem;
@@ -90,10 +90,10 @@ CARDS
 /* Contents Card */
 .contents-card{
 	border-radius: 0.8rem;
-	border-color: #003366;
+	border-color: var(--color-navy);
 	padding-bottom: 1rem;
 	font-size: 0.9rem;
-	background-color: darkgray;
+	background-color: var(--color-border-strong);
 	width: 265px;
 	margin: auto;
 }
@@ -103,7 +103,7 @@ CARDS
 	font-weight: bold;
 	border-top-left-radius: 0.8rem;
 	border-top-right-radius: 0.8rem;
-	background-color: darkgray;
+	background-color: var(--color-border-strong);
 }
 
 .contents-card img{
@@ -120,7 +120,7 @@ CARDS
 
 .contents-card ul a{
 	/*color: #0275d8;*/
-	color: #000;
+	color: var(--color-black);
 	display: block;
 	
 	padding-left: 1rem;
@@ -131,13 +131,13 @@ CARDS
 
 .contents-card ul li.active>a,
 a[aria-expanded="true"] {
-	color: #fff;
-	background: #003366;
+	color: var(--color-white);
+	background: var(--color-navy);
 }
 
 .contents-card ul a:hover{
-	color: white;
-	background-color:  #003366;
+	color: var(--color-white);
+	background-color:  var(--color-navy);
 	text-decoration: none;
 }
 
@@ -151,7 +151,7 @@ BREADCRUMB
 ul.breadcrumb {
 	padding: 0.7rem;
 	list-style: none;
-	background-color: #ccc;
+	background-color: var(--color-border);
 	border-top-left-radius: 0rem;
 	border-top-right-radius: 0rem;
 	border-bottom-left-radius: 1.2rem;
@@ -167,19 +167,19 @@ ul.breadcrumb li {
 /* Add a slash symbol (/) before/behind each list item */
 ul.breadcrumb li+li:before {
 	padding: 5px;
-	color: black;
+	color: var(--color-black);
 	content: "/\00a0";
 }
 
 /* Add a color to all links inside the list */
 ul.breadcrumb li a {
-	color: #0275d8;
+	color: var(--color-link);
 	text-decoration: none;
 }
 
 /* Add a color on mouse-over */
 ul.breadcrumb li a:hover {
-	color: #01447e;
+	color: var(--color-teal-dark);
 	text-decoration: underline;
 }
 
@@ -196,7 +196,7 @@ IMAGES, MEDIA & ANIMATIONS
 	padding: auto 0;
 	width: auto;
 	height: auto;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.7);
+	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
 }
 
 .figure-img{
@@ -204,14 +204,14 @@ IMAGES, MEDIA & ANIMATIONS
 	margin: 0;
 	padding: 1rem;
 	padding-bottom: 0rem;
-	background-color: lightgray;
+	background-color: var(--color-border);
 	
 }
 
 .figure-caption{
-	background-color: lightgray;
+	background-color: var(--color-border);
 	padding: 1rem;
-	color: #222;
+	color: var(--color-text);
 	margin: auto 0;
 	text-align: left;
 	font-weight: bold;
@@ -229,19 +229,19 @@ IMAGES, MEDIA & ANIMATIONS
 	margin-left: 0;
 	margin-right: 0;
 	height: auto;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.7);
+	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
 }
 
 #jscode{
 	padding: 0;
-	background-color: lightgray;
+	background-color: var(--color-border);
 	margin: 0rem;
 	height: 50vh;
 }
 
 #animation{
-	background-color: lightgray;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.7);
+	background-color: var(--color-border);
+	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
 }
 
 
@@ -297,11 +297,11 @@ p {
 }
 
 .col{
-	background: gray;
+	background: var(--color-border-strong);
 	padding: 0rem;
 	text-align: center;
 	justify-content: center;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.7);
+	box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
 	margin-top: 2rem;
 	margin-bottom: 2rem;
 }

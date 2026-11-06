@@ -4,13 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>The Hydrogen Atom Laboratory</title>
-    <link rel="stylesheet" href="lab.css?v=view-defaults-1">
+    <link rel="stylesheet" href="lab.css?v=phase-rainbow-2">
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script defer src="physics.js?v=real-1"></script>
+    <script defer src="physics.js?v=fuzzy-1"></script>
     <script defer src="surface.js"></script>
     <script defer src="real-surface.js"></script>
-    <script defer src="lab.js?v=view-defaults-1"></script>
+    <script defer src="orbital-colors.js?v=phase-rainbow-2"></script>
+    <script defer src="fuzzy-cloud.js?v=phase-rainbow-2"></script>
+    <script defer src="lab.js?v=phase-rainbow-2"></script>
 </head>
 <body>
 <header class="banner">
@@ -21,13 +23,13 @@
     <div id="viewport">
         <div id="canvas-container"></div>
         <div class="state-label"><strong id="stateName">1s · m = 0</strong><span id="viewLabel">Probability density |ψ|²</span></div>
-        <div class="phase-legend" id="phaseLegend" hidden><span>Wavefunction phase · arg ψ</span><div class="phase-ramp"></div><div class="phase-ticks"><span>0</span><span>π/2</span><span>π</span><span>3π/2</span><span>2π</span></div></div>
+        <div class="phase-legend" id="phaseLegend" hidden><span id="colorLegendTitle">Wavefunction phase · arg ψ</span><div class="phase-ramp" id="phaseRamp"></div><div class="phase-ticks"><span>0 (+1)</span><span>π/2</span><span>π (−1)</span><span>3π/2</span><span>2π</span></div></div>
         <div class="view-controls" role="group" aria-label="View controls">
             <button id="zoomIn" type="button" aria-label="Zoom in" title="Zoom in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></button>
             <button id="zoomOut" type="button" aria-label="Zoom out" title="Zoom out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
             <button id="resetView" type="button" aria-label="Reset view" title="Reset view"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9"/></svg></button>
         </div>
-        <div id="renderStatus" class="render-status" role="status">Preparing the probability surface…</div>
+        <div id="renderStatus" class="render-status" role="status">Preparing the probability cloud…</div>
     </div>
     <button class="panel-backdrop" id="controlsBackdrop" aria-label="Close controls" tabindex="-1" hidden></button>
     <aside class="panel" id="controlsPanel" aria-label="Orbital controls">
@@ -48,7 +50,7 @@
         <section class="panel-section">
             <h2 class="section-title">Visualization</h2>
             <label class="control-label" for="displayMode">Orbital display</label>
-            <select id="displayMode" class="display-mode"><option value="points">Point cloud</option><option value="surface" selected>Phase-colored surface</option></select>
+            <select id="displayMode" class="display-mode"><option value="points">Point cloud</option><option value="fuzzy" selected>Fuzzy cloud</option><option value="surface">Phase-colored surface</option></select>
             <div id="pointControls">
                 <label class="control-label" for="density">Point density <output id="densityValue" for="density">10,000 spheres</output></label>
                 <input id="density" type="range" min="1000" max="30000" step="500" value="10000" aria-describedby="densityHint">
@@ -74,7 +76,7 @@
             <details><summary>About this model</summary>
                 <p>These are stationary hydrogen states with a fixed nucleus, without spin or external fields. The complex-state cloud samples |R<sub>nℓ</sub>Y<sub>ℓ</sub><sup>m</sup>|².</p>
                 <p>Complex states with m and −m have the same density. The suggested real orbitals form a standard orthonormal basis: m = 0 plus normalized sine and cosine combinations of each ±m pair. These have definite n and ℓ, but a nonzero pair has no single magnetic quantum number. For nonzero m, these angular-momentum states differ from the real p<sub>x</sub> and p<sub>y</sub> combinations often drawn in chemistry.</p>
-                <p>Surface colors show the phase of ψ in a stationary snapshot, using the standard spherical-harmonic convention. For m = 0, opposite signs have phases 0 and π; for nonzero m, phase winds around z. A common overall phase is arbitrary and does not change probability.</p>
+                <p>Surface and fuzzy cloud colors show the phase of ψ in a stationary snapshot. Phase 0 (+1) uses the logo’s orange and phase π (−1) uses its light blue, with a continuous rainbow between them. Real orbitals have these two phases. For complex states with nonzero m, phase winds around z. Density uses the full |ψ|². A common overall phase is arbitrary and does not change probability.</p>
                 <p>The surface bounds regions above a common probability-density threshold, chosen by integrating |ψ|² over their volume. The selected probability is shared by all enclosed regions together. Nodal gaps are excluded; inner boundaries can be hidden by outer shells. The electron can still be found outside the surface.</p>
                 <p>Axes use the z direction for m. Every orbital starts at the same physical scale, including when switching display modes. Higher-n states therefore appear larger. Zoom to inspect smaller states; Reset view restores the common scale. Sphere sizes are illustrative.</p>
                 <p>The highlights illustrate position measurements on identically prepared states. They do not simulate one electron travelling between points or its evolution after a measurement.</p>

@@ -3,9 +3,9 @@ CAROUSEL STYLE
 ----------------------------------------------------- */
 .carousel{
 /*	height: 80vh;*/
-	background-color: dimgray;
+	background-color: var(--color-icon-muted);
 	border-width: 3rem;
-	border-color:red;
+	border-color:var(--color-example-heading);
 }
 
 .carousel-item img{
@@ -15,7 +15,7 @@ CAROUSEL STYLE
 	margin: 0 auto;
 	border-width: 2rem;
 	border: 2rem;
-	border-color: red;
+	border-color: var(--color-example-heading);
 	border-image-width: 2rem;
 	
 }
@@ -24,13 +24,13 @@ CAROUSEL STYLE
 	font-size: 4rem;
 	font-weight: 800;
 	letter-spacing: 0.3rem;
-	text-shadow: 0.1rem 0.1rem 0.8rem black;
+	text-shadow: 0.1rem 0.1rem 0.8rem var(--color-black);
 	padding-bottom: 1rem;
 }
 
 .carousel-caption h3{
 	font-size: 2rem;
-	text-shadow: 0.1rem 0.1rem 0.5rem black;
+	text-shadow: 0.1rem 0.1rem 0.5rem var(--color-black);
 	/*	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
 	padding-bottom: 1rem;
 	font-style: italic;
@@ -45,12 +45,12 @@ OTHER ELEMENTS STYLE
 	margin-bottom: 5rem;
 	padding-right: 5rem;
 	padding-left: 5rem;
-	background-color: rgb(0,30,60);
+	background-color: var(--color-navy);
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 	border-bottom-left-radius: 2rem;
 	border-bottom-right-radius: 2rem;
-	color: lightgray;
+	color: var(--color-border);
 }
 
 .offset:before{
@@ -63,7 +63,7 @@ OTHER ELEMENTS STYLE
 .heading-underline{
 	width: 65%;
 	height: 2px;
-	background-color:  #0066cc;
+	background-color:  var(--color-link);
 	margin: 0 auto;
 	margin-bottom: 2rem;
 }

@@ -114,13 +114,17 @@
         const angle = m * Math.atan2(y, x) + (amplitude < 0 ? Math.PI : 0);
         return (angle % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
     }
+    function polarAmplitude(l, m, mu) {
+        m = Math.abs(m);
+        const norm = Math.sqrt((2 * l + 1) / (4 * Math.PI) * factorial(l - m) / factorial(l + m));
+        return norm * legendre(l, m, mu);
+    }
     function realAmplitude(n, l, m, x, y, z, basis = 'cos') {
         m = Math.abs(m);
         const r = Math.hypot(x, y, z), mu = r ? z / r : 1;
-        const norm = Math.sqrt((2 * l + 1) / (4 * Math.PI) * factorial(l - m) / factorial(l + m));
         const azimuth = m === 0 ? 1 : Math.sqrt(2) * (-1) ** m *
             (basis === 'sin' ? Math.sin(m * Math.atan2(y, x)) : Math.cos(m * Math.atan2(y, x)));
-        return radial(n, l, r) * norm * legendre(l, m, mu) * azimuth;
+        return radial(n, l, r) * polarAmplitude(l, m, mu) * azimuth;
     }
     function realOrbitals(n, l) {
         const letters = ['s','p','d','f','g','h'];
@@ -135,5 +139,5 @@
         }
         return result;
     }
-    return { realAmplitude, realOrbitals, MAX_N, validState, constrainState, radial, angularDensity, distributions, quantile, sample, phase };
+    return { polarAmplitude, realAmplitude, realOrbitals, MAX_N, validState, constrainState, radial, angularDensity, distributions, quantile, sample, phase };
 }));

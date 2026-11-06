@@ -22,21 +22,21 @@
 
 .simulation-toolbar .btn {
     background: transparent;
-    color: #246977;
+    color: var(--color-link);
     font-size: 0.8rem;
     white-space: normal;
 }
 
 .simulation-toolbar .btn:hover {
-    color: #173f48;
+    color: var(--color-teal-dark);
     text-decoration: underline;
 }
 
 .lesson-simulation {
     height: auto;
-    background: lightgray;
-    border: 1px solid lightgray;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.7);
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 8px 0 color-mix(in srgb, var(--color-black) 70%, transparent);
 }
 
 .lesson-simulation .simulation-caption-bar {
@@ -48,7 +48,7 @@
     padding: 12px 16px;
     margin: 0;
     text-align: left;
-    background: lightgray;
+    background: var(--color-border);
 }
 
 .simulation-caption-bar > span {
@@ -66,7 +66,7 @@
     height: 50vh;
     min-height: 560px;
     border: 0;
-    background: #071124;
+    background: var(--color-navy);
 }
 
 .simulation-frame:fullscreen {
@@ -94,8 +94,8 @@
     left: 1rem;
     z-index: 1100;
     padding: 0.75rem;
-    background: white;
-    color: #003366;
+    background: var(--color-white);
+    color: var(--color-navy);
 }
 
 .lesson-skip-link:focus {
@@ -105,7 +105,7 @@
 .simulation-lesson a:focus-visible,
 .simulation-lesson button:focus-visible,
 .simulation-lesson iframe:focus-visible {
-    outline: 3px solid #0275d8;
+    outline: 3px solid var(--color-link);
     outline-offset: 3px;
 }
 
@@ -125,11 +125,11 @@
     max-width: 320px;
     margin: 0 auto 36px;
     padding: 22px 18px 16px;
-    background: #f4f6f6;
-    border: 1px solid #d7e1e3;
+    background: var(--color-panel);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     box-shadow: none;
-    color: #173044;
+    color: var(--color-text);
     text-align: left;
 }
 .lesson-sidebar .contents-card h2,
@@ -139,7 +139,7 @@
     font-variant: normal;
     line-height: 1.5;
     text-align: left;
-    color: #173044;
+    color: var(--color-text);
 }
 .lesson-sidebar .contents-card h2 { margin: 0 0 16px; }
 .lesson-sidebar .contents-card ul { display: grid; gap: 4px; }
@@ -147,21 +147,21 @@
     padding: 10px 12px;
     border-radius: 4px;
     background: transparent;
-    color: #246977;
+    color: var(--color-link);
     font-size: .88rem;
     line-height: 1.6;
     transition: background-color .18s ease, color .18s ease;
 }
 .lesson-sidebar .contents-card ul a:hover,
 .lesson-sidebar .contents-card ul a:focus-visible {
-    background: #e4eded;
-    color: #173f48;
+    background: var(--color-teal-panel);
+    color: var(--color-teal-dark);
     text-decoration: none;
 }
 .lesson-sidebar .sidebar-heading { max-width: 320px; margin: 0 auto 18px; }
 .lesson-sidebar .catalog-grid--sidebar { gap: 18px; }
 .lesson-sidebar .catalog-card { padding: 22px; }
-.lesson-sidebar a:focus-visible { outline-color: #398886; }
+.lesson-sidebar a:focus-visible { outline-color: var(--color-focus); }
 @media (max-width: 991px) {
     .lesson-sidebar { margin-top: 32px; }
 }
