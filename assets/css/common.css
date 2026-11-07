@@ -626,3 +626,33 @@ a[rel~="license"],
 a[href*="creativecommons.org/"] {
     --hover-background: transparent;
 }
+
+/* Animate the collapsed navbar at the same breakpoint as navbar-expand-lg. */
+@media (max-width: 991.98px) {
+    #NavigationBar #RightBox {
+        display: grid;
+        grid-template-rows: 0fr;
+        align-items: stretch;
+        overflow: hidden;
+        visibility: hidden;
+        transition: grid-template-rows 280ms ease, visibility 280ms;
+    }
+
+    #NavigationBar #RightBox.show {
+        grid-template-rows: 1fr;
+        visibility: visible;
+    }
+
+    #NavigationBar #RightBox > .navbar-nav {
+        min-height: 0;
+        overflow: hidden;
+        margin-left: 0 !important;
+        text-align: left;
+    }
+}
+
+@media (max-width: 991.98px) and (prefers-reduced-motion: reduce) {
+    #NavigationBar #RightBox {
+        transition: none;
+    }
+}

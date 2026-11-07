@@ -12,12 +12,11 @@
 
 .simulation-toolbar {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
     gap: 0.5rem;
     margin: 0;
     max-width: 100%;
-    text-align: left;
 }
 
 .simulation-toolbar .btn {
@@ -25,6 +24,7 @@
     color: var(--ink);
     font-size: 0.8rem;
     white-space: normal;
+    text-align: right;
 }
 
 .simulation-toolbar .btn:hover {
@@ -34,12 +34,12 @@
 
 .lesson-simulation {
     height: auto;
-    background: var(--band);
-    border: var(--border-width) solid var(--color-border);
+    background: var(--surface);
+    border: var(--border-width) solid var(--panel-edge);
 
 }
 
-.lesson-simulation .simulation-caption-bar {
+.media-caption {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -48,16 +48,18 @@
     padding: 12px 16px;
     margin: 0;
     text-align: left;
-    background: var(--band);
+    background: var(--surface);
 }
 
-.simulation-caption-bar > span {
+.media-caption > span {
     flex: 1 1 240px;
     min-width: 0;
 }
 
-.simulation-caption-bar .simulation-toolbar {
+.media-caption > a,
+.media-caption > .simulation-toolbar {
     margin-left: auto;
+    text-align: right;
 }
 
 .simulation-frame {

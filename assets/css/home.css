@@ -43,7 +43,7 @@
 .welcome-slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, color-mix(in srgb, var(--color-navy) 12%, transparent), color-mix(in srgb, var(--color-navy) 12%, transparent) 30%, color-mix(in srgb, var(--color-navy) 80%, transparent)); }
 .welcome-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .welcome-carousel button { border: 0; color: var(--color-white); cursor: pointer; }
-.welcome-arrow { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border-radius: var(--corner-radius); background: color-mix(in srgb, var(--color-navy) 65%, transparent); }
+.welcome-arrow { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border-radius: var(--corner-radius); background: transparent; }
 .welcome-arrow svg { display: block; flex-shrink: 0; }
 .welcome-previous { left: 20px; }
 .welcome-next { right: 20px; }
@@ -53,7 +53,6 @@
 .welcome-dot::before, .welcome-dot::after { content: ''; position: absolute; left: 5px; right: 5px; top: 16px; height: 4px; border-radius: 2px; }
 .welcome-dot::before { background: color-mix(in srgb, var(--color-white) 45%, transparent); }
 .welcome-dot::after { right: auto; width: calc((100% - 10px) * var(--progress, 0)); background: var(--color-white); border-radius: 2px; }
-.welcome-arrow:hover { background: var(--color-navy); }
 .home-page .welcome-carousel button:focus-visible { outline-color: var(--color-white); }
 @media (max-width: 575px) {
     .welcome-previous { left: 8px; }
@@ -77,8 +76,9 @@
 }
 .home-quote blockquote { position: relative; margin: 0; padding: 12px 46px; }
 .home-page .home-quote p { font-style: italic; margin: 0; color: var(--color-white); font-size: clamp(1rem, 1.6vw, 1.25rem); line-height: 1.8; }
-.home-quote-mark { position: absolute; top: 0; left: 0; color: var(--color-logo-orange); font-family: Georgia, serif; font-size: 5rem; line-height: 1; }
-.home-quote-mark--closing { top: auto; left: auto; bottom: -20px; right: 0; }
+.home-quote-mark { --quote-inset: 0px; position: absolute; top: var(--quote-inset); left: 0; color: var(--color-logo-orange); font-family: Georgia, serif; font-size: 5rem; line-height: 1; }
+/* Rotate the same glyph so its visible ink mirrors the opening mark. */
+.home-quote-mark--closing { top: auto; left: auto; bottom: var(--quote-inset); right: 0; transform: rotate(180deg); }
 .home-quote figcaption { margin-top: 22px; }
 .home-quote figcaption strong { display: block; font-style: normal; font-weight: 700; font-size: 1.05rem; color: var(--color-white); }
 .home-quote figcaption span { display: block; margin-top: 6px; font-size: .78rem; line-height: 1.6; color: var(--color-white); }
@@ -86,8 +86,7 @@
     .welcome-slide { height: 640px; }
     .welcome-slide .home-quote { width: calc(100% - 112px); padding-top: 20px; }
     .home-quote blockquote { padding: 28px 0; }
-    .home-quote-mark { font-size: 3.5rem; top: -6px; }
-    .home-quote-mark--closing { top: auto; bottom: -14px; }
+    .home-quote-mark { --quote-inset: -6px; font-size: 3.5rem; }
     .home-page .home-quote p { font-size: .9rem; line-height: 1.7; }
     .home-quote figcaption { margin-top: 12px; }
     .home-quote figcaption strong { font-size: .95rem; }

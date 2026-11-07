@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/svg+xml" sizes="any" href="../../assets/brand/favicon.svg?v=original-art">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../../assets/brand/favicon.svg?v=round">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>The Hydrogen Atom Laboratory</title>
-    <link rel="stylesheet" href="lab.css?v=fuzziness-1">
+    <link rel="stylesheet" href="lab.css?v=quantum-controls">
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script defer src="physics.js?v=fuzzy-1"></script>
@@ -13,7 +13,7 @@
     <script defer src="real-surface.js"></script>
     <script defer src="orbital-colors.js?v=fuzziness-1"></script>
     <script defer src="fuzzy-cloud.js?v=fuzziness-1"></script>
-    <script defer src="lab.js?v=fuzziness-1"></script>
+    <script defer src="lab.js?v=keep-view"></script>
 </head>
 <body>
 <header class="banner">
@@ -25,6 +25,23 @@
         <div id="canvas-container"></div>
         <div class="state-label"><strong id="stateName">1s · m = 0</strong><span id="viewLabel">Probability density |ψ|²</span></div>
         <div class="phase-legend" id="phaseLegend" hidden><span id="colorLegendTitle">Wavefunction phase · arg ψ</span><div class="phase-ramp" id="phaseRamp"></div><div class="phase-ticks"><span>0 (+1)</span><span>π/2</span><span>π (−1)</span><span>3π/2</span><span>2π</span></div></div>
+        <div class="quantum-controls" role="group" aria-label="Quantum numbers">
+            <div class="quantum-stepper" data-number="n">
+                <button type="button" data-step="-1" aria-label="Decrease n">−</button>
+                <span>n = <span class="quantum-value">1</span></span>
+                <button type="button" data-step="1" aria-label="Increase n">+</button>
+            </div>
+            <div class="quantum-stepper" data-number="l">
+                <button type="button" data-step="-1" aria-label="Decrease ℓ">−</button>
+                <span>ℓ = <span class="quantum-value">0</span></span>
+                <button type="button" data-step="1" aria-label="Increase ℓ">+</button>
+            </div>
+            <div class="quantum-stepper" data-number="m">
+                <button type="button" data-step="-1" aria-label="Decrease m">−</button>
+                <span>m = <span class="quantum-value">0</span></span>
+                <button type="button" data-step="1" aria-label="Increase m">+</button>
+            </div>
+        </div>
         <div class="view-controls" role="group" aria-label="View controls">
             <button id="zoomIn" type="button" aria-label="Zoom in" title="Zoom in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></button>
             <button id="zoomOut" type="button" aria-label="Zoom out" title="Zoom out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
@@ -84,7 +101,7 @@
                 <p>Complex states with m and −m have the same density. The suggested real orbitals form a standard orthonormal basis: m = 0 plus normalized sine and cosine combinations of each ±m pair. These have definite n and ℓ, but a nonzero pair has no single magnetic quantum number. For nonzero m, these angular-momentum states differ from the real p<sub>x</sub> and p<sub>y</sub> combinations often drawn in chemistry.</p>
                 <p>Surface and fuzzy cloud colors show the phase of ψ in a stationary snapshot. Phase 0 (+1) uses the logo’s orange and phase π (−1) uses its light blue, with a continuous rainbow between them. Real orbitals have these two phases. For complex states with nonzero m, phase winds around z. Density uses the full |ψ|². A common overall phase is arbitrary and does not change probability.</p>
                 <p>The surface bounds regions above a common probability-density threshold, chosen by integrating |ψ|² over their volume. The selected probability is shared by all enclosed regions together. Nodal gaps are excluded; inner boundaries can be hidden by outer shells. The electron can still be found outside the surface.</p>
-                <p>Axes use the z direction for m. Every orbital starts at the same physical scale, including when switching display modes. Higher-n states therefore appear larger. Zoom to inspect smaller states; Reset view restores the common scale. Sphere sizes are illustrative.</p>
+                <p>Axes use the z direction for m. Changing orbitals or display modes preserves the viewing angle and zoom. Higher-n states therefore appear larger. Zoom to inspect smaller states; Reset view restores the initial angle and scale. Sphere sizes are illustrative.</p>
                 <p>The highlights illustrate position measurements on identically prepared states. They do not simulate one electron travelling between points or its evolution after a measurement.</p>
                 <p><a href="https://openstax.org/books/university-physics-volume-3/pages/8-1-the-hydrogen-atom" target="_blank" rel="noopener">Hydrogen quantum numbers</a> · <a href="https://dlmf.nist.gov/14.30" target="_blank" rel="noopener">Spherical harmonics</a></p>
             </details>

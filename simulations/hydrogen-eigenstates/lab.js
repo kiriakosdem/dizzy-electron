@@ -8,7 +8,7 @@
     const $ = id => document.getElementById(id);
     const lab = $('lab'), panel = $('controlsPanel'), viewport = $('viewport');
     const compact = matchMedia('(max-width:750px), (max-height:500px) and (max-width:950px)');
-    const nSelect = $('nSelect'), lSelect = $('lSelect'), mSelect = $('mSelect');
+    const quantumSteppers = document.querySelectorAll('.quantum-stepper');
     const density = $('density'), status = $('renderStatus');
     const displayMode = $('displayMode'), enclosure = $('enclosure'), fuzziness = $('fuzziness');
     // One world unit is 25 Bohr radii for every state and display mode.
@@ -18,7 +18,7 @@
     let renderer, scene, camera, orbit, cloud, axes, rebuildFrame, detection, detectionMatrix;
     let fuzzy, fuzzyState, fuzzyRadius99;
     let surface, surfaceModel, surfaceState, cloudState, surfaceProbability, surfaceRadius, cloudRadius99;
-    let probability = Number(enclosure.value) / 100, resetOnBuild = false;
+    let probability = Number(enclosure.value) / 100;
     let needsRender = true, ready = false, radius99 = 1;
     let detectionsEnabled = false;
     let lastDetectionAt = -Infinity;
@@ -49,18 +49,26 @@
     });
     setPanel(!compact.matches);
 
-    function fillSelect(element, min, max, value) {
+    function reflectQuantumNumber(key, min, max) {
+        const value = state[key];
+        const element = $(key + 'Select');
         element.replaceChildren();
         for (let i = min; i <= max; i++) element.add(new Option(String(i), String(i)));
         element.value = String(value);
+        const stepper = document.querySelector(`.quantum-stepper[data-number="${key}"]`);
+        const realPair = key === 'm' && basis !== 'complex' && value !== 0;
+        stepper.querySelector('.quantum-value').textContent = realPair ? `±${value}` : value;
+        stepper.querySelector('[data-step="-1"]').disabled = value <= min;
+        stepper.querySelector('[data-step="1"]').disabled = value >= max;
+        if (realPair) {
+            element.add(new Option(`±${value} (real)`, 'real'));
+            element.value = 'real';
+        }
     }
     function reflectState(previous) {
-        fillSelect(nSelect, 1, P.MAX_N, state.n);
-        fillSelect(lSelect, 0, state.n - 1, state.l);
-        fillSelect(mSelect, -state.l, state.l, state.m);
-        if (basis !== 'complex' && state.m) {
-            mSelect.add(new Option(`±${state.m} (real)`, 'real')); mSelect.value = 'real';
-        }
+        reflectQuantumNumber('n', 1, P.MAX_N);
+        reflectQuantumNumber('l', 0, state.n - 1);
+        reflectQuantumNumber('m', -state.l, state.l);
         const selected = P.realOrbitals(state.n, state.l).find(o => o.m === state.m && o.basis === basis);
         $('stateName').textContent = selected ? selected.label : `${state.n}${labels[state.l]} · m = ${state.m}`;
         $('basisHint').textContent = selected ? (state.m ? `Real combination of m = ±${state.m}. Select m above to return to a complex eigenstate.` : 'Real m = 0 orbital.') : 'Select a real orbital below, or choose a complex eigenstate with m above.';
@@ -92,11 +100,22 @@
         if (basis !== 'complex') { state.m = Math.abs(state.m); if (!state.m) basis = 'cos'; }
         reflectState(previous);
         if (!ready) return;
-        scheduleBuild(true);
+        scheduleBuild();
     }
-    nSelect.addEventListener('change', () => changeState(Number(nSelect.value), state.l, state.m));
-    lSelect.addEventListener('change', () => changeState(state.n, Number(lSelect.value), state.m));
-    mSelect.addEventListener('change', () => { if (mSelect.value !== 'real') changeState(state.n, state.l, Number(mSelect.value), 'complex'); });
+    for (const stepper of quantumSteppers) {
+        const key = stepper.dataset.number;
+        const select = $(key + 'Select');
+        const setValue = value => {
+            const next = { ...state, [key]: value };
+            changeState(next.n, next.l, next.m, key === 'm' ? 'complex' : basis);
+        };
+        select.addEventListener('change', () => {
+            if (select.value !== 'real') setValue(Number(select.value));
+        });
+        for (const button of stepper.querySelectorAll('button')) {
+            button.addEventListener('click', () => setValue(state[key] + Number(button.dataset.step)));
+        }
+    }
     function setDensity() {
         drawCount = Number(density.value);
         $('densityValue').textContent = `${drawCount.toLocaleString('en-US')} spheres`;
@@ -143,18 +162,17 @@
         enclosure.style.setProperty('--range-fill', `${100 * (Number(enclosure.value) - Number(enclosure.min)) / (Number(enclosure.max) - Number(enclosure.min))}%`);
         if (ready && displayMode.value === 'surface') scheduleBuild();
     }
-    displayMode.addEventListener('change', () => { reflectDisplay(); scheduleBuild(true); });
+    displayMode.addEventListener('change', () => { reflectDisplay(); scheduleBuild(); });
     enclosure.addEventListener('input', setEnclosure);
     enclosure.addEventListener('change', () => { $('actionStatus').textContent = `Surface encloses approximately ${(probability * 100).toFixed(1)}% probability.`; });
-    function scheduleBuild(reset = false) {
+    function scheduleBuild() {
         if (!ready) return;
-        resetOnBuild = resetOnBuild || reset;
         detection.visible = false;
         status.textContent = displayMode.value === 'surface' ? 'Preparing the probability surface…' : 'Preparing the probability cloud…';
         status.hidden = false;
         cancelAnimationFrame(rebuildFrame);
         rebuildFrame = requestAnimationFrame(() => {
-            rebuildFrame = requestAnimationFrame(() => { buildVisualization(resetOnBuild); resetOnBuild = false; });
+            rebuildFrame = requestAnimationFrame(buildVisualization);
         });
     }
     function toggle(button, callback) {
@@ -209,7 +227,7 @@
         if (!camera) return;
         const halfFov = camera.fov * Math.PI / 360;
         const halfAngle = Math.min(halfFov, Math.atan(Math.tan(halfFov) * camera.aspect));
-        // Every state and mode starts with the same physical field of view.
+        // Home uses the same physical field of view for every orbital.
         const distance = VIEW_RADIUS / Math.sin(halfAngle);
         camera.position.copy(new THREE.Vector3(1, -1.6, 0.85).normalize().multiplyScalar(distance));
         orbit.target.set(0, 0, 0);
@@ -231,7 +249,7 @@
         });
         return group;
     }
-    function buildVisualization(reset = true) {
+    function buildVisualization() {
         try {
             const key = `${state.n},${state.l},${Math.abs(state.m)},${basis}`;
             const isSurface = displayMode.value === 'surface';
@@ -294,7 +312,6 @@
             $('scaleLabel').textContent = isSurface ? `Surface extent: ${surfaceRadius.toFixed(2)} a₀ from the nucleus` :
                 `99% probability radius: ${radius99.toFixed(2)} a₀`;
             reflectDisplay();
-            if (reset) resetCamera();
             status.hidden = true; needsRender = true;
         } catch (error) {
             fuzzy.visible = false; cloud.visible = false; surface.visible = false; detection.visible = false;
@@ -347,10 +364,18 @@
         scene.add(detection);
         axes = makeAxes(); scene.add(axes);
         ready = true;
+        let initialViewSet = false;
         new ResizeObserver(() => {
             const width = viewport.clientWidth, height = viewport.clientHeight;
             if (!width || !height) return;
-            renderer.setSize(width,height); camera.aspect = width/height; camera.updateProjectionMatrix(); resetCamera();
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            if (!initialViewSet) {
+                resetCamera();
+                initialViewSet = true;
+            }
+            needsRender = true;
         }).observe(viewport);
         renderer.domElement.addEventListener('webglcontextlost', event => {
             event.preventDefault(); status.textContent = 'The 3D view was interrupted. Reload the page to restore it.'; status.hidden = false;

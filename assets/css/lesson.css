@@ -192,6 +192,13 @@ ul.breadcrumb a[href]:hover {
 IMAGES, MEDIA & ANIMATIONS
 ----------------------------------------------------- */
 
+/* Match media frames to the learning goals cards. */
+.figure,
+.media-panel {
+    border-color: var(--panel-edge);
+    background-color: var(--surface);
+}
+
 /* Figures */
 .figure{
 	margin-top: 2rem;
@@ -212,7 +219,7 @@ IMAGES, MEDIA & ANIMATIONS
 }
 
 .figure-caption{
-	background-color: var(--band);
+	background-color: var(--surface);
 	padding: 1rem;
 	color: var(--ink);
 	margin: auto 0;
@@ -389,4 +396,26 @@ p {
     .text-justify-lg {
         text-align: justify;
     }
+}
+
+/* Lesson navigation and media actions share the same text-link treatment. */
+#change-chapter .btn,
+main .simulation-toolbar .btn,
+main .figure-caption a {
+    --hover-background: transparent;
+    background: transparent !important;
+    color: var(--ink);
+    border: 0;
+    box-shadow: none;
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+#change-chapter .btn:hover,
+main .simulation-toolbar .btn:hover,
+main .figure-caption a:hover {
+    color: var(--color-logo-orange) !important;
+    text-decoration: underline;
 }

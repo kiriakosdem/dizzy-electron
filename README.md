@@ -30,7 +30,7 @@ Open <http://127.0.0.1:8765/>. Stop the server with Ctrl+C. Some pages load font
 | `assets/css/main-page.css` | Retained legacy stylesheet; currently unused |
 | `assets/js/` | Shared site behaviour |
 | `assets/icons/` | Topic SVGs for lesson cards |
-| `assets/brand/logo-navy.svg` | Supplied logo design adapted to the navy header and footer. Original screenshot retained as `logo-reference.png`. |
+| `assets/brand/logo-navy.png` | Site logo used in the header and footer. |
 | `assets/images/` | Carousel photographs and images used by the example lesson |
 | `assets/vendor/` | Bundled third-party libraries and their source maps |
 | `resources/geogebra/` | GeoGebra project files |
