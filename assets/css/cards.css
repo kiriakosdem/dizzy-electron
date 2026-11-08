@@ -314,25 +314,17 @@ a.catalog-card:hover .catalog-card-action { color: var(--color-logo-orange); }
 a.catalog-card:hover p { color: var(--color-white); }
 .catalog-icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 64px; height: 64px; border-radius: var(--corner-radius); background: var(--color-navy); }
 .catalog-icon img { display: block; width: 48px; height: 48px; }
-/* The SVGs use white strokes. Use the opposite ink and tile on hover. */
+/* Let the card's color and grain show through the icon in every state. */
 :root {
-    --icon-tile: var(--color-white);
     --icon-filter: brightness(0);
-    --icon-hover-tile: var(--color-navy);
-    --icon-hover-filter: none;
-    --icon-muted-tile: var(--color-paper);
 }
 :root[data-theme="dark"] {
-    --icon-tile: var(--surface);
     --icon-filter: none;
-    --icon-hover-tile: var(--color-white);
-    --icon-hover-filter: brightness(0);
-    --icon-muted-tile: var(--color-graphite);
 }
-.catalog-card .catalog-icon { width: 48px; height: 48px; background: var(--card-background, var(--icon-tile)); }
+.catalog-card .catalog-icon { width: 48px; height: 48px; background: transparent; }
 .catalog-card .catalog-icon img { filter: var(--icon-filter); }
-a.catalog-card:hover .catalog-icon { background: var(--icon-hover-tile); }
-a.catalog-card:hover .catalog-icon img { filter: var(--icon-hover-filter); }
+/* Use the palette's orange on hover while preserving the SVG's alpha edges. */
+a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg#orange"); }
 .catalog-card h3, .catalog-card h4 { font-size: 1.12rem; font-weight: 600; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
 .catalog-card p { grid-column: 1 / -1; font-size: .9rem; color: var(--muted-ink); margin: 0; line-height: 1.6; text-indent: 0; }
 .catalog-grid--sidebar { grid-template-columns: minmax(0, 1fr); max-width: 320px; margin-inline: auto; text-align: left; }
@@ -394,11 +386,5 @@ a.catalog-card:hover .catalog-action-label { text-decoration: underline; text-un
     --card-background: var(--band);
 }
 :where(.home-band--shaded, .contents-band--shaded) {
-    --card-background: var(--surface);
-}
-:root[data-theme="dark"] :where(.home-band, .contents-band) {
-    --card-background: var(--surface);
-}
-:root[data-theme="dark"] :where(.home-band--shaded, .contents-band--shaded) {
     --card-background: var(--page);
 }

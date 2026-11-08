@@ -53,7 +53,7 @@
 .welcome-dot::before, .welcome-dot::after { content: ''; position: absolute; left: 5px; right: 5px; top: 16px; height: 4px; border-radius: 2px; }
 .welcome-dot::before { background: color-mix(in srgb, var(--color-white) 45%, transparent); }
 .welcome-dot::after { right: auto; width: calc((100% - 10px) * var(--progress, 0)); background: var(--color-white); border-radius: 2px; }
-.home-page .welcome-carousel button:focus-visible { outline-color: var(--color-white); }
+.home-page .welcome-carousel .welcome-dot:focus-visible { outline-color: var(--color-white); }
 @media (max-width: 575px) {
     .welcome-previous { left: 8px; }
     .welcome-next { right: 8px; }

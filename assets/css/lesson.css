@@ -1,6 +1,10 @@
 /* The root canvas remains visible beneath the long, positioned lesson layout. */
 :root[data-theme="dark"] {
-    background-color: var(--page);
+    background-color: var(--band);
+}
+
+:root[data-theme="dark"] body {
+    background-color: var(--band);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -119,6 +123,9 @@ CARDS
 }
 
 .contents-card ul a{
+    --hover-background: transparent;
+    text-decoration: underline;
+    text-underline-offset: 3px;
 	/*color: #0275d8;*/
 	color: var(--ink);
 	display: block;
@@ -138,7 +145,7 @@ a[aria-expanded="true"] {
 .contents-card ul a:hover{
 	color: var(--color-white);
 	background-color:  var(--color-navy);
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 

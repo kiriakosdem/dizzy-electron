@@ -1,0 +1,38 @@
+/* One keyboard-focus treatment across the site and standalone labs.
+   Override component and vendor focus styles, including embedded controls. */
+:is(a, button, input, select, textarea, summary, [tabindex]) {
+    -webkit-tap-highlight-color: color-mix(in srgb, var(--color-logo-cyan, #00bed0) 25%, transparent);
+}
+
+/* Click focus uses the familiar soft highlight in the palette's cyan. */
+:is(a, button, input, select, textarea, summary, [tabindex]):focus:not(:focus-visible),
+.switch:has(> input:focus:not(:focus-visible)) {
+    outline: none !important;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-logo-cyan, #00bed0) 45%, transparent) !important;
+    border-radius: var(--corner-radius, 8px) !important;
+}
+
+:focus-visible,
+.switch:has(> input:focus-visible) {
+    outline: 2px solid var(--color-logo-cyan, #00bed0) !important;
+    outline-offset: 3px !important;
+    border-radius: var(--corner-radius, 8px) !important;
+    box-shadow: none !important;
+}
+
+/* Coordinate editors also draw a focus ring on their surrounding field. */
+.coordinate-field:focus-within {
+    border-color: var(--color-logo-cyan, #00bed0) !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-logo-cyan, #00bed0) 18%, transparent) !important;
+}
+
+/* Custom switches hide their checkbox, so frame the visible control. */
+.switch > input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Keep the ring visible inside clipped media containers. */
+:is(iframe, canvas):focus-visible {
+    outline-offset: -3px !important;
+}

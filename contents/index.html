@@ -8,10 +8,11 @@
     <title>Dizzy Electron | Μαθήματα</title>
     <script src="../assets/js/theme.js?v=theme-icons"></script>
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/common.css?v=clipped-mobile-menu">
-    <link rel="stylesheet" href="../assets/css/cards.css?v=opposite-card-surfaces">
-    <link rel="stylesheet" href="../assets/css/contents.css?v=lab-list-spacing">
-    <script src="../assets/js/lesson.js?v=smooth-top-1" defer></script>
+    <link rel="stylesheet" href="../assets/css/common.css?v=two-backgrounds">
+    <link rel="stylesheet" href="../assets/css/cards.css?v=orange-icons-compact-contents">
+    <link rel="stylesheet" href="../assets/css/contents.css?v=matching-card-icons">
+    <script src="../assets/js/lesson.js?v=menu-collapse-icon" defer></script>
+    <link rel="stylesheet" href="../assets/css/focus.css?v=cyan-click-glow">
 </head>
 <body class="contents-page" id="top">
     <a class="contents-skip-link" href="#contents-content">Μετάβαση στα μαθήματα</a>
@@ -55,7 +56,7 @@
                     </ul>
                 </div>
                 <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
-                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon" aria-hidden="true"></span>
                 </button>
             </nav>
         </div>
@@ -160,11 +161,14 @@
             </div>
         </section>
     </main>
-    <a href="#top" class="scrollToTop btn-primary" aria-label="Επιστροφή στην κορυφή"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
+    <a href="#top" class="scrollToTop" aria-label="Επιστροφή στην κορυφή"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
     <footer>
         <div class="footer-inner">
             <a class="footer-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
-            <img class="site-logo" src="../assets/brand/logo-navy.png" width="1200" height="626" alt="" aria-hidden="true">
+            <picture>
+                <source media="(max-width: 575px)" srcset="../assets/brand/logo-navy-notext.png" width="800" height="800">
+                <img class="site-logo" src="../assets/brand/logo-navy.png" width="1200" height="626" alt="" aria-hidden="true">
+            </picture>
         </a>
             <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
                 <ul>
@@ -174,6 +178,7 @@
                 </ul>
             </nav>
         </div>
+        <p class="footer-copyright"><small>© 2026 Dizzy Electron</small></p>
     </footer>
 </body>
 </html>

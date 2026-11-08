@@ -23,10 +23,10 @@
 			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 		<!-- Our Custom CSS -->
 		<link rel="stylesheet" 
-			  href="../assets/css/common.css?v=clipped-mobile-menu">
-    <link rel="stylesheet" href="../assets/css/cards.css?v=opposite-card-surfaces">
+			  href="../assets/css/common.css?v=two-backgrounds">
+    <link rel="stylesheet" href="../assets/css/cards.css?v=orange-icons-compact-contents">
 		<link rel="stylesheet" 
-			  href="../assets/css/lesson.css?v=lesson-action-links">
+			  href="../assets/css/lesson.css?v=orange-icons-compact-contents">
 
 		<!-- JAVASCRIPT LIBRARIES -->		
 		<!-- Font Awesome -->
@@ -161,7 +161,8 @@
 			});
 		</script>
 
-	</head>
+	    <link rel="stylesheet" href="../assets/css/focus.css?v=cyan-click-glow">
+</head>
 
 	<body>
 
@@ -231,7 +232,7 @@
 						type="button" 
 						data-toggle="collapse" 
 						data-target=".dual-collapse">
-					<span class="navbar-toggler-icon"></span>
+					<span class="navbar-toggler-icon" aria-hidden="true"></span>
 				</button>
 			</nav>
 		</div>
@@ -616,7 +617,7 @@
 			</div>
 
 			<!-- Scroll to top button-->
-			<a href="#" class="scrollToTop btn-primary" role="button">
+			<a href="#" class="scrollToTop" role="button">
 				<i class="fa fa-arrow-up" aria-hidden="true"></i>
 			</a>
 
@@ -625,7 +626,10 @@
 				<footer>
         <div class="footer-inner">
             <a class="footer-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
-				        <img class="site-logo" src="../assets/brand/logo-navy.png" width="1200" height="626" alt="" aria-hidden="true">
+				        <picture>
+                <source media="(max-width: 575px)" srcset="../assets/brand/logo-navy-notext.png" width="800" height="800">
+                <img class="site-logo" src="../assets/brand/logo-navy.png" width="1200" height="626" alt="" aria-hidden="true">
+            </picture>
 				    </a>
             <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
                 <ul>
@@ -635,6 +639,7 @@
                 </ul>
             </nav>
         </div>
+        <p class="footer-copyright"><small>© 2026 Dizzy Electron</small></p>
     </footer>
 			</div>
 			

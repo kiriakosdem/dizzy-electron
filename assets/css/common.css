@@ -30,10 +30,11 @@ MAIN BODY AND TEXT
     --bullet-overlap: var(--color-paper);
     --page: var(--color-white);
     --band: var(--color-paper);
-    --surface: var(--color-white);
+    /* Cards and embedded content reuse the alternate page shade in both themes. */
+    --surface: var(--page);
     --ink: var(--color-navy);
     --muted-ink: var(--color-graphite);
-    --focus-ring: var(--color-navy);
+    --focus-ring: var(--color-logo-cyan);
     --panel-edge: var(--color-navy);
 }
 
@@ -42,7 +43,6 @@ MAIN BODY AND TEXT
     --bullet-overlap: var(--color-navy);
     --page: color-mix(in srgb, var(--color-navy) 51%, var(--color-graphite));
     --band: color-mix(in srgb, var(--color-navy) 70%, var(--color-graphite));
-    --surface: color-mix(in srgb, var(--color-navy) 84%, var(--color-graphite));
     --ink: var(--color-paper);
     --muted-ink: color-mix(in srgb, var(--color-paper) 80%, var(--color-graphite));
     --color-border: var(--color-navy);
@@ -85,6 +85,45 @@ MAIN BODY AND TEXT
     outline-offset: 2px;
 }
 
+#NavigationBar .navbar-toggler {
+    border-color: transparent !important;
+}
+
+#NavigationBar .navbar-toggler-icon {
+    position: relative;
+    background-image: none;
+}
+
+#NavigationBar .navbar-toggler-icon::before,
+#NavigationBar .navbar-toggler-icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+}
+
+#NavigationBar .navbar-toggler-icon::before {
+    box-shadow: 0 -7px currentColor, 0 7px currentColor;
+}
+
+#NavigationBar .navbar-toggler-icon::after {
+    opacity: 0;
+}
+
+#NavigationBar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+    box-shadow: none;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#NavigationBar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
 /* Main Body Settings*/
 html, body{
 	height: 100%;
@@ -94,6 +133,23 @@ html, body{
 	font-size: 1rem;
 
 	background-color: var(--band);
+}
+
+/* Static paper grain across page backgrounds and content surfaces. */
+:root,
+:root body,
+:root[data-theme] body,
+:root body :is(
+    .home-heading, .home-band,
+    .contents-band,
+    .about-heading, .about-band,
+    .contact-form-band,
+    .card, .catalog-card,
+    .figure, .figure-caption, .lesson-simulation, .media-panel
+) {
+    background-image: url("../images/paper-grain.svg?v=stronger");
+    background-size: 180px 180px;
+    background-repeat: repeat;
 }
 
 /* Paragraph Element Styling*/
@@ -127,11 +183,18 @@ NAVIGATION BAR
 	font-style: oblique;
 	padding-top: 0;
 	padding-bottom: 0;
-	padding-left: 2rem;
+	padding-inline: 1rem;
 	margin: 0;
 	height: inherit;
 	text-align: center;
 	color: var(--color-white);
+}
+
+/* Clip logo artwork to the same rounded edge as its focus highlight. */
+#NavigationBar .navbar-brand,
+footer .footer-brand {
+    border-radius: var(--corner-radius);
+    overflow: hidden;
 }
 
 /* Orbital character and stacked, equal-width wordmark. */
@@ -163,7 +226,7 @@ footer .footer-brand {
 
 @media (max-width: 575px) {
     #NavigationBar .navbar-brand {
-        padding-left: 0;
+        padding-inline: 0;
     }
 
     #NavigationBar .order-0 {
@@ -514,10 +577,32 @@ footer .footer-navigation a[aria-current="page"] {
     text-underline-offset: 6px;
 }
 footer .footer-navigation a:focus-visible { outline: 3px solid var(--color-logo-cyan); outline-offset: 4px; }
+footer .footer-copyright {
+    margin: 0;
+    padding: 0 20px 20px;
+    color: var(--color-paper);
+    text-align: center;
+    text-indent: 0;
+}
 @media (max-width: 575px) {
     footer .footer-inner { width: calc(100% - 40px); flex-direction: column; gap: 24px; text-align: center; }
+    footer .footer-brand .site-logo { width: 160px; margin-inline: auto; }
 }
 
+
+/* Underlined text links keep the surrounding page or card background. */
+a[href]:not([class]),
+.home-text-link,
+.lab-links a,
+.figure-caption a,
+.breadcrumb a,
+#change-chapter a,
+#NavigationBar a.btn,
+#NavigationBar .dropdown-item[aria-current="page"],
+footer .footer-navigation a {
+    --hover-background: transparent;
+    background-color: transparent !important;
+}
 
 /* Lesson cards define their own hover colours for each part of the card. */
 @media (any-hover: hover) {

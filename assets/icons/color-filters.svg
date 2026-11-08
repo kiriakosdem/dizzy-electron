@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <filter id="orange" color-interpolation-filters="sRGB">
+    <feFlood flood-color="#ff984f"/>
+    <feComposite in2="SourceGraphic" operator="in"/>
+  </filter>
+</svg>

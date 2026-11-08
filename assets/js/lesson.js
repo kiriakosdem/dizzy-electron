@@ -12,12 +12,16 @@ const setDropdown = (button, open) => {
 
 const closeDropdowns = () => dropdownButtons.forEach((button) => setDropdown(button, false));
 
+const setMenu = open => {
+    menuToggle.setAttribute('aria-expanded', String(open));
+    menuToggle.setAttribute('aria-label', open ? 'Σύμπτυξη πλοήγησης' : 'Εμφάνιση πλοήγησης');
+    navigation.classList.toggle('show', open);
+    if (!open) closeDropdowns();
+};
+
 if (menuToggle && navigation) {
     menuToggle.addEventListener('click', () => {
-        const open = menuToggle.getAttribute('aria-expanded') !== 'true';
-        menuToggle.setAttribute('aria-expanded', String(open));
-        navigation.classList.toggle('show', open);
-        if (!open) closeDropdowns();
+        setMenu(menuToggle.getAttribute('aria-expanded') !== 'true');
     });
 }
 
@@ -63,8 +67,7 @@ document.addEventListener('keydown', (event) => {
         closeDropdowns();
         openDropdown.focus();
     } else if (menuToggle && navigation && menuToggle.getAttribute('aria-expanded') === 'true') {
-        navigation.classList.remove('show');
-        menuToggle.setAttribute('aria-expanded', 'false');
+        setMenu(false);
         menuToggle.focus();
     }
 });

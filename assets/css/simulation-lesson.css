@@ -142,9 +142,9 @@
     text-align: left;
     color: var(--ink);
 }
-.lesson-sidebar .contents-card ul { display: grid; gap: 4px; }
+.lesson-sidebar .contents-card ul { display: grid; gap: 2px; }
 .lesson-sidebar .contents-card ul a {
-    padding: 10px 12px;
+    padding: 5px 12px;
     border-radius: var(--corner-radius);
     background: transparent;
     color: var(--ink);
@@ -154,9 +154,9 @@
 }
 .lesson-sidebar .contents-card ul a:hover,
 .lesson-sidebar .contents-card ul a:focus-visible {
-    background: var(--band);
+    background: transparent;
     color: var(--ink);
-    text-decoration: none;
+    text-decoration: underline;
 }
 .lesson-sidebar .sidebar-heading { max-width: 320px; margin: 0 auto 18px; }
 .lesson-sidebar .catalog-grid--sidebar { gap: 18px; }

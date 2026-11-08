@@ -9,9 +9,10 @@
     <title>Dizzy Electron | Ευχαριστώ</title>
     <script src="../assets/js/theme.js?v=theme-icons"></script>
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/common.css?v=clipped-mobile-menu">
+    <link rel="stylesheet" href="../assets/css/common.css?v=two-backgrounds">
     <link rel="stylesheet" href="../assets/css/contact.css?v=centred-submit">
-    <script src="../assets/js/lesson.js?v=smooth-top-1" defer></script>
+    <script src="../assets/js/lesson.js?v=menu-collapse-icon" defer></script>
+    <link rel="stylesheet" href="../assets/css/focus.css?v=cyan-click-glow">
 </head>
 <body class="contact-page" id="top">
     <a class="contact-skip-link" href="#contact-content">Μετάβαση στο περιεχόμενο</a>
@@ -55,7 +56,7 @@
                     </ul>
                 </div>
                 <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
-                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon" aria-hidden="true"></span>
                 </button>
             </nav>
         </div>
@@ -63,13 +64,17 @@
     <main id="contact-content" class="contact-shell contact-thanks" tabindex="-1">
         <h1>Ευχαριστώ για το μήνυμά σου!</h1>
         <p>Η υποβολή της φόρμας ολοκληρώθηκε. Οι ερωτήσεις και οι παρατηρήσεις σου βοηθούν το Dizzy Electron να γίνει καλύτερο.</p>
-        <a class="contact-submit" href="../contents/index.html">Επιστροφή στα μαθήματα</a>
-        <p><a href="index.html">Πίσω στην επικοινωνία</a></p>
+        <div class="contact-actions">
+            <a class="contact-submit" href="../contents/index.html">Επιστροφή στα μαθήματα</a>
+        </div>
     </main>
     <footer>
         <div class="footer-inner">
             <a class="footer-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
-            <img class="site-logo" src="../assets/brand/logo-navy.png" width="1200" height="626" alt="" aria-hidden="true">
+            <picture>
+                <source media="(max-width: 575px)" srcset="../assets/brand/logo-navy-notext.png" width="800" height="800">
+                <img class="site-logo" src="../assets/brand/logo-navy.png" width="1200" height="626" alt="" aria-hidden="true">
+            </picture>
         </a>
             <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
                 <ul>
@@ -79,6 +84,7 @@
                 </ul>
             </nav>
         </div>
+        <p class="footer-copyright"><small>© 2026 Dizzy Electron</small></p>
     </footer>
 </body>
 </html>

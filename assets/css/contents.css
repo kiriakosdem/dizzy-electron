@@ -32,7 +32,6 @@
     border-style: dashed;
     color: var(--muted-ink);
 }
-.catalog-card--upcoming .catalog-icon--muted { background: var(--icon-muted-tile); }
 .catalog-card--upcoming .catalog-icon img { opacity: .78; }
 .catalog-card--upcoming .catalog-status {
     grid-column: 1 / -1;
