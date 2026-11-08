@@ -289,13 +289,14 @@ text-decoration-line: none;
     line-height: 1.3rem;
 }
 
-/* Fixed rows keep titles, descriptions and actions aligned across the catalogue. */
+/* Cards grow with their question and subtitle, keeping actions at the bottom. */
 .catalog-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 .catalog-card {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
-    grid-template-rows: 3.1rem minmax(0, 1fr) 2rem;
-    height: 13.25rem;
+    grid-template-rows: minmax(4.6rem, auto) 1fr auto;
+    min-height: 14.75rem;
+    height: 100%;
     align-items: center;
     gap: 10px 12px;
     min-width: 0;
@@ -355,21 +356,12 @@ a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg
 
 
 .catalog-card > :is(h3, h4) {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    max-height: 2.7em;
+    margin: 0;
 }
 .catalog-grid .catalog-card > p {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
     align-self: start;
     font-size: .9rem;
     line-height: 1.6;
-    max-height: 4.8em;
 }
 .catalog-card > :is(.catalog-card-action, .catalog-status) {
     grid-row: 3;

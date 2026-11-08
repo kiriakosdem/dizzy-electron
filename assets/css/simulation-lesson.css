@@ -10,6 +10,13 @@
     overflow-x: auto;
 }
 
+.simulation-lesson .lesson-subtitle {
+    margin: 0 0 2rem;
+    color: var(--muted-ink);
+    text-align: center;
+    line-height: 1.7;
+}
+
 .simulation-toolbar {
     display: flex;
     flex-direction: column;
