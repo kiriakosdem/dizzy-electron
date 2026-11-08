@@ -27,7 +27,6 @@ MAIN BODY AND TEXT
     --color-paper: #f6f3ed;
     --color-white: #ffffff;
     --color-border: color-mix(in srgb, var(--color-navy) 18%, var(--color-paper));
-    --bullet-overlap: var(--color-paper);
     --page: var(--color-white);
     --band: var(--color-paper);
     /* Cards and embedded content reuse the alternate page shade in both themes. */
@@ -40,23 +39,16 @@ MAIN BODY AND TEXT
 
 :root[data-theme="dark"] {
     color-scheme: dark;
-    --bullet-overlap: var(--color-navy);
     --page: color-mix(in srgb, var(--color-navy) 51%, var(--color-graphite));
     --band: color-mix(in srgb, var(--color-navy) 70%, var(--color-graphite));
     --ink: var(--color-paper);
     --muted-ink: color-mix(in srgb, var(--color-paper) 80%, var(--color-graphite));
-    --color-border: var(--color-navy);
+    --color-border: color-mix(in srgb, var(--surface) 50%, var(--color-navy));
     --focus-ring: var(--color-logo-cyan);
-    --panel-edge: var(--color-border);
+    --panel-edge: var(--color-navy);
 }
 
 :root[data-theme="dark"] body { background: var(--page); color: var(--ink); }
-:root[data-theme="dark"] main a:where(:not([class])) { color: var(--color-logo-cyan); }
-/* Use the same dark edge for every component, including hover states. */
-:root[data-theme="dark"] :where(body, body *) {
-    border-color: var(--color-navy) !important;
-}
-
 /* One outside edge for cards, figures and embedded content. */
 .card,
 .catalog-card,
@@ -604,6 +596,27 @@ footer .footer-navigation a {
     background-color: transparent !important;
 }
 
+:root[data-theme="dark"] :is(
+    .about-band a[href],
+    .contact-page main a[href]:not(.contact-submit),
+    .home-text-link[href],
+    .lab-links a[href],
+    .figure-caption a[href],
+    .simulation-toolbar :is(a[href], button),
+    .contents-card ul a[href],
+    .breadcrumb a[href],
+    #change-chapter a[href],
+    #NavigationBar a.btn[aria-current="page"],
+    #NavigationBar .dropdown-item[aria-current="page"],
+    footer .footer-navigation a[aria-current="page"]
+) {
+    color: var(--color-logo-cyan);
+}
+
+:root[data-theme="dark"] .breadcrumb [aria-current="page"]:not(a[href]) {
+    color: var(--ink);
+}
+
 /* Lesson cards define their own hover colours for each part of the card. */
 @media (any-hover: hover) {
     :is(a[href], button:enabled, summary, [role="button"]):not([aria-disabled="true"], .catalog-card):hover {
@@ -652,32 +665,11 @@ footer .footer-navigation a {
 .simulation-lesson .lesson-section > h2 {
     margin-top: 0;
 }
+/* Horizontal circle pairs with a transparent lens cut out of both shapes. */
 .sidebar-heading {
     position: relative;
     padding-inline-start: 1.2em;
 }
-.sidebar-heading::before,
-.sidebar-heading::after {
-    content: "";
-    position: absolute;
-    inset-inline-start: 0;
-    width: .64em;
-    height: .64em;
-    border-radius: 50%;
-    pointer-events: none;
-}
-.sidebar-heading::before {
-    top: calc(.5lh - .51em);
-    background: var(--color-logo-orange);
-}
-.sidebar-heading::after {
-    top: calc(.5lh - .13em);
-    background: radial-gradient(circle at center calc(50% - .38em),
-        var(--bullet-overlap) calc(.32em - .4px), transparent .32em),
-        var(--color-logo-cyan);
-}
-
-/* The lens is the part of the cyan circle shared with the orange circle. */
 .lesson-bullets {
     list-style: none;
     padding-inline-start: 1.6em;
@@ -685,6 +677,8 @@ footer .footer-navigation a {
 .lesson-bullets > li {
     position: relative;
 }
+.sidebar-heading::before,
+.sidebar-heading::after,
 .lesson-bullets > li::before,
 .lesson-bullets > li::after {
     content: "";
@@ -695,15 +689,26 @@ footer .footer-navigation a {
     border-radius: 50%;
     pointer-events: none;
 }
+.sidebar-heading::before { inset-inline-start: 0; }
+.sidebar-heading::after { inset-inline-start: .38em; }
+.lesson-bullets > li::before { inset-inline-start: -1.5em; }
+.lesson-bullets > li::after { inset-inline-start: -1.12em; }
+
+.sidebar-heading::before,
 .lesson-bullets > li::before {
-    inset-inline-start: -1.5em;
     background: var(--color-logo-orange);
+    -webkit-mask-image: radial-gradient(circle at calc(50% + .38em) center,
+        transparent .32em, #000 calc(.32em + .4px));
+    mask-image: radial-gradient(circle at calc(50% + .38em) center,
+        transparent .32em, #000 calc(.32em + .4px));
 }
+.sidebar-heading::after,
 .lesson-bullets > li::after {
-    inset-inline-start: -1.12em;
-    background: radial-gradient(circle at calc(50% - .38em) center,
-        var(--bullet-overlap) calc(.32em - .4px), transparent .32em),
-        var(--color-logo-cyan);
+    background: var(--color-logo-cyan);
+    -webkit-mask-image: radial-gradient(circle at calc(50% - .38em) center,
+        transparent .32em, #000 calc(.32em + .4px));
+    mask-image: radial-gradient(circle at calc(50% - .38em) center,
+        transparent .32em, #000 calc(.32em + .4px));
 }
 
 .lab-links a,

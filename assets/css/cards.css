@@ -329,7 +329,8 @@ a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg
 .catalog-card p { grid-column: 1 / -1; font-size: .9rem; color: var(--muted-ink); margin: 0; line-height: 1.6; text-indent: 0; }
 .catalog-grid--sidebar { grid-template-columns: minmax(0, 1fr); max-width: 320px; margin-inline: auto; text-align: left; }
 .catalog-card-action { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: .35em; font-size: .85rem; font-weight: 600; color: var(--ink); }
-a.catalog-card:hover .catalog-action-label { text-decoration: underline; text-underline-offset: 3px; }
+.catalog-action-label { text-decoration: underline; text-underline-offset: 3px; }
+:root[data-theme="dark"] .catalog-card-action { color: var(--color-logo-cyan); }
 .catalog-card-action > .catalog-action-arrow { font-size: 1.2rem; }
 .catalog-topic-list { list-style: none; padding: 0; margin: 28px 0 0; }
 .catalog-topic { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 20px; align-items: start; padding: 26px 0; border-top: var(--border-width) solid var(--color-border); }

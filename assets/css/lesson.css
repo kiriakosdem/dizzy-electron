@@ -186,7 +186,7 @@ ul.breadcrumb a[href] {
 }
 
 /* Add a color on mouse-over */
-ul.breadcrumb [aria-current="page"] { color: var(--color-logo-cyan); }
+ul.breadcrumb [aria-current="page"]:not(a[href]) { color: var(--ink); }
 
 ul.breadcrumb a[href]:hover {
 	color: var(--color-logo-orange);

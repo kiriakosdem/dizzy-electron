@@ -50,9 +50,11 @@
 .welcome-pagination { position: absolute; z-index: 2; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; }
 /* The same progress value drives the fill and the slide change. */
 .welcome-dot { --hover-background: transparent; position: relative; width: 46px; height: 36px; padding: 12px 5px; background: transparent; }
-.welcome-dot::before, .welcome-dot::after { content: ''; position: absolute; left: 5px; right: 5px; top: 16px; height: 4px; border-radius: 2px; }
+.welcome-dot::before, .welcome-dot::after { content: ''; position: absolute; left: 5px; right: 5px; top: 16px; height: 4px; border-radius: 999px; }
 .welcome-dot::before { background: color-mix(in srgb, var(--color-white) 45%, transparent); }
-.welcome-dot::after { right: auto; width: calc((100% - 10px) * var(--progress, 0)); background: var(--color-white); border-radius: 2px; }
+/* Start the active fill as a circle, preserving full round caps as it grows. */
+.welcome-dot::after { right: auto; width: calc(4px + (100% - 14px) * var(--progress, 0)); background: var(--color-white); opacity: 0; }
+.welcome-dot[aria-current="true"]::after { opacity: 1; }
 .home-page .welcome-carousel .welcome-dot:focus-visible { outline-color: var(--color-white); }
 @media (max-width: 575px) {
     .welcome-previous { left: 8px; }
@@ -94,7 +96,7 @@
 }
 
 .home-quote figcaption { display: flex; align-items: center; justify-content: center; gap: 14px; }
-.welcome-slide .scientist-portrait { width: 76px; height: 76px; flex: 0 0 76px; border-radius: 50%; object-fit: cover; object-position: center 25%; border: var(--border-width) solid var(--color-navy); }
+.welcome-slide .scientist-portrait { width: 76px; height: 76px; flex: 0 0 76px; border-radius: 50%; object-fit: cover; object-position: center 25%; border: 3px solid var(--color-logo-orange); }
 .scientist-credit { text-align: left; min-width: 0; }
 @media (max-width: 575px) {
     .home-quote figcaption { gap: 10px; }
