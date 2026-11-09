@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-  <title>Reading a point on a parabola</title>
-  <path d="M12 57V7m-4 5 4-5 4 5M6 51h52m-5-4 5 4-5 4" stroke-width="1.6"/>
-  <path d="M12 26h38v25" stroke-dasharray="3 4" stroke-width="1.6"/>
-  <path d="M15 12q20 64 40 0"/>
-  <circle cx="50" cy="26" r="3" fill="currentColor" stroke="none"/>
+  <title>Reciprocal, one over x</title>
+  <path d="m27 14 6-5v16m-5 0h10"/>
+  <path d="M15 32h34"/>
+  <path d="M22 43c2-4 5-4 7 0l5 10c2 4 5 4 8 0m-2-13c-2-1-4 1-6 4l-6 9c-2 3-4 4-6 3"/>
 </svg>

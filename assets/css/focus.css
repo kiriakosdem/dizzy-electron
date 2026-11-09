@@ -33,6 +33,16 @@
 }
 
 /* Keep the ring visible inside clipped media containers. */
-:is(iframe, canvas):focus-visible {
+iframe:focus-visible {
     outline-offset: -3px !important;
+}
+
+/* Large reading and simulation surfaces keep focus without a cyan frame. */
+:is(canvas, iframe.simulation-frame, #lesson-content) {
+    -webkit-tap-highlight-color: transparent;
+}
+
+:is(canvas, iframe.simulation-frame, #lesson-content):focus {
+    outline: none !important;
+    box-shadow: none !important;
 }

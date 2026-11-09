@@ -1,7 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-  <!-- A 3d z-squared orbital has two axial lobes and an equatorial torus. -->
-  <path d="M32 28c-3-3.6-8.4-9.7-8.4-15.1a8.4 8.4 0 0 1 16.8 0C40.4 18.3 35 24.4 32 28Z"/>
-  <path d="M32 36c-3 3.6-8.4 9.7-8.4 15.1a8.4 8.4 0 0 0 16.8 0C40.4 45.7 35 39.6 32 36Z"/>
-  <path d="M23 26.9c-7.2 1-12 2.9-12 5.1 0 3.4 9.4 6.1 21 6.1s21-2.7 21-6.1c0-2.2-4.8-4.1-12-5.1"/>
-  <ellipse cx="32" cy="32" rx="8.7" ry="2.1" stroke-width="1.6"/>
+  <title>Cutaway of a 3s orbital</title>
+  <g transform="translate(3 0) rotate(24 32 32)">
+    <!-- A hemisphere with its circular cut face seen at an angle. -->
+    <path d="M32 7a25 25 0 0 0 0 50"/>
+    <ellipse cx="32" cy="32" rx="16" ry="25"/>
+    <!-- Two radial nodes divide the section into three concentric regions. -->
+    <g stroke-width="1.6">
+      <ellipse cx="32" cy="32" rx="9.6" ry="15"/>
+      <ellipse cx="32" cy="32" rx="3.3" ry="5.2"/>
+    </g>
+  </g>
 </svg>

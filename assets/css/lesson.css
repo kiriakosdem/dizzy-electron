@@ -30,6 +30,20 @@ h4{
 BUTTONS & LINKS
 ----------------------------------------------------- */
 
+/* Lesson references use the same text-link treatment as the About page. */
+main a[href]:not(.catalog-card) {
+    --hover-background: transparent;
+    background-color: transparent;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+main a[href]:not(.catalog-card):hover {
+    color: var(--color-logo-orange);
+    text-decoration: underline;
+}
+
 #change-chapter .btn{
 	--hover-background: transparent;
 	font-weight: 400;
@@ -61,6 +75,10 @@ CARDS
 }
 
 /* Examples Card */
+.card-body .lesson-bullets > li + li {
+    margin-top: 0.25rem;
+}
+
 .example-card{
 	background-color: var(--surface);
 	border-color: var(--color-logo-orange);
@@ -206,10 +224,16 @@ IMAGES, MEDIA & ANIMATIONS
     background-color: var(--surface);
 }
 
+/* Keep panel spacing consistent despite the shared figure reset and utilities. */
+.figure,
+.media-panel,
+.lesson-simulation {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+}
+
 /* Figures */
 .figure{
-	margin-top: 2rem;
-	margin-bottom: 2rem;
 	padding: auto 0;
 	width: auto;
 	height: auto;
@@ -298,7 +322,13 @@ p {
 	font-size: 1.3rem;
 	font-weight: bold;
 	margin-top: 3rem;
-	margin-bottom: 0.2rem;
+	margin-bottom: var(--section-heading-gap);
+}
+
+.simulation-lesson .lesson-section > h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
 }
 
 .applet-container1{

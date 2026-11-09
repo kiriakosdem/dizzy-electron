@@ -6,6 +6,11 @@
     min-width: 0;
 }
 
+/* Match the reading rhythm of the About page's body paragraphs. */
+.simulation-lesson .lesson-section > p {
+    line-height: 1.85;
+}
+
 .lesson-equation {
     overflow-x: auto;
 }
@@ -165,7 +170,7 @@
     color: var(--ink);
     text-decoration: underline;
 }
-.lesson-sidebar .sidebar-heading { max-width: 320px; margin: 0 auto 18px; }
+.lesson-sidebar .sidebar-heading { max-width: 320px; margin: 0 auto var(--section-heading-gap); }
 .lesson-sidebar .catalog-grid--sidebar { gap: 18px; }
 .lesson-sidebar .catalog-card { padding: 16px; }
 .lesson-sidebar a:focus-visible { outline-color: var(--focus-ring); }

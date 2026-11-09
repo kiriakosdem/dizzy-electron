@@ -6,7 +6,7 @@
 .about-heading p { margin: 0; text-indent: 0; line-height: 1.8; }
 .about-band { background: var(--page); padding: 54px 0 60px; }
 .about-band--shaded { background: var(--band); }
-.about-band h2 { display: flex; align-items: flex-start; gap: .45em; font-size: 1.6rem; line-height: 1.4; margin: 0 0 28px; }
+.about-band h2 { display: flex; align-items: flex-start; gap: .45em; font-size: 1.6rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .about-section-icon {
     flex: none;
     width: 1.1em;
@@ -33,6 +33,6 @@
     .about-heading { padding: 32px 0 28px; }
     .about-heading h1 { font-size: 1.9rem; }
     .about-band { padding: 36px 0 40px; }
-    .about-band h2 { font-size: 1.4rem; margin-bottom: 22px; }
+    .about-band h2 { font-size: 1.4rem; }
     .about-heading p, .about-band p { font-size: .95rem; }
 }

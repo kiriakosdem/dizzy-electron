@@ -13,13 +13,14 @@ MAIN BODY AND TEXT
 @import url('https://fonts.googleapis.com/css?family=GFS Didot:400,500,700');
 
 /* Font to Use */
-@import url('https://fonts.googleapis.com/css?family=Literata:400,500,600');
+@import url('https://fonts.googleapis.com/css?family=Literata:300,400,500,600');
 
 /* The two logo accents and four supporting colours. */
 :root {
     color-scheme: light;
     --corner-radius: 8px;
     --border-width: 1px;
+    --section-heading-gap: 16px;
     --color-logo-cyan: #00bed0;
     --color-logo-orange: #ff984f;
     --color-navy: #001e3c;
@@ -122,6 +123,7 @@ html, body{
 	width: 100%;
 
 	font-family: 'Literata', sans-serif;
+	font-weight: 300;
 	font-size: 1rem;
 
 	background-color: var(--band);
@@ -598,6 +600,7 @@ footer .footer-navigation a {
 
 :root[data-theme="dark"] :is(
     .about-band a[href],
+    .simulation-lesson main a[href]:not(.catalog-card),
     .contact-page main a[href]:not(.contact-submit),
     .home-text-link[href],
     .lab-links a[href],

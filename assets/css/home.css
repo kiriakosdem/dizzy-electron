@@ -3,13 +3,13 @@
 .home-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .home-page p { text-indent: 0; line-height: 1.8; }
 .home-heading { padding: 52px 0; border-radius: 0 0 var(--corner-radius) var(--corner-radius); text-align: center; background: var(--band); color: var(--ink); }
-.home-heading h2 { font-size: 2.25rem; line-height: 1.3; margin: 0 0 24px; }
+.home-heading h2 { font-size: 2.25rem; line-height: 1.3; margin: 0 0 var(--section-heading-gap); }
 .home-heading p { max-width: 62ch; margin: 0 auto; line-height: 1.9; }
 .home-button { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); background: var(--color-logo-orange); color: var(--color-navy); font-size: .95rem; font-weight: 600; line-height: 1.6; }
 .home-button:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); color: var(--color-navy); text-decoration: none; }
 .home-band { padding: 48px 0 54px; background: var(--page); }
 .home-band--shaded { background: var(--band); }
-.home-band h2 { font-size: 1.6rem; line-height: 1.4; margin: 0 0 24px; }
+.home-band h2 { font-size: 1.6rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .home-band p { font-size: .95rem; color: var(--muted-ink); }
 .home-intro { margin-bottom: 28px; }
 .home-page .home-more { margin: 28px 0 0; text-align: center; }
