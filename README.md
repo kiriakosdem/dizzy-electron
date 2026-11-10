@@ -42,6 +42,7 @@ The `bouncing-balls` and `falling-blocks` simulation folders contain legacy Java
 
 ## Editing conventions
 
+- Apply Google Doc text edits only between the `Google Doc lesson body begins` and `Google Doc lesson body ends` comments. Edit the text within existing cards and media captions so figures, embeds, controls and section anchors keep working. The previous and next links follow the end marker. Preserve the surrounding page when syncing a Doc.
 - Use lowercase filenames with hyphens for authored files. Preserve third-party distribution filenames.
 - Add subject folders under `lessons/` when their first lesson is ready.
 - Keep a simulation's code, documentation and tests together. Lesson pages embed its `index.html`.
