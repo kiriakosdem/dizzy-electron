@@ -24,6 +24,11 @@ h4{
 	font-variant: small-caps;
 }
 
+/* Use a full bold weight against the light reading text. */
+#lesson-content :is(strong, b) {
+    font-weight: 700;
+}
+
 
 
 /* ---------------------------------------------------
