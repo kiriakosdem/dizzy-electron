@@ -75,7 +75,8 @@ CARDS
 }
 
 /* Examples Card */
-.card-body .lesson-bullets > li + li {
+.card-body .lesson-bullets > li + li,
+.lesson-sources > li + li {
     margin-top: 0.25rem;
 }
 
@@ -217,10 +218,10 @@ ul.breadcrumb a[href]:hover {
 IMAGES, MEDIA & ANIMATIONS
 ----------------------------------------------------- */
 
-/* Match media frames to the learning goals cards. */
+/* Match image and video frames to the lesson cards. */
 .figure,
 .media-panel {
-    border-color: var(--panel-edge);
+    border-color: var(--color-border);
     background-color: var(--surface);
 }
 
@@ -250,6 +251,7 @@ IMAGES, MEDIA & ANIMATIONS
 }
 
 .figure-caption{
+	border-top: var(--border-width) solid var(--color-border);
 	background-color: var(--surface);
 	padding: 1rem;
 	color: var(--ink);
@@ -455,4 +457,34 @@ main .simulation-toolbar .btn:hover,
 main .figure-caption a:hover {
     color: var(--color-logo-orange) !important;
     text-decoration: underline;
+}
+
+/* Let successive paragraphs wrap alongside the cards until the section ends. */
+.illustrated-section::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.figure.atomic-model {
+    float: right;
+    clear: right;
+    width: 30%;
+    height: auto;
+    margin: 0 0 .75rem 1.25rem !important;
+}
+
+.atomic-model img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 575px) {
+    .figure.atomic-model {
+        display: block;
+        float: none;
+        width: min(100%, 13rem);
+        margin: 0 auto 1rem !important;
+    }
 }

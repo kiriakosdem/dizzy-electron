@@ -47,7 +47,7 @@
 .lesson-simulation {
     height: auto;
     background: var(--surface);
-    border: var(--border-width) solid var(--panel-edge);
+    border: var(--border-width) solid var(--color-border);
 
 }
 

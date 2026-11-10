@@ -301,7 +301,8 @@ button:disabled{cursor:default;opacity:.45}
 const lab=document.getElementById('lab'), canvas=document.getElementById('fieldCanvas'), ctx=canvas.getContext('2d',{alpha:false});
 const $=id=>document.getElementById(id);
 const compactLayout=window.matchMedia('(max-width:750px), (max-height:500px) and (max-width:950px)');
-let controlsOpen=!compactLayout.matches,massHover=null,touchEditorId=null;
+const embedded=window.self!==window.top;
+let controlsOpen=!embedded&&!compactLayout.matches,massHover=null,touchEditorId=null;
 function setControlsOpen(open,{returnFocus=false}={}){
  controlsOpen=open;$('controlsPanel').hidden=!open;$('controlsBackdrop').hidden=!open||!compactLayout.matches;
  $('controlsToggle').setAttribute('aria-expanded',String(open));
@@ -311,7 +312,7 @@ function setControlsOpen(open,{returnFocus=false}={}){
 }
 $('controlsToggle').onclick=()=>setControlsOpen(!controlsOpen);
 $('controlsBackdrop').onclick=()=>setControlsOpen(false,{returnFocus:true});
-compactLayout.addEventListener('change',()=>setControlsOpen(!compactLayout.matches,{returnFocus:$('controlsPanel').contains(document.activeElement)}));
+compactLayout.addEventListener('change',()=>setControlsOpen(embedded?controlsOpen:!compactLayout.matches,{returnFocus:!embedded&&$('controlsPanel').contains(document.activeElement)}));
 setControlsOpen(controlsOpen);
 const SAMPLE=50, MINOR=25, MAJOR=100, SUPER_MAJOR=400, MIN_ZOOM=.30,MAX_ZOOM=2;
 const PAN_X=2000,PAN_Y=1500;
@@ -1110,5 +1111,6 @@ document.querySelectorAll('input[type=range]').forEach(input=>{updateRangeFill(i
 resetCamera();initializeEmptyScene();requestAnimationFrame(render);
 })();
 </script>
+<script src="../../assets/js/lab-toggle.js"></script>
 </body>
 </html>
