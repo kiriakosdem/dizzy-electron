@@ -20,6 +20,8 @@ MAIN BODY AND TEXT
     color-scheme: light;
     --corner-radius: 8px;
     --border-width: 1px;
+    --section-start: clamp(24px, 3.5vw, 44px);
+    --section-end: calc(2 * var(--section-start));
     --section-heading-gap: 16px;
     --color-logo-cyan: #00bed0;
     --color-logo-orange: #ff984f;
@@ -702,9 +704,14 @@ footer .footer-navigation a {
 @media (max-width: 575px) {
     .section-divider::before { --packet-width: 100%; height: 22px; }
 }
+:where(.home-heading, .home-band, .quote-carousel,
+       .about-heading, .about-band, .contents-heading, .contents-band,
+       .contact-heading, .contact-form-band, .contact-direct, .contact-thanks),
 .lesson-section {
-    margin-top: 32px;
-    padding-top: 24px;
+    padding-block: var(--section-start) var(--section-end);
+}
+#lesson-content > section.card {
+    margin-block: var(--section-start) var(--section-end);
 }
 .simulation-lesson .lesson-section > h2 {
     margin-top: 0;

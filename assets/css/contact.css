@@ -1,11 +1,11 @@
 .contact-page { min-height: 100%; height: auto; background: var(--page); color: var(--ink); }
 .contact-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .contact-page p { text-indent: 0; line-height: 1.8; }
-.contact-heading { padding: 48px 0 34px; text-align: center; }
+.contact-heading { text-align: center; }
 .contact-heading h1, .contact-thanks h1 { margin: 0 0 24px; }
 .contact-heading p { margin: 0; }
 .contact-page h2 { font-size: 1.5rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
-.contact-form-band { padding: 42px 0 48px; background: var(--band); }
+.contact-form-band { background: var(--band); }
 .contact-field { min-width: 0; margin-bottom: 24px; }
 .contact-field label { display: block; font-weight: 600; margin-bottom: 8px; font-size: .95rem; }
 .contact-field label span { font-weight: normal; color: var(--muted-ink); font-size: .82rem; }
@@ -18,7 +18,6 @@
 .contact-page .contact-hint { font-size: .82rem; color: var(--muted-ink); margin: 8px 0 10px; }
 .contact-page .contact-privacy { font-size: .8rem; color: var(--muted-ink); margin-bottom: 22px; }
 .contact-page main a:not(.primary-action) { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
-.contact-direct { padding: 42px 0 46px; }
 .contact-direct p { margin: 0; }
 .contact-honeypot { display: none; }
 .contact-page footer { margin-top: 0; padding-bottom: 20px; }
@@ -26,13 +25,11 @@
 .contact-skip-link { position: fixed; top: -100px; left: 16px; z-index: 1100; background: var(--surface); padding: 14px; color: var(--ink); }
 .contact-skip-link:focus { top: 10px; }
 .contact-page :is(a, button, input, select, textarea, summary):focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
-.contact-thanks { padding: 64px 0; min-height: 65vh; }
+.contact-thanks { min-height: 65vh; }
 .contact-thanks .contact-submit { margin: 14px 0 26px; }
 @media (max-width: 575px) {
     .contact-shell { width: calc(100% - 40px); }
-    .contact-heading { padding: 32px 0 28px; }
     .contact-heading p, .contact-direct p { font-size: .95rem; }
-    .contact-form-band { padding: 32px 0; }
 }
 
 .contact-actions { display: flex; justify-content: center; }

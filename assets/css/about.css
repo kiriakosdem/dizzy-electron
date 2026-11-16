@@ -1,10 +1,10 @@
 /* Full-width alternating bands; the navbar keeps the shared site layout. */
 .about-page { min-height: 100%; height: auto; background: var(--page); color: var(--ink); }
 .about-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
-.about-heading { background: var(--page); padding: 48px 0 34px; text-align: center; }
+.about-heading { background: var(--page); text-align: center; }
 .about-heading h1 { margin: 0 0 24px; text-align: center; }
 .about-heading p { margin: 0; text-indent: 0; line-height: 1.8; }
-.about-band { background: var(--page); padding: 54px 0 60px; }
+.about-band { background: var(--page); }
 .about-band--shaded { background: var(--band); }
 .about-band h2 { display: flex; align-items: flex-start; gap: .45em; font-size: 1.6rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .about-section-icon {
@@ -30,8 +30,6 @@
 .about-page a:focus-visible, .about-page button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }
 @media (max-width: 575px) {
     .about-shell { width: calc(100% - 40px); }
-    .about-heading { padding: 32px 0 28px; }
-    .about-band { padding: 36px 0 40px; }
     .about-band h2 { font-size: 1.4rem; }
     .about-heading p, .about-band p { font-size: .95rem; }
 }

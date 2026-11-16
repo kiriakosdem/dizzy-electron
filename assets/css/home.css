@@ -1,11 +1,8 @@
-/* The same compact layout and alternating bands as About, Contact and Contents. */
 .home-page { min-height: 100%; height: auto; background: var(--page); color: var(--ink); }
 .home-shell { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
 .home-page p { text-indent: 0; line-height: 1.8; }
-.home-heading { padding: clamp(32px, 5vw, 64px) 0; background: var(--page); }
+.home-heading { background: var(--page); }
 .home-hero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 5vw, 64px); align-items: stretch; }
-.home-hero-copy { display: flex; flex-direction: column; justify-content: space-between; }
-.home-hero-copy .primary-action { align-self: flex-start; }
 .home-film-frame {
     position: relative;
     aspect-ratio: 3 / 2;
@@ -28,9 +25,9 @@
     border-radius: var(--corner-radius);
 }
 .home-heading h1 { margin: 0; }
-.home-heading .lesson-bullets { margin: 16px 0 24px; }
+.home-heading .lesson-bullets { margin: 16px 0 0; }
 .home-heading .lesson-bullets > li + li { margin-top: .65em; }
-.home-band { padding: 48px 0 54px; background: var(--band); }
+.home-band { background: var(--band); }
 .home-band--shaded { background: var(--band); }
 .home-band h2 { font-size: 1.6rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .home-band p { font-size: .95rem; color: var(--muted-ink); }
@@ -47,9 +44,7 @@
 .home-page a:focus-visible, .home-page button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }
 @media (max-width: 575px) {
     .home-shell { width: calc(100% - 40px); }
-    .home-heading { padding: 32px 0; }
     .home-heading .lesson-bullets { font-size: .95rem; }
-    .home-band { padding: 34px 0 40px; }
     .home-band h2 { font-size: 1.4rem; }
 }
 
@@ -78,11 +73,10 @@
 }
 @media (max-width: 700px) {
     .home-hero { grid-template-columns: 1fr; }
-    .home-hero-copy .primary-action { align-self: center; }
 }
 
 /* All quotations share a grid cell to keep the controls steady as the copy changes. */
-.quote-carousel { max-width: 760px; padding: clamp(40px, 5vw, 64px) 0 34px; }
+.quote-carousel { max-width: 760px; }
 .quote-track { display: grid; align-items: center; }
 .quote-track .home-excerpt { grid-area: 1 / 1; }
 .quote-track .home-excerpt[inert] { opacity: 0; pointer-events: none; }
