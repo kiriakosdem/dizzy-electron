@@ -1,0 +1,61 @@
+:root { --lab-bar-control-height: 29px; }
+
+:is(.zoom, .quantum-stepper) {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    padding: 3px;
+    border: 1px solid rgba(150, 192, 242, .23);
+    border-radius: 10px;
+    background: rgba(11, 28, 49, .93);
+    color: #b9d4f2;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, .2);
+    pointer-events: auto;
+}
+
+:is(.zoom, .quantum-stepper) button {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: var(--lab-bar-control-height);
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+:is(.zoom, .quantum-stepper) button:enabled:hover { background: #25486e; }
+:is(.zoom, .quantum-stepper) button:enabled:active { background: #193453; }
+:is(.zoom, .quantum-stepper) button:disabled { opacity: .45; cursor: default; }
+
+:is(.zoom, .quantum-stepper) svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+}
+
+.zoom output {
+    width: 43px;
+    font: 11px/1 ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+}
+
+@media (pointer: coarse) {
+    :root { --lab-bar-control-height: 44px; }
+    :is(.zoom, .quantum-stepper) button { width: 44px; }
+}
+
+@media (max-width: 500px) {
+    :root { --lab-bar-control-height: 36px; }
+    :is(.zoom, .quantum-stepper) button { width: 28px; }
+    .zoom output { width: 36px; }
+}
+
+.scale-readout { justify-self: center; align-self: center; pointer-events: none; color: var(--text-muted); font-size: 10px; text-align: center; }
+.scale-rule { height: 5px; margin-top: 2px; border: 1px solid var(--text-muted); border-top: 0; }

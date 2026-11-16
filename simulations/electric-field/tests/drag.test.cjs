@@ -57,6 +57,7 @@ function openLab(compact,{empty=false,random}={}){
   requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
  if(random){sandbox.Math=Object.create(Math);sandbox.Math.random=random;}
  vm.createContext(sandbox);
+ vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-scale.js"), "utf8"), sandbox);
  vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({charges,selectedId,activeDrag,sourceDrag,camera,testCharge:selectedTest()||null,testCharges,selectedTestId,placing}),seedSources:sources=>{charges=sources.map((c,i)=>({id:i+1,...c}));nextId=charges.length+1;selectedId=charges[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestCharge,advanceTestCharge,fieldAt,potentialAt,potentialColor};})();`),sandbox);
  const api=sandbox.labTest;
  // Keep gesture tests on an explicit, deterministic fixture. Real empty startup
@@ -65,6 +66,29 @@ function openLab(compact,{empty=false,random}={}){
  const point=c=>{const p=api.toScreen(c.x,c.y);return {clientX:p.x,clientY:p.y+top};};
  return {$,api,point,document,top,width,height,emitWindow,escape(){emitWindow('keydown',{key:'Escape'});}};
 }
+
+test('playback time follows the fixed steps once for all test charges',()=>{
+ const {$,api}=openLab(false,{empty:true});
+ api.placeTestCharge(0,0);
+ api.placeTestCharge(0,100);
+ const particle=api.state().testCharge;
+ particle.vx=1e6;
+ $('speedSelect').value='0.5';$('speedSelect').emit('change');
+ api.advanceTestCharge(.1);
+ assert.equal($('timeReadout').textContent,'t = 0.05 ms');
+ assert.ok(Math.abs(particle.x-50)<1e-8);
+ $('pauseTest').emit('click');
+ api.advanceTestCharge(.1);
+ assert.equal($('timeReadout').textContent,'t = 0.05 ms');
+ $('speedSelect').value='2';$('speedSelect').emit('change');
+ $('pauseTest').emit('click');
+ api.advanceTestCharge(.1);
+ assert.equal($('timeReadout').textContent,'t = 0.25 ms');
+ assert.ok(Math.abs(particle.x-250)<1e-8);
+ $('resetTest').emit('click');
+ assert.equal($('timeReadout').textContent,'t = 0.00 ms');
+ assert.equal(particle.x,0);
+});
 
 for(const compact of [false,true]){
  const layout=compact?'mobile':'desktop';
@@ -830,7 +854,7 @@ test('potential colors use complementary endpoints with symmetric intensity and 
  assert.ok(api.potentialColor(1e8)[3]<positive[3]);
 });
 
-test('legend shows each applicable scale, including field and potential together',()=>{
+test('legend shows each visible quantity, including field and potential together',()=>{
  const {$}=openLab(false);
  $('potentialToggle').emit('click');
  assert.equal($('electricFieldLegend').hidden,false);assert.equal($('potentialLegend').hidden,false);
@@ -838,6 +862,12 @@ test('legend shows each applicable scale, including field and potential together
  assert.equal($('electricFieldLegend').hidden,true);assert.equal($('potentialLegend').hidden,false);
  $('fieldLinesToggle').emit('click');assert.equal($('electricFieldLegend').hidden,false);
  $('heatmapToggle').emit('click');assert.equal($('potentialLegend').hidden,true);assert.equal($('electricFieldLegend').hidden,false);
- $('fieldLinesToggle').emit('click');$('heatmapToggle').emit('click');assert.equal($('fieldLegend').hidden,true);
+ $('fieldLinesToggle').emit('click');
+ assert.equal($('electricFieldLegend').hidden,true);
+ assert.equal($('strengthLegend').hidden,false);
+ assert.equal($('fieldLegend').hidden,false);
+ $('heatmapToggle').emit('click');
+ assert.equal($('strengthLegend').hidden,true);
+ assert.equal($('fieldLegend').hidden,true);
  $('potentialToggle').emit('click');assert.equal($('fieldLegend').hidden,false);assert.equal($('potentialLegend').hidden,false);
 });

@@ -1,30 +1,22 @@
 # Field Lab, version 2
 
-A standalone electromagnetic field laboratory with mouse-controlled charge motion, a draggable field probe, and a toggle that highlights changing electric-field vectors.
+A standalone electromagnetic field laboratory with mouse-controlled charge motion and a draggable field probe.
 
 Open `index.html` in a modern browser. The application needs no installation, external libraries, remote fonts, internet connection, or server.
 
 ## Start and interact
 
-The canvas starts without a charge. Click or tap anywhere to choose its initial position. The positive charge appears there with its stationary Coulomb field. Drag the yellow charge in either direction to move it, then release it at your target. The source follows a smoothed, speed-limited path. A fast drag leaves an outlined target and a faint connecting line until the charge catches up.
+The canvas starts without a charge. Click or tap anywhere to choose its initial position. The positive charge appears there with its stationary Coulomb field. Drag the white starburst charge in either direction to move it, then release it at your target. The source follows a smoothed, speed-limited path. A fast drag leaves an outlined target and a faint connecting line until the charge catches up.
 
 The Charge tool also lets you click or drag anywhere to specify a new target for an existing source. This moves the charge through intervening positions rather than teleporting it. Dragging resumes playback when paused, allowing the field to respond.
 
-Drag the green probe marker directly to move it. Its numerical measurements update throughout the drag. The Probe tool also lets you click or drag on empty background to choose the probe position. Moving the probe does not move the charge, advance a paused simulation, or alter the field.
+Drag the teal probe marker to inspect the local field vector and retarded ray. The canvas screenshot button saves the probe measurements with the field image. The Probe tool also lets you click or drag on empty background to choose the probe position. Moving the probe does not move the charge, advance a paused simulation, or alter the field.
 
 Select Pan, hold Shift while dragging, or drag with the middle mouse button to move the camera. Scroll or pinch to zoom. Near, Overview, and Far change only the camera. They never relocate the charge or the probe.
 
 The Mouse time rate control sets normalized time units per real second at 1× playback. Its default is 24, making mouse manipulation practical while keeping the field propagation speed at c = 1. The playback speed selector multiplies this rate. Lower rates help examine an outgoing disturbance but also slow how quickly the charge can follow a fast pointer.
 
 In Mouse mode, Place charge again arms a new placement. The next click starts a new stationary-charge experiment at that location and clears the old trajectory history. Escape cancels an armed replacement. Restart creates a new stationary history at the current charge position, without moving the charge back to an arbitrary origin.
-
-## Changing-arrow toggle
-
-Under Display layers, enable Highlight changing arrows. Electric arrows whose selected field component is changing acquire an orange highlight. Unhighlighted electric arrows retain their yellow appearance. The adjacent readout counts highlighted visible samples.
-
-The detector measures a change in direction or strength at a fixed physical observation point. Camera movement, probe movement, zoom, field-visibility gain, and changing the sampling density are not treated as field motion. Highlights clear while paused or when electric vectors are hidden. The detector also operates in direction-only display mode, where a changing field magnitude can still trigger a highlight even though displayed arrow lengths are equal.
-
-This is a field-change indicator, not a detector of radiation alone. A changing velocity field can also be highlighted. The fixed arrow bases are observation points, not particles moving through space.
 
 ## Existing features retained
 
@@ -39,7 +31,6 @@ Play, pause, single stepping, playback speed, logarithmic or direction-only vect
 | Key | Action |
 | --- | --- |
 | Q, P, G | Select Charge, Probe, or Pan |
-| M | Toggle changing-arrow highlights |
 | Space | Play or pause |
 | Period | Advance one step |
 | R | Restart the experiment |
@@ -68,11 +59,9 @@ All physical trajectory segments are retained. Exactly stationary or coasting se
 
 The Newton solver uses a bracket valid for any source trajectory with maximum speed V < c. For D equal to the distance from the current source, the triangle inequality gives D/(c + V) <= t - tr <= D/(c - V). The target residual is 1e-10 normalized time units. A 0.14-unit disk around the current charge excludes the point singularity.
 
-For highlights, the selected vector at time t is compared with the vector at the same physical point at t - 0.06. The vector-difference magnitude divided by 0.06 must exceed both 0.03 times the larger field magnitude and an absolute numerical floor of 1e-9. The threshold prevents insignificant numerical differences from appearing as motion.
+Arrow lengths use the original logarithmic display mapping rather than linear physical scaling. Probe readings remain unscaled. Light blue magnetic symbols and orange electric arrows are sampled on interleaved grids at their own actual positions. Timing-guide circles are not electric field lines.
 
-Arrow lengths use the original logarithmic display mapping rather than linear physical scaling. Probe readings remain unscaled. Blue symbols and yellow arrows are sampled on interleaved grids at their own actual positions. Timing-guide circles are not electric field lines.
-
-The built-in physics panel includes the field equations, all symbol definitions, the motion-segment derivation, transversality explanation, detector definition, and references.
+The built-in physics panel includes the field equations, all symbol definitions, the motion-segment derivation, transversality explanation, and references.
 
 ## Tests
 
@@ -89,11 +78,11 @@ node tests/manual.test.cjs
 
 `tests/browser-validation.json` is a historical report that records the Chromium interface checks. These cover direct mouse and touch charge dragging, direct probe dragging, background probe placement, automatic mode transitions, highlighting, pausing, field isolation, camera gestures, pinch zoom, keyboard controls, replacement placement, modal notes, and snapshot export. Responsive page widths from 320 to 1024 pixels were checked for horizontal page overflow. Touch events were exercised in a mobile-sized Chromium context, not on physical phone hardware.
 
-The container's Chromium policy blocks file navigation, so the browser tests loaded the exact self-contained HTML through Playwright's `set_content` method. The application itself does not require Playwright or a server. Other browser engines were not tested in this session.
+That historical run loaded the original standalone HTML through Playwright’s `set_content` method. Open the current lab from its repository location so the relative stylesheet and script paths resolve.
 
 ## Source organization
 
-`index.html` contains the complete interface, styling, numerical engine, and controls. The engine is isolated in the script identified as `physics-engine`. The `FieldLab` browser object exposes state snapshots, field samples, trajectory inspection, placement, target movement, stepping, playback, and rendering helpers for reproducible checks. Manual simulation time can advance through these helpers but cannot be rewound into already recorded mouse input. Restart begins a new manual history.
+`index.html` contains the interface, numerical engine, and controls. `lab.css` styles the lab and physics dialog, and `sidebar.css` styles the controls sidebar. The zoom bar, playback bar, focus treatment, and touch support for the controls toggle use shared assets in `../../assets/`. The engine is isolated in the script identified as `physics-engine`. The `FieldLab` browser object exposes state snapshots, field samples, trajectory inspection, placement, target movement, stepping, playback, and rendering helpers for reproducible checks. Manual simulation time can advance through these helpers but cannot be rewound into already recorded mouse input. Restart begins a new manual history.
 
 ## Formula references
 

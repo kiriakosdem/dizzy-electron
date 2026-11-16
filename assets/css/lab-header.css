@@ -1,0 +1,76 @@
+/* Reserve the same space for the lab title and its introduction at each width. */
+.banner {
+    --banner-height: 70px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 14px;
+    min-height: calc(var(--banner-height) + env(safe-area-inset-top));
+    padding: calc(8px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 8px max(16px, env(safe-area-inset-left));
+}
+.banner-copy { flex: 1; min-width: 0; }
+.banner h1 { margin: 0 0 4px; font-size: 20px; line-height: 1.15; letter-spacing: normal; }
+.banner .subtitle { display: block; margin: 0; color: var(--text-muted); font-size: 12px; line-height: 1.4; }
+.banner #physicsButton {
+    display: inline;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-accent);
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+.banner #physicsButton:hover { color: var(--text-primary); }
+@media (max-width: 750px) {
+    .banner { --banner-height: 82px; gap: 8px; }
+    .banner h1 { font-size: 18px; }
+}
+@media (max-width: 420px) { .banner { --banner-height: 100px; } }
+@media (max-width: 320px) {
+    .banner { --banner-height: 116px; }
+    .banner h1 { font-size: 16px; }
+}
+
+#closePhysics {
+    display: grid; place-items: center; flex: none; width: 40px; height: 40px;
+    border: 1px solid #45658b; border-radius: 8px;
+    background: #0b1c31; color: var(--text-secondary); cursor: pointer;
+}
+#closePhysics svg { width: 18px; height: 18px; }
+#physicsDialog {
+    width: min(720px, calc(100% - 24px));
+    max-height: min(84vh, 850px);
+    max-height: min(84dvh, 850px);
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #45658b;
+    border-radius: 12px;
+    background: #0b1c31;
+    color: var(--text-primary);
+}
+#physicsDialog[open] { display: flex; flex-direction: column; }
+#physicsDialog::backdrop { background: rgba(2, 8, 20, .72); }
+.dialog-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex: none;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(150, 192, 242, .23);
+}
+.dialog-head h2 { margin: 0; font-size: 18px; }
+.dialog-body { padding: 0 18px 16px; overflow: auto; overscroll-behavior: contain; color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+.dialog-body h3 { margin: 22px 0 6px; font-size: 15px; color: var(--text-primary); }
+.dialog-body a { color: var(--text-accent); }
+.math-block, .note-box { padding: 10px 12px; border: 1px solid rgba(150, 192, 242, .23); border-radius: 8px; background: #08162b; }
+.math-block { overflow-x: auto; font-family: ui-monospace, monospace; }
+.math-row { width: max-content; padding: 2px 0; }
+.definition-grid { display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; }
+.definition-grid dt, .keycap { color: var(--text-primary); font-weight: 650; }
+.definition-grid dd { margin: 0; }
+.shortcut-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(225px, 100%), 1fr)); gap: 6px 20px; }
+.shortcut-grid > div { display: flex; justify-content: space-between; gap: 8px; }
+.source-reference { margin-top: 20px; border-top: 1px solid rgba(150, 192, 242, .23); padding-top: 12px; }

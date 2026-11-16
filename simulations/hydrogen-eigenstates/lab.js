@@ -6,15 +6,17 @@
     let phasePalette;
     let basis = 'complex';
     const $ = id => document.getElementById(id);
-    const lab = $('lab'), viewport = $('viewport');
+    const viewport = $('viewport');
     const quantumSteppers = document.querySelectorAll('.quantum-stepper');
     const density = $('density'), status = $('renderStatus');
+    const zoomLabel = $('zoomLabel'), zoomIn = $('zoomIn'), zoomOut = $('zoomOut');
     const displayMode = $('displayMode'), enclosure = $('enclosure'), fuzziness = $('fuzziness');
     // One world unit is 25 Bohr radii for every state and display mode.
     const WORLD_SCALE = 0.04, VIEW_RADIUS = 3.8;
     const MAX_POINTS = Number(density.max);
     let state = { n: 1, l: 0, m: 0 }, drawCount = Number(density.value);
     let renderer, scene, camera, orbit, cloud, axes, rebuildFrame, detection, detectionMatrix;
+    let homeDistance, nodes, nodeMaterial, nodeShape;
     let fuzzy, fuzzyState, fuzzyRadius99;
     let surface, surfaceModel, surfaceState, cloudState, surfaceProbability, surfaceRadius, cloudRadius99;
     let probability = Number(enclosure.value) / 100;
@@ -24,6 +26,10 @@
     const DETECTION_INTERVAL = 100;
     const labels = ['s', 'p', 'd', 'f', 'g', 'h'];
 
+    function canStep(key, delta) {
+        const next = { ...state, [key]: state[key] + delta };
+        return next.n <= P.MAX_N && P.validState(next.n, next.l, next.m);
+    }
     function reflectQuantumNumber(key, min, max) {
         const value = state[key];
         const element = $(key + 'Select');
@@ -33,8 +39,8 @@
         const stepper = document.querySelector(`.quantum-stepper[data-number="${key}"]`);
         const realPair = key === 'm' && basis !== 'complex' && value !== 0;
         stepper.querySelector('.quantum-value').textContent = realPair ? `±${value}` : value;
-        stepper.querySelector('[data-step="-1"]').disabled = value <= min;
-        stepper.querySelector('[data-step="1"]').disabled = value >= max;
+        stepper.querySelector('[data-step="-1"]').disabled = !canStep(key, -1);
+        stepper.querySelector('[data-step="1"]').disabled = !canStep(key, 1);
         if (realPair) {
             element.add(new Option(`±${value} (real)`, 'real'));
             element.value = 'real';
@@ -44,16 +50,25 @@
         reflectQuantumNumber('n', 1, P.MAX_N);
         reflectQuantumNumber('l', 0, state.n - 1);
         reflectQuantumNumber('m', -state.l, state.l);
-        const selected = P.realOrbitals(state.n, state.l).find(o => o.m === state.m && o.basis === basis);
-        $('stateName').textContent = selected ? selected.label : `${state.n}${labels[state.l]} · m = ${state.m}`;
-        $('basisHint').textContent = selected ? (state.m ? `Real combination of m = ±${state.m}. Select m above to return to a complex eigenstate.` : 'Real m = 0 orbital.') : 'Select a real orbital below, or choose a complex eigenstate with m above.';
+        const orbitals = P.realOrbitals(state.n, state.l);
+        const selected = orbitals.find(o => o.m === state.m && o.basis === basis);
+        const realName = state.m === 0 ? orbitals.find(o => o.m === 0) : selected;
+        const shell = `${state.n}${labels[state.l]}`;
+        const name = $('stateName');
+        if (realName && /[xyz]/.test(realName.suffix)) {
+            const subscript = document.createElement('sub');
+            subscript.textContent = realName.suffix;
+            name.replaceChildren(shell, subscript);
+        } else {
+            name.textContent = realName ? realName.label : `${shell} (m=${state.m})`;
+        }
         $('energy').textContent = `−${(13.6057 / (state.n * state.n)).toFixed(2)} eV`;
-        $('radialNodes').textContent = state.n - state.l - 1;
-        $('polarNodes').textContent = state.l - Math.abs(state.m);
+        nodeShape = P.nodalSurfaces(state.n, state.l, state.m, basis);
+        $('nodeCount').textContent = nodeShape.radii.length + nodeShape.polarCosines.length + nodeShape.planeAngles.length;
         const row = $('realOrbitals'), group = `${state.n},${state.l}`;
         if (row.dataset.group !== group) {
             row.replaceChildren(); row.dataset.group = group; row.scrollLeft = 0;
-            for (const orbital of P.realOrbitals(state.n, state.l)) {
+            for (const orbital of orbitals) {
                 const button = document.createElement('button');
                 button.type = 'button'; button.className = 'action-button';
                 button.textContent = orbital.label; button.title = orbital.description;
@@ -64,7 +79,6 @@
         }
         for (const button of row.children) button.setAttribute('aria-pressed', String(
             Number(button.dataset.m) === state.m && button.dataset.basis === basis));
-        $('azimuthalNodes').textContent = basis === 'complex' ? 0 : Math.abs(state.m);
         $('actionStatus').textContent = (selected ? `Selected ${selected.label}, ${selected.description}.` : `Selected n = ${state.n}, l = ${state.l}, m = ${state.m}.`) +
             (previous && (previous.l !== state.l || previous.m !== state.m) ? ' Dependent values updated to an allowed combination.' : '');
     }
@@ -111,11 +125,6 @@
         $('surfaceControls').hidden = !isSurface;
         $('fuzzyControls').hidden = displayMode.value !== 'fuzzy';
         $('phaseLegend').hidden = isPoints;
-        $('colorLegendTitle').textContent = 'Wavefunction phase · arg ψ';
-        $('viewLabel').textContent = isSurface ? `≈ ${(probability * 100).toFixed(1)}% probability surface` : 'Probability density |ψ|²';
-        $('viewHint').textContent = isSurface ? 'The surface is a probability boundary, not a solid electron or an orbit. Some probability always remains outside.' :
-            !isPoints ? 'Denser regions appear more opaque. Color shows wavefunction phase, with orange at +1 and light blue at −1.' :
-            'Each sphere is a possible measurement position, not a separate electron or a point on an orbit.';
         if (renderer) renderer.domElement.setAttribute('aria-label', `Three-dimensional hydrogen ${isSurface ? 'probability surface' : 'probability cloud'}. Drag to rotate and scroll or pinch to zoom.`);
     }
     function setFuzziness() {
@@ -156,6 +165,9 @@
         button.classList.toggle('on', on);
         callback(on); needsRender = true;
     }
+    $('nodesToggle').addEventListener('click', () => toggle($('nodesToggle'), () => {
+        if (ready) drawNodes();
+    }));
     $('axesToggle').addEventListener('click', () => toggle($('axesToggle'), on => { if (axes) axes.visible = on; }));
     $('rotationToggle').addEventListener('click', () => toggle($('rotationToggle'), on => { if (orbit) orbit.autoRotate = on; }));
     $('detectionToggle').addEventListener('click', () => toggle($('detectionToggle'), on => {
@@ -166,8 +178,8 @@
     $('detectionToggle').classList.toggle('on', detectionsEnabled);
     document.addEventListener('visibilitychange', () => { lastDetectionAt = -Infinity; });
     $('resetView').addEventListener('click', resetCamera);
-    $('zoomIn').addEventListener('click', () => zoomView(1 / 1.25));
-    $('zoomOut').addEventListener('click', () => zoomView(1.25));
+    zoomIn.addEventListener('click', () => zoomView(1 / 1.25));
+    zoomOut.addEventListener('click', () => zoomView(1.25));
     reflectState(); setDensity(); setEnclosure(); setFuzziness(); reflectDisplay();
 
     function highlightSample(now, force = false) {
@@ -198,13 +210,24 @@
         orbit.update(); needsRender = true;
     }
 
+    function updateZoomControls() {
+        if (!homeDistance) return;
+        const distance = camera.position.distanceTo(orbit.target);
+        // Perspective scale in the plane through the nucleus.
+        const viewHeight = 2 * distance * Math.tan(camera.fov * Math.PI / 360);
+        updateLabScale($('distanceLabel'), $('scaleRule'), viewport.clientHeight * WORLD_SCALE / viewHeight, 'a₀');
+        const label = Math.round(100 * homeDistance / distance) + '%';
+        // OrbitControls also emits changes during rotation.
+        if (zoomLabel.textContent !== label) zoomLabel.textContent = label;
+        const atClosest = distance <= orbit.minDistance + 1e-8;
+        const atFarthest = distance >= orbit.maxDistance - 1e-8;
+        if (zoomIn.disabled !== atClosest) zoomIn.disabled = atClosest;
+        if (zoomOut.disabled !== atFarthest) zoomOut.disabled = atFarthest;
+    }
+
     function resetCamera() {
-        if (!camera) return;
-        const halfFov = camera.fov * Math.PI / 360;
-        const halfAngle = Math.min(halfFov, Math.atan(Math.tan(halfFov) * camera.aspect));
-        // Home uses the same physical field of view for every orbital.
-        const distance = VIEW_RADIUS / Math.sin(halfAngle);
-        camera.position.copy(new THREE.Vector3(1, -1.6, 0.85).normalize().multiplyScalar(distance));
+        if (!homeDistance) return;
+        camera.position.copy(new THREE.Vector3(1, -1.6, 0.85).normalize().multiplyScalar(homeDistance));
         orbit.target.set(0, 0, 0);
         orbit.update(); needsRender = true;
     }
@@ -223,6 +246,35 @@
             sprite.position.copy(to).multiplyScalar(1.08); sprite.scale.set(.4,.4,1); group.add(sprite);
         });
         return group;
+    }
+    function drawNodes() {
+        for (const mesh of nodes.children) mesh.geometry.dispose();
+        nodes.clear();
+        if ($('nodesToggle').getAttribute('aria-checked') !== 'true') return;
+        const extent = radius99 * WORLD_SCALE;
+        function add(geometry) {
+            const mesh = new THREE.Mesh(geometry, nodeMaterial);
+            mesh.renderOrder = 5;
+            nodes.add(mesh);
+            return mesh;
+        }
+        for (const r of nodeShape.radii) add(new THREE.SphereGeometry(r * WORLD_SCALE, 64, 32));
+        for (const mu of nodeShape.polarCosines) {
+            if (Math.abs(mu) < 1e-10) {
+                add(new THREE.CircleGeometry(extent, 64));
+            } else {
+                const height = extent * mu;
+                const cone = add(new THREE.ConeGeometry(extent * Math.sqrt(1 - mu * mu), Math.abs(height), 64, 1, true));
+                cone.rotation.x = -Math.sign(height) * Math.PI / 2;
+                cone.position.z = height / 2;
+            }
+        }
+        for (const phi of nodeShape.planeAngles) {
+            const plane = add(new THREE.CircleGeometry(extent, 64));
+            plane.rotation.order = 'ZXY';
+            plane.rotation.x = Math.PI / 2;
+            plane.rotation.z = phi;
+        }
     }
     function buildVisualization() {
         try {
@@ -283,9 +335,11 @@
             if (cloud.visible) radius99 = cloudRadius99;
             fuzzy.visible = displayMode.value === 'fuzzy';
             surface.visible = isSurface;
+            drawNodes();
             highlightSample(performance.now(), true);
-            $('scaleLabel').textContent = isSurface ? `Surface extent: ${surfaceRadius.toFixed(2)} a₀ from the nucleus` :
-                `99% probability radius: ${radius99.toFixed(2)} a₀`;
+            $('scaleLabel').textContent = isSurface ? 'Surface extent from nucleus' : '99% probability radius';
+            $('scaleValue').textContent = `${(isSurface ? surfaceRadius : radius99).toFixed(2)} a₀`;
+            $('scaleMetric').hidden = false;
             reflectDisplay();
             status.hidden = true; needsRender = true;
         } catch (error) {
@@ -301,9 +355,15 @@
             new THREE.Color(paletteStyle.getPropertyValue('--orbital-negative').trim())
         );
         $('phaseRamp').style.background = phasePalette.gradient;
-        scene = new THREE.Scene(); scene.background = new THREE.Color(getComputedStyle(lab).backgroundColor);
+        scene = new THREE.Scene();
+        nodes = new THREE.Group();
+        scene.add(nodes);
+        nodeMaterial = new THREE.MeshBasicMaterial({
+            color: new THREE.Color('#59cf96').convertSRGBToLinear(), transparent: true,
+            opacity: .18, side: THREE.DoubleSide, depthWrite: false, depthTest: false
+        });
         camera = new THREE.PerspectiveCamera(40, 1, 0.01, 500); camera.up.set(0,0,1);
-        renderer = new THREE.WebGLRenderer({antialias:true,alpha:false});
+        renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.outputEncoding = THREE.sRGBEncoding;
         renderer.domElement.setAttribute('aria-label','Three-dimensional hydrogen probability cloud. Drag to rotate and scroll or pinch to zoom.');
@@ -314,7 +374,7 @@
         orbit.rotateSpeed = 1.25;
         orbit.minDistance = 1; orbit.maxDistance = 100; orbit.autoRotateSpeed = 0.9;
         orbit.autoRotate = true;
-        orbit.addEventListener('change', () => { needsRender = true; });
+        orbit.addEventListener('change', () => { updateZoomControls(); needsRender = true; });
         scene.add(new THREE.HemisphereLight(0xbad9ff,0x203150,0.85));
         const key = new THREE.DirectionalLight(0xffffff,0.9); key.position.set(-4,-6,9); scene.add(key);
         const fill = new THREE.DirectionalLight(0x77b1f6,0.4); fill.position.set(5,2,1); scene.add(fill);
@@ -346,10 +406,15 @@
             renderer.setSize(width, height);
             camera.aspect = width / height;
             camera.updateProjectionMatrix();
+            // Home frames the same physical radius for every orbital.
+            const halfFov = camera.fov * Math.PI / 360;
+            const halfAngle = Math.min(halfFov, Math.atan(Math.tan(halfFov) * camera.aspect));
+            homeDistance = Math.min(orbit.maxDistance, VIEW_RADIUS / Math.sin(halfAngle));
             if (!initialViewSet) {
                 resetCamera();
                 initialViewSet = true;
             }
+            updateZoomControls();
             needsRender = true;
         }).observe(viewport);
         renderer.domElement.addEventListener('webglcontextlost', event => {

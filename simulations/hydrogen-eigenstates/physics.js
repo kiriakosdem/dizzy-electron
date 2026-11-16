@@ -42,6 +42,38 @@
         const norm = Math.sqrt((2 / n) ** 3 * factorial(n - l - 1) / (2 * n * factorial(n + l)));
         return norm * Math.exp(-rho / 2) * rho ** l * laguerre(n - l - 1, 2 * l + 1, rho);
     }
+    // The radial and polar factors have simple interior roots. Exclude the
+    // coordinate endpoints, where zeros can represent a point or an axis.
+    function interiorRoots(f, low, high) {
+        const roots = [];
+        let left = low, leftValue = f(low);
+        for (let i = 1; i <= 256; i++) {
+            const right = low + (high - low) * i / 256, rightValue = f(right);
+            if (rightValue === 0 && i < 256) roots.push(right);
+            if (leftValue * rightValue < 0) {
+                let a = left, b = right;
+                for (let j = 0; j < 40; j++) {
+                    const mid = (a + b) / 2;
+                    if (leftValue * f(mid) > 0) a = mid;
+                    else b = mid;
+                }
+                roots.push((a + b) / 2);
+            }
+            left = right;
+            leftValue = rightValue;
+        }
+        return roots;
+    }
+    function nodalSurfaces(n, l, m, basis) {
+        const order = Math.abs(m);
+        const radii = interiorRoots(r => laguerre(n - l - 1, 2 * l + 1, 2 * r / n), 0, 2 * n * n + 20 * n + 20);
+        const polarCosines = interiorRoots(mu => legendre(l, order, mu), -1, 1);
+        const planeAngles = [];
+        if (basis !== 'complex') {
+            for (let k = 0; k < order; k++) planeAngles.push(Math.PI * (k + (basis === 'cos' ? .5 : 0)) / order);
+        }
+        return { radii, polarCosines, planeAngles };
+    }
     // Density in mu = cos(theta), after integrating the uniform azimuth phi.
     function angularDensity(l, m, mu) {
         m = Math.abs(m);
@@ -134,10 +166,10 @@
         for (let m = 0; m <= l; m++) for (const basis of (m ? ['sin','cos'] : ['cos'])) {
             const index = result.length;
             const suffix = l <= 3 ? names[l][index] : (m ? `${m}${basis === 'sin' ? 's' : 'c'}` : '0');
-            result.push({m, basis, label: `${n}${letters[l]}${suffix ? ' · ' + suffix : ''}`,
+            result.push({m, basis, suffix, label: `${n}${letters[l]}${suffix ? ' · ' + suffix : ''}`,
                 description: m ? `Real ±${m} combination: ${basis}(${m}φ)` : 'Real m = 0 orbital'});
         }
         return result;
     }
-    return { polarAmplitude, realAmplitude, realOrbitals, MAX_N, validState, constrainState, radial, angularDensity, distributions, quantile, sample, phase };
+    return { nodalSurfaces, polarAmplitude, realAmplitude, realOrbitals, MAX_N, validState, constrainState, radial, angularDensity, distributions, quantile, sample, phase };
 }));

@@ -47,3 +47,18 @@ for(const state of [[2,1,1,'cos'],[6,5,5,'sin']])test(`real surface enclosure an
   assert.ok(signs.every(s=>s===signs[0]),'triangles must not bridge opposite-phase lobes');
  }
 });
+
+test('nodal surfaces match the radial, polar and azimuthal zeros for all supported states',()=>{
+ for(let n=1;n<=P.MAX_N;n++)for(let l=0;l<n;l++)for(let m=-l;m<=l;m++){
+  for(const basis of ['complex','sin','cos']){
+   const {radii,polarCosines,planeAngles}=P.nodalSurfaces(n,l,m,basis);
+   assert.equal(radii.length,n-l-1);
+   assert.equal(polarCosines.length,l-Math.abs(m));
+   assert.equal(planeAngles.length,basis==='complex'?0:Math.abs(m));
+   for(const r of radii)near(P.radial(n,l,r),0,1e-10);
+   for(const mu of polarCosines)near(P.angularDensity(l,m,mu),0,1e-12);
+   for(const phi of planeAngles)near((basis==='sin'?Math.sin:Math.cos)(Math.abs(m)*phi),0,1e-12);
+  }
+ }
+ near(P.nodalSurfaces(2,0,0,'complex').radii[0],2,1e-10);
+});
