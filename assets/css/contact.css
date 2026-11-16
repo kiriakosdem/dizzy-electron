@@ -2,7 +2,7 @@
 .contact-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .contact-page p { text-indent: 0; line-height: 1.8; }
 .contact-heading { padding: 48px 0 34px; text-align: center; }
-.contact-heading h1, .contact-thanks h1 { font-size: 2.25rem; margin: 0 0 24px; }
+.contact-heading h1, .contact-thanks h1 { margin: 0 0 24px; }
 .contact-heading p { margin: 0; }
 .contact-page h2 { font-size: 1.5rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .contact-form-band { padding: 42px 0 48px; background: var(--band); }
@@ -17,12 +17,7 @@
 .contact-field input::placeholder, .contact-field textarea::placeholder { color: var(--muted-ink); opacity: 1; }
 .contact-page .contact-hint { font-size: .82rem; color: var(--muted-ink); margin: 8px 0 10px; }
 .contact-page .contact-privacy { font-size: .8rem; color: var(--muted-ink); margin-bottom: 22px; }
-.contact-page main a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
-.contact-page .contact-submit {
-    display: inline-block; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); padding: 13px 22px;
-    background: var(--color-logo-orange); color: var(--color-navy); font: inherit; font-size: .95rem; cursor: pointer; text-decoration: none;
-}
-.contact-page .contact-submit:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); }
+.contact-page main a:not(.primary-action) { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
 .contact-direct { padding: 42px 0 46px; }
 .contact-direct p { margin: 0; }
 .contact-honeypot { display: none; }
@@ -36,10 +31,8 @@
 @media (max-width: 575px) {
     .contact-shell { width: calc(100% - 40px); }
     .contact-heading { padding: 32px 0 28px; }
-    .contact-heading h1, .contact-thanks h1 { font-size: 1.9rem; }
     .contact-heading p, .contact-direct p { font-size: .95rem; }
     .contact-form-band { padding: 32px 0; }
-    .contact-page .contact-submit { width: 100%; text-align: center; }
 }
 
 .contact-actions { display: flex; justify-content: center; }

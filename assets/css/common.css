@@ -283,15 +283,56 @@ footer .footer-brand {
 #NavigationBar #dropdownMenu1::after { color: inherit; }
 
 #NavigationBar .theme-toggle {
-    display: inline-grid;
-    place-items: center;
-    width: 44px;
+    --hover-background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
     min-height: 44px;
-    padding: 0;
+    padding: 0 8px;
 }
-.theme-toggle .theme-sun,
-[data-theme="dark"] .theme-toggle .theme-moon { display: none; }
-[data-theme="dark"] .theme-toggle .theme-sun { display: inline; }
+.theme-track {
+    --thumb-size: 30px;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, var(--thumb-size));
+    place-items: center;
+    padding: 3px;
+    border: 1px solid var(--color-white);
+    border-radius: 999px;
+    background: var(--color-navy);
+}
+.theme-track::before {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    border-radius: 50%;
+    background: var(--color-logo-orange);
+}
+.theme-toggle[aria-checked="true"] .theme-track::before {
+    transform: translateX(var(--thumb-size));
+    background: var(--color-logo-cyan);
+}
+.theme-track svg {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-block: 5px;
+    color: var(--color-white);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.theme-toggle[aria-checked="false"] .theme-sun,
+.theme-toggle[aria-checked="true"] .theme-moon { color: var(--color-navy); }
+@media (prefers-reduced-motion: no-preference) {
+    .theme-track::before { transition: transform .18s ease, background-color .18s ease; }
+}
 
 /* No gap between the parent link and the panel, so hover stays continuous. */
 #NavigationBar .dropdown-menu {
@@ -749,3 +790,7 @@ a[href*="creativecommons.org/"] {
         transition: none;
     }
 }
+
+.page-title { font-weight: 600; font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.15; text-wrap: balance; }
+.primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); background: var(--color-logo-orange); color: var(--color-navy); font-size: .95rem; font-weight: 600; line-height: 1.6; }
+.primary-action:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); color: var(--color-navy); text-decoration: none; }

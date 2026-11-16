@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Μάθε, παίξε και πειραματίσου με τη Φυσική. Διαδραστικά μαθήματα και οπτικοποιήσεις για να εξερευνήσεις τις έννοιες με τον δικό σου ρυθμό.">
     <title>Dizzy Electron | Φυσική στην πράξη</title>
-    <script src="assets/js/theme.js?v=theme-icons"></script>
+    <script src="assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/common.css?v=consistent-heading-spacing">
+    <link rel="stylesheet" href="assets/css/common.css?v=theme-switch-inset">
     <link rel="stylesheet" href="assets/css/cards.css?v=story-lessons">
-    <link rel="stylesheet" href="assets/css/home.css?v=consistent-heading-spacing">
+    <link rel="stylesheet" href="assets/css/home.css?v=clipped-video-frame">
     <script src="assets/js/lesson.js?v=menu-collapse-icon" defer></script>
-    <script src="assets/js/home-carousel.js?v=smooth-motion" defer></script>
+    <script src="assets/js/home-film.js" defer></script>
+    <script src="assets/js/home-carousel.js?v=quote-markers" defer></script>
     <link rel="stylesheet" href="assets/css/focus.css?v=control-focus-only">
 </head>
 <body class="home-page" id="top">
@@ -64,11 +65,68 @@
 
 
     <main id="home-content" tabindex="-1">
-        <section class="welcome-carousel" id="MyCarousel" aria-label="Καλώς ήρθες στο Dizzy Electron" aria-roledescription="carousel">
-            <div class="welcome-slides" aria-live="off">
-                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="1 από 5">
-                    <img src="assets/images/carousel-wave.jpg" alt="" fetchpriority="high">
-                    <figure class="home-quote" lang="en">
+        <header class="home-heading">
+            <div class="home-shell home-hero">
+                <div class="home-hero-copy">
+                    <h1 class="page-title">Φυσική και Μαθηματικά στην πράξη</h1>
+                    <ul class="lesson-bullets">
+                        <li>Μαθήματα σε γλώσσα απλή και κατανοητή χωρίς δυσνόητη ορολογία και περίπλοκες διατυπώσεις.</li>
+                        <li>Διαδραστικές προσομοιώσεις που ζωντανεύουν τις έννοιες και κάνουν τη μάθηση παιχνίδι!</li>
+                    </ul>
+                    <a class="primary-action" href="contents/index.html">Δείτε όλα τα μαθήματα <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="home-film-frame">
+                    <video class="home-film" muted loop playsinline preload="metadata"
+                        poster="assets/media/simulation-highlights.jpg"
+                        aria-label="Προσομοιώσεις: περιστροφή ηλεκτρικού διπόλου, βαρυτική τροχιά δύο σωμάτων, διάδοση ηλεκτρομαγνητικών κυμάτων και περιστρεφόμενη απεικόνιση του τροχιακού 5d_yz του υδρογόνου">
+                        <source src="assets/media/simulation-highlights.mp4?v=5d-yz" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </header>
+        <section class="home-band home-band--shaded section-divider" id="Courses" aria-labelledby="featured-title">
+            <div class="home-shell">
+                <h2 id="featured-title">Επιλεγμένα μαθήματα</h2>
+                <div class="catalog-grid">
+                        <a class="catalog-card" href="lessons/physics/gravitational-field.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
+                            <h3 id="lesson-1-title">
+                                <span class="catalog-icon"><img src="assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
+                                Ποια είναι η κίνηση του φεγγαριού γύρω από τη Γη;
+                            </h3>
+                            <p id="lesson-1-description">Ανακάλυψε το ακριβές σχήμα του χορού μεταξύ δύο πλανητικών σωμάτων.</p>
+                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                        </a>
+                        <a class="catalog-card" href="lessons/physics/electric-field.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
+                            <h3 id="lesson-2-title">
+                                <span class="catalog-icon"><img src="assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
+                                Πώς δρουν οι ηλεκτροστατικές δυνάμεις;
+                            </h3>
+                            <p id="lesson-2-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
+                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                        </a>
+                        <a class="catalog-card" href="lessons/physics/electromagnetic-field.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
+                            <h3 id="lesson-3-title">
+                                <span class="catalog-icon"><img src="assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
+                                Τι είναι η ακτινοβολία;
+                            </h3>
+                            <p id="lesson-3-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
+                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                        </a>
+                        <a class="catalog-card" href="lessons/physics/hydrogen-eigenstates.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
+                            <h3 id="lesson-4-title">
+                                <span class="catalog-icon"><img src="assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
+                                Με τι μοιάζει τελικά ένα άτομο;
+                            </h3>
+                            <p id="lesson-4-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
+                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                        </a>
+                </div>
+            </div>
+        </section>
+        <section class="section-divider" aria-label="Αποφθέγματα επιστημόνων" aria-roledescription="carousel">
+            <div class="quote-carousel home-shell">
+                <div class="quote-track">
+                    <figure class="home-excerpt" lang="en">
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
                         <p>If you’re teaching a class and you say ‘the object will move because of friction,’ that's not science. That's just a word... If you want to know if you know it, try to see if you can explain it without using the word you just learned, in ordinary language.</p>
@@ -80,11 +138,8 @@
                             <!-- Photo: © California Institute of Technology — https://www.aip.org/library/ex-libris-universum/may-2016-photos-of-the-month -->
                         </div>
                     </figcaption>
-                </figure>
-                </div>
-                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="2 από 5" hidden>
-                    <img src="assets/images/carousel-magnet.jpg" alt="">
-                    <figure class="home-quote" lang="en">
+                    </figure>
+                    <figure class="home-excerpt" lang="en" hidden>
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
                         <p>Even for the physicist the description in plain language will be a criterion of the degree of understanding that has been reached.</p>
@@ -96,11 +151,8 @@
                             <!-- Photo: AIP Emilio Segrè Visual Archives, Segrè Collection — https://commons.wikimedia.org/wiki/File:Portrait_of_Werner_Heisenberg.jpg -->
                         </div>
                     </figcaption>
-                </figure>
-                </div>
-                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="3 από 5" hidden>
-                    <img src="assets/images/carousel-galaxy.jpg" alt="">
-                    <figure class="home-quote" lang="en">
+                    </figure>
+                    <figure class="home-excerpt" lang="en" hidden>
                     <blockquote cite="https://www.oxfordreference.com/display/10.1093/acref/9780191826719.001.0001/q-oro-ed4-00003988">
                         <span class="home-quote-mark" aria-hidden="true">“</span>
                         <p>It can scarcely be denied that the supreme goal of all theory is to make the irreducible basic elements as simple and as few as possible without having to surrender the adequate representation of a single datum of experience.</p>
@@ -112,89 +164,50 @@
                             <!-- Photo: Arthur Sasse / International News Service — https://commons.wikimedia.org/wiki/File:Albert_Einstein_sticks_his_tongue_2.jpg -->
                         </div>
                     </figcaption>
-                </figure>
-                </div>
-                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="4 από 5" hidden>
-                    <img src="assets/images/carousel-rainbow.jpg" alt="">
-                    <figure class="home-quote" lang="en">
-                        <blockquote>
-                            <span class="home-quote-mark" aria-hidden="true">“</span>
-                            <p>Truth is ever to be found in simplicity, and not in the multiplicity and confusion of things.</p>
-                            <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
-                        </blockquote>
-                        <figcaption>
-                            <img class="scientist-portrait" src="assets/images/newton.jpg" width="76" height="76" alt="">
-                            <div class="scientist-credit"><strong>Sir Isaac Newton</strong><span>1728</span>
-                                <!-- Portrait: Godfrey Kneller · Public domain — https://commons.wikimedia.org/wiki/File:GodfreyKneller-IsaacNewton-1689_(cropped).jpg -->
-                            </div>
-                        </figcaption>
+                    </figure>
+                    <figure class="home-excerpt" lang="en" hidden>
+                    <blockquote>
+                        <span class="home-quote-mark" aria-hidden="true">“</span>
+                        <p>Truth is ever to be found in simplicity, and not in the multiplicity and confusion of things.</p>
+                        <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
+                    </blockquote>
+                    <figcaption>
+                        <img class="scientist-portrait" src="assets/images/newton.jpg" width="76" height="76" alt="">
+                        <div class="scientist-credit"><strong>Sir Isaac Newton</strong><span>1728</span>
+                            <!-- Portrait: Godfrey Kneller · Public domain — https://commons.wikimedia.org/wiki/File:GodfreyKneller-IsaacNewton-1689_(cropped).jpg -->
+                        </div>
+                    </figcaption>
+                    </figure>
+                    <figure class="home-excerpt" lang="en" hidden>
+                    <blockquote>
+                        <span class="home-quote-mark" aria-hidden="true">“</span>
+                        <p>A research worker, in his efforts to express the fundamental laws of Nature in mathematical form, should strive mainly for mathematical beauty... It often happens that the requirements of simplicity and beauty are the same.</p>
+                        <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
+                    </blockquote>
+                    <figcaption>
+                        <img class="scientist-portrait" src="assets/images/dirac.jpg" width="76" height="76" alt="">
+                        <div class="scientist-credit"><strong>Paul Dirac</strong><span>1939 · The Relation between Mathematics and Physics</span>
+                            <!-- Photo: Cavendish Laboratory · Public domain — https://commons.wikimedia.org/wiki/File:Paul_Dirac,_1933,_head_and_shoulders_portrait,_bw.jpg -->
+                        </div>
+                    </figcaption>
                     </figure>
                 </div>
-                <div class="welcome-slide" role="group" aria-roledescription="slide" aria-label="5 από 5" hidden>
-                    <img src="assets/images/carousel-bubblechamber.jpg" alt="">
-                    <figure class="home-quote" lang="en">
-                        <blockquote>
-                            <span class="home-quote-mark" aria-hidden="true">“</span>
-                            <p>A research worker, in his efforts to express the fundamental laws of Nature in mathematical form, should strive mainly for mathematical beauty... It often happens that the requirements of simplicity and beauty are the same.</p>
-                            <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
-                        </blockquote>
-                        <figcaption>
-                            <img class="scientist-portrait" src="assets/images/dirac.jpg" width="76" height="76" alt="">
-                            <div class="scientist-credit"><strong>Paul Dirac</strong><span>1939 · The Relation between Mathematics and Physics</span>
-                                <!-- Photo: Cavendish Laboratory · Public domain — https://commons.wikimedia.org/wiki/File:Paul_Dirac,_1933,_head_and_shoulders_portrait,_bw.jpg -->
-                            </div>
-                        </figcaption>
-                    </figure>
+                <div class="quote-controls" role="group" aria-label="Επιλογή αποφθέγματος" hidden>
+                    <button class="quote-step" type="button" data-step="-1" aria-label="Προηγούμενο απόφθεγμα">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
+                    </button>
+                    <div class="quote-pagination" aria-hidden="true">
+                        <span aria-label="Richard Feynman" aria-current="true"></span>
+                        <span aria-label="Werner Heisenberg"></span>
+                        <span aria-label="Albert Einstein"></span>
+                        <span aria-label="Sir Isaac Newton"></span>
+                        <span aria-label="Paul Dirac"></span>
+                    </div>
+                    <button class="quote-step" type="button" data-step="1" aria-label="Επόμενο απόφθεγμα">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg>
+                    </button>
                 </div>
-            </div>
-            <div class="welcome-controls" hidden>
-                <button class="welcome-arrow welcome-previous" type="button" aria-label="Προηγούμενη διαφάνεια"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14 6 8 12 14 18"/></svg></button>
-                <button class="welcome-arrow welcome-next" type="button" aria-label="Επόμενη διαφάνεια"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="10 6 16 12 10 18"/></svg></button>
-                <div class="welcome-pagination">
-                    <button class="welcome-dot" type="button" data-slide="0" aria-label="Διαφάνεια 1" aria-current="true"></button>
-                    <button class="welcome-dot" type="button" data-slide="1" aria-label="Διαφάνεια 2" aria-current="false"></button>
-                    <button class="welcome-dot" type="button" data-slide="2" aria-label="Διαφάνεια 3" aria-current="false"></button>
-                    <button class="welcome-dot" type="button" data-slide="3" aria-label="Διαφάνεια 4" aria-current="false"></button>
-                    <button class="welcome-dot" type="button" data-slide="4" aria-label="Διαφάνεια 5" aria-current="false"></button>
-                </div>
-            </div>
-        </section>
-        <header class="home-heading">
-            <div class="home-shell">
-            <h2>Καλώς ορίσατε!</h2>
-            <p>Απολαύστε μαθήματα Φυσικής και Μαθηματικών σε γλώσσα απλή και κατανοητή χωρίς δυσνόητη ορολογία και περίπλοκες διατυπώσεις.</p>
-            </div>
-        </header>
-        <section class="home-band section-divider" id="Courses" aria-labelledby="featured-title">
-            <div class="home-shell">
-                <h2 id="featured-title">Επιλεγμένα μαθήματα</h2>
-                <div class="catalog-grid">
-                        <a class="catalog-card" href="lessons/physics/gravitational-field.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
-                            <span class="catalog-icon"><img src="assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
-                            <h3 id="lesson-1-title">Ποια είναι η κίνηση του φεγγαριού γύρω από τη Γη;</h3>
-                            <p id="lesson-1-description">Ανακάλυψε το ακριβές σχήμα του χορού μεταξύ δύο πλανητικών σωμάτων.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
-                        </a>
-                        <a class="catalog-card" href="lessons/physics/electric-field.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
-                            <span class="catalog-icon"><img src="assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
-                            <h3 id="lesson-2-title">Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</h3>
-                            <p id="lesson-2-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
-                        </a>
-                        <a class="catalog-card" href="lessons/physics/electromagnetic-field.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
-                            <span class="catalog-icon"><img src="assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
-                            <h3 id="lesson-3-title">Τι είναι η ακτινοβολία;</h3>
-                            <p id="lesson-3-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
-                        </a>
-                        <a class="catalog-card" href="lessons/physics/hydrogen-eigenstates.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
-                            <span class="catalog-icon"><img src="assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
-                            <h3 id="lesson-4-title">Με τι μοιάζει τελικά ένα άτομο;</h3>
-                            <p id="lesson-4-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
-                        </a>
-                </div>
-                <p class="home-more"><a class="home-button" href="contents/index.html">Όλα τα μαθήματα</a></p>
+                <span class="sr-only quote-status" role="status"></span>
             </div>
         </section>
     </main>

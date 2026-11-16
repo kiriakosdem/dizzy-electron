@@ -223,6 +223,10 @@ ul.breadcrumb a[href]:hover {
 IMAGES, MEDIA & ANIMATIONS
 ----------------------------------------------------- */
 
+#lesson-content :is(.card, .figure, .media-panel, .lesson-simulation) {
+    border-width: 2px;
+}
+
 /* Match image and video frames to the lesson cards. */
 .figure,
 .media-panel {

@@ -17,11 +17,7 @@
     function applyTheme() {
         const theme = preference || (system.matches ? 'dark' : 'light');
         document.documentElement.dataset.theme = theme;
-        if (toggle) {
-            const action = theme === 'dark' ? 'Ενεργοποίηση φωτεινού θέματος' : 'Ενεργοποίηση σκούρου θέματος';
-            toggle.setAttribute('aria-label', action);
-            toggle.title = action;
-        }
+        if (toggle) toggle.setAttribute('aria-checked', String(theme === 'dark'));
     }
 
     function restoreTheme() {
@@ -46,14 +42,18 @@
         toggle = document.createElement('button');
         toggle.type = 'button';
         toggle.className = 'btn theme-toggle';
-        toggle.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"
-            aria-hidden="true" focusable="false">
-            <path class="theme-moon" d="M20.6 14.3A8.9 8.9 0 0 1 9.7 3.4a9 9 0 1 0 10.9 10.9Z"/>
-            <g class="theme-sun"><circle cx="12" cy="12" r="4"/>
-                <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/>
-            </g>
-        </svg>`;
+        toggle.setAttribute('role', 'switch');
+        toggle.setAttribute('aria-label', 'Σκούρο θέμα');
+        toggle.innerHTML = `
+            <span class="theme-track" aria-hidden="true">
+                <svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <circle cx="12" cy="12" r="4"/>
+                    <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/>
+                </svg>
+                <svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M20.6 14.3A8.9 8.9 0 0 1 9.7 3.4a9 9 0 1 0 10.9 10.9Z"/>
+                </svg>
+            </span>`;
         toggle.addEventListener('click', () => {
             preference = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
             applyTheme();
