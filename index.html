@@ -8,13 +8,14 @@
     <title>Dizzy Electron | Φυσική στην πράξη</title>
     <script src="assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/common.css?v=asymmetric-sections">
-    <link rel="stylesheet" href="assets/css/cards.css?v=story-lessons">
-    <link rel="stylesheet" href="assets/css/home.css?v=asymmetric-sections">
+    <link rel="stylesheet" href="assets/css/common.css?v=navy-wave">
+    <link rel="stylesheet" href="assets/css/cards.css?v=compact-mobile-cards">
+    <link rel="stylesheet" href="assets/css/home.css?v=montage-caption-right">
     <script src="assets/js/lesson.js?v=menu-collapse-icon" defer></script>
-    <script src="assets/js/home-film.js" defer></script>
+    <script src="assets/js/home-film.js?v=montage-labels" defer></script>
     <script src="assets/js/home-carousel.js?v=quote-markers" defer></script>
-    <link rel="stylesheet" href="assets/css/focus.css?v=control-focus-only">
+    <link rel="stylesheet" href="assets/css/focus.css?v=keyboard-focus">
+    <script src="assets/js/focus.js" defer></script>
 </head>
 <body class="home-page" id="top">
     <a class="home-skip-link" href="#home-content">Μετάβαση στο περιεχόμενο</a>
@@ -68,11 +69,8 @@
         <header class="home-heading">
             <div class="home-shell home-hero">
                 <div>
-                    <h1 class="page-title">Φυσική και Μαθηματικά, στην πράξη.</h1>
-                    <ul class="lesson-bullets">
-                        <li>Μαθήματα σε γλώσσα απλή και κατανοητή χωρίς δυσνόητη ορολογία και περίπλοκες διατυπώσεις.</li>
-                        <li>Διαδραστικές προσομοιώσεις που ζωντανεύουν τις έννοιες και κάνουν τη μάθηση παιχνίδι!</li>
-                    </ul>
+                    <h1 class="page-title">Η Φυσική γίνεται πιο κατανοητή, όταν την <i class="home-title-accent">βλέπεις.</i></h1>
+                    <p>Χτίσε τη διαίσθηση σου για τους νόμους της φύσης μέσα από απλές εξηγήσεις και διαδραστικά εργαστήρια.</p>
                 </div>
                 <div class="home-film-frame">
                     <video class="home-film" muted loop playsinline preload="metadata"
@@ -80,43 +78,52 @@
                         aria-label="Προσομοιώσεις: περιστροφή ηλεκτρικού διπόλου, βαρυτική τροχιά δύο σωμάτων, διάδοση ηλεκτρομαγνητικών κυμάτων και περιστρεφόμενη απεικόνιση του τροχιακού 5d_yz του υδρογόνου">
                         <source src="assets/media/simulation-highlights.mp4?v=5d-yz" type="video/mp4">
                     </video>
+                    <div class="home-film-caption">
+                        <span>Ηλεκτρικό δίπολο</span>
+                        <span hidden>Βαρυτική τροχιά δύο σωμάτων</span>
+                        <span hidden>Ηλεκτρομαγνητικά κύματα</span>
+                        <span hidden>Τροχιακό υδρογόνου 5d<sub>yz</sub></span>
+                    </div>
                 </div>
             </div>
         </header>
-        <section class="home-band home-band--shaded section-divider" id="Courses" aria-labelledby="featured-title">
+        <section class="home-band home-band--shaded home-featured" id="Courses" aria-labelledby="featured-title">
+            <svg class="home-hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path d="M0 0H1440V24C1260 66 1140 58 960 30S660 0 480 28S180 66 0 30Z"/>
+            </svg>
             <div class="home-shell">
                 <h2 id="featured-title">Επιλεγμένα μαθήματα</h2>
                 <div class="catalog-grid">
+                        <a class="catalog-card" href="lessons/physics/hydrogen-eigenstates.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
+                            <h3 id="lesson-4-title">
+                                <span class="catalog-icon catalog-icon--atom"><img src="assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
+                                Με τι μοιάζει τελικά ένα άτομο;
+                            </h3>
+                            <p id="lesson-4-description">Περίστρεψε τα τροχιακά του υδρογόνου και σύγκρινε τα σχήματά τους.</p>
+                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                        </a>
                         <a class="catalog-card" href="lessons/physics/gravitational-field.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
                             <h3 id="lesson-1-title">
-                                <span class="catalog-icon"><img src="assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
-                                Ποια είναι η κίνηση του φεγγαριού γύρω από τη Γη;
+                                <span class="catalog-icon catalog-icon--planet"><img src="assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
+                                Γιατί η Σελήνη μένει σε τροχιά;
                             </h3>
-                            <p id="lesson-1-description">Ανακάλυψε το ακριβές σχήμα του χορού μεταξύ δύο πλανητικών σωμάτων.</p>
+                            <p id="lesson-1-description">Άλλαξε την αρχική ταχύτητα και δες πώς αλλάζει η τροχιά.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="lessons/physics/electric-field.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
                             <h3 id="lesson-2-title">
-                                <span class="catalog-icon"><img src="assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
+                                <span class="catalog-icon catalog-icon--lightning"><img src="assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Πώς δρουν οι ηλεκτροστατικές δυνάμεις;
                             </h3>
-                            <p id="lesson-2-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
+                            <p id="lesson-2-description">Άλλαξε το πρόσημο ενός φορτίου για να μετατρέψεις την άπωση σε έλξη.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="lessons/physics/electromagnetic-field.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
                             <h3 id="lesson-3-title">
-                                <span class="catalog-icon"><img src="assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
+                                <span class="catalog-icon catalog-icon--radiation"><img src="assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Τι είναι η ακτινοβολία;
                             </h3>
-                            <p id="lesson-3-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
-                        </a>
-                        <a class="catalog-card" href="lessons/physics/hydrogen-eigenstates.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
-                            <h3 id="lesson-4-title">
-                                <span class="catalog-icon"><img src="assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
-                                Με τι μοιάζει τελικά ένα άτομο;
-                            </h3>
-                            <p id="lesson-4-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
+                            <p id="lesson-3-description">Κούνησε ένα φορτίο και δες το κύμα που ταξιδεύει μακριά του.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                 </div>

@@ -326,6 +326,50 @@ a.catalog-card:hover p { color: var(--color-white); }
 .catalog-card .catalog-icon img { filter: var(--icon-filter); }
 /* Use the palette's orange on hover while preserving the SVG's alpha edges. */
 a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg#orange"); }
+
+@media (prefers-reduced-motion: no-preference) {
+    a.catalog-card:is(:hover, :focus-visible) .catalog-icon--atom img {
+        animation: orbital-spin 2.4s ease-in-out infinite;
+    }
+    a.catalog-card:is(:hover, :focus-visible) .catalog-icon--planet img {
+        content: url("../icons/gravity.svg#orbit");
+    }
+
+    a.catalog-card:is(:hover, :focus-visible) .catalog-icon--lightning img {
+        animation: lesson-lightning-strike 680ms ease-out;
+    }
+
+    a.catalog-card:is(:hover, :focus-visible) .catalog-icon--radiation img {
+        animation: lesson-radiation-pulse 1s linear 2;
+    }
+}
+
+@keyframes orbital-spin {
+    from { transform: perspective(200px) rotateY(0turn); }
+    to { transform: perspective(200px) rotateY(1turn); }
+}
+
+@keyframes lesson-lightning-strike {
+    0% { clip-path: inset(0 0 90%); transform: translate(2px, -3px); }
+    20% { clip-path: inset(0); transform: translate(0); }
+    44% { opacity: .55; }
+    64%, 100% { opacity: 1; }
+}
+
+@keyframes lesson-radiation-pulse {
+    /* Keep the emitter visible while a bright ring passes over each wavefront. */
+    0%, 100% {
+        mask-image:
+            radial-gradient(circle closest-side, #000 13%, transparent 16%),
+            radial-gradient(circle closest-side, transparent 35%, #000 65%, transparent 95%),
+            linear-gradient(#0005, #0005);
+        mask-position: center;
+        mask-repeat: no-repeat;
+    }
+    0% { mask-size: 100% 100%, 8% 8%, 100% 100%; }
+    100% { mask-size: 100% 100%, 180% 180%, 100% 100%; }
+}
+
 .catalog-card h3, .catalog-card h4 { font-size: 1.12rem; font-weight: 600; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
 .catalog-card p { grid-column: 1 / -1; font-size: .9rem; color: var(--muted-ink); margin: 0; line-height: 1.6; text-indent: 0; }
 .catalog-grid--sidebar { grid-template-columns: minmax(0, 1fr); max-width: 320px; margin-inline: auto; text-align: left; }
@@ -343,7 +387,12 @@ a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg
 .catalog-status { display: inline-block; border: var(--border-width) solid var(--color-border); border-radius: var(--corner-radius); color: var(--muted-ink); background: var(--band); font-size: .75rem; line-height: 1.5; padding: 4px 10px; white-space: nowrap; }
 @media (max-width: 650px) {
     .catalog-grid { grid-template-columns: 1fr; gap: 18px; }
-    .catalog-card { padding: 16px; }
+    .catalog-card {
+        min-height: 0;
+        height: auto;
+        grid-template-rows: auto auto auto;
+        padding: 16px;
+    }
     .catalog-topic { grid-template-columns: 44px minmax(0, 1fr); gap: 12px 16px; padding: 24px 0; }
     .catalog-icon--muted { width: 44px; height: 44px; }
     .catalog-icon--muted img { width: 32px; height: 32px; }

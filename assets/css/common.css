@@ -22,6 +22,7 @@ MAIN BODY AND TEXT
     --border-width: 1px;
     --section-start: clamp(24px, 3.5vw, 44px);
     --section-end: calc(2 * var(--section-start));
+    --page-title-gap: 24px;
     --section-heading-gap: 16px;
     --color-logo-cyan: #00bed0;
     --color-logo-orange: #ff984f;
@@ -136,7 +137,7 @@ html, body{
 :root body,
 :root[data-theme] body,
 :root body :is(
-    .home-heading, .home-band,
+    .home-band,
     .contents-band,
     .about-heading, .about-band,
     .contact-form-band,
@@ -792,12 +793,18 @@ a[href*="creativecommons.org/"] {
     }
 }
 
+@media (max-width: 767.98px) {
+    #NavigationBar #RightBox > .navbar-nav,
+    #NavigationBar #RightBox .btn,
+    #NavigationBar #RightBox .dropdown-item { text-align: right; }
+}
+
 @media (max-width: 991.98px) and (prefers-reduced-motion: reduce) {
     #NavigationBar #RightBox {
         transition: none;
     }
 }
 
-.page-title { font-weight: 600; font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.15; text-wrap: balance; }
+.page-title { margin: 0 0 var(--page-title-gap); font-weight: 600; font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.15; text-wrap: balance; }
 .primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); background: var(--color-logo-orange); color: var(--color-navy); font-size: .95rem; font-weight: 600; line-height: 1.6; }
 .primary-action:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); color: var(--color-navy); text-decoration: none; }

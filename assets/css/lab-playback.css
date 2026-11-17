@@ -24,11 +24,6 @@
     gap: 4px;
     max-width: 100%;
     padding: 3px;
-    border: 1px solid rgba(150, 192, 242, .23);
-    border-radius: 10px;
-    background: rgba(11, 28, 49, .96);
-    color: #b9d4f2;
-    box-shadow: 0 8px 28px #0005;
     font: 600 12px/1 system-ui, sans-serif;
     pointer-events: auto;
 }

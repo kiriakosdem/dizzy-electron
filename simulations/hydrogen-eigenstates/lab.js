@@ -10,7 +10,9 @@
     const quantumSteppers = document.querySelectorAll('.quantum-stepper');
     const density = $('density'), status = $('renderStatus');
     const zoomLabel = $('zoomLabel'), zoomIn = $('zoomIn'), zoomOut = $('zoomOut');
-    const displayMode = $('displayMode'), enclosure = $('enclosure'), fuzziness = $('fuzziness');
+    const displayOptions = $('displayMode');
+    let displayMode = displayOptions.querySelector('input:checked').value;
+    const enclosure = $('enclosure'), fuzziness = $('fuzziness');
     // One world unit is 25 Bohr radii for every state and display mode.
     const WORLD_SCALE = 0.04, VIEW_RADIUS = 3.8;
     const MAX_POINTS = Number(density.max);
@@ -30,6 +32,26 @@
         const next = { ...state, [key]: state[key] + delta };
         return next.n <= P.MAX_N && P.validState(next.n, next.l, next.m);
     }
+    setupLabCanvasTools(() => {
+        if (!ready || !status.hidden || renderer.getContext().isContextLost()) return null;
+        renderer.render(scene, camera);
+        const frame = document.createElement('canvas');
+        frame.width = renderer.domElement.width;
+        frame.height = renderer.domElement.height;
+        const ctx = frame.getContext('2d');
+        // Composite the transparent WebGL scene over the viewport's radial backdrop.
+        ctx.fillStyle = '#050f23';
+        ctx.fillRect(0, 0, frame.width, frame.height);
+        const x = frame.width * .58, y = frame.height * .48;
+        const backdrop = ctx.createRadialGradient(x, y, 0, x, y, Math.max(frame.width, frame.height) * .75);
+        backdrop.addColorStop(0, 'rgba(17,40,80,.48)');
+        backdrop.addColorStop(1, 'rgba(2,8,25,0)');
+        ctx.fillStyle = backdrop;
+        ctx.fillRect(0, 0, frame.width, frame.height);
+        ctx.drawImage(renderer.domElement, 0, 0);
+        return frame;
+    }, () => `hydrogen-${$('stateName').textContent}-${displayMode}.png`);
+
     function reflectQuantumNumber(key, min, max) {
         const value = state[key];
         const element = $(key + 'Select');
@@ -71,7 +93,8 @@
             for (const orbital of orbitals) {
                 const button = document.createElement('button');
                 button.type = 'button'; button.className = 'action-button';
-                button.textContent = orbital.label; button.title = orbital.description;
+                button.textContent = orbital.label;
+                button.title = orbital.description;
                 button.dataset.m = orbital.m; button.dataset.basis = orbital.basis;
                 button.addEventListener('click', () => changeState(state.n, state.l, orbital.m, orbital.basis));
                 row.appendChild(button);
@@ -118,12 +141,12 @@
     density.addEventListener('input', setDensity);
     density.addEventListener('change', () => { $('actionStatus').textContent = `Showing ${drawCount.toLocaleString('en-US')} probability samples.`; });
     function reflectDisplay() {
-        const isSurface = displayMode.value === 'surface';
-        const isPoints = displayMode.value === 'points';
+        const isSurface = displayMode === 'surface';
+        const isPoints = displayMode === 'points';
         $('pointControls').hidden = !isPoints;
         $('detectionControls').hidden = !isPoints;
         $('surfaceControls').hidden = !isSurface;
-        $('fuzzyControls').hidden = displayMode.value !== 'fuzzy';
+        $('fuzzyControls').hidden = displayMode !== 'fuzzy';
         $('phaseLegend').hidden = isPoints;
         if (renderer) renderer.domElement.setAttribute('aria-label', `Three-dimensional hydrogen ${isSurface ? 'probability surface' : 'probability cloud'}. Drag to rotate and scroll or pinch to zoom.`);
     }
@@ -144,15 +167,19 @@
         $('enclosureValue').textContent = `${Number(enclosure.value).toFixed(1)}%`;
         enclosure.setAttribute('aria-valuetext', `${Number(enclosure.value).toFixed(1)} percent enclosed probability`);
         enclosure.style.setProperty('--range-fill', `${100 * (Number(enclosure.value) - Number(enclosure.min)) / (Number(enclosure.max) - Number(enclosure.min))}%`);
-        if (ready && displayMode.value === 'surface') scheduleBuild();
+        if (ready && displayMode === 'surface') scheduleBuild();
     }
-    displayMode.addEventListener('change', () => { reflectDisplay(); scheduleBuild(); });
+    displayOptions.addEventListener('change', event => {
+        displayMode = event.target.value;
+        reflectDisplay();
+        scheduleBuild();
+    });
     enclosure.addEventListener('input', setEnclosure);
     enclosure.addEventListener('change', () => { $('actionStatus').textContent = `Surface encloses approximately ${(probability * 100).toFixed(1)}% probability.`; });
     function scheduleBuild() {
         if (!ready) return;
         detection.visible = false;
-        status.textContent = displayMode.value === 'surface' ? 'Preparing the probability surface…' : 'Preparing the probability cloud…';
+        status.textContent = displayMode === 'surface' ? 'Preparing the probability surface…' : 'Preparing the probability cloud…';
         status.hidden = false;
         cancelAnimationFrame(rebuildFrame);
         rebuildFrame = requestAnimationFrame(() => {
@@ -184,7 +211,7 @@
 
     function highlightSample(now, force = false) {
         if (!detection) return;
-        if (!detectionsEnabled || displayMode.value !== 'points' || !cloud || !cloud.visible) {
+        if (!detectionsEnabled || displayMode !== 'points' || !cloud || !cloud.visible) {
             if (detection.visible) {
                 detection.visible = false;
                 needsRender = true;
@@ -279,9 +306,9 @@
     function buildVisualization() {
         try {
             const key = `${state.n},${state.l},${Math.abs(state.m)},${basis}`;
-            const isSurface = displayMode.value === 'surface';
+            const isSurface = displayMode === 'surface';
             const phaseKey = `${state.n},${state.l},${state.m},${basis}`;
-            if (displayMode.value === 'fuzzy') {
+            if (displayMode === 'fuzzy') {
                 if (fuzzyState !== phaseKey) {
                     fuzzyRadius99 = window.HydrogenFuzzy.update(fuzzy, state, basis, WORLD_SCALE);
                     fuzzyState = phaseKey;
@@ -331,9 +358,9 @@
                 cloud.count = drawCount;
                 cloudState = key;
             }
-            cloud.visible = displayMode.value === 'points';
+            cloud.visible = displayMode === 'points';
             if (cloud.visible) radius99 = cloudRadius99;
-            fuzzy.visible = displayMode.value === 'fuzzy';
+            fuzzy.visible = displayMode === 'fuzzy';
             surface.visible = isSurface;
             drawNodes();
             highlightSample(performance.now(), true);

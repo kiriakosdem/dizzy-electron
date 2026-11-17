@@ -2,7 +2,6 @@
 .contact-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .contact-page p { text-indent: 0; line-height: 1.8; }
 .contact-heading { text-align: center; }
-.contact-heading h1, .contact-thanks h1 { margin: 0 0 24px; }
 .contact-heading p { margin: 0; }
 .contact-page h2 { font-size: 1.5rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .contact-form-band { background: var(--band); }

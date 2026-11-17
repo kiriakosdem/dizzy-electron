@@ -1,7 +1,8 @@
 .home-page { min-height: 100%; height: auto; background: var(--page); color: var(--ink); }
 .home-shell { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
 .home-page p { text-indent: 0; line-height: 1.8; }
-.home-heading { background: var(--page); }
+.home-heading { background: var(--color-navy); color: var(--color-white); }
+.home-title-accent { color: var(--color-logo-orange); }
 .home-hero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 5vw, 64px); align-items: stretch; }
 .home-film-frame {
     position: relative;
@@ -9,8 +10,8 @@
     width: 100%;
     min-width: 0;
     overflow: hidden;
-    border: 3px solid var(--color-navy);
-    --frame-radius: calc(var(--corner-radius) + 3px);
+    border: 2px solid currentColor;
+    --frame-radius: calc(var(--corner-radius) + 2px);
     border-radius: var(--frame-radius);
     clip-path: inset(0 round var(--frame-radius));
     background: var(--color-navy);
@@ -24,11 +25,37 @@
     object-fit: cover;
     border-radius: var(--corner-radius);
 }
-.home-heading h1 { margin: 0; }
+.home-film-caption {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    max-width: calc(100% - 24px);
+    padding: 5px 10px;
+    border-radius: var(--corner-radius);
+    background: color-mix(in srgb, var(--color-navy) 88%, transparent);
+    color: var(--color-white);
+    font-size: .875rem;
+    line-height: 1.4;
+    pointer-events: none;
+}
 .home-heading .lesson-bullets { margin: 16px 0 0; }
 .home-heading .lesson-bullets > li + li { margin-top: .65em; }
 .home-band { background: var(--band); }
 .home-band--shaded { background: var(--band); }
+.home-featured {
+    --wave-height: clamp(24px, 4vw, 60px);
+    position: relative;
+    padding-block-start: calc(var(--section-start) + var(--wave-height));
+}
+.home-hero-wave {
+    position: absolute;
+    inset: -1px 0 auto;
+    display: block;
+    width: 100%;
+    height: calc(var(--wave-height) + 1px);
+    fill: var(--color-navy);
+    pointer-events: none;
+}
 .home-band h2 { font-size: 1.6rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .home-band p { font-size: .95rem; color: var(--muted-ink); }
 .home-intro { margin-bottom: 28px; }
@@ -42,6 +69,10 @@
 .home-skip-link { position: fixed; top: -100px; left: 16px; z-index: 1100; background: var(--surface); padding: 14px; color: var(--ink); }
 .home-skip-link:focus { top: 10px; }
 .home-page a:focus-visible, .home-page button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }
+@media (max-width: 767.98px) {
+    .home-heading .page-title,
+    .home-heading .page-title + p { text-align: center; }
+}
 @media (max-width: 575px) {
     .home-shell { width: calc(100% - 40px); }
     .home-heading .lesson-bullets { font-size: .95rem; }

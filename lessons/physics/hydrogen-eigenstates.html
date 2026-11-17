@@ -8,14 +8,15 @@
     <title>Dizzy Electron | Με τι μοιάζει τελικά ένα άτομο;</title>
     <script src="../../assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=asymmetric-sections">
-    <link rel="stylesheet" href="../../assets/css/cards.css?v=story-lessons">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=main-panel-borders">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=page-title-gap">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=compact-mobile-cards">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=page-title-gap">
     <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=consistent-media-borders">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <script src="../../assets/js/lesson.js?v=menu-collapse-icon" defer></script>
-    <link rel="stylesheet" href="../../assets/css/focus.css?v=control-focus-only">
+    <link rel="stylesheet" href="../../assets/css/focus.css?v=keyboard-focus">
+    <script src="../../assets/js/focus.js" defer></script>
 </head>
 <body class="simulation-lesson" id="top">
     <a class="lesson-skip-link" href="#lesson-content">Μετάβαση στο μάθημα</a>
@@ -179,7 +180,7 @@
                     <p>Η πλάκα μάς δίνει μια χρήσιμη γέφυρα: μια κυματική εξίσωση, μαζί με τις συνθήκες του συστήματος, επιτρέπει συγκεκριμένες χωρικές μορφές και κόμβους. Στο άτομο οι επιτρεπτές μορφές προκύπτουν από την κβαντική εξίσωση για το ηλεκτρόνιο στο πεδίο του πυρήνα. Η πλάκα και το άτομο υπακούουν σε διαφορετικές εξισώσεις· η αναλογία αφορά την εμφάνιση επιτρεπτών σχημάτων.</p>
                     <p>Πέρασε τώρα από την πλάκα στο υδρογόνο. Στο εργαστήριο που ακολουθεί, ξεκίνα με <var>n = 1</var>, <var>ℓ = 0</var>, <var>m = 0</var> και την προβολή <span lang="en">Fuzzy cloud</span>. Περιστρέφοντας την εικόνα θα δεις ότι το νέφος έχει σφαιρική συμμετρία. Η περιστροφή αλλάζει τη θέση της κάμερας, ενώ η κατανομή παραμένει στάσιμη.</p>
                     <figure class="lesson-simulation">
-                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/hydrogen-eigenstates/index.html" title="Διαδραστική προσομοίωση: Το Άτομο του Υδρογόνου" loading="lazy" allow="fullscreen" allowfullscreen aria-describedby="simulation-caption"></iframe>
+                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/hydrogen-eigenstates/index.html" title="Διαδραστική προσομοίωση: Το Άτομο του Υδρογόνου" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
                             <figcaption class="figure-caption media-caption">
                                 <span id="simulation-caption">Προσομοίωση: Τρισδιάστατη απεικόνιση της πυκνότητας πιθανότητας για τις ιδιοκαταστάσεις του υδρογόνου με n από 1 έως 6.</span>
                                 <div class="simulation-toolbar">
@@ -244,21 +245,21 @@
                     <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electric-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon catalog-icon--lightning"><img src="../../assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-1-title">Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</h3>
-                            <p id="related-1-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
+                            <p id="related-1-description">Άλλαξε το πρόσημο ενός φορτίου για να μετατρέψεις την άπωση σε έλξη.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="electromagnetic-field.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon catalog-icon--radiation"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-2-title">Τι είναι η ακτινοβολία;</h3>
-                            <p id="related-2-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
+                            <p id="related-2-description">Κούνησε ένα φορτίο και δες το κύμα που ταξιδεύει μακριά του.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="gravitational-field.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
-                            <h3 id="related-3-title">Ποια είναι η κίνηση του φεγγαριού γύρω από τη Γη;</h3>
-                            <p id="related-3-description">Ανακάλυψε το ακριβές σχήμα του χορού μεταξύ δύο πλανητικών σωμάτων.</p>
+                            <span class="catalog-icon catalog-icon--planet"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <h3 id="related-3-title">Γιατί η Σελήνη μένει σε τροχιά;</h3>
+                            <p id="related-3-description">Άλλαξε την αρχική ταχύτητα και δες πώς αλλάζει η τροχιά.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                     </div>

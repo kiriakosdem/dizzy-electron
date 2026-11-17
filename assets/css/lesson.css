@@ -326,7 +326,7 @@ p {
 	text-align: center;
 	font-size: 1.9rem;
 	font-weight: bold;
-	margin-bottom: 1rem;
+	margin-bottom: var(--page-title-gap);
 }
 
 .container h2{

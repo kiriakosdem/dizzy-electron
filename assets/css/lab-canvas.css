@@ -1,0 +1,132 @@
+/* Use the timer's numerals inside mixed text, including the physics notes. */
+@font-face {
+    font-family: "Lab numerals";
+    src: local("Courier"), local("SFMono-Regular"), local("Menlo"), local("Consolas"), local("DejaVu Sans Mono"), local("Droid Sans Mono"), local("Courier New");
+    unicode-range: U+0030-0039, U+00B2-00B3, U+00B9, U+2070, U+2074-2079, U+2080-2089;
+}
+
+:root {
+    --lab-number-font: "Lab numerals", ui-monospace, monospace;
+    --lab-ui-font: "Lab numerals", Inter, ui-sans-serif, system-ui, sans-serif;
+    --canvas-background: rgba(11, 28, 49, .96);
+    --canvas-stroke: rgba(150, 192, 242, .32);
+    --canvas-border: 1px solid var(--canvas-stroke);
+    --canvas-radius: 10px;
+    font-family: var(--lab-ui-font);
+}
+
+/* Clip the scene and draw its inset border in the same coordinate space.
+   Pointer and camera coordinates stay relative to the full-size canvas. */
+.canvas-frame {
+    clip-path: inset(var(--lab-frame-inset) round var(--lab-frame-radius));
+}
+.canvas-frame::after {
+    content: "";
+    position: absolute;
+    inset: var(--lab-frame-inset);
+    border: var(--lab-frame-border);
+    border-radius: var(--lab-frame-radius);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.field-frame { position: absolute; inset: 0; }
+@media (min-width: 751px) and (min-height: 501px), (min-width: 951px) {
+    .controls-open .field-frame { right: 292px; }
+}
+
+#lab .canvas-surface {
+    background: var(--canvas-background);
+    border: var(--canvas-border);
+    border-radius: var(--canvas-radius);
+    box-shadow: 0 4px 16px #02091440;
+    color: var(--text-secondary);
+    font-family: var(--lab-ui-font);
+}
+
+#lab :is(.mass-tray, .charge-tray) { border-style: dashed; }
+
+#lab :is(.legend, .canvas-legend, .orbital-legend) {
+    padding: 8px 12px;
+    font-size: 11px;
+    line-height: 1.4;
+}
+#lab :is(.placement-message, .canvas-empty, .toast, .mode-msg, .render-status, .canvas-tools-message) {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.canvas-tools {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    left: max(18px, env(safe-area-inset-left));
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+}
+.canvas-tools button {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+}
+.canvas-tools button:hover { background: #25486e; }
+.canvas-tools svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.canvas-tools .contract-icon,
+.canvas-tools [aria-pressed="true"] .expand-icon { display: none; }
+.canvas-tools [aria-pressed="true"] .contract-icon { display: inline; }
+.canvas-tools-message {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: max-content;
+    max-width: min(220px, 80vw);
+    padding: 8px 12px;
+    pointer-events: none;
+}
+
+#lab :is([role="timer"], output, .control-value, .range-scale, input[type="number"],
+         #speedSelect, .quantum-grid select, .quantum-stepper > span, #stateName, .real-orbitals button,
+         .state-details dd, .source-stats, .scale-readout, #canvasStrengthText, #canvasChargeName,
+         #canvasMassName, .mass-art text, .charge-art text) {
+    font-family: var(--lab-number-font);
+    font-variant-numeric: tabular-nums;
+}
+
+@media (pointer: coarse) {
+    .canvas-tools button { width: 44px; height: 44px; }
+}
+@media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
+    .canvas-tools { top: 12px; left: max(12px, env(safe-area-inset-left)); }
+    .controls-open .canvas-tools { visibility: hidden; }
+}
+
+@media (max-width: 440px) {
+    #lab :is(.mass-tray, .charge-tray) { border-style: dashed; }
+
+#lab :is(.legend, .canvas-legend, .orbital-legend) {
+        max-width: calc(100% - 132px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    }
+}
+
+#lab :is(.field-frame, #stage, #viewport, .canvas-dock, .legend, .hud, .mode-msg) {
+    transition: right var(--lab-transition-duration) var(--lab-transition-easing),
+        left var(--lab-transition-duration) var(--lab-transition-easing),
+        max-width var(--lab-transition-duration) var(--lab-transition-easing);
+}

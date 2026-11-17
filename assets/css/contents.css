@@ -3,7 +3,6 @@
 .contents-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .contents-page p { text-indent: 0; line-height: 1.8; }
 .contents-heading { text-align: center; }
-.contents-heading h1 { margin: 0 0 var(--section-heading-gap); }
 .contents-heading p { margin: 0; }
 .contents-band { background: var(--page); }
 .contents-band--shaded { background: var(--band); }

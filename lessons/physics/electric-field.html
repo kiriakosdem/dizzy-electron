@@ -8,14 +8,15 @@
     <title>Dizzy Electron | Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</title>
     <script src="../../assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=asymmetric-sections">
-    <link rel="stylesheet" href="../../assets/css/cards.css?v=story-lessons">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=main-panel-borders">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=page-title-gap">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=compact-mobile-cards">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=page-title-gap">
     <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=consistent-media-borders">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <script src="../../assets/js/lesson.js?v=menu-collapse-icon" defer></script>
-    <link rel="stylesheet" href="../../assets/css/focus.css?v=control-focus-only">
+    <link rel="stylesheet" href="../../assets/css/focus.css?v=keyboard-focus">
+    <script src="../../assets/js/focus.js" defer></script>
 </head>
 <body class="simulation-lesson" id="top">
     <a class="lesson-skip-link" href="#lesson-content">Μετάβαση στο μάθημα</a>
@@ -106,7 +107,7 @@
                         <p>Στο εργαστήριο επίλεξε <span lang="en">Single</span> και ενεργοποίησε τα <span lang="en">Field arrows</span>. Πριν αφήσεις δοκιμαστικό φορτίο, διάλεξε ένα σημείο και πρόβλεψε την πρώτη του κίνηση από το βέλος εκεί. Έπειτα σύρε ένα <span lang="en">Test charge</span> από τη μικρή εργαλειοθήκη στη θέση που διάλεξες.</p>
                         <p>Το δοκιμαστικό φορτίο ξεκινά από ηρεμία και έχει θετικό πρόσημο. Οι πηγές μένουν στις θέσεις τους και το δοκιμαστικό φορτίο αποκρίνεται στο πεδίο τους. Τα ίχνη του δείχνουν πώς εξελίσσεται η κίνησή του. Καθώς αποκτά ταχύτητα, αυτή συμμετέχει στη διαμόρφωση της διαδρομής του μαζί με τη δύναμη.</p>
                         <figure class="lesson-simulation">
-                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/electric-field/index.html" title="Διαδραστική προσομοίωση: Το Ηλεκτρικό Πεδίο" loading="lazy" allow="fullscreen" allowfullscreen aria-describedby="simulation-caption"></iframe>
+                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/electric-field/index.html" title="Διαδραστική προσομοίωση: Το Ηλεκτρικό Πεδίο" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
                             <figcaption class="figure-caption media-caption">
                                 <span id="simulation-caption">Προσομοίωση: Ηλεκτρικό πεδίο και δυναμικό από σημειακά φορτία.</span>
                                 <div class="simulation-toolbar">
@@ -138,7 +139,7 @@
                     </section>
                     <!-- Google Doc lesson body ends -->
                     <nav id="change-chapter" class="row m-auto" aria-label="Πλοήγηση μεταξύ μαθημάτων">
-                        <a class="btn mr-auto" href="gravitational-field.html" rel="prev"><i class="fas fa-arrow-left" aria-hidden="true"></i> &nbsp; Ποια είναι η κίνηση του φεγγαριού γύρω από τη Γη;</a>
+                        <a class="btn mr-auto" href="gravitational-field.html" rel="prev"><i class="fas fa-arrow-left" aria-hidden="true"></i> &nbsp; Γιατί η Σελήνη μένει σε τροχιά;</a>
                         <a class="btn ml-auto" href="electromagnetic-field.html" rel="next">Τι είναι η ακτινοβολία; &nbsp; <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
                     </nav>
                 </main>
@@ -157,21 +158,21 @@
                     <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electromagnetic-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon catalog-icon--radiation"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-1-title">Τι είναι η ακτινοβολία;</h3>
-                            <p id="related-1-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
+                            <p id="related-1-description">Κούνησε ένα φορτίο και δες το κύμα που ταξιδεύει μακριά του.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="gravitational-field.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
-                            <h3 id="related-2-title">Ποια είναι η κίνηση του φεγγαριού γύρω από τη Γη;</h3>
-                            <p id="related-2-description">Ανακάλυψε το ακριβές σχήμα του χορού μεταξύ δύο πλανητικών σωμάτων.</p>
+                            <span class="catalog-icon catalog-icon--planet"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <h3 id="related-2-title">Γιατί η Σελήνη μένει σε τροχιά;</h3>
+                            <p id="related-2-description">Άλλαξε την αρχική ταχύτητα και δες πώς αλλάζει η τροχιά.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="hydrogen-eigenstates.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
-                            <span class="catalog-icon"><img src="../../assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                            <span class="catalog-icon catalog-icon--atom"><img src="../../assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-3-title">Με τι μοιάζει τελικά ένα άτομο;</h3>
-                            <p id="related-3-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
+                            <p id="related-3-description">Περίστρεψε τα τροχιακά του υδρογόνου και σύγκρινε τα σχήματά τους.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                     </div>

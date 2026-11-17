@@ -63,6 +63,7 @@ function openLab(compact,{empty=false,random}={}){
  if(random){sandbox.Math=Object.create(Math);sandbox.Math.random=random;}
  vm.createContext(sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-scale.js"), "utf8"), sandbox);
+ vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-canvas.js"), "utf8"), sandbox);
  vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({masses,selectedId,activeDrag,sourceDrag,camera,testMass:selectedTest()||null,testMasses,selectedTestId,placing,simulationPaused}),seedSources:sources=>{masses=sources.map((c,i)=>createSourceMass({id:i+1,...c}));nextId=masses.length+1;selectedId=masses[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestMass,advanceSimulation,sourceAccelerations,segmentContact,buildFieldLines,fieldAt,potentialAt,potentialColor,fieldLineSample,fieldLineFlow,advanceFieldLine,simulationSpeed:()=>simulationSpeed};})();`),sandbox);
  const api=sandbox.labTest;
  // Run trajectory fixtures at a fixed rate independent of the startup preset.
@@ -131,7 +132,7 @@ test('test mass changes stored Earth masses but leaves acceleration and trajecto
  const light=singleSourceLab(),heavy=singleSourceLab();
  light.api.placeTestMass(200,100);heavy.api.placeTestMass(200,100);
  for(const mass of [.001,.005,.01]){
-  heavy.$('testMass').value=String(mass);heavy.$('testMass').emit('input');
+  heavy.$('massStrength').value=String(mass);heavy.$('massStrength').emit('input');
   assert.equal(heavy.api.state().testMass.mass,mass);
   closeTo(heavy.api.testAcceleration(200,100).x,light.api.testAcceleration(200,100).x);
  }
@@ -193,14 +194,14 @@ test('a lone source is unaffected by test particles',()=>{
  assert.equal(JSON.stringify(together.api.state().masses),sources);assert.deepEqual(together.api.fieldAt(80,60),field);
 });
 
-test('shared mass, pause, resume, reset and individual deletion preserve simulation state',()=>{
+test('individual masses, pause, resume, reset and individual deletion preserve simulation state',()=>{
  const {$,api}=singleSourceLab();api.placeTestMass(200,100);const first=api.state().testMass;api.placeTestMass(200,-100);const second=api.state().testMass;
- $('testMass').value='0.008';$('testMass').emit('input');assert.ok(api.state().testMasses.every(t=>t.mass===.008));
+ $('massStrength').value='0.008';$('massStrength').emit('input');assert.equal(first.mass,.005);assert.equal(second.mass,.008);
  advanceSeconds(api,.2);$('pauseTest').emit('click');const frozen=JSON.stringify(api.state().testMasses);advanceSeconds(api,.5);assert.equal(JSON.stringify(api.state().testMasses),frozen);
  $('pauseTest').emit('click');const x=first.x;advanceSeconds(api,.2);assert.ok(first.x<x);
  $('resetTest').emit('click');assert.equal(first.x,200);assert.equal(first.y,100);assert.equal(second.y,-100);
  assert.ok(api.state().testMasses.every(t=>!t.running&&t.vx===0&&t.vy===0&&t.trail.length===1));
- api.placeTestMass(300,0);assert.equal(api.state().testMass.mass,.008);assert.equal(api.state().testMass.running,false);
+ api.placeTestMass(300,0);assert.equal(api.state().testMass.mass,.005);assert.equal(api.state().testMass.running,false);
  $('trashZone').emit('click',{detail:0});assert.equal(api.state().testMasses.length,2);
  $('clear').emit('click');assert.equal(api.state().testMasses.length,0);assert.equal(first.trail.length,0);assert.equal($('testPlayback').hidden,true);
 });
@@ -322,7 +323,7 @@ test('a source never accelerates under its own field and coasts with its existin
 test('source trajectories are unchanged by test mass, placement, absorption, or deletion',()=>{
  const without=openLab(false,{empty:true}),withTests=openLab(false,{empty:true});
  for(const lab of [without,withTests])lab.api.seedSources([{x:-300,y:0,mass:3},{x:300,y:0,mass:7}]);
- withTests.api.placeTestMass(-250,0);withTests.$('testMass').value='0.01';withTests.$('testMass').emit('input');
+ withTests.api.placeTestMass(-250,0);withTests.$('massStrength').value='0.01';withTests.$('massStrength').emit('input');
  advanceSeconds(without.api,4);advanceSeconds(withTests.api,4);
  assert.equal(withTests.api.state().testMasses.length,0,'The first probe must actually be absorbed during this comparison');
  withTests.api.placeTestMass(0,300);withTests.$('trashZone').emit('click',{detail:0});
@@ -352,6 +353,7 @@ test('overlapping sources combine finitely and large merged masses fit both mass
  api.advanceSimulation(1/240);const merged=api.state().masses[0];assert.equal(api.state().masses.length,1);assert.equal(merged.mass,30);
  assert.ok(['x','y','vx','vy'].every(key=>Number.isFinite(merged[key])));
  assert.equal($('massStrength').max,'30');assert.equal($('canvasMassStrength').value,'30');assert.equal($('massScaleMax').textContent,'30');
+ assert.equal($('sidebarMassScaleMax').textContent,'30');
  $('massStrength').value='15';$('massStrength').emit('input');$('resetTest').emit('click');
  assert.equal(api.state().masses.length,3);assert.ok(api.state().masses.every(c=>c.mass===5));
 });
@@ -361,10 +363,20 @@ test('a moving source absorbs a probe it sweeps through even when the endpoints 
  api.advanceSimulation(1/240);assert.equal(api.state().testMasses.length,0);assert.equal(probe.trail.length,0);assert.ok(api.state().masses[0].x>100);
 });
 
+test('sidebar position edits move only the selected test mass and survive reset',()=>{
+ const {$,api}=singleSourceLab();api.placeTestMass(200,0);const first=api.state().testMass;
+ api.placeTestMass(300,0);const second=api.state().testMass;
+ $('massX').value='0';$('massX').emit('change');assert.equal(second.x,300,'cannot move onto a source');
+ $('massX').value='0.01';$('massX').emit('change');
+ const x=.01*149597870700/metersPerUnit;
+ closeTo(second.x,x,1e-12);assert.equal(first.x,200);
+ $('resetTest').emit('click');closeTo(second.x,x,1e-12);assert.equal($('massX').value,'0.01');
+});
+
 test('pause, speed and reset work in a scene containing only source masses',()=>{
  const {$,api}=openLab(false,{empty:true});$('presetPair').emit('click');
  $('pauseTest').emit('click');const frozen=JSON.stringify(api.state().masses);advanceSeconds(api,.5);assert.equal(JSON.stringify(api.state().masses),frozen);
- assert.equal($('testBlock').hidden,false);assert.equal($('editBlock').hidden,false);
+ assert.equal($('massStrength').min,'0.1');assert.equal($('editBlock').hidden,false);
  $('simulationSpeed').value='500000';$('simulationSpeed').emit('input');$('pauseTest').emit('click');advanceSeconds(api,.2);assert.notEqual(JSON.stringify(api.state().masses),frozen);
  $('resetTest').emit('click');assert.equal(api.state().masses[0].x,-120);assert.equal(api.state().masses[1].x,120);assert.equal(api.state().simulationPaused,true);
 });

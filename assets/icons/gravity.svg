@@ -1,10 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<svg id="orbit" xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" color="#fff" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      :root:target .planet {
+        offset-path: path("M50.4 17.9 A26 20 0 1 1 13.6 46.1 A26 20 0 1 1 50.4 17.9 Z");
+        cx: 0;
+        cy: 0;
+        offset-anchor: 0 0;
+        offset-rotate: 0deg;
+        animation: orbit 3s linear infinite;
+      }
+      :root:target .force-arrow { opacity: 0; }
+      @keyframes orbit { to { offset-distance: 100%; } }
+    }
+  </style>
   <!-- The central mass occupies a focus. The test mass accelerates toward it. -->
   <g transform="rotate(-26 32 32)">
     <ellipse cx="32" cy="32" rx="26" ry="20" stroke-width="1.6"/>
     <circle cx="15.4" cy="32" r="6.1"/>
     <path d="M12 29.4a4 4 0 0 0 0 5" stroke-width="1.6"/>
-    <circle cx="50.4" cy="17.9" r="3.6" fill="currentColor" stroke="none"/>
-    <path d="m44.4 20.3-17.6 7.1m3-6-3 6 6.5 1.2"/>
+    <circle class="planet" cx="50.4" cy="17.9" r="3.6" fill="currentColor" stroke="none"/>
+    <path class="force-arrow" d="m44.4 20.3-17.6 7.1m3-6-3 6 6.5 1.2"/>
   </g>
 </svg>

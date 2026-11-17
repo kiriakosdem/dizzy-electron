@@ -12,11 +12,11 @@ The Charge tool also lets you click or drag anywhere to specify a new target for
 
 Drag the teal probe marker to inspect the local field vector and retarded ray. The canvas screenshot button saves the probe measurements with the field image. The Probe tool also lets you click or drag on empty background to choose the probe position. Moving the probe does not move the charge, advance a paused simulation, or alter the field.
 
-Select Pan, hold Shift while dragging, or drag with the middle mouse button to move the camera. Scroll or pinch to zoom. Near, Overview, and Far change only the camera. They never relocate the charge or the probe.
+Select Pan, hold Shift while dragging, or drag with the middle mouse button to move the camera. Scroll or pinch to zoom. Use Reset view or H to recenter the camera on the charge.
 
 The Mouse time rate control sets normalized time units per real second at 1× playback. Its default is 24, making mouse manipulation practical while keeping the field propagation speed at c = 1. The playback speed selector multiplies this rate. Lower rates help examine an outgoing disturbance but also slow how quickly the charge can follow a fast pointer.
 
-In Mouse mode, Place charge again arms a new placement. The next click starts a new stationary-charge experiment at that location and clears the old trajectory history. Escape cancels an armed replacement. Restart creates a new stationary history at the current charge position, without moving the charge back to an arbitrary origin.
+Restart creates a new stationary history at the current charge position, without moving the charge back to an arbitrary origin.
 
 ## Existing features retained
 
@@ -24,7 +24,7 @@ Total, Velocity, and Radiation isolate the electric field and its corresponding 
 
 Continuous wave and Single pulse remain available after the charge is placed. They use the current user-positioned charge location as the center of a new automatic experiment. The amplitude and frequency controls retain their subluminal speed constraint. Switching to Mouse control, including by grabbing an automatically moving charge, preserves the earlier automatic trajectory in the retarded-field calculation.
 
-Play, pause, single stepping, playback speed, logarithmic or direction-only vector lengths, density settings, propagation guides, the retarded source ray, snapshot export, full-screen view, and the built-in physics notes remain available.
+Play, pause, single stepping, playback speed, logarithmic vector lengths, density settings, propagation guides, the retarded source ray, snapshot export, full-screen view, and the built-in physics notes remain available.
 
 ## Keyboard controls
 

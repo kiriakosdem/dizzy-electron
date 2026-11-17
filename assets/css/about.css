@@ -2,7 +2,6 @@
 .about-page { min-height: 100%; height: auto; background: var(--page); color: var(--ink); }
 .about-shell { width: min(800px, calc(100% - 64px)); margin-inline: auto; }
 .about-heading { background: var(--page); text-align: center; }
-.about-heading h1 { margin: 0 0 24px; text-align: center; }
 .about-heading p { margin: 0; text-indent: 0; line-height: 1.8; }
 .about-band { background: var(--page); }
 .about-band--shaded { background: var(--band); }

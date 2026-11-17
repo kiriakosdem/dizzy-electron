@@ -58,6 +58,7 @@ function openLab(compact,{empty=false,random}={}){
  if(random){sandbox.Math=Object.create(Math);sandbox.Math.random=random;}
  vm.createContext(sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-scale.js"), "utf8"), sandbox);
+ vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-canvas.js"), "utf8"), sandbox);
  vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({charges,selectedId,activeDrag,sourceDrag,camera,testCharge:selectedTest()||null,testCharges,selectedTestId,placing}),seedSources:sources=>{charges=sources.map((c,i)=>({id:i+1,...c}));nextId=charges.length+1;selectedId=charges[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestCharge,advanceTestCharge,fieldAt,potentialAt,potentialColor};})();`),sandbox);
  const api=sandbox.labTest;
  // Keep gesture tests on an explicit, deterministic fixture. Real empty startup

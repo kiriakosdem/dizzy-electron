@@ -16,8 +16,13 @@
     <script defer src="lab.js?v=distance-scale"></script>
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=quantum-steppers">
     <link rel="stylesheet" href="../../assets/css/lab-select.css">
-    <link rel="stylesheet" href="../../assets/css/focus.css?v=control-focus-only">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css">
+    <link rel="stylesheet" href="../../assets/css/lab-range.css">
+    <link rel="stylesheet" href="../../assets/css/focus.css?v=keyboard-focus">
+    <script src="../../assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="../../assets/css/lab-header.css">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css">
+    <script src="../../assets/js/lab-canvas.js"></script>
     <script src="../../assets/js/lab-scale.js"></script>
 </head>
 <body>
@@ -29,9 +34,18 @@
     <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls"><svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg></button>
 </header>
 <main id="lab" class="controls-open">
-    <div id="viewport">
+    <div id="viewport" class="canvas-frame">
         <div id="canvas-container"></div>
-        <div class="orbital-legend" role="group" aria-label="Visualization legend">
+        <div class="canvas-tools canvas-surface" id="canvasTools" role="group" aria-label="Canvas tools">
+          <button type="button" id="fullscreenButton" title="Full screen" aria-label="Full screen" aria-pressed="false">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path class="expand-icon" d="M3 7V3h4m6 0h4v4m0 6v4h-4m-6 0H3v-4"/><path class="contract-icon" d="M7 3v4H3m10-4v4h4m0 6h-4v4M7 17v-4H3"/></svg>
+          </button>
+          <button type="button" id="snapshotButton" title="Save a snapshot" aria-label="Save a snapshot">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h4l1.5-2h5L14 6h4v10H2Z"/><circle cx="10" cy="10.5" r="3"/></svg>
+          </button>
+          <span class="canvas-tools-message canvas-surface" id="canvasToolsMessage" role="status" hidden></span>
+        </div>
+        <div class="orbital-legend canvas-surface" role="group" aria-label="Visualization legend">
             <div class="legend-entry">
                 <svg class="density-icon" viewBox="0 0 26 14" aria-hidden="true" fill="currentColor">
                     <g opacity=".55"><circle cx="3" cy="6" r=".8"/><circle cx="8" cy="11" r=".9"/><circle cx="17" cy="2" r=".8"/><circle cx="23" cy="8" r=".8"/></g>
@@ -46,19 +60,19 @@
             </div>
         </div>
         <div class="orbital-controls">
-            <strong id="stateName">1s</strong>
+            <span id="stateName" class="scale-readout">1s</span>
             <div class="quantum-controls" role="group" aria-label="Quantum numbers">
-                <div class="quantum-stepper" data-number="n">
+                <div class="quantum-stepper canvas-surface" data-number="n">
                     <button type="button" data-step="-1" aria-label="Decrease n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
                     <span>n = <span class="quantum-value">1</span></span>
                     <button type="button" data-step="1" aria-label="Increase n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
                 </div>
-                <div class="quantum-stepper" data-number="l">
+                <div class="quantum-stepper canvas-surface" data-number="l">
                     <button type="button" data-step="-1" aria-label="Decrease ℓ"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
                     <span>ℓ = <span class="quantum-value">0</span></span>
                     <button type="button" data-step="1" aria-label="Increase ℓ"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
                 </div>
-                <div class="quantum-stepper" data-number="m">
+                <div class="quantum-stepper canvas-surface" data-number="m">
                     <button type="button" data-step="-1" aria-label="Decrease m"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
                     <span>m = <span class="quantum-value">0</span></span>
                     <button type="button" data-step="1" aria-label="Increase m"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
@@ -67,52 +81,69 @@
         </div>
         <div class="zoom-hud">
             <div class="scale-readout" title="Distance at the nucleus, in Bohr radii"><span id="distanceLabel"></span><div class="scale-rule" id="scaleRule"></div></div>
-            <div class="zoom" role="group" aria-label="View controls">
+            <div class="zoom canvas-surface" role="group" aria-label="View controls">
                 <button type="button" id="zoomOut" aria-label="Zoom out" title="Zoom out"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
                 <output id="zoomLabel" aria-label="Zoom level">100%</output>
                 <button type="button" id="zoomIn" aria-label="Zoom in" title="Zoom in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
                 <button type="button" id="resetView" aria-label="Reset view" title="Reset view"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m2 8 6-5 6 5M4 6.5V13h8V6.5"/></svg></button>
             </div>
         </div>
-        <div id="renderStatus" class="render-status" role="status">Preparing the probability cloud…</div>
+        <div id="renderStatus" class="render-status canvas-surface" role="status">Preparing the probability cloud…</div>
     </div>
     <button class="panel-backdrop" id="controlsBackdrop" aria-label="Close controls" tabindex="-1" hidden></button>
     <aside class="panel" id="controlsPanel" aria-label="Orbital controls">
-        <section class="panel-section">
-            <h2 class="section-title">Quantum numbers</h2>
+        <details open class="panel-section">
+            <summary><h2>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="10" cy="10" rx="9" ry="3.5" transform="rotate(-45 10 10)"/><ellipse cx="10" cy="10" rx="9" ry="3.5" transform="rotate(45 10 10)"/><circle cx="10" cy="10" r="1"/></svg>
+              Quantum numbers
+            </h2></summary>
             <div class="quantum-grid">
                 <label for="nSelect"><span>n</span><small>Principal</small><select id="nSelect" aria-label="Principal quantum number n"></select></label>
                 <label for="lSelect"><span>ℓ</span><small>Orbital</small><select id="lSelect" aria-label="Orbital quantum number l"></select></label>
                 <label for="mSelect"><span>m</span><small>Magnetic</small><select id="mSelect" aria-label="Magnetic quantum number m"></select></label>
             </div>
-            <h3 class="orbital-presets-label">Suggested real orbitals</h3>
-            <div class="real-orbitals" id="realOrbitals" aria-label="Real orbitals for the selected n and l"></div>
-        </section>
-        <section class="panel-section">
-            <h2 class="section-title">Visualization</h2>
-            <label class="control-label" for="displayMode">Orbital display</label>
-            <select id="displayMode" class="display-mode"><option value="points">Point cloud</option><option value="fuzzy" selected>Fuzzy cloud</option><option value="surface">Phase-colored surface</option></select>
+            <div id="orbitalPresetsLabel" class="control-label"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><ellipse cx="6" cy="12.5" rx="3.5" ry="5" transform="rotate(50 6 12.5)"/><ellipse cx="14" cy="7" rx="3.5" ry="5" transform="rotate(50 14 7)"/></svg>Suggested real orbitals</span></div>
+
+            <div class="real-orbitals" id="realOrbitals" role="group" aria-labelledby="orbitalPresetsLabel"></div>
+        </details>
+        <details open class="panel-section">
+            <summary><h2>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
+              Display
+            </h2></summary>
+            <fieldset id="displayMode" class="display-mode">
+                <legend><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m2 7 8-4 8 4-8 4Zm0 4 8 4 8-4m-16 4 8 4 8-4"/></svg>Orbital display</span></legend>
+                <label><input type="radio" name="displayMode" value="points">Point cloud</label>
+                <label><input type="radio" name="displayMode" value="fuzzy" checked>Fuzzy cloud</label>
+                <label><input type="radio" name="displayMode" value="surface">Phase-colored surface</label>
+            </fieldset>
             <div id="pointControls">
-                <label class="control-label slider-label" for="density">Point density <output id="densityValue" for="density">10,000 spheres</output></label>
+                <label class="control-label slider-label" for="density"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><g fill="currentColor" stroke="none"><circle cx="4" cy="4" r="1.35"/><circle cx="4" cy="10" r="1.35"/><circle cx="4" cy="16" r="1.35"/><circle cx="10" cy="4" r="1.35"/><circle cx="10" cy="10" r="1.35"/><circle cx="10" cy="16" r="1.35"/><circle cx="16" cy="4" r="1.35"/><circle cx="16" cy="10" r="1.35"/><circle cx="16" cy="16" r="1.35"/></g></svg>Point density</span> <output id="densityValue" for="density">10,000 spheres</output></label>
                 <input id="density" type="range" min="1000" max="30000" step="500" value="10000" aria-describedby="densityHint">
+                <div class="range-scale" aria-hidden="true"><span>1,000</span><span>30,000</span></div>
             </div>
             <div id="fuzzyControls">
-                <label class="control-label slider-label" for="fuzziness">Fuzziness <output id="fuzzinessValue" for="fuzziness">50%</output></label>
+                <label class="control-label slider-label" for="fuzziness"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3"/><circle cx="10" cy="10" r="6.5" stroke-dasharray="1 3"/></svg>Fuzziness</span> <output id="fuzzinessValue" for="fuzziness">50%</output></label>
                 <input id="fuzziness" type="range" min="0" max="100" step="1" value="50" aria-describedby="fuzzinessHint">
+                <div class="range-scale" aria-hidden="true"><span>0</span><span>100</span></div>
             </div>
             <div id="surfaceControls" hidden>
-                <label class="control-label slider-label" for="enclosure">Enclosed probability <output id="enclosureValue" for="enclosure">70.0%</output></label>
+                <label class="control-label slider-label" for="enclosure"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><g fill="currentColor" stroke="none"><circle cx="8" cy="8" r="1.35"/><circle cx="12" cy="9" r="1.35"/><circle cx="9" cy="12" r="1.35"/></g></svg>Enclosed probability</span> <output id="enclosureValue" for="enclosure">70.0%</output></label>
                 <input id="enclosure" type="range" min="50" max="99.9" step="0.1" value="70" aria-describedby="enclosureHint">
+                <div class="range-scale" aria-hidden="true"><span>50</span><span>99.9</span></div>
             </div>
-            <div class="toggle-row"><span>Nodal surfaces</span><button class="switch" id="nodesToggle" role="switch" aria-checked="false" aria-label="Nodal surfaces"></button></div>
-            <div class="toggle-row"><span>Coordinate axes</span><button class="switch on" id="axesToggle" role="switch" aria-checked="true" aria-label="Coordinate axes"></button></div>
-            <div class="toggle-row"><span>Rotate view</span><button class="switch on" id="rotationToggle" role="switch" aria-checked="true" aria-label="Rotate view"></button></div>
-            <div id="detectionControls" class="toggle-row"><span>Detection highlights</span><button class="switch" id="detectionToggle" role="switch" aria-checked="false" aria-label="Detection highlights" aria-describedby="detectionHint"></button></div>
-        </section>
-        <section class="panel-section">
-            <h2 class="section-title">Selected state</h2>
+            <div class="toggle-row"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M2 14 18 6"/></svg>Nodal surfaces</span><button class="switch" id="nodesToggle" role="switch" aria-checked="false" aria-label="Nodal surfaces"></button></div>
+            <div class="toggle-row"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M8 2v11h10m-10 0-5 5m3-14 2-2 2 2m6 7 2 2-2 2"/></svg>Coordinate axes</span><button class="switch on" id="axesToggle" role="switch" aria-checked="true" aria-label="Coordinate axes"></button></div>
+            <div class="toggle-row"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 8a6.5 6.5 0 1 0 .2 5M16 3v5h-5"/></svg>Rotate view</span><button class="switch on" id="rotationToggle" role="switch" aria-checked="true" aria-label="Rotate view"></button></div>
+            <div id="detectionControls" class="toggle-row"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="4"/><path d="M10 1v4m0 10v4M1 10h4m10 0h4"/></svg>Detection highlights</span><button class="switch" id="detectionToggle" role="switch" aria-checked="false" aria-label="Detection highlights" aria-describedby="detectionHint"></button></div>
+        </details>
+        <details open class="panel-section">
+            <summary><h2>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4h14M5 10h10M7 16h6"/><circle cx="7" cy="10" r="2" fill="currentColor" stroke="none"/></svg>
+              Selected state
+            </h2></summary>
             <dl class="state-details"><div><dt>Energy</dt><dd id="energy">−13.60 eV</dd></div><div><dt>Nodal surfaces</dt><dd id="nodeCount">0</dd></div><div id="scaleMetric" hidden><dt id="scaleLabel"></dt><dd id="scaleValue"></dd></div></dl>
-        </section>
+        </details>
     </aside>
     <div class="sr-only" id="actionStatus" role="status" aria-live="polite"></div>
 </main>
