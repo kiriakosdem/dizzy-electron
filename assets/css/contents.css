@@ -6,7 +6,7 @@
 .contents-heading p { margin: 0; }
 .contents-band { background: var(--page); }
 .contents-band--shaded { background: var(--band); }
-.contents-band h2, .contents-subject-heading { font-size: 1.6rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
+.contents-band h2, .contents-subject-heading { font-size: var(--section-title-size); line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .contents-section-intro { margin-bottom: 28px; }
 .contents-section-intro h3 { font-size: 1.1rem; font-weight: 600; line-height: 1.5; margin: 0 0 10px; }
 .contents-section-intro p, .contents-intro { color: var(--muted-ink); font-size: .95rem; margin: 0; }
@@ -19,33 +19,20 @@
 @media (max-width: 575px) {
     .contents-shell { width: calc(100% - 40px); }
     .contents-heading p { font-size: .95rem; }
-    .contents-band h2, .contents-subject-heading { font-size: 1.4rem; }
+    .contents-band h2, .contents-subject-heading { font-size: var(--section-title-size); }
 }
 
 .contents-intro + .catalog-grid { margin-top: 20px; }
-.catalog-card--upcoming {
-    background: var(--card-background, var(--surface));
-    border-style: dashed;
-    color: var(--muted-ink);
-}
-.catalog-card--upcoming .catalog-icon img { opacity: .78; }
-.catalog-card--upcoming .catalog-status {
-    grid-column: 1 / -1;
-    justify-self: start;
-    display: inline-flex;
+.contents-upcoming h3 { font-size: var(--card-title-size); margin: 24px 0 8px; }
+.upcoming-topics { margin: 0; padding-left: 1.25rem; color: var(--muted-ink); }
+.upcoming-topics li { padding-block: 6px; line-height: 1.6; }
+#math-lessons { scroll-margin-top: 24px; }
+
+/* Standalone labs have concise title-only cards. */
+.contents-page .catalog-card--lab {
+    display: flex;
     align-items: center;
-    gap: .45em;
-    background: var(--color-graphite);
-    color: var(--color-white);
-    font-weight: 600;
+    min-height: 80px;
+    padding: 20px;
 }
-.catalog-card--upcoming .catalog-status::before {
-    content: "";
-    width: 1.1em;
-    height: 1.1em;
-    background: currentColor;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.6'%3E%3Crect x='2.5' y='7' width='11' height='7.5' rx='1.5'/%3E%3Cpath d='M4.8 7V5a3.2 3.2 0 0 1 6.4 0v2M8 9.5v2.5'/%3E%3C/svg%3E") center / contain no-repeat;
-}
-.lab-links { list-style: none; margin: 20px 0 0; padding: 0; }
-.lab-links a { display: block; padding: 12px 8px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-.lab-links a span { display: inline-block; text-decoration: none; }
+.catalog-card--lab h3 { text-decoration: underline; text-underline-offset: 4px; }

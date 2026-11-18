@@ -370,7 +370,7 @@ a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg
     100% { mask-size: 100% 100%, 180% 180%, 100% 100%; }
 }
 
-.catalog-card h3, .catalog-card h4 { font-size: 1.12rem; font-weight: 600; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
+.catalog-card h3, .catalog-card h4 { font-size: var(--card-title-size); font-weight: 600; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
 .catalog-card p { grid-column: 1 / -1; font-size: .9rem; color: var(--muted-ink); margin: 0; line-height: 1.6; text-indent: 0; }
 .catalog-grid--sidebar { grid-template-columns: minmax(0, 1fr); max-width: 320px; margin-inline: auto; text-align: left; }
 .catalog-card-action { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: .35em; font-size: .85rem; font-weight: 600; color: var(--ink); }
@@ -430,3 +430,20 @@ a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg
 :where(.home-band--shaded, .contents-band--shaded) {
     --card-background: var(--page);
 }
+
+/* Shared card surfaces also style lesson disclosures and media panels. */
+:root {
+    --lesson-panel-background: var(--surface);
+    --lesson-panel-border: var(--color-border);
+}
+:root[data-theme="dark"] {
+    --lesson-panel-background: #2c4056;
+    --lesson-panel-border: #687c91;
+}
+
+/* Keep lesson cards distinct from dark page bands without heavy shadows. */
+:root[data-theme="dark"] .catalog-card {
+    --card-background: var(--lesson-panel-background);
+    border-color: var(--lesson-panel-border);
+}
+:root[data-theme="dark"] a.catalog-card:hover { border-color: var(--color-logo-orange); }

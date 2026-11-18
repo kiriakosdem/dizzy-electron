@@ -5,7 +5,7 @@
 .about-heading p { margin: 0; text-indent: 0; line-height: 1.8; }
 .about-band { background: var(--page); }
 .about-band--shaded { background: var(--band); }
-.about-band h2 { display: flex; align-items: flex-start; gap: .45em; font-size: 1.6rem; line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
+.about-band h2 { display: flex; align-items: flex-start; gap: .45em; font-size: var(--section-title-size); line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .about-section-icon {
     flex: none;
     width: 1.1em;
@@ -29,6 +29,6 @@
 .about-page a:focus-visible, .about-page button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }
 @media (max-width: 575px) {
     .about-shell { width: calc(100% - 40px); }
-    .about-band h2 { font-size: 1.4rem; }
+    .about-band h2 { font-size: var(--section-title-size); }
     .about-heading p, .about-band p { font-size: .95rem; }
 }

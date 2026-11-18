@@ -49,6 +49,7 @@ The `bouncing-balls` and `falling-blocks` simulation folders contain legacy Java
 - Load `common.css` and `cards.css` before lesson-specific styles. Keep all card spacing changes in `cards.css`.
 - Use relative paths so the site works both at a domain root and under a hosting subdirectory. Paths in CSS resolve relative to the stylesheet, while iframe paths resolve relative to the lesson page.
 - Keep the homepage, catalogue and related cards in sync when changing a lesson's title, description, icon or availability. They remain plain HTML; shared templates and a central catalogue would be a separate build-system change.
+- Keep each lesson's mobile contents disclosure and desktop contents list in sync when changing section titles or anchors. Responsive CSS shows only the appropriate navigation; both work without JavaScript.
 - Keep design experiments separate from the assets referenced by live pages. Do not edit bundled vendor code for site styling.
 
 ## Checks

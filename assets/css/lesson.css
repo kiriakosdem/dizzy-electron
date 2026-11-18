@@ -18,7 +18,7 @@ MAIN
 h4{
 	font-size: 1.3rem;
 	font-weight: bold;
-	margin-top: 3rem;
+	margin-top: var(--section-start);
 	margin-bottom: 0.4rem;;
 	text-align: center;
 	font-variant: small-caps;
@@ -38,6 +38,7 @@ BUTTONS & LINKS
 /* Lesson references use the same text-link treatment as the About page. */
 main a[href]:not(.catalog-card) {
     --hover-background: transparent;
+    --hover-color: var(--link-hover);
     background-color: transparent;
     color: var(--ink);
     text-decoration: underline;
@@ -45,7 +46,7 @@ main a[href]:not(.catalog-card) {
 }
 
 main a[href]:not(.catalog-card):hover {
-    color: var(--color-logo-orange);
+    color: var(--link-hover);
     text-decoration: underline;
 }
 
@@ -60,7 +61,7 @@ main a[href]:not(.catalog-card):hover {
 }
 
 #change-chapter .btn:hover{
-	color: var(--color-logo-orange);
+	color: var(--link-hover);
 	text-decoration: underline;
 }
 
@@ -213,7 +214,7 @@ ul.breadcrumb a[href] {
 ul.breadcrumb [aria-current="page"]:not(a[href]) { color: var(--ink); }
 
 ul.breadcrumb a[href]:hover {
-	color: var(--color-logo-orange);
+	color: var(--link-hover);
 	text-decoration: underline;
 }
 
@@ -324,20 +325,22 @@ p {
 
 .container h1{
 	text-align: center;
-	font-size: 1.9rem;
-	font-weight: bold;
+	font-size: var(--title-size);
+    line-height: 1.15;
+    text-wrap: balance;
+	font-weight: 600;
 	margin-bottom: var(--page-title-gap);
 }
 
 .container h2{
 	font-size: 1.3rem;
 	font-weight: bold;
-	margin-top: 3rem;
+	margin-top: var(--section-start);
 	margin-bottom: var(--section-heading-gap);
 }
 
 .simulation-lesson .lesson-section > h2 {
-    font-size: 1.5rem;
+    font-size: var(--section-title-size);
     font-weight: 600;
     line-height: 1.4;
 }
@@ -464,7 +467,7 @@ main .figure-caption a {
 #change-chapter .btn:hover,
 main .simulation-toolbar .btn:hover,
 main .figure-caption a:hover {
-    color: var(--color-logo-orange) !important;
+    color: var(--link-hover) !important;
     text-decoration: underline;
 }
 

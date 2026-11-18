@@ -8,14 +8,14 @@
     <title>Dizzy Electron | Τι είναι η ακτινοβολία;</title>
     <script src="../../assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=page-title-gap">
-    <link rel="stylesheet" href="../../assets/css/cards.css?v=compact-mobile-cards">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=page-title-gap">
-    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=consistent-media-borders">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=section-hierarchy">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=shared-panel-style">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=section-hierarchy">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=mobile-contents-spacing">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
-    <script src="../../assets/js/lesson.js?v=menu-collapse-icon" defer></script>
-    <link rel="stylesheet" href="../../assets/css/focus.css?v=keyboard-focus">
+    <script src="../../assets/js/lesson.js?v=smooth-panels" defer></script>
+    <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
 </head>
 <body class="simulation-lesson" id="top">
@@ -78,8 +78,23 @@
                     <!-- Google Doc lesson body begins -->
                     <h1>Τι είναι η ακτινοβολία;</h1>
                     <p class="lesson-subtitle">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
-                    <section class="card learning-goals-card" aria-labelledby="goals-title">
-                        <div class="card-header text-center" id="goals-title">Διδακτικοί στόχοι</div>
+                    <nav class="lesson-mobile-navigation" aria-label="Πλοήγηση στο μάθημα">
+                        <details class="lesson-mobile-contents">
+                            <summary>Σε αυτό το μάθημα</summary>
+                            <ul class="list-unstyled lesson-bullets" role="list">
+                                <li><a href="#introduction">Η είδηση που αργεί να φτάσει</a></li>
+                                <li><a href="#theory">Ποια στιγμή της πηγής βλέπει ο ανιχνευτής;</a></li>
+                                <li><a href="#simulation">Η ιστορία στο εργαστήριο</a></li>
+                                <li><a href="#interactive-animation">Διαδραστική προσομοίωση</a></li>
+                                <li><a href="#activities">Δοκίμασέ το</a></li>
+                                <li><a href="#takeaway">Ο παλμός συνεχίζει το ταξίδι</a></li>
+                                <li><a href="#sources">Πηγές</a></li>
+                            </ul>
+                        </details>
+                    </nav>
+                    <section class="lesson-panel" aria-labelledby="goals-title">
+                        <details class="lesson-panel-disclosure">
+                        <summary id="goals-title">Διδακτικοί στόχοι</summary>
                         <div class="card-body">
                             <p>Στο τέλος της ιστορίας θα μπορείς</p>
                             <ul class="lesson-bullets" role="list">
@@ -88,6 +103,7 @@
                                 <li>Να διακρίνεις μια αλλαγή του πεδίου από τη συνιστώσα ακτινοβολίας.</li>
                             </ul>
                         </div>
+                    </details>
                     </section>
                     <section id="introduction" class="lesson-section" aria-labelledby="introduction-title">
                         <h2 id="introduction-title">Η είδηση που αργεί να φτάσει</h2>
@@ -98,29 +114,30 @@
                         <h2 id="theory-title">Ποια στιγμή της πηγής βλέπει ο ανιχνευτής;</h2>
                         <p>Το πεδίο που μετράς τώρα εξαρτάται από μια προηγούμενη κατάσταση της πηγής. Ο χρόνος εκείνης της κατάστασης λέγεται καθυστερημένος χρόνος <var>t<sub>r</sub></var>. Για απόσταση <var>R</var> από τη θέση εκπομπής, ικανοποιεί τη σχέση</p>
                         <div class="lesson-equation">\[t-t_r=\frac{R(t_r)}{c}\]</div>
-                        <p>Η επιτάχυνση του φορτίου παράγει μια συνιστώσα του πεδίου που μπορεί να μεταφέρει ενέργεια προς μακρινές περιοχές. Αυτή είναι η συνιστώσα ακτινοβολίας. Μακριά από την πηγή, το πλάτος της μειώνεται ως 1/R, ενώ ο όρος ταχύτητας μειώνεται ως 1/R². Η συνεχής ταλάντωση δημιουργεί μια ακολουθία διαταραχών, ένα ηλεκτρομαγνητικό κύμα. <a href="https://openstax.org/books/university-physics-volume-2/pages/16-2-plane-electromagnetic-waves" target="_blank" rel="noopener">Η διάδοση ηλεκτρομαγνητικών κυμάτων στο OpenStax</a>.</p>
+                        <p>Η επιτάχυνση του φορτίου παράγει μια συνιστώσα του πεδίου που μπορεί να μεταφέρει ενέργεια προς μακρινές περιοχές. Αυτή είναι η συνιστώσα ακτινοβολίας. Μακριά από την πηγή, το πλάτος της μειώνεται ως 1/R, ενώ ο όρος ταχύτητας μειώνεται ως 1/R². Η συνεχής ταλάντωση δημιουργεί μια ακολουθία διαταραχών, ένα ηλεκτρομαγνητικό κύμα.</p>
                         <p>Το φως, τα ραδιοκύματα και οι ακτίνες Χ ανήκουν στην ίδια ηλεκτρομαγνητική οικογένεια και διαφέρουν στη συχνότητά τους. Εδώ θα παρακολουθήσουμε τον κλασικό μηχανισμό παραγωγής και διάδοσης ενός τέτοιου κύματος από ένα κινούμενο φορτίο.</p>
                     </section>
                     <section id="simulation" class="lesson-section" aria-labelledby="simulation-title">
                         <h2 id="simulation-title">Η ιστορία στο εργαστήριο</h2>
                         <p>Πάτησε στον καμβά για να τοποθετήσεις το φορτίο. Στην επιλογή <span lang="en">Mouse</span>, σύρε το λευκό αστεροειδές σύμβολο λίγο προς τα πάνω και άφησέ το. Παρατήρησε πώς εξελίσσεται το πεδίο όσο η πηγή κινείται και αφού σταματήσει. Ο ανιχνευτής <span lang="en">Probe</span> είναι το πράσινο σημάδι. Μετακίνησέ τον και πάτησε το κουμπί της κάμερας. Στο αποθηκευμένο στιγμιότυπο, η ένδειξη <span lang="en">Delay</span> δίνει την καθυστέρηση διάδοσης.</p>
                         <p>Τα κουμπιά <span lang="en">Total</span>, <span lang="en">Velocity</span> και <span lang="en">Radiation</span> επιτρέπουν να εξετάσεις χωριστά τις συνεισφορές. Για να μελετήσεις ειδικά την ακτινοβολία, επίλεξε <span lang="en">Radiation</span> και διάβασε τη μέτρηση <span lang="en">Er</span> στο στιγμιότυπο.</p>
+
+                    </section>
+                    <section id="interactive-animation" class="lesson-section" aria-labelledby="interactive-animation-title">
+                        <h2 id="interactive-animation-title">Διαδραστική προσομοίωση</h2>
                         <figure class="lesson-simulation">
-                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/electromagnetic-field/index.html" title="Διαδραστική προσομοίωση: Το Ηλεκτρομαγνητικό Πεδίο" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
+                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/electromagnetic-field/index.html?v=mobile-fullscreen" title="Διαδραστική προσομοίωση: Το Ηλεκτρομαγνητικό Πεδίο" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
                             <figcaption class="figure-caption media-caption">
                                 <span id="simulation-caption">Προσομοίωση: Κινούμενο φορτίο, καθυστερημένα πεδία και ηλεκτρομαγνητική ακτινοβολία.</span>
-                                <div class="simulation-toolbar">
-                                    <button class="btn simulation-fullscreen" type="button" data-fullscreen="lesson-animation" hidden>Πλήρης οθόνη</button>
-                                    <a class="btn" href="../../simulations/electromagnetic-field/index.html" target="_blank" rel="noopener">Άνοιγμα σε νέα καρτέλα ↗</a>
-                                </div>
+                                <a class="btn" href="../../simulations/electromagnetic-field/index.html" target="_blank" rel="noopener">Άνοιγμα σε νέα καρτέλα ↗</a>
                             </figcaption>
                         </figure>
-                        <p class="simulation-status" role="status" aria-live="polite"></p>
 
                         <p>Η οθόνη δείχνει μια επίπεδη τομή των τρισδιάστατων πεδίων. Οι μπλε τελείες παριστάνουν μαγνητικό πεδίο προς εμάς και οι σταυροί προς το εσωτερικό της οθόνης. Το εργαστήριο χρησιμοποιεί μονάδες με <var>c = 1</var>. Τα μήκη των βελών προσαρμόζονται για ευκρίνεια, οπότε για αριθμητικές συγκρίσεις χρησιμοποίησε τις ενδείξεις του ανιχνευτή στα στιγμιότυπα.</p>
                     </section>
-                    <section id="activities" class="card learning-goals-card" aria-labelledby="activities-title">
-                        <div class="card-header text-center" id="activities-title">Δοκίμασέ το</div>
+                    <section id="activities" class="lesson-panel" aria-labelledby="activities-title">
+                        <details class="lesson-panel-disclosure">
+                        <summary id="activities-title">Δοκίμασέ το</summary>
                         <div class="card-body">
                             <p>Ακολούθησε μια μεμονωμένη είδηση και έπειτα μια ολόκληρη σειρά από αυτές.</p>
                             <ul class="lesson-bullets" role="list">
@@ -130,12 +147,23 @@
                                 <li>Εναλλάξου ανάμεσα σε <span lang="en">Total</span>, <span lang="en">Velocity</span> και <span lang="en">Radiation</span>. Θα βρεις μεταβολές και στη συνιστώσα ταχύτητας. Χρησιμοποίησε τις ξεχωριστές μετρήσεις για να αποδώσεις κάθε μεταβολή στη σωστή συνεισφορά.</li>
                             </ul>
                         </div>
+                    </details>
                     </section>
                     <section id="takeaway" class="lesson-section" aria-labelledby="takeaway-title">
                         <h2 id="takeaway-title">Ο παλμός συνεχίζει το ταξίδι</h2>
                         <p>Το φορτίο έχει ήδη ολοκληρώσει την κίνησή του, αλλά ο παλμός μπορεί ακόμη να ταξιδεύει προς τον ανιχνευτή. Η ηλεκτρομαγνητική ακτινοβολία μεταφέρει ενέργεια και πληροφορία μέσω του ηλεκτρομαγνητικού πεδίου. Η διάδοσή της στο κενό έχει ταχύτητα <var>c</var> και επιτρέπει στην επίδραση της πηγής να φτάσει σε μακρινά σημεία έπειτα από μετρήσιμο χρόνο.</p>
                         <div class="lesson-equation">\[\lambda=\frac{c}{f}\]</div>
                         <p>Αν η πηγή παράγει περισσότερες ταλαντώσεις κάθε δευτερόλεπτο, οι διαδοχικές κορυφές βρίσκονται πιο κοντά μεταξύ τους. Μεγαλύτερη συχνότητα σημαίνει μικρότερο μήκος κύματος για την ίδια ταχύτητα διάδοσης. Αυτή η σχέση συνδέει την κίνηση της πηγής με το κύμα που φτάνει στον παρατηρητή.</p>
+                    </section>
+                    <section id="sources" class="lesson-panel" aria-labelledby="sources-title">
+                        <details class="lesson-panel-disclosure">
+                            <summary id="sources-title">Πηγές</summary>
+                            <div class="card-body">
+                                <ul class="lesson-bullets lesson-sources" role="list">
+                                    <li><a href="https://openstax.org/books/university-physics-volume-2/pages/16-2-plane-electromagnetic-waves" target="_blank" rel="noopener">Η διάδοση ηλεκτρομαγνητικών κυμάτων στο OpenStax</a></li>
+                                </ul>
+                            </div>
+                        </details>
                     </section>
                     <!-- Google Doc lesson body ends -->
                     <nav id="change-chapter" class="row m-auto" aria-label="Πλοήγηση μεταξύ μαθημάτων">
@@ -145,34 +173,38 @@
                 </main>
                 <div class="col-lg-1 p-0" aria-hidden="true"></div>
                 <aside class="col-lg-3 p-0 lesson-sidebar" aria-label="Πλοήγηση μαθημάτων">
-                    <h2 id="lesson-contents-title" class="sidebar-heading">Σε αυτό το μάθημα</h2>
-                    <nav class="card contents-card" aria-labelledby="lesson-contents-title">
-                        <ul class="list-unstyled components">
-                            <li><a href="#introduction">Η είδηση που αργεί να φτάσει</a></li>
-                            <li><a href="#theory">Ποια στιγμή της πηγής βλέπει ο ανιχνευτής;</a></li>
-                            <li><a href="#simulation">Η ιστορία στο εργαστήριο</a></li>
-                            <li><a href="#activities">Δοκίμασέ το</a></li>
-                            <li><a href="#takeaway">Ο παλμός συνεχίζει το ταξίδι</a></li>
-                        </ul>
-                    </nav>
+                    <div class="lesson-desktop-contents">
+                        <h2 id="lesson-contents-title" class="sidebar-heading">Σε αυτό το μάθημα</h2>
+                        <nav class="card contents-card" aria-labelledby="lesson-contents-title">
+                            <ul class="list-unstyled components lesson-bullets" role="list">
+                                <li><a href="#introduction">Η είδηση που αργεί να φτάσει</a></li>
+                                <li><a href="#theory">Ποια στιγμή της πηγής βλέπει ο ανιχνευτής;</a></li>
+                                <li><a href="#simulation">Η ιστορία στο εργαστήριο</a></li>
+                                <li><a href="#interactive-animation">Διαδραστική προσομοίωση</a></li>
+                                <li><a href="#activities">Δοκίμασέ το</a></li>
+                                <li><a href="#takeaway">Ο παλμός συνεχίζει το ταξίδι</a></li>
+                                <li><a href="#sources">Πηγές</a></li>
+                            </ul>
+                        </nav>
+                    </div>
                     <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electric-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
                             <span class="catalog-icon catalog-icon--lightning"><img src="../../assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-1-title">Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</h3>
-                            <p id="related-1-description">Άλλαξε το πρόσημο ενός φορτίου για να μετατρέψεις την άπωση σε έλξη.</p>
+                            <p id="related-1-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="gravitational-field.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
                             <span class="catalog-icon catalog-icon--planet"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-2-title">Γιατί η Σελήνη μένει σε τροχιά;</h3>
-                            <p id="related-2-description">Άλλαξε την αρχική ταχύτητα και δες πώς αλλάζει η τροχιά.</p>
+                            <p id="related-2-description">Ανακάλυψε πώς η βαρύτητα και η ταχύτητα κρατούν τη Σελήνη σε τροχιά.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="hydrogen-eigenstates.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
                             <span class="catalog-icon catalog-icon--atom"><img src="../../assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-3-title">Με τι μοιάζει τελικά ένα άτομο;</h3>
-                            <p id="related-3-description">Περίστρεψε τα τροχιακά του υδρογόνου και σύγκρινε τα σχήματά τους.</p>
+                            <p id="related-3-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                     </div>

@@ -8,14 +8,14 @@
     <title>Dizzy Electron | Γιατί η Σελήνη μένει σε τροχιά;</title>
     <script src="../../assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=page-title-gap">
-    <link rel="stylesheet" href="../../assets/css/cards.css?v=compact-mobile-cards">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=page-title-gap">
-    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=consistent-media-borders">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=section-hierarchy">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=shared-panel-style">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=section-hierarchy">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=mobile-contents-spacing">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
-    <script src="../../assets/js/lesson.js?v=menu-collapse-icon" defer></script>
-    <link rel="stylesheet" href="../../assets/css/focus.css?v=keyboard-focus">
+    <script src="../../assets/js/lesson.js?v=smooth-panels" defer></script>
+    <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
 </head>
 <body class="simulation-lesson" id="top">
@@ -77,9 +77,24 @@
                 <main id="lesson-content" class="col-lg-8 p-0 text-left" tabindex="-1">
                     <!-- Google Doc lesson body begins -->
                     <h1>Γιατί η Σελήνη μένει σε τροχιά;</h1>
-                    <p>Άφησε μια πέτρα από το χέρι σου. Σε ένα δευτερόλεπτο πέφτει σχεδόν πέντε μέτρα. Πόσο χρόνο θέλει το φεγγάρι για να πέσει κι αυτό πέντε μέτρα; Κράτα κάπου την απάντησή σου. Θα χρειαστούμε πρώτα ένα μολύβι και μια καλή συμφωνία για το τι θα πει «πέφτει».</p>
-                    <section id="goals" class="card learning-goals-card" aria-labelledby="goals-title">
-                        <div class="card-header text-center" id="goals-title">Διδακτικοί στόχοι</div>
+                    <p class="lesson-subtitle">Ανακάλυψε πώς η βαρύτητα και η ταχύτητα κρατούν τη Σελήνη σε τροχιά.</p>
+                    <nav class="lesson-mobile-navigation" aria-label="Πλοήγηση στο μάθημα">
+                        <details class="lesson-mobile-contents">
+                            <summary>Σε αυτό το μάθημα</summary>
+                            <ul class="list-unstyled lesson-bullets" role="list">
+                                <li><a href="#introduction">Πέντε μέτρα προς τα πού;</a></li>
+                                <li><a href="#theory">Ποιος τραβάει τη Γη;</a></li>
+                                <li><a href="#simulation">Δύο φεγγάρια στο εργαστήριο</a></li>
+                                <li><a href="#interactive-animation">Διαδραστική προσομοίωση</a></li>
+                                <li><a href="#activities">Τρία πειράματα με μία μόνο αλλαγή τη φορά</a></li>
+                                <li><a href="#takeaway">Τι σχήμα άφησε το μολύβι;</a></li>
+                                <li><a href="#sources">Πηγές</a></li>
+                            </ul>
+                        </details>
+                    </nav>
+                    <section id="goals" class="lesson-panel" aria-labelledby="goals-title">
+                        <details class="lesson-panel-disclosure">
+                        <summary id="goals-title">Διδακτικοί στόχοι</summary>
                         <div class="card-body">
                             <ul class="lesson-bullets" role="list">
                                 <li>Να σχεδιάζεις πού θα πήγαινε η Σελήνη αν έσβηνε η βαρύτητα και να εκτιμάς πόσο αποκλίνει από εκείνη την πορεία.</li>
@@ -87,9 +102,11 @@
                                 <li>Να προβλέπεις πώς αλλάζει μια κυκλική τροχιά όταν μειώσεις την αρχική ταχύτητα και να ελέγχεις την πρόβλεψη στο εργαστήριο.</li>
                             </ul>
                         </div>
+                    </details>
                     </section>
                     <section id="introduction" class="lesson-section" aria-labelledby="introduction-title">
                         <h2 id="introduction-title">Πέντε μέτρα προς τα πού;</h2>
+                        <p>Άφησε μια πέτρα από το χέρι σου. Σε ένα δευτερόλεπτο πέφτει σχεδόν πέντε μέτρα. Πόσο χρόνο θέλει το φεγγάρι για να πέσει κι αυτό πέντε μέτρα; Κράτα κάπου την απάντησή σου. Θα χρειαστούμε πρώτα ένα μολύβι και μια καλή συμφωνία για το τι θα πει «πέφτει».</p>
                         <p>Σχεδίασε έναν κύκλο για την τροχιά και βάλε τη Γη στο κέντρο. Η Σελήνη βρίσκεται στο δεξί άκρο του κύκλου και κινείται προς τα πάνω στη σελίδα. Κάποιος κλείνει για ένα λεπτό τον διακόπτη της βαρύτητας. Πού θα τη βρει όταν ξανανάψει το φως; Βάλε μια τελεία προτού συνεχίσεις.</p>
                         <p>Η ταχύτητα που είχε η Σελήνη τη στιγμή που έκλεισε ο διακόπτης αρκεί για να την πάει ευθεία μπροστά. Ακούμπησε τον χάρακα στο δεξί άκρο, κατακόρυφα. Η ευθεία του μόλις αγγίζει τον κύκλο. Είναι η εφαπτομένη. Σε ένα λεπτό η Σελήνη θα είχε διανύσει πάνω της περίπου 61 χιλιόμετρα.</p>
                         <p>Ας ξαναπαίξουμε το ίδιο λεπτό με τη βαρύτητα αναμμένη. Στην αρχή η Γη τραβά τη Σελήνη προς τα αριστερά στη σελίδα. Λίγο αργότερα η Σελήνη έχει προχωρήσει, οπότε η έλξη δείχνει και λίγο προς τα κάτω. Σε κάθε θέση, ένα καινούργιο «προς τη Γη». Στο τέλος του λεπτού η Σελήνη βρίσκεται περίπου πέντε μέτρα προς το εσωτερικό από την τελεία της ευθείας διαδρομής. Αυτά είναι τα πέντε μέτρα της πτώσης της. Στον κύκλο που σχεδίασες, η απόστασή της από το κέντρο έχει μείνει ακριβώς ίδια!</p>
@@ -107,21 +124,22 @@
                     <section id="simulation" class="lesson-section" aria-labelledby="simulation-title">
                         <h2 id="simulation-title">Δύο φεγγάρια στο εργαστήριο</h2>
                         <p>Άνοιξε τα χειριστήρια και διάλεξε <strong><span lang="en">Pair</span></strong>. Έχεις δύο ίσα σώματα, το καθένα με μάζα τετραπλάσια της γήινης. Οι ταχύτητες μετριούνται σε km/s και οι αποστάσεις σε αστρονομικές μονάδες (AU). Εδώ μπορείς να κάνεις κάτι που θα ήταν κάπως άβολο με την αληθινή Γη. Μπορείς να αλλάξεις γνώμη και να ξαναρχίσεις.</p>
+
+                    </section>
+                    <section id="interactive-animation" class="lesson-section" aria-labelledby="interactive-animation-title">
+                        <h2 id="interactive-animation-title">Διαδραστική προσομοίωση</h2>
                         <figure class="lesson-simulation">
-                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/gravitational-field/index.html" title="Διαδραστική προσομοίωση: Το Βαρυτικό Πεδίο" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
+                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/gravitational-field/index.html?v=mobile-fullscreen" title="Διαδραστική προσομοίωση: Το Βαρυτικό Πεδίο" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
                             <figcaption class="figure-caption media-caption">
                                 <span id="simulation-caption">Προσομοίωση: Βαρυτικό πεδίο, δυναμικό και κίνηση μαζών.</span>
-                                <div class="simulation-toolbar">
-                                    <button class="btn simulation-fullscreen" type="button" data-fullscreen="lesson-animation" hidden>Πλήρης οθόνη</button>
-                                    <a class="btn" href="../../simulations/gravitational-field/index.html" target="_blank" rel="noopener">Άνοιγμα σε νέα καρτέλα ↗</a>
-                                </div>
+                                <a class="btn" href="../../simulations/gravitational-field/index.html" target="_blank" rel="noopener">Άνοιγμα σε νέα καρτέλα ↗</a>
                             </figcaption>
                         </figure>
-                        <p class="simulation-status" role="status" aria-live="polite"></p>
                         <p>Βάλε το δάχτυλό σου στην οθόνη, στο μέσο της απόστασης των δύο σωμάτων. Άφησέ τα να γυρίσουν μισή στροφή. Έχουν ανταλλάξει θέσεις γύρω από το δάχτυλό σου. Οι αρχικές τους ταχύτητες έχουν ίσο μέτρο, αντίθετες κατευθύνσεις και ακριβώς όσο μέτρο χρειάζεται για κυκλική τροχιά. Το <strong><span lang="en">Time speed</span></strong> σε βοηθά να δεις την κίνηση πιο αργά. Για να αλλάξεις την ίδια την τροχιά, θα χρειαστείς το <strong><span lang="en">Velocity</span></strong>.</p>
                     </section>
-                    <section id="activities" class="card learning-goals-card" aria-labelledby="activities-title">
-                        <div class="card-header text-center" id="activities-title">Τρία πειράματα με μία μόνο αλλαγή τη φορά</div>
+                    <section id="activities" class="lesson-panel" aria-labelledby="activities-title">
+                        <details class="lesson-panel-disclosure">
+                        <summary id="activities-title">Τρία πειράματα με μία μόνο αλλαγή τη φορά</summary>
                         <div class="card-body">
                             <ul class="lesson-bullets" role="list">
                                 <li><strong>Λίγο πιο αργά.</strong> Πάτησε παύση και φόρτωσε πάλι το <span lang="en">Pair</span>. Επίλεξε διαδοχικά κάθε σώμα. Στο <span lang="en">Velocity</span> πολλαπλασίασε τις τιμές X και Y επί 0,8, κρατώντας το πρόσημό τους. Πριν πατήσεις αναπαραγωγή, βάλε στοίχημα με τον εαυτό σου. Θα συναντηθούν, θα μείνουν στην ίδια απόσταση ή θα πλησιάσουν και θα απομακρυνθούν ξανά;</li>
@@ -129,13 +147,26 @@
                                 <li><strong>Μετακίνησε το στήριγμα.</strong> Σε παύση φόρτωσε νέο <span lang="en">Pair</span>. Αύξησε μόνο τη μία μάζα από 4 σε 8 γήινες μάζες. Πού θα έβαζες τώρα το δάχτυλο; Στο ένα τρίτο της απόστασης, μετρώντας από το βαρύτερο σώμα. Παρακολούθησε αυτό το σημείο με το μάτι. Τώρα ταξιδεύει κι αυτό μέσα στην οθόνη. Οι αντίθετες ταχύτητες έχουν ακόμη ίσο μέτρο, αλλά η διπλάσια μάζα κουβαλά διπλάσια ορμή. Το ζευγάρι ως σύνολο κινείται.</li>
                             </ul>
                         </div>
+                    </details>
                     </section>
                     <section id="takeaway" class="lesson-section" aria-labelledby="takeaway-title">
                         <h2 id="takeaway-title">Τι σχήμα άφησε το μολύβι;</h2>
                         <p>Στο πείραμα με το 0,8 εμφανίζεται μια έλλειψη. Υπάρχει ακόμη αρκετή πλάγια κίνηση ώστε τα σώματα να προσπεράσουν το ένα το άλλο, και η έλξη τα φέρνει πάλι κοντά. Αν στερεώσεις το χαρτί σου στο βαρύκεντρο, κάθε σώμα χαράζει τη δική του έλλειψη, με το βαρύκεντρο στη μία εστία. Με ίσες μάζες οι δύο διαδρομές έχουν το ίδιο μέγεθος. Με τη Γη και τη Σελήνη, η μία χωράει σχεδόν ογδόντα μία φορές κατά μήκος της άλλης.</p>
                         <p>Τώρα κράτησε το χαρτί με το κέντρο του πάνω στο κέντρο της Γης και τις άκρες του στραμμένες πάντα προς τα ίδια μακρινά άστρα. Στο ιδανικό σύστημα δύο σωμάτων η Σελήνη χαράζει πάλι έλλειψη, αυτή τη φορά με τη Γη στη μία εστία. Ο κύκλος της πρώτης μας ζωγραφιάς είναι η ειδική περίπτωση όπου οι δύο εστίες συμπίπτουν.</p>
                         <p>Αν σημάδευες την πραγματική θέση της Σελήνης επί πολλούς μήνες, το μολύβι θα σε διόρθωνε άλλη μια φορά. Ο Ήλιος τραβά και τη Γη και τη Σελήνη. Επειδή βρίσκονται σε διαφορετικές θέσεις, τις τραβά λίγο διαφορετικά, οπότε αλλάζει σταδιακά και η σχετική τους τροχιά. Κράτα λοιπόν την έλλειψη για την πρώτη σου πρόβλεψη. Κι όταν απόψε σηκώσεις το βλέμμα, δοκίμασε να δεις εκείνα τα πέντε μέτρα μέσα στο επόμενο λεπτό. Με το μάτι αδύνατον. Με μια πέτρα, ένα ρολόι και λίγη σκέψη, μόλις τα υπολόγισες.</p>
-                        <p>Για περισσότερα: <a href="https://science.nasa.gov/moon/by-the-numbers/" target="_blank" rel="noopener">Η Σελήνη σε αριθμούς (NASA)</a> · <a href="https://spaceplace.nasa.gov/barycenter/en/" target="_blank" rel="noopener">Το βαρύκεντρο (NASA)</a> · <a href="https://openstax.org/books/university-physics-volume-1/pages/13-4-satellite-orbits-and-energy" target="_blank" rel="noopener">Τροχιές και ενέργεια (OpenStax)</a>.</p>
+
+                    </section>
+                    <section id="sources" class="lesson-panel" aria-labelledby="sources-title">
+                        <details class="lesson-panel-disclosure">
+                            <summary id="sources-title">Πηγές</summary>
+                            <div class="card-body">
+                                <ul class="lesson-bullets lesson-sources" role="list">
+                                    <li><a href="https://science.nasa.gov/moon/by-the-numbers/" target="_blank" rel="noopener">Η Σελήνη σε αριθμούς (NASA)</a></li>
+                                    <li><a href="https://spaceplace.nasa.gov/barycenter/en/" target="_blank" rel="noopener">Το βαρύκεντρο (NASA)</a></li>
+                                    <li><a href="https://openstax.org/books/university-physics-volume-1/pages/13-4-satellite-orbits-and-energy" target="_blank" rel="noopener">Τροχιές και ενέργεια (OpenStax)</a></li>
+                                </ul>
+                            </div>
+                        </details>
                     </section>
                     <!-- Google Doc lesson body ends -->
                     <nav id="change-chapter" class="row m-auto" aria-label="Πλοήγηση μεταξύ μαθημάτων">
@@ -145,34 +176,38 @@
                 </main>
                 <div class="col-lg-1 p-0" aria-hidden="true"></div>
                 <aside class="col-lg-3 p-0 lesson-sidebar" aria-label="Πλοήγηση μαθημάτων">
-                    <h2 id="lesson-contents-title" class="sidebar-heading">Σε αυτό το μάθημα</h2>
-                    <nav class="card contents-card" aria-labelledby="lesson-contents-title">
-                        <ul class="list-unstyled components">
-                            <li><a href="#introduction">Πέντε μέτρα προς τα πού;</a></li>
-                            <li><a href="#theory">Ποιος τραβάει τη Γη;</a></li>
-                            <li><a href="#simulation">Δύο φεγγάρια στο εργαστήριο</a></li>
-                            <li><a href="#activities">Τρία πειράματα με μία μόνο αλλαγή τη φορά</a></li>
-                            <li><a href="#takeaway">Τι σχήμα άφησε το μολύβι;</a></li>
-                        </ul>
-                    </nav>
+                    <div class="lesson-desktop-contents">
+                        <h2 id="lesson-contents-title" class="sidebar-heading">Σε αυτό το μάθημα</h2>
+                        <nav class="card contents-card" aria-labelledby="lesson-contents-title">
+                            <ul class="list-unstyled components lesson-bullets" role="list">
+                                <li><a href="#introduction">Πέντε μέτρα προς τα πού;</a></li>
+                                <li><a href="#theory">Ποιος τραβάει τη Γη;</a></li>
+                                <li><a href="#simulation">Δύο φεγγάρια στο εργαστήριο</a></li>
+                                <li><a href="#interactive-animation">Διαδραστική προσομοίωση</a></li>
+                                <li><a href="#activities">Τρία πειράματα με μία μόνο αλλαγή τη φορά</a></li>
+                                <li><a href="#takeaway">Τι σχήμα άφησε το μολύβι;</a></li>
+                                <li><a href="#sources">Πηγές</a></li>
+                            </ul>
+                        </nav>
+                    </div>
                     <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electric-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
                             <span class="catalog-icon catalog-icon--lightning"><img src="../../assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-1-title">Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</h3>
-                            <p id="related-1-description">Άλλαξε το πρόσημο ενός φορτίου για να μετατρέψεις την άπωση σε έλξη.</p>
+                            <p id="related-1-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="electromagnetic-field.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
                             <span class="catalog-icon catalog-icon--radiation"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-2-title">Τι είναι η ακτινοβολία;</h3>
-                            <p id="related-2-description">Κούνησε ένα φορτίο και δες το κύμα που ταξιδεύει μακριά του.</p>
+                            <p id="related-2-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="hydrogen-eigenstates.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
                             <span class="catalog-icon catalog-icon--atom"><img src="../../assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-3-title">Με τι μοιάζει τελικά ένα άτομο;</h3>
-                            <p id="related-3-description">Περίστρεψε τα τροχιακά του υδρογόνου και σύγκρινε τα σχήματά τους.</p>
+                            <p id="related-3-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                     </div>

@@ -22,28 +22,6 @@
     line-height: 1.7;
 }
 
-.simulation-toolbar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.5rem;
-    margin: 0;
-    max-width: 100%;
-}
-
-.simulation-toolbar .btn {
-    background: transparent;
-    color: var(--ink);
-    font-size: 0.8rem;
-    white-space: normal;
-    text-align: right;
-}
-
-.simulation-toolbar .btn:hover {
-    color: var(--ink);
-    text-decoration: underline;
-}
-
 .lesson-simulation {
     height: auto;
     background: var(--surface);
@@ -68,8 +46,7 @@
     min-width: 0;
 }
 
-.media-caption > a,
-.media-caption > .simulation-toolbar {
+.media-caption > a {
     margin-left: auto;
     text-align: right;
 }
@@ -127,6 +104,64 @@
     scroll-margin-top: 1rem;
 }
 
+/* Native disclosures keep mobile section navigation usable without JavaScript. */
+.lesson-mobile-navigation {
+    display: none;
+}
+
+.simulation-frame {
+    scroll-margin-top: 1rem;
+}
+
+@media (max-width: 991px) {
+    .lesson-desktop-contents {
+        display: none;
+    }
+
+    .lesson-mobile-navigation {
+        display: block;
+        margin-bottom: 1.5rem;
+    }
+
+    .lesson-mobile-contents {
+        background: var(--surface);
+        border: var(--border-width) solid var(--color-border);
+        border-radius: var(--corner-radius);
+    }
+
+    .lesson-mobile-contents summary {
+        --hover-background: transparent;
+        --hover-color: var(--link-hover);
+        padding: 12px 16px;
+        min-height: 44px;
+        color: var(--ink);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .lesson-mobile-contents ul {
+        margin: 0;
+        padding: 0 16px 12px;
+    }
+
+    .lesson-mobile-contents a,
+    .lesson-mobile-navigation .lesson-lab-jump {
+        display: block;
+        padding: 5px 0;
+        min-height: 36px;
+        font-size: .9rem;
+        line-height: 1.6;
+        text-underline-offset: 3px;
+    }
+
+    .lesson-mobile-navigation .lesson-lab-jump {
+        width: fit-content;
+        max-width: 100%;
+        margin-top: 4px;
+    }
+}
+
 @media (max-width: 767px) {
     .simulation-frame {
         min-height: 640px;
@@ -147,7 +182,7 @@
     text-align: left;
 }
 .lesson-sidebar .sidebar-heading {
-    font-size: 1.12rem;
+    font-size: var(--card-title-size);
     font-weight: 600;
     font-variant: normal;
     line-height: 1.5;
@@ -180,3 +215,155 @@
 
 /* Keep the focus indicator inside the clipped embed frame. */
 .simulation-lesson .simulation-frame:focus-visible { outline-offset: -3px; }
+
+.lesson-lab-view {
+    display: block;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: var(--ink);
+    background: var(--color-navy);
+}
+.lesson-lab-view.is-preview { overflow: hidden; }
+.lesson-lab-view.is-preview .simulation-frame {
+    filter: blur(6px);
+    pointer-events: none;
+    height: 320px;
+    min-height: 320px;
+}
+.lesson-lab-preview {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgb(0 30 60 / 30%);
+    touch-action: pan-y pinch-zoom;
+}
+.lesson-lab-bar {
+    display: flex;
+    align-items: center;
+    padding: max(8px, env(safe-area-inset-top)) 12px 8px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--color-border);
+}
+.lesson-lab-bar[hidden], .lesson-lab-preview[hidden] { display: none; }
+.lesson-interaction-toggle {
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid var(--ink);
+    border-radius: var(--corner-radius);
+    background: var(--surface);
+    color: var(--ink);
+    font: inherit;
+    font-size: .9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.lesson-lab-view[open] {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-sizing: border-box;
+}
+.lesson-lab-view[open] .simulation-frame {
+    flex: 1;
+    min-height: 0;
+    height: 0;
+    filter: none;
+}
+.lesson-lab-view::backdrop { background: var(--color-navy); }
+.lesson-lab-preview { --focus-ring: var(--color-logo-cyan); }
+
+/* Align phone reading columns and callouts to one consistent gutter. */
+@media (max-width: 991px) {
+    .simulation-lesson .container { width: 100%; padding-inline: 20px; }
+    .simulation-lesson .container > .row { margin-inline: 0; }
+    .simulation-lesson .learning-goals-card,
+    .simulation-lesson .example-card { margin-inline: 0; }
+}
+
+/* Section headings share a scale and a single consistent gap above their media. */
+.simulation-lesson .lesson-section > h2 { margin-top: 0; }
+.simulation-lesson #interactive-animation .lesson-simulation { margin-top: var(--section-heading-gap) !important; }
+
+/* Use one shared section gap instead of stacking top and bottom padding. */
+.simulation-lesson #lesson-content > :is(.lesson-section, .lesson-panel) {
+    padding-block: 0;
+    margin-block: var(--section-start);
+}
+.simulation-lesson .lesson-section > :last-child { margin-bottom: 0; }
+
+/* Match the contents disclosure on every screen size. */
+.lesson-panel-disclosure {
+    background: var(--surface);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--corner-radius);
+    color: var(--ink);
+}
+.lesson-panel-disclosure summary {
+    --hover-background: transparent;
+    --hover-color: var(--link-hover);
+    padding: 12px 16px;
+    min-height: 44px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.lesson-panel-disclosure .card-body { padding: 0 16px 16px; font-size: .9rem; }
+.lesson-panel-disclosure .card-body > :last-child { margin-bottom: 0; }
+.lesson-panel-disclosure summary:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+
+/* One visual treatment for every reading panel and lesson card. */
+.simulation-lesson :is(.lesson-panel-disclosure, .lesson-mobile-contents,
+    .lesson-sidebar .contents-card, .example-card, .learning-goals-card,
+    .lesson-simulation, .figure, .media-panel) {
+    background: var(--lesson-panel-background);
+    color: var(--ink);
+    border: var(--border-width) solid var(--lesson-panel-border);
+    border-radius: var(--corner-radius);
+    box-shadow: none;
+}
+.simulation-lesson #lesson-content :is(.card, .figure, .media-panel, .lesson-simulation) {
+    border-width: var(--border-width);
+}
+.simulation-lesson :is(.media-caption, .figure-caption, .lesson-lab-bar,
+    .example-card .card-header, .learning-goals-card .card-header) {
+    background: var(--lesson-panel-background);
+    color: var(--ink);
+    border-color: var(--lesson-panel-border);
+}
+
+/* Breadcrumbs join the navigation above, with only the lower corners rounded. */
+.simulation-lesson ul.breadcrumb {
+    background: var(--lesson-panel-background);
+    color: var(--ink);
+    border: var(--border-width) solid var(--lesson-panel-border);
+    box-shadow: none;
+    border-top: 0;
+    border-radius: 0 0 var(--corner-radius) var(--corner-radius);
+}
+
+.simulation-lesson ul.breadcrumb { border-inline: 0; }
+.simulation-lesson .lesson-sidebar .sidebar-heading { padding-inline-start: 0; }
+.simulation-lesson .lesson-sidebar .sidebar-heading::before,
+.simulation-lesson .lesson-sidebar .sidebar-heading::after { content: none; }
+.simulation-lesson .contents-card ul.lesson-bullets { padding-inline-start: 1.6em; }
+.simulation-lesson .contents-card ul.lesson-bullets a { padding-inline: 0; }
+.simulation-lesson .contents-card .lesson-bullets > li { font-size: .88rem; line-height: 1.6; }
+.simulation-lesson .contents-card .lesson-bullets > li::before,
+.simulation-lesson .contents-card .lesson-bullets > li::after { top: calc(5px + .5lh - .32em); }
+.simulation-lesson .lesson-mobile-contents ul.lesson-bullets { padding-inline-start: 2.6em; }
+.simulation-lesson .lesson-mobile-contents .lesson-bullets > li { font-size: .9rem; line-height: 1.6; }
+.simulation-lesson .lesson-mobile-contents .lesson-bullets > li::before,
+.simulation-lesson .lesson-mobile-contents .lesson-bullets > li::after { top: calc(5px + .5lh - .32em); }

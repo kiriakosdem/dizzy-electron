@@ -1,12 +1,12 @@
 :root {
-    --row-height: 36px;
+    --row-height: 40px;
     --lab-frame-inset: 6px;
     --lab-frame-border: 1px solid #355170;
     --lab-frame-radius: 12px;
 }
 
 .panel {
-    --control-text: 12px;
+    --control-text: 14px;
     --caption-gap: 6px;
     --group-gap: 12px;
     --icon-size: 16px;
@@ -129,7 +129,7 @@
     background: #08162b;
     color: var(--text-secondary);
     white-space: nowrap;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 400;
     font-variant-numeric: tabular-nums;
     text-align: end;
@@ -147,7 +147,7 @@
 .panel .state-details dt { color: inherit; }
 .panel .muted {
     margin: var(--group-gap) 0;
-    font-size: 11px;
+    font-size: 14px;
     line-height: 1.5;
     color: var(--text-muted);
 }

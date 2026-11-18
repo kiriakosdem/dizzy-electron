@@ -22,6 +22,9 @@ MAIN BODY AND TEXT
     --border-width: 1px;
     --section-start: clamp(24px, 3.5vw, 44px);
     --section-end: calc(2 * var(--section-start));
+    --title-size: clamp(1.6rem, 3.2vw, 2.6rem);
+    --section-title-size: clamp(1.4rem, 2.2vw, 1.6rem);
+    --card-title-size: 1.12rem;
     --page-title-gap: 24px;
     --section-heading-gap: 16px;
     --color-logo-cyan: #00bed0;
@@ -37,7 +40,11 @@ MAIN BODY AND TEXT
     --surface: var(--page);
     --ink: var(--color-navy);
     --muted-ink: var(--color-graphite);
-    --focus-ring: var(--color-logo-cyan);
+    /* Darker interaction accents keep text and focus legible on light surfaces. */
+    --page-link-hover: #a64b00;
+    --page-focus-ring: #006572;
+    --link-hover: var(--page-link-hover);
+    --focus-ring: var(--page-focus-ring);
     --panel-edge: var(--color-navy);
 }
 
@@ -48,11 +55,20 @@ MAIN BODY AND TEXT
     --ink: var(--color-paper);
     --muted-ink: color-mix(in srgb, var(--color-paper) 80%, var(--color-graphite));
     --color-border: color-mix(in srgb, var(--surface) 50%, var(--color-navy));
-    --focus-ring: var(--color-logo-cyan);
+    --page-link-hover: var(--color-logo-orange);
+    --page-focus-ring: var(--color-logo-cyan);
     --panel-edge: var(--color-navy);
 }
 
 :root[data-theme="dark"] body { background: var(--page); color: var(--ink); }
+
+/* Bright brand accents remain legible on the site's permanent navy surfaces. */
+#NavigationBar,
+footer,
+.home-heading {
+    --link-hover: var(--color-logo-orange);
+    --focus-ring: var(--color-logo-cyan);
+}
 /* One outside edge for cards, figures and embedded content. */
 .card,
 .catalog-card,
@@ -339,6 +355,8 @@ footer .footer-brand {
 
 /* No gap between the parent link and the panel, so hover stays continuous. */
 #NavigationBar .dropdown-menu {
+    --link-hover: var(--page-link-hover);
+    --focus-ring: var(--page-focus-ring);
     min-width: 190px;
     margin-top: 0;
     padding: 8px;
@@ -623,8 +641,8 @@ footer .footer-copyright {
     text-indent: 0;
 }
 @media (max-width: 575px) {
-    footer .footer-inner { width: calc(100% - 40px); flex-direction: column; gap: 24px; text-align: center; }
-    footer .footer-brand .site-logo { width: 160px; margin-inline: auto; }
+    footer .footer-inner { width: calc(100% - 40px); flex-direction: column; gap: 12px; padding-block: 20px; text-align: center; }
+    footer .footer-brand .site-logo { width: 96px; margin-inline: auto; }
 }
 
 
@@ -634,11 +652,14 @@ a[href]:not([class]),
 .lab-links a,
 .figure-caption a,
 .breadcrumb a,
+.contents-card ul a,
+.simulation-toolbar .btn,
 #change-chapter a,
 #NavigationBar a.btn,
 #NavigationBar .dropdown-item[aria-current="page"],
 footer .footer-navigation a {
     --hover-background: transparent;
+    --hover-color: var(--link-hover);
     background-color: transparent !important;
 }
 
@@ -667,13 +688,13 @@ footer .footer-navigation a {
 /* Lesson cards define their own hover colours for each part of the card. */
 @media (any-hover: hover) {
     :is(a[href], button:enabled, summary, [role="button"]):not([aria-disabled="true"], .catalog-card):hover {
-        color: var(--color-logo-orange) !important;
+        color: var(--hover-color, var(--color-logo-orange)) !important;
         background-color: var(--hover-background, var(--color-navy)) !important;
     }
 
     :is(a[href], button:enabled, summary, [role="button"]):not([aria-disabled="true"], .catalog-card):hover
     :where(span, strong, em, small, h2, h3, h4, p) {
-        color: var(--color-logo-orange) !important;
+        color: var(--hover-color, var(--color-logo-orange)) !important;
     }
 }
 
@@ -767,6 +788,7 @@ footer .footer-navigation a {
 a[rel~="license"],
 a[href*="creativecommons.org/"] {
     --hover-background: transparent;
+    --hover-color: var(--link-hover);
 }
 
 /* Animate the collapsed navbar at the same breakpoint as navbar-expand-lg. */
@@ -805,6 +827,27 @@ a[href*="creativecommons.org/"] {
     }
 }
 
-.page-title { margin: 0 0 var(--page-title-gap); font-weight: 600; font-size: clamp(1.6rem, 3.2vw, 2.6rem); line-height: 1.15; text-wrap: balance; }
+.page-title { margin: 0 0 var(--page-title-gap); font-weight: 600; font-size: var(--title-size); line-height: 1.15; text-wrap: balance; }
 .primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); background: var(--color-logo-orange); color: var(--color-navy); font-size: .95rem; font-weight: 600; line-height: 1.6; }
 .primary-action:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); color: var(--color-navy); text-decoration: none; }
+
+@media (max-width: 575px) {
+    footer .footer-navigation ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 20px; }
+    footer .footer-navigation li + li { margin-top: 0; }
+    footer .footer-navigation a { display: inline-flex; align-items: center; min-height: 44px; }
+}
+
+/* Reserve border space so hover never changes the button dimensions. */
+:is(.home-page, .contact-page) .primary-action {
+    border-color: transparent;
+    --hover-background: var(--color-navy);
+    --hover-color: var(--color-logo-orange);
+}
+:is(.home-page, .contact-page) .primary-action:hover { border-color: transparent; }
+@media (any-hover: hover) {
+    :is(.home-page, .contact-page) .primary-action:hover {
+        background: var(--color-navy);
+        color: var(--color-logo-orange);
+        border-color: var(--color-logo-orange);
+    }
+}

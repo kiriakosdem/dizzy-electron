@@ -1,4 +1,5 @@
 /* One keyboard-focus treatment across the site and standalone labs.
+   Use the surrounding surface's token; dark standalone labs keep the cyan fallback.
    Override component and vendor focus styles, including embedded controls. */
 :is(a, button, input, select, textarea, summary, label, [tabindex]) {
     -webkit-tap-highlight-color: transparent;
@@ -13,7 +14,7 @@
 
 :where(:root:not([data-pointer-focus])) :focus-visible,
 :where(:root:not([data-pointer-focus])) .switch:has(> input:focus-visible) {
-    outline: 2px solid var(--color-logo-cyan, #00bed0) !important;
+    outline: 2px solid var(--focus-ring, var(--color-logo-cyan, #00bed0)) !important;
     outline-offset: 3px !important;
     border-radius: var(--corner-radius, 8px) !important;
     box-shadow: none !important;
@@ -21,8 +22,8 @@
 
 /* Coordinate editors also draw a focus ring on their surrounding field. */
 :where(:root:not([data-pointer-focus])) .coordinate-field:has(input:focus-visible) {
-    border-color: var(--color-logo-cyan, #00bed0) !important;
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-logo-cyan, #00bed0) 18%, transparent) !important;
+    border-color: var(--focus-ring, var(--color-logo-cyan, #00bed0)) !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--focus-ring, var(--color-logo-cyan, #00bed0)) 18%, transparent) !important;
 }
 
 /* Custom switches hide their checkbox, so frame the visible control. */
@@ -34,6 +35,11 @@
 /* Keep the ring visible inside clipped media containers. */
 iframe:focus-visible {
     outline-offset: -3px !important;
+}
+
+/* Skip links sit over the navy header; contrast their ring with their own surface. */
+:is(.home-skip-link, .contents-skip-link, .about-skip-link, .contact-skip-link, .lesson-skip-link):focus-visible {
+    outline-offset: -4px !important;
 }
 
 /* Large reading and simulation surfaces keep focus without a cyan frame. */

@@ -88,18 +88,136 @@ if (scrollToTop) {
     updateScrollButton();
 }
 
-document.querySelectorAll('[data-fullscreen]').forEach((button) => {
-    const frame = document.getElementById(button.dataset.fullscreen);
-    if (!frame || !frame.requestFullscreen || !document.fullscreenEnabled) return;
-
-    button.hidden = false;
-    button.addEventListener('click', async () => {
-        const status = button.closest('section').querySelector('.simulation-status');
-        status.textContent = '';
-        try {
-            await frame.requestFullscreen();
-        } catch {
-            status.textContent = 'Η πλήρης οθόνη δεν είναι διαθέσιμη. Μπορείς να ανοίξεις το εργαστήριο σε νέα καρτέλα.';
-        }
+// Keep the same iframe mounted in a native modal: closing restores the lesson
+// position and preserves the experiment. The viewport-sized modal also works on
+// mobile browsers that do not support the Fullscreen API.
+document.querySelectorAll('iframe.simulation-frame').forEach(frame => {
+    const compact = matchMedia('(pointer: coarse), (max-width: 767px)');
+    const shell = document.createElement('dialog');
+    shell.className = 'lesson-lab-view';
+    shell.setAttribute('aria-label', frame.title);
+    const bar = document.createElement('div');
+    bar.className = 'lesson-lab-bar';
+    const exit = document.createElement('button');
+    exit.type = 'button';
+    exit.className = 'lesson-interaction-toggle';
+    exit.textContent = '← Επιστροφή στο μάθημα';
+    bar.append(exit);
+    const preview = document.createElement('div');
+    preview.className = 'lesson-lab-preview';
+    const launch = document.createElement('button');
+    launch.type = 'button';
+    launch.className = 'lesson-interaction-toggle';
+    launch.textContent = 'Άνοιγμα σε πλήρη οθόνη';
+    launch.setAttribute('aria-haspopup', 'dialog');
+    launch.setAttribute('aria-controls', frame.id + '-view');
+    shell.id = frame.id + '-view';
+    preview.append(launch);
+    const slot = document.createElement('div');
+    frame.before(slot);
+    slot.append(shell);
+    shell.append(bar, frame, preview);
+    let savedY = 0;
+    let oldOverflow = '';
+    const notifyLab = () => frame.contentWindow.postMessage({
+        type: 'lesson-display-mode', fullscreen: shell.open
+    }, location.origin);
+    const update = () => {
+        const reading = compact.matches && !shell.open;
+        shell.classList.toggle('is-preview', reading);
+        bar.hidden = !shell.open;
+        preview.hidden = !reading;
+        frame.inert = reading;
+        notifyLab();
+    };
+    const open = () => {
+        if (shell.open) return;
+        savedY = window.scrollY;
+        slot.style.height = shell.getBoundingClientRect().height + 'px';
+        oldOverflow = document.documentElement.style.overflow;
+        // Clear inert before opening so the iframe is usable in the top layer.
+        frame.inert = false;
+        shell.showModal();
+        document.documentElement.style.overflow = 'hidden';
+        update();
+        exit.focus({ preventScroll: true });
+    };
+    const close = () => { if (shell.open) shell.close(); };
+    shell.addEventListener('close', () => {
+        document.documentElement.style.overflow = oldOverflow;
+        slot.style.height = '';
+        update();
+        window.scrollTo({ top: savedY, behavior: 'instant' });
+        if (compact.matches) launch.focus({ preventScroll: true });
     });
+    launch.addEventListener('click', open);
+    exit.addEventListener('click', close);
+    compact.addEventListener('change', update);
+    frame.addEventListener('load', notifyLab);
+    window.addEventListener('message', event => {
+        if (event.origin === location.origin && event.source === frame.contentWindow &&
+            event.data?.type === 'lesson-return-reading') close();
+    });
+    update();
+});
+
+// Animate native disclosures while keeping keyboard and no-JavaScript behavior.
+const lessonPanelTransitions = new WeakMap();
+const panelReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+document.querySelectorAll('.lesson-panel-disclosure, .lesson-mobile-contents').forEach(panel => {
+    const summary = panel.querySelector('summary');
+    let animation;
+    let expanded = panel.open;
+    const settle = open => {
+        animation?.cancel();
+        animation = null;
+        expanded = open;
+        panel.open = open;
+        panel.style.height = '';
+        panel.style.overflow = '';
+    };
+    lessonPanelTransitions.set(panel, settle);
+    summary.addEventListener('click', event => {
+        event.preventDefault();
+        const start = panel.getBoundingClientRect().height;
+        expanded = animation ? !expanded : !panel.open;
+        animation?.cancel();
+        if (panelReducedMotion.matches || !panel.animate) {
+            settle(expanded);
+            return;
+        }
+        panel.style.height = '';
+        panel.open = false;
+        const collapsedHeight = panel.getBoundingClientRect().height;
+        panel.open = true;
+        const expandedHeight = panel.getBoundingClientRect().height;
+        panel.style.overflow = 'hidden';
+        animation = panel.animate([
+            { height: start + 'px' },
+            { height: (expanded ? expandedHeight : collapsedHeight) + 'px' }
+        ], { duration: 240, easing: 'ease-in-out' });
+        animation.onfinish = () => settle(expanded);
+    });
+    panelReducedMotion.addEventListener('change', () => {
+        if (animation) settle(expanded);
+    });
+});
+
+// Contents links reveal the requested panel, including direct bookmarked links.
+const revealLessonPanel = () => {
+    let id;
+    try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+    const target = document.getElementById(id);
+    const disclosure = target?.closest('.lesson-panel-disclosure') || target?.querySelector('.lesson-panel-disclosure');
+    if (disclosure) {
+        const settle = lessonPanelTransitions.get(disclosure);
+        if (settle) settle(true);
+        else disclosure.open = true;
+    }
+};
+window.addEventListener('hashchange', revealLessonPanel);
+revealLessonPanel();
+document.addEventListener('click', event => {
+    const link = event.target.closest('a[href^="#"]');
+    if (link && link.hash === location.hash) revealLessonPanel();
 });

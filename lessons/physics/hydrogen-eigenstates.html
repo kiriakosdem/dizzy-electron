@@ -8,14 +8,14 @@
     <title>Dizzy Electron | Με τι μοιάζει τελικά ένα άτομο;</title>
     <script src="../../assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=page-title-gap">
-    <link rel="stylesheet" href="../../assets/css/cards.css?v=compact-mobile-cards">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=page-title-gap">
-    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=consistent-media-borders">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=section-hierarchy">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=shared-panel-style">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=section-hierarchy">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=mobile-contents-spacing">
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
-    <script src="../../assets/js/lesson.js?v=menu-collapse-icon" defer></script>
-    <link rel="stylesheet" href="../../assets/css/focus.css?v=keyboard-focus">
+    <script src="../../assets/js/lesson.js?v=smooth-panels" defer></script>
+    <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
 </head>
 <body class="simulation-lesson" id="top">
@@ -78,8 +78,25 @@
                     <!-- Google Doc lesson body begins -->
                     <h1>Με τι μοιάζει τελικά ένα άτομο;</h1>
                     <p class="lesson-subtitle">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
-                    <section id="goals" class="card learning-goals-card" aria-labelledby="goals-title">
-                    <div class="card-header text-center" id="goals-title">Διδακτικοί στόχοι</div><div class="card-body">
+                    <nav class="lesson-mobile-navigation" aria-label="Πλοήγηση στο μάθημα">
+                        <details class="lesson-mobile-contents">
+                            <summary>Σε αυτό το μάθημα</summary>
+                            <ul class="list-unstyled lesson-bullets" role="list">
+                                <li><a href="#seeing-atoms">Ένα αιώνιο ερώτημα</a></li>
+                                <li><a href="#atomic-evidence">Η ατομική θεωρία ξανά στο προσκήνιο</a></li>
+                                <li><a href="#atomic-models">Το άτομο αποκτά δομή</a></li>
+                                <li><a href="#theory">Από την τροχιά στο νέφος πιθανότητας</a></li>
+                                <li><a href="#wave-laboratory">Από τις πλάκες που τραγουδούν στα ηλεκτρονικά κύματα</a></li>
+                                <li><a href="#interactive-animation">Διαδραστική προσομοίωση</a></li>
+                                <li><a href="#activities">Αναζήτησε τους κόμβους</a></li>
+                                <li><a href="#other-atoms">Και για τα υπόλοιπα άτομα;</a></li>
+                                <li><a href="#sources">Πηγές</a></li>
+                            </ul>
+                        </details>
+                    </nav>
+                    <section id="goals" class="lesson-panel" aria-labelledby="goals-title">
+                    <details class="lesson-panel-disclosure">
+                        <summary id="goals-title">Διδακτικοί στόχοι</summary><div class="card-body">
                     <p>Στο τέλος του μαθήματος, θα μπορείς:</p>
                     <ul class="lesson-bullets" role="list">
                     <li>Να εξηγείς γιατί το πλανητικό μοντέλο αποτυγχάνει ως περιγραφή ενός σταθερού ατόμου.</li>
@@ -88,6 +105,7 @@
                     <li>Να καταλάβεις πώς προκύπτει το σχήμα ενός ατόμου από την έννοια του στάσιμου κύματος</li>
                     </ul>
                     </div>
+                    </details>
                     </section>
                     <section id="seeing-atoms" class="lesson-section illustrated-section" aria-labelledby="seeing-atoms-title">
                     <h2 id="seeing-atoms-title">Ένα αιώνιο ερώτημα</h2>
@@ -179,22 +197,23 @@
                         </figure>
                     <p>Η πλάκα μάς δίνει μια χρήσιμη γέφυρα: μια κυματική εξίσωση, μαζί με τις συνθήκες του συστήματος, επιτρέπει συγκεκριμένες χωρικές μορφές και κόμβους. Στο άτομο οι επιτρεπτές μορφές προκύπτουν από την κβαντική εξίσωση για το ηλεκτρόνιο στο πεδίο του πυρήνα. Η πλάκα και το άτομο υπακούουν σε διαφορετικές εξισώσεις· η αναλογία αφορά την εμφάνιση επιτρεπτών σχημάτων.</p>
                     <p>Πέρασε τώρα από την πλάκα στο υδρογόνο. Στο εργαστήριο που ακολουθεί, ξεκίνα με <var>n = 1</var>, <var>ℓ = 0</var>, <var>m = 0</var> και την προβολή <span lang="en">Fuzzy cloud</span>. Περιστρέφοντας την εικόνα θα δεις ότι το νέφος έχει σφαιρική συμμετρία. Η περιστροφή αλλάζει τη θέση της κάμερας, ενώ η κατανομή παραμένει στάσιμη.</p>
-                    <figure class="lesson-simulation">
-                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/hydrogen-eigenstates/index.html" title="Διαδραστική προσομοίωση: Το Άτομο του Υδρογόνου" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
+
+                    </section>
+                    <section id="interactive-animation" class="lesson-section" aria-labelledby="interactive-animation-title">
+                        <h2 id="interactive-animation-title">Διαδραστική προσομοίωση</h2>
+                        <figure class="lesson-simulation">
+                            <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/hydrogen-eigenstates/index.html?v=mobile-fullscreen" title="Διαδραστική προσομοίωση: Το Άτομο του Υδρογόνου" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
                             <figcaption class="figure-caption media-caption">
                                 <span id="simulation-caption">Προσομοίωση: Τρισδιάστατη απεικόνιση της πυκνότητας πιθανότητας για τις ιδιοκαταστάσεις του υδρογόνου με n από 1 έως 6.</span>
-                                <div class="simulation-toolbar">
-                                    <button class="btn simulation-fullscreen" type="button" data-fullscreen="lesson-animation" hidden>Πλήρης οθόνη</button>
-                                    <a class="btn" href="../../simulations/hydrogen-eigenstates/index.html" target="_blank" rel="noopener">Άνοιγμα σε νέα καρτέλα ↗</a>
-                                </div>
+                                <a class="btn" href="../../simulations/hydrogen-eigenstates/index.html" target="_blank" rel="noopener">Άνοιγμα σε νέα καρτέλα ↗</a>
                             </figcaption>
                         </figure>
-                    <p class="simulation-status" role="status" aria-live="polite"></p>
                     <p>Τα − και + κάτω αριστερά αλλάζουν τους κβαντικούς αριθμούς. Στα χειριστήρια, τα Suggested real orbitals προσφέρουν μορφές όπως p_x, p_y και p_z. Οι πραγματικές μορφές με μη μηδενικό |m| συνδυάζουν καταστάσεις με αντίθετες τιμές του m, γι’ αυτό εμφανίζεται η ένδειξη ±m.</p>
                     <p>Με το <span lang="en">Phase-colored surface</span> βλέπεις επιφάνειες σταθερής πυκνότητας, με χρώματα που κωδικοποιούν τη φάση της ψ. Το περίγραμμα εξαρτάται από το ποσοστό πιθανότητας που επιλέγεις να περικλείει. Δεν είναι σκληρό σύνορο του ατόμου. Στο <span lang="en">Point cloud</span>, οι κουκκίδες είναι δείγματα από την ίδια κατανομή πιθανότητας.</p>
                     </section>
-                    <section id="activities" class="card learning-goals-card" aria-labelledby="activities-title">
-                    <div class="card-header text-center" id="activities-title">Αναζήτησε τους κόμβους</div><div class="card-body">
+                    <section id="activities" class="lesson-panel" aria-labelledby="activities-title">
+                    <details class="lesson-panel-disclosure">
+                        <summary id="activities-title">Αναζήτησε τους κόμβους</summary><div class="card-body">
                     <ul class="lesson-bullets" role="list">
                     <li>Στην πλάκα, η άμμος συγκεντρώνεται κοντά στους κόμβους. Στο ατομικό νέφος, τι περιμένεις να συμβαίνει με την πυκνότητα των σημείων κοντά σε έναν κόμβο της ψ; Εξήγησε γιατί οι δύο εικόνες εμφανίζονται διαφορετικές.</li>
                     <li>Στο <span lang="en">1s</span>, άλλαξε το <span lang="en">Fuzziness</span>. Παρατήρησε πώς αλλάζει η απεικόνιση ενώ διατηρείται η σφαιρική συμμετρία της κατανομής.</li>
@@ -204,14 +223,17 @@
                     <li>Στο <span lang="en">Point cloud</span>, αύξησε το <span lang="en">Point density</span>. Τα περισσότερα σημεία παριστάνουν περισσότερα ηλεκτρόνια μέσα στο ίδιο άτομο ή περισσότερα δείγματα πιθανών ανιχνεύσεων;</li>
                     </ul>
                     </div>
+                    </details>
                     </section>
                     <section id="other-atoms" class="lesson-section" aria-labelledby="other-atoms-title">
                     <h2 id="other-atoms-title">Και για τα υπόλοιπα άτομα;</h2>
                     <p>Εδώ δυστυχώς κανείς δεν έχει να προσφέρει κάποια καλύτερη εικόνα, η κυματοσυνάρτηση του Ηλίου με δύο ηλεκτρόνια έχει 6 διαστάσεις και επειδή περιλαμβάνει τις αλληλεπιδράσεις μεταξύ τους δεν μπορεί να υπολογιστεί ακριβώς.</p>
                     <p>Συνήθως κάνουμε όμως την προσέγγιση ότι ξεκινάνε να γεμίζουν της καταστάσεις του υδρογόνου από την χαμηλότερη προς την υψηλότερη οπότε μάλλον το σχήμα τους είναι ένας συνδυασμός των σχημάτων που μπορείς να δεις στο εργαστήριο το ένα πάνω στο άλλο.</p>
                     </section>
-                    <section id="sources" class="lesson-section" aria-labelledby="sources-title">
-                    <h2 id="sources-title">Πηγές</h2>
+                    <section id="sources" class="lesson-panel" aria-labelledby="sources-title">
+                    <details class="lesson-panel-disclosure">
+                    <summary id="sources-title">Πηγές</summary>
+                    <div class="card-body">
                     <p>Το μάθημα αποτελεί ελληνική εκπαιδευτική διασκευή των παρακάτω πηγών. Τα δικαιώματα των πρωτοτύπων ανήκουν στους αντίστοιχους δημιουργούς.</p>
                     <ul class="lesson-bullets lesson-sources" role="list">
                     <li><a href="https://www.youtube.com/watch?v=wYoxOJDrZzw" target="_blank" rel="noopener">Physics Girl — Singing plates: Standing Waves on Chladni plates</a></li>
@@ -220,6 +242,8 @@
                     <li><a href="https://openstax.org/books/university-physics-volume-3/pages/6-6-wave-particle-duality" target="_blank" rel="noopener">Κυματική και σωματιδιακή συμπεριφορά</a></li>
                     <li><a href="https://klickverbot.at/blog/2018/02/photographing-a-single-atom/" target="_blank" rel="noopener">David Nadlinger — Φωτογραφίζοντας ένα άτομο</a></li>
                     </ul>
+                    </div>
+                    </details>
                     </section>
                     <!-- Google Doc lesson body ends -->
                     <nav id="change-chapter" class="row m-auto" aria-label="Πλοήγηση μεταξύ μαθημάτων">
@@ -229,37 +253,40 @@
                 </main>
                 <div class="col-lg-1 p-0" aria-hidden="true"></div>
                 <aside class="col-lg-3 p-0 lesson-sidebar" aria-label="Πλοήγηση μαθημάτων">
-                    <h2 id="lesson-contents-title" class="sidebar-heading">Σε αυτό το μάθημα</h2>
-                    <nav class="card contents-card" aria-labelledby="lesson-contents-title">
-                        <ul class="list-unstyled components">
-                            <li><a href="#seeing-atoms">Ένα αιώνιο ερώτημα</a></li>
-                            <li><a href="#atomic-evidence">Η ατομική θεωρία ξανά στο προσκήνιο</a></li>
-                            <li><a href="#atomic-models">Το άτομο αποκτά δομή</a></li>
-                            <li><a href="#theory">Από την τροχιά στο νέφος πιθανότητας</a></li>
-                            <li><a href="#wave-laboratory">Από τις πλάκες που τραγουδούν στα ηλεκτρονικά κύματα</a></li>
-                            <li><a href="#activities">Αναζήτησε τους κόμβους</a></li>
-                            <li><a href="#other-atoms">Και για τα υπόλοιπα άτομα;</a></li>
-                            <li><a href="#sources">Πηγές</a></li>
-                        </ul>
-                    </nav>
+                    <div class="lesson-desktop-contents">
+                        <h2 id="lesson-contents-title" class="sidebar-heading">Σε αυτό το μάθημα</h2>
+                        <nav class="card contents-card" aria-labelledby="lesson-contents-title">
+                            <ul class="list-unstyled components lesson-bullets" role="list">
+                                <li><a href="#seeing-atoms">Ένα αιώνιο ερώτημα</a></li>
+                                <li><a href="#atomic-evidence">Η ατομική θεωρία ξανά στο προσκήνιο</a></li>
+                                <li><a href="#atomic-models">Το άτομο αποκτά δομή</a></li>
+                                <li><a href="#theory">Από την τροχιά στο νέφος πιθανότητας</a></li>
+                                <li><a href="#wave-laboratory">Από τις πλάκες που τραγουδούν στα ηλεκτρονικά κύματα</a></li>
+                                <li><a href="#interactive-animation">Διαδραστική προσομοίωση</a></li>
+                                <li><a href="#activities">Αναζήτησε τους κόμβους</a></li>
+                                <li><a href="#other-atoms">Και για τα υπόλοιπα άτομα;</a></li>
+                                <li><a href="#sources">Πηγές</a></li>
+                            </ul>
+                        </nav>
+                    </div>
                     <h2 id="related-lessons-title" class="sidebar-heading">Συνέχισε την εξερεύνηση</h2>
                     <div class="catalog-grid catalog-grid--sidebar" aria-labelledby="related-lessons-title">
                         <a class="catalog-card" href="electric-field.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
                             <span class="catalog-icon catalog-icon--lightning"><img src="../../assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-1-title">Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</h3>
-                            <p id="related-1-description">Άλλαξε το πρόσημο ενός φορτίου για να μετατρέψεις την άπωση σε έλξη.</p>
+                            <p id="related-1-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="electromagnetic-field.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
                             <span class="catalog-icon catalog-icon--radiation"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-2-title">Τι είναι η ακτινοβολία;</h3>
-                            <p id="related-2-description">Κούνησε ένα φορτίο και δες το κύμα που ταξιδεύει μακριά του.</p>
+                            <p id="related-2-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="gravitational-field.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
                             <span class="catalog-icon catalog-icon--planet"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
                             <h3 id="related-3-title">Γιατί η Σελήνη μένει σε τροχιά;</h3>
-                            <p id="related-3-description">Άλλαξε την αρχική ταχύτητα και δες πώς αλλάζει η τροχιά.</p>
+                            <p id="related-3-description">Ανακάλυψε πώς η βαρύτητα και η ταχύτητα κρατούν τη Σελήνη σε τροχιά.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                     </div>

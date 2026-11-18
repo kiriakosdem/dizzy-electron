@@ -8,13 +8,13 @@
     <title>Dizzy Electron | Φυσική στην πράξη</title>
     <script src="assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/common.css?v=navy-wave">
-    <link rel="stylesheet" href="assets/css/cards.css?v=compact-mobile-cards">
-    <link rel="stylesheet" href="assets/css/home.css?v=montage-caption-right">
-    <script src="assets/js/lesson.js?v=menu-collapse-icon" defer></script>
+    <link rel="stylesheet" href="assets/css/common.css?v=action-hover-border">
+    <link rel="stylesheet" href="assets/css/cards.css?v=shared-panel-style">
+    <link rel="stylesheet" href="assets/css/home.css?v=consistent-video-border">
+    <script src="assets/js/lesson.js?v=inline-lab-caption" defer></script>
     <script src="assets/js/home-film.js?v=montage-labels" defer></script>
     <script src="assets/js/home-carousel.js?v=quote-markers" defer></script>
-    <link rel="stylesheet" href="assets/css/focus.css?v=keyboard-focus">
+    <link rel="stylesheet" href="assets/css/focus.css?v=accessible-interactions">
     <script src="assets/js/focus.js" defer></script>
 </head>
 <body class="home-page" id="top">
@@ -71,6 +71,7 @@
                 <div>
                     <h1 class="page-title">Η Φυσική γίνεται πιο κατανοητή, όταν την <i class="home-title-accent">βλέπεις.</i></h1>
                     <p>Χτίσε τη διαίσθηση σου για τους νόμους της φύσης μέσα από απλές εξηγήσεις και διαδραστικά εργαστήρια.</p>
+                    <a class="primary-action home-primary-action" href="contents/index.html">Εξερεύνησε τα μαθήματα <span aria-hidden="true">→</span></a>
                 </div>
                 <div class="home-film-frame">
                     <video class="home-film" muted loop playsinline preload="metadata"
@@ -99,7 +100,7 @@
                                 <span class="catalog-icon catalog-icon--atom"><img src="assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Με τι μοιάζει τελικά ένα άτομο;
                             </h3>
-                            <p id="lesson-4-description">Περίστρεψε τα τροχιακά του υδρογόνου και σύγκρινε τα σχήματά τους.</p>
+                            <p id="lesson-4-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="lessons/physics/gravitational-field.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
@@ -107,7 +108,7 @@
                                 <span class="catalog-icon catalog-icon--planet"><img src="assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Γιατί η Σελήνη μένει σε τροχιά;
                             </h3>
-                            <p id="lesson-1-description">Άλλαξε την αρχική ταχύτητα και δες πώς αλλάζει η τροχιά.</p>
+                            <p id="lesson-1-description">Ανακάλυψε πώς η βαρύτητα και η ταχύτητα κρατούν τη Σελήνη σε τροχιά.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="lessons/physics/electric-field.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
@@ -115,7 +116,7 @@
                                 <span class="catalog-icon catalog-icon--lightning"><img src="assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Πώς δρουν οι ηλεκτροστατικές δυνάμεις;
                             </h3>
-                            <p id="lesson-2-description">Άλλαξε το πρόσημο ενός φορτίου για να μετατρέψεις την άπωση σε έλξη.</p>
+                            <p id="lesson-2-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                         <a class="catalog-card" href="lessons/physics/electromagnetic-field.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
@@ -123,7 +124,7 @@
                                 <span class="catalog-icon catalog-icon--radiation"><img src="assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Τι είναι η ακτινοβολία;
                             </h3>
-                            <p id="lesson-3-description">Κούνησε ένα φορτίο και δες το κύμα που ταξιδεύει μακριά του.</p>
+                            <p id="lesson-3-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
                         </a>
                 </div>
@@ -133,67 +134,67 @@
         <section class="section-divider" aria-label="Αποφθέγματα επιστημόνων" aria-roledescription="carousel">
             <div class="quote-carousel home-shell">
                 <div class="quote-track">
-                    <figure class="home-excerpt" lang="en">
+                    <figure class="home-excerpt" lang="el">
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
-                        <p>If you’re teaching a class and you say ‘the object will move because of friction,’ that's not science. That's just a word... If you want to know if you know it, try to see if you can explain it without using the word you just learned, in ordinary language.</p>
+                        <p>Αν διδάσκεις σε μια τάξη και λες «το αντικείμενο θα κινηθεί λόγω της τριβής», αυτό δεν είναι επιστήμη. Είναι απλώς μια λέξη… Αν θέλεις να διαπιστώσεις αν το καταλαβαίνεις, δοκίμασε να το εξηγήσεις με καθημερινά λόγια, χωρίς να χρησιμοποιήσεις τη λέξη που μόλις έμαθες.</p>
                         <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
                     </blockquote>
                     <figcaption>
                         <img class="scientist-portrait" src="assets/images/feynman-bongos.jpg" width="76" height="76" alt="">
-                        <div class="scientist-credit"><strong>Richard Feynman</strong><span>1966 · What is Science?</span>
+                        <div class="scientist-credit"><strong>Ρίτσαρντ Φάινμαν</strong><span>1966 · Τι είναι η επιστήμη;</span>
                             <!-- Photo: © California Institute of Technology — https://www.aip.org/library/ex-libris-universum/may-2016-photos-of-the-month -->
                         </div>
                     </figcaption>
                     </figure>
-                    <figure class="home-excerpt" lang="en" hidden>
+                    <figure class="home-excerpt" lang="el" hidden>
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
-                        <p>Even for the physicist the description in plain language will be a criterion of the degree of understanding that has been reached.</p>
+                        <p>Ακόμη και για τον φυσικό, η περιγραφή με απλά λόγια αποτελεί κριτήριο του βαθμού κατανόησης που έχει επιτευχθεί.</p>
                         <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
                     </blockquote>
                     <figcaption>
                         <img class="scientist-portrait" src="assets/images/heisenberg.jpg" width="76" height="76" alt="">
-                        <div class="scientist-credit"><strong>Werner Heisenberg</strong><span>1958 · Physics and Philosophy</span>
+                        <div class="scientist-credit"><strong>Βέρνερ Χάιζενμπεργκ</strong><span>1958 · Φυσική και φιλοσοφία</span>
                             <!-- Photo: AIP Emilio Segrè Visual Archives, Segrè Collection — https://commons.wikimedia.org/wiki/File:Portrait_of_Werner_Heisenberg.jpg -->
                         </div>
                     </figcaption>
                     </figure>
-                    <figure class="home-excerpt" lang="en" hidden>
+                    <figure class="home-excerpt" lang="el" hidden>
                     <blockquote cite="https://www.oxfordreference.com/display/10.1093/acref/9780191826719.001.0001/q-oro-ed4-00003988">
                         <span class="home-quote-mark" aria-hidden="true">“</span>
-                        <p>It can scarcely be denied that the supreme goal of all theory is to make the irreducible basic elements as simple and as few as possible without having to surrender the adequate representation of a single datum of experience.</p>
+                        <p>Δύσκολα μπορεί κανείς να αρνηθεί ότι ο υπέρτατος στόχος κάθε θεωρίας είναι να κάνει τα θεμελιώδη στοιχεία της, που δεν επιδέχονται περαιτέρω αναγωγή, όσο το δυνατόν απλούστερα και λιγότερα, χωρίς να θυσιάζει την επαρκή περιγραφή ούτε ενός δεδομένου της εμπειρίας.</p>
                         <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
                     </blockquote>
                     <figcaption>
                         <img class="scientist-portrait" src="assets/images/einstein-tongue.jpg" width="76" height="76" alt="">
-                        <div class="scientist-credit"><strong>Albert Einstein</strong><span>1933 · On the Method of Theoretical Physics</span>
+                        <div class="scientist-credit"><strong>Άλμπερτ Αϊνστάιν</strong><span>1933 · Για τη μέθοδο της θεωρητικής φυσικής</span>
                             <!-- Photo: Arthur Sasse / International News Service — https://commons.wikimedia.org/wiki/File:Albert_Einstein_sticks_his_tongue_2.jpg -->
                         </div>
                     </figcaption>
                     </figure>
-                    <figure class="home-excerpt" lang="en" hidden>
+                    <figure class="home-excerpt" lang="el" hidden>
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
-                        <p>Truth is ever to be found in simplicity, and not in the multiplicity and confusion of things.</p>
+                        <p>Η αλήθεια βρίσκεται πάντοτε στην απλότητα και όχι στην πολλαπλότητα και τη σύγχυση των πραγμάτων.</p>
                         <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
                     </blockquote>
                     <figcaption>
                         <img class="scientist-portrait" src="assets/images/newton.jpg" width="76" height="76" alt="">
-                        <div class="scientist-credit"><strong>Sir Isaac Newton</strong><span>1728</span>
+                        <div class="scientist-credit"><strong>Ισαάκ Νεύτων</strong><span>1728</span>
                             <!-- Portrait: Godfrey Kneller · Public domain — https://commons.wikimedia.org/wiki/File:GodfreyKneller-IsaacNewton-1689_(cropped).jpg -->
                         </div>
                     </figcaption>
                     </figure>
-                    <figure class="home-excerpt" lang="en" hidden>
+                    <figure class="home-excerpt" lang="el" hidden>
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
-                        <p>A research worker, in his efforts to express the fundamental laws of Nature in mathematical form, should strive mainly for mathematical beauty... It often happens that the requirements of simplicity and beauty are the same.</p>
+                        <p>Ο ερευνητής, στην προσπάθειά του να εκφράσει τους θεμελιώδεις νόμους της φύσης με μαθηματική μορφή, πρέπει να επιδιώκει κυρίως τη μαθηματική ομορφιά… Συχνά συμβαίνει οι απαιτήσεις της απλότητας και της ομορφιάς να συμπίπτουν.</p>
                         <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
                     </blockquote>
                     <figcaption>
                         <img class="scientist-portrait" src="assets/images/dirac.jpg" width="76" height="76" alt="">
-                        <div class="scientist-credit"><strong>Paul Dirac</strong><span>1939 · The Relation between Mathematics and Physics</span>
+                        <div class="scientist-credit"><strong>Πολ Ντιράκ</strong><span>1939 · Η σχέση μαθηματικών και φυσικής</span>
                             <!-- Photo: Cavendish Laboratory · Public domain — https://commons.wikimedia.org/wiki/File:Paul_Dirac,_1933,_head_and_shoulders_portrait,_bw.jpg -->
                         </div>
                     </figcaption>
@@ -204,11 +205,11 @@
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg>
                     </button>
                     <div class="quote-pagination" aria-hidden="true">
-                        <span aria-label="Richard Feynman" aria-current="true"></span>
-                        <span aria-label="Werner Heisenberg"></span>
-                        <span aria-label="Albert Einstein"></span>
-                        <span aria-label="Sir Isaac Newton"></span>
-                        <span aria-label="Paul Dirac"></span>
+                        <span aria-label="Ρίτσαρντ Φάινμαν" aria-current="true"></span>
+                        <span aria-label="Βέρνερ Χάιζενμπεργκ"></span>
+                        <span aria-label="Άλμπερτ Αϊνστάιν"></span>
+                        <span aria-label="Ισαάκ Νεύτων"></span>
+                        <span aria-label="Πολ Ντιράκ"></span>
                     </div>
                     <button class="quote-step" type="button" data-step="1" aria-label="Επόμενο απόφθεγμα">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg>

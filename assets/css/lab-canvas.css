@@ -130,3 +130,6 @@
         left var(--lab-transition-duration) var(--lab-transition-easing),
         max-width var(--lab-transition-duration) var(--lab-transition-easing);
 }
+
+/* The lesson fullscreen view supplies its own persistent exit button. */
+[data-lesson-fullscreen] #fullscreenButton { display: none; }

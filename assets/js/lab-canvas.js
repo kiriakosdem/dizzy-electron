@@ -81,3 +81,34 @@ function visibleFieldSnapshot(canvas, panel) {
     frame.getContext('2d').drawImage(canvas, 0, 0);
     return frame;
 }
+
+// In a lesson, wheel gestures belong to the reading page. Capture before the
+// canvas/OrbitControls handlers, but keep the browser's native scroll chaining.
+(() => {
+    if (window.parent === window) return;
+    const fullscreen = () => {
+        if (document.fullscreenElement || document.webkitFullscreenElement) return true;
+        try {
+            if (window.frameElement?.closest('dialog[open]')) return true;
+            const active = parent.document.fullscreenElement || parent.document.webkitFullscreenElement;
+            return Boolean(active && active.contains(window.frameElement));
+        } catch {
+            return false;
+        }
+    };
+    window.addEventListener('message', event => {
+        if (event.source !== parent || event.origin !== location.origin || event.data?.type !== 'lesson-display-mode') return;
+        document.documentElement.toggleAttribute('data-lesson-fullscreen', event.data.fullscreen === true);
+    });
+    window.addEventListener('wheel', event => {
+        if (!fullscreen() && event.target instanceof Element && event.target.closest('canvas')) {
+            event.stopImmediatePropagation();
+        }
+    }, { capture: true, passive: true });
+    window.addEventListener('keydown', event => {
+        if (event.key !== 'Escape' || document.querySelector('dialog[open]')) return;
+        // Let an open controls drawer handle Escape first.
+        if (document.querySelector('#controlsToggle[aria-expanded="true"]')) return;
+        parent.postMessage({ type: 'lesson-return-reading' }, location.origin);
+    });
+})();
