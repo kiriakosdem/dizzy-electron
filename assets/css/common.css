@@ -665,11 +665,10 @@ footer .footer-navigation a {
 
 :root[data-theme="dark"] :is(
     .about-band a[href],
-    .simulation-lesson main a[href]:not(.catalog-card),
+    .simulation-lesson main a[href]:not(.catalog-card, .figure-caption a),
     .contact-page main a[href]:not(.contact-submit),
     .home-text-link[href],
     .lab-links a[href],
-    .figure-caption a[href],
     .simulation-toolbar :is(a[href], button),
     .contents-card ul a[href],
     .breadcrumb a[href],

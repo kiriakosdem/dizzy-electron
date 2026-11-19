@@ -340,8 +340,12 @@
 .simulation-lesson :is(.media-caption, .figure-caption, .lesson-lab-bar,
     .example-card .card-header, .learning-goals-card .card-header) {
     background: var(--lesson-panel-background);
-    color: var(--ink);
     border-color: var(--lesson-panel-border);
+}
+
+.simulation-lesson :is(.lesson-lab-bar, .example-card .card-header,
+    .learning-goals-card .card-header) {
+    color: var(--ink);
 }
 
 /* Breadcrumbs join the navigation above, with only the lower corners rounded. */

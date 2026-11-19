@@ -261,13 +261,18 @@ IMAGES, MEDIA & ANIMATIONS
 }
 
 .figure-caption{
+	--caption-ink: var(--muted-ink);
 	border-top: var(--border-width) solid var(--color-border);
 	background-color: var(--surface);
 	padding: 1rem;
-	color: var(--ink);
+	color: var(--caption-ink);
 	margin: auto 0;
 	text-align: left;
-	font-weight: bold;
+	font-weight: 400;
+}
+
+:root[data-theme="dark"] .figure-caption {
+    --caption-ink: color-mix(in srgb, var(--color-graphite) 40%, var(--color-white));
 }
 
 /* Images Wrapped Around Text */
@@ -464,6 +469,10 @@ main .figure-caption a {
     text-underline-offset: 3px;
 }
 
+main .figure-caption a[href] {
+    color: var(--caption-ink);
+}
+
 #change-chapter .btn:hover,
 main .simulation-toolbar .btn:hover,
 main .figure-caption a:hover {
@@ -481,9 +490,13 @@ main .figure-caption a:hover {
 .figure.atomic-model {
     float: right;
     clear: right;
-    width: 30%;
+    width: 36%;
     height: auto;
     margin: 0 0 .75rem 1.25rem !important;
+}
+
+.figure.atomic-model--tall {
+    width: 24%;
 }
 
 .atomic-model img {
@@ -492,11 +505,51 @@ main .figure-caption a:hover {
     height: auto;
 }
 
+.atomic-model .figure-caption {
+    font-size: .85rem;
+    line-height: 1.5;
+    padding: .75rem;
+}
+
+.atomic-model .atomic-model-caption {
+    display: block;
+}
+
+.atomic-model-portraits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+    margin: .65rem 0 0;
+    padding: .65rem 0 0;
+    border-top: var(--border-width) solid var(--lesson-panel-border);
+    list-style: none;
+}
+
+.atomic-model-portraits li {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .8rem;
+}
+
+.atomic-model-portraits img {
+    flex: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 22%;
+}
+
 @media (max-width: 575px) {
     .figure.atomic-model {
         display: block;
         float: none;
-        width: min(100%, 13rem);
+        width: min(100%, 22rem);
         margin: 0 auto 1rem !important;
+    }
+
+    .figure.atomic-model--tall {
+        width: min(100%, 10rem);
     }
 }
