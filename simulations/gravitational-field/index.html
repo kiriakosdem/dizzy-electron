@@ -123,15 +123,17 @@ button:disabled{cursor:default;opacity:.45}
 @media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=canvas-palette">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=persistent-narrow-playback">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=play-button-width">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=compact-segment-titles">
+    <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=dark-canvas">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-question-label">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=unbroken-test-labels">
-    <script src="../../assets/js/lab-canvas.js?v=lesson-surfaces"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=site-type">
+    <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=dark-canvas">
+    <script src="../../assets/js/lab-canvas.js?v=dark-canvas"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
@@ -141,9 +143,11 @@ button:disabled{cursor:default;opacity:.45}
     <a class="lab-site-brand" href="../../index.html" aria-label="Dizzy Electron home">
         <img src="../../assets/brand/logo-navy-notext.png" width="800" height="800" alt="">
     </a>
-    <h1>The Gravitational Field</h1>
+    <div class="lab-title-group">
+        <h1>The Gravitational Field</h1>
+        <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><span class="lab-help-icon" aria-hidden="true">?</span></button>
+    </div>
     <div class="lab-language"></div>
-    <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><span class="lab-help-icon" aria-hidden="true">?</span></button>
     <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg>
     </button>
@@ -151,6 +155,7 @@ button:disabled{cursor:default;opacity:.45}
 <div id="lab">
   <div class="canvas-frame field-frame">
     <canvas id="fieldCanvas" tabindex="0" aria-label="Interactive gravitational-field vector visualization" aria-description="Drag masses from the tray onto the canvas. Drag a mass into Trash to remove it, or select it and press Delete or Backspace. Drag the background to pan; pinch or scroll to zoom."></canvas>
+    <div class="field-empty-message canvas-surface" id="emptyMessage">Drag a mass from the tray onto the grid.</div>
   </div>
   <div class="canvas-tools canvas-surface" id="canvasTools" role="group" aria-label="Canvas tools">
     <button type="button" id="fullscreenButton" title="Full screen" aria-label="Full screen" aria-pressed="false">
@@ -168,6 +173,7 @@ button:disabled{cursor:default;opacity:.45}
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
       Display
     </h2></summary>
+    <div class="toggle-row"><span id="lab-theme-label">Dark theme</span><button type="button" role="switch" aria-checked="true" aria-labelledby="lab-theme-label" data-lab-theme></button></div>
     <div class="toggle-row"><span class="toggle-label">Point grid</span><button id="samplePointsToggle" class="switch" role="switch" aria-checked="false" aria-label="Point grid"></button></div>
     <div class="toggle-row"><span class="toggle-label">Field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle gravitational field arrows"></button></div>
     <div class="toggle-row"><span class="toggle-label">Field strength</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle gravitational field strength"></button></div>
@@ -289,8 +295,8 @@ button:disabled{cursor:default;opacity:.45}
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=help-question-label"></script>
-    <script src="../../assets/js/language.js?v=compact-lab-header"></script>
+    <script src="../../assets/js/lab-greek.js?v=lab-themes"></script>
+    <script src="../../assets/js/language.js?v=shared-language"></script>
 <script>
 (()=>{'use strict';
 const lab=document.getElementById('lab'), canvas=document.getElementById('fieldCanvas'), ctx=canvas.getContext('2d',{alpha:false});
@@ -431,6 +437,7 @@ function updateTimeReadout(){
  if(readout.textContent!==label)readout.textContent=label;
 }
 function syncPanel(){
+ $('emptyMessage').hidden = masses.length > 0 || testMasses.length > 0;
  const body=selectedBody();
  $('editBlock').hidden=!body;
  if(body)syncSelectedProperties(body);
@@ -942,7 +949,7 @@ function grid(){const b=worldBounds();for(const spacing of [MINOR,MAJOR,SUPER_MA
  for(let n=startX;n<=endX;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const x=toScreen(n*spacing,0).x;ctx.moveTo(Math.round(x)+.5,0);ctx.lineTo(Math.round(x)+.5,vh);}
  const startY=Math.ceil(b.ymin/spacing),endY=Math.floor(b.ymax/spacing);
  for(let n=startY;n<=endY;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const y=toScreen(0,n*spacing).y;ctx.moveTo(0,Math.round(y)+.5);ctx.lineTo(vw,Math.round(y)+.5);}
- ctx.strokeStyle=spacing===MINOR?'rgba(132,166,222,.055)':spacing===MAJOR?'rgba(143,185,237,.14)':'rgba(155,195,242,.23)';ctx.lineWidth=1;ctx.stroke();}
+ ctx.strokeStyle=labCanvasTheme.grid[spacing===MINOR?0:spacing===MAJOR?1:2];ctx.lineWidth=1;ctx.stroke();}
 }
 function background(){paintLabBackdrop(ctx,vw,vh);if(showHeatmap||showPotential)drawHeatmap();grid();}
 // Sample the resultant field, including cancellation between masses. Cache the
@@ -979,7 +986,7 @@ function drawFieldSamples(){const b=worldBounds(),i0=Math.ceil(b.xmin/SAMPLE),i1
  ctx.moveTo(ex+wx+px,ey+wy+py);ctx.lineTo(ex,ey);ctx.lineTo(ex+wx-px,ey+wy-py);ctx.stroke();ctx.restore();
  }
  if(showSamplePoints){
-  ctx.save();ctx.fillStyle='#fff';ctx.globalAlpha=alpha;
+  ctx.save();ctx.fillStyle=labCanvasTheme.point;ctx.globalAlpha=alpha;
   ctx.beginPath();ctx.arc(p.x,p.y,1.15,0,Math.PI*2);ctx.fill();ctx.restore();
  }
  }
@@ -1156,7 +1163,7 @@ function drawMasses(){for(const c of masses){const s=toScreen(c.x,c.y);if(s.x<-5
 function drawTrails(bodies,kind){
  for(const body of bodies){
  if(activeDrag?.kind===kind&&activeDrag.id===body.id&&activeDrag.moved)continue;
- ctx.save();ctx.strokeStyle='#ffffff';ctx.lineWidth=1.2;
+ ctx.save();ctx.strokeStyle=labCanvasTheme.point;ctx.lineWidth=1.2;
  const trail=body.trail;
  for(let i=1;i<trail.length;i++){
   const a=toScreen(trail[i-1].x,trail[i-1].y),b=toScreen(trail[i].x,trail[i].y);

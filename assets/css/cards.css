@@ -370,7 +370,7 @@ a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg
     100% { mask-size: 100% 100%, 180% 180%, 100% 100%; }
 }
 
-.catalog-card h3, .catalog-card h4 { font-size: var(--card-title-size); font-weight: 600; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
+.catalog-card :is(h2, h3, h4) { font-size: var(--card-title-size); font-weight: 600; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
 .catalog-card p { grid-column: 1 / -1; font-size: .9rem; color: var(--muted-ink); margin: 0; line-height: 1.6; text-indent: 0; }
 @media (min-width: 768px) {
     .catalog-grid--recommendations { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -405,7 +405,7 @@ a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg
 }
 
 
-.catalog-card > :is(h3, h4) {
+.catalog-card > :is(h2, h3, h4) {
     margin: 0;
 }
 .catalog-grid .catalog-card > p {

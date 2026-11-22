@@ -1,94 +1,58 @@
 'use strict';
 
-// Use the reference navbar's Bootstrap classes without requiring jQuery.
 const menuToggle = document.querySelector('[data-lesson-menu]');
 const navigation = document.getElementById('RightBox');
-const dropdownButtons = [...document.querySelectorAll('[data-lesson-dropdown]')];
-const compactNavigation = matchMedia('(max-width: 991.98px)');
-const materialsLink = dropdownButtons.find(button => button.id === 'dropdownMenu1');
-const materialsAlwaysVisible = button => button === materialsLink && compactNavigation.matches;
-
-const setDropdown = (button, open) => {
-    const alwaysVisible = materialsAlwaysVisible(button);
-    if (alwaysVisible) button.removeAttribute('aria-expanded');
-    else button.setAttribute('aria-expanded', String(open));
-    document.getElementById(button.getAttribute('aria-controls')).classList.toggle('show', open && !alwaysVisible);
-};
-
-const closeDropdowns = () => dropdownButtons.forEach((button) => setDropdown(button, false));
-
-if (materialsLink) {
-    setDropdown(materialsLink, false);
-    compactNavigation.addEventListener('change', () => setDropdown(materialsLink, false));
-}
-
-const updateMenuLabel = () => {
-    const open = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-label', open
-        ? siteLanguage.text('Σύμπτυξη πλοήγησης', 'Hide navigation')
-        : siteLanguage.text('Εμφάνιση πλοήγησης', 'Show navigation'));
-};
-
-const setMenu = open => {
-    menuToggle.setAttribute('aria-expanded', String(open));
-    updateMenuLabel();
-    navigation.classList.toggle('show', open);
-    if (!open) closeDropdowns();
-};
 
 if (menuToggle && navigation) {
+    const masthead = menuToggle.closest('nav');
+    const compactNavigation = matchMedia('(max-width: 991.98px)');
+    const menuIsOpen = () => menuToggle.getAttribute('aria-expanded') === 'true';
+    const updateMenuLabel = () => {
+        menuToggle.setAttribute('aria-label', menuIsOpen()
+            ? siteLanguage.text('Σύμπτυξη πλοήγησης', 'Hide navigation')
+            : siteLanguage.text('Εμφάνιση πλοήγησης', 'Show navigation'));
+    };
+    const setMenu = open => {
+        menuToggle.setAttribute('aria-expanded', String(open));
+        updateMenuLabel();
+        navigation.inert = compactNavigation.matches && !open;
+        navigation.classList.toggle('show', open);
+    };
+
+    setMenu(false);
     siteLanguage.onChange(updateMenuLabel);
-    menuToggle.addEventListener('click', () => {
-        setMenu(menuToggle.getAttribute('aria-expanded') !== 'true');
+
+    menuToggle.addEventListener('click', event => {
+        if (!compactNavigation.matches) return;
+        const open = !menuIsOpen();
+        setMenu(open);
+        if (open && event.detail === 0) navigation.querySelector('a[href]')?.focus({ preventScroll: true });
+    });
+    navigation.addEventListener('click', event => {
+        if (menuIsOpen() && event.target.closest('a[href]')) setMenu(false);
+    });
+    masthead.addEventListener('focusout', event => {
+        if (menuIsOpen() && event.relatedTarget && !masthead.contains(event.relatedTarget)) setMenu(false);
+    });
+    document.addEventListener('click', event => {
+        if (menuIsOpen() && (!masthead.contains(event.target) || event.target.closest('.language-toggle'))) setMenu(false);
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape' || !menuIsOpen()) return;
+        event.preventDefault();
+        setMenu(false);
+        menuToggle.focus({ preventScroll: true });
+    });
+    compactNavigation.addEventListener('change', () => {
+        const activeElement = document.activeElement;
+        setMenu(false);
+        if (compactNavigation.matches && navigation.contains(activeElement)) {
+            menuToggle.focus({ preventScroll: true });
+        } else if (!compactNavigation.matches && activeElement === menuToggle) {
+            navigation.querySelector('a[href]')?.focus({ preventScroll: true });
+        }
     });
 }
-
-dropdownButtons.forEach((button) => {
-    const dropdown = button.closest('.dropdown');
-    dropdown.addEventListener('pointerenter', (event) => {
-        if (event.pointerType === 'touch') return;
-        closeDropdowns();
-        setDropdown(button, true);
-    });
-    dropdown.addEventListener('pointerleave', (event) => {
-        if (event.pointerType === 'touch') return;
-        setDropdown(button, false);
-    });
-    dropdown.addEventListener('focusout', (event) => {
-        if (!dropdown.contains(event.relatedTarget)) setDropdown(button, false);
-    });
-    button.addEventListener('keydown', (event) => {
-        if (event.key !== 'ArrowDown') return;
-        event.preventDefault();
-        closeDropdowns();
-        setDropdown(button, true);
-        dropdown.querySelector('.dropdown-item').focus();
-    });
-    // Parent links navigate normally; buttons remain available for touch menus.
-    if (button.tagName === 'BUTTON') {
-        button.addEventListener('click', () => {
-            const open = button.getAttribute('aria-expanded') !== 'true';
-            closeDropdowns();
-            setDropdown(button, open);
-        });
-    }
-});
-
-document.addEventListener('click', (event) => {
-    if (!event.target.closest('.dropdown')) closeDropdowns();
-});
-
-document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Escape') return;
-    const openDropdown = dropdownButtons.find((button) => button.getAttribute('aria-expanded') === 'true');
-    if (openDropdown) {
-        closeDropdowns();
-        openDropdown.focus();
-    } else if (menuToggle && navigation && menuToggle.getAttribute('aria-expanded') === 'true') {
-        setMenu(false);
-        menuToggle.focus();
-    }
-});
 
 // Keep figures in reading order on narrow screens and let the section text wrap
 // around the same figure on desktop.
@@ -112,6 +76,59 @@ if (illustratedSections.length) {
 }
 
 const readingNav = document.querySelector('.lesson-reading-nav');
+const svgNamespace = 'http://www.w3.org/2000/svg';
+
+const addLessonJumpLinks = (lesson, readingTime) => {
+    const headings = [...lesson.querySelectorAll(':scope > .lesson-section > h2[id]')];
+    if (headings.length < 2) return;
+
+    const nav = document.createElement('nav');
+    nav.className = 'lesson-panel lesson-jump-nav';
+    const details = document.createElement('details');
+    details.className = 'lesson-panel-disclosure';
+    const summary = document.createElement('summary');
+    const icon = document.createElementNS(svgNamespace, 'svg');
+    icon.setAttribute('class', 'lesson-panel-icon');
+    icon.setAttribute('viewBox', '0 0 24 24');
+    icon.setAttribute('width', '18');
+    icon.setAttribute('height', '18');
+    icon.setAttribute('aria-hidden', 'true');
+    icon.setAttribute('focusable', 'false');
+    const iconPath = document.createElementNS(svgNamespace, 'path');
+    iconPath.setAttribute('d', 'M4 6h1m4 0h11M4 12h1m4 0h11M4 18h1m4 0h11');
+    icon.append(iconPath);
+    const summaryLabel = document.createTextNode('');
+    summary.append(icon, summaryLabel);
+    const body = document.createElement('div');
+    body.className = 'card-body';
+    const list = document.createElement('ul');
+    list.className = 'lesson-bullets';
+    list.setAttribute('role', 'list');
+    const sectionLinks = headings.map(heading => {
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = '#' + encodeURIComponent(heading.id);
+        heading.tabIndex = -1;
+        item.append(link);
+        list.append(item);
+        return link;
+    });
+    body.append(list);
+    details.append(summary, body);
+    nav.append(details);
+
+    const updateJumpLabels = () => {
+        nav.setAttribute('aria-label', siteLanguage.text('Περιεχόμενα μαθήματος', 'Lesson sections'));
+        summaryLabel.data = ' ' + siteLanguage.text('Σε αυτή τη σελίδα', 'On this page');
+        sectionLinks.forEach((link, index) => {
+            link.textContent = headings[index].textContent.trim();
+        });
+    };
+    updateJumpLabels();
+    siteLanguage.onChange(updateJumpLabels);
+    readingTime.after(nav);
+};
+
 if (readingNav) {
     const lesson = document.getElementById('lesson-content');
     const readingTime = lesson.querySelector('.lesson-reading-time');
@@ -133,6 +150,7 @@ if (readingNav) {
     updateReadingLabels();
     siteLanguage.onChange(updateReadingLabels);
     readingTime.hidden = false;
+    addLessonJumpLinks(lesson, readingTime);
     siteNav.classList.add('lesson-site-nav');
 
     let directionEdge = Math.max(0, window.scrollY);
@@ -169,7 +187,8 @@ if (readingNav) {
     siteNav.addEventListener('focusout', scheduleReadingUpdate);
     readingNav.addEventListener('focusout', scheduleReadingUpdate);
     const updateAnchorOffset = () => {
-        document.documentElement.style.setProperty('--lesson-navbar-height', siteNav.offsetHeight + 'px');
+        const height = Math.max(siteNav.offsetHeight, readingNav.offsetHeight);
+        document.documentElement.style.setProperty('--lesson-navbar-height', height + 'px');
     };
     const readingLayoutObserver = new ResizeObserver(() => {
         updateAnchorOffset();
@@ -177,6 +196,7 @@ if (readingNav) {
     });
     readingLayoutObserver.observe(lesson);
     readingLayoutObserver.observe(siteNav);
+    readingLayoutObserver.observe(readingNav);
     updateAnchorOffset();
     updateReadingNav();
     readingNav.hidden = false;
@@ -194,7 +214,6 @@ document.querySelectorAll('iframe.simulation-frame').forEach(frame => {
     const exit = document.createElement('button');
     exit.type = 'button';
     exit.className = 'lesson-interaction-toggle action-with-arrow';
-    const svgNamespace = 'http://www.w3.org/2000/svg';
     const exitArrow = document.createElementNS(svgNamespace, 'svg');
     exitArrow.setAttribute('class', 'action-arrow action-arrow--left');
     exitArrow.setAttribute('viewBox', '0 0 24 24');
@@ -319,7 +338,8 @@ const revealLessonPanel = () => {
     let id;
     try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
     const target = document.getElementById(id);
-    const disclosure = target?.closest('.lesson-panel-disclosure') || target?.querySelector('.lesson-panel-disclosure');
+    const disclosure = target?.closest('.lesson-panel-disclosure') ||
+        target?.querySelector(':scope > .lesson-panel-disclosure');
     if (disclosure) {
         const settle = lessonPanelTransitions.get(disclosure);
         if (settle) settle(true);

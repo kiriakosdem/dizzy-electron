@@ -12,7 +12,8 @@
     const translate = value => translations.get(normalize(value));
     const useTranslation = isEnglish => isEnglish !== lab;
     const bindings = [];
-    const button = document.createElement('button');
+    let languageToggle;
+    let languageOptions;
     let language;
 
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, node =>
@@ -49,8 +50,13 @@
         if (language === next) return;
         language = next;
         root.lang = language;
-        button.title = language === 'en' ? 'Switch to Greek' : 'Αλλαγή στα Αγγλικά';
-        button.setAttribute('aria-label', button.title);
+        if (languageToggle) {
+            languageToggle.setAttribute('aria-label', language === 'en' ? 'Language, English' : 'Γλώσσα, Ελληνικά');
+            languageToggle.querySelector('.language-code').textContent = language === 'en' ? 'EN' : 'ΕΛ';
+            languageOptions.forEach(option => {
+                option.setAttribute('aria-pressed', String(option.lang === language));
+            });
+        }
         bindings.forEach(update => update(language === 'en'));
         document.dispatchEvent(new Event(changeEvent));
     }
@@ -70,27 +76,57 @@
         onChange: update => document.addEventListener(changeEvent, update)
     };
 
-    const menu = document.querySelector('#RightBox .navbar-nav');
-    const labLanguage = document.querySelector('.lab-language');
-    if (menu || labLanguage) {
-        button.className = 'language-button';
-        button.type = 'button';
-        button.addEventListener('click', () => {
-            applyLanguage(language === 'en' ? 'el' : 'en');
-            try {
-                localStorage.setItem(key, language);
-            } catch {
-                // The in-page choice has already been applied.
-            }
-        });
-        if (menu) {
-            const item = document.createElement('li');
-            item.className = 'nav-item language-item';
-            item.append(button);
-            menu.append(item);
-        } else {
-            labLanguage.append(button);
+    const languageSlot = document.querySelector('[data-site-language], .lab-language');
+    const chooseLanguage = preference => {
+        applyLanguage(preference);
+        try {
+            localStorage.setItem(key, language);
+        } catch {
+            // The in-page choice has already been applied.
         }
+    };
+    if (languageSlot) {
+        languageSlot.innerHTML = `
+            <button type="button" class="language-toggle" id="site-language-toggle" aria-expanded="false" aria-controls="site-language-options">
+                <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false">
+                    <circle cx="12" cy="12" r="9"/>
+                    <ellipse cx="12" cy="12" rx="4" ry="9"/>
+                    <path d="M3 12h18"/>
+                </svg>
+                <span class="language-code" aria-hidden="true"></span>
+            </button>
+            <div class="language-options" id="site-language-options" role="group" aria-labelledby="site-language-toggle" hidden>
+                <button type="button" lang="en">English <span class="language-code" aria-hidden="true">EN</span></button>
+                <button type="button" lang="el">Ελληνικά <span class="language-code" aria-hidden="true">ΕΛ</span></button>
+            </div>`;
+        languageToggle = languageSlot.querySelector('.language-toggle');
+        const options = languageSlot.querySelector('.language-options');
+        languageOptions = options.querySelectorAll('button');
+        const setOpen = open => {
+            languageToggle.setAttribute('aria-expanded', String(open));
+            options.hidden = !open;
+        };
+        languageToggle.addEventListener('click', () => setOpen(options.hidden));
+        languageOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                chooseLanguage(option.lang);
+                languageToggle.focus({ preventScroll: true });
+                setOpen(false);
+            });
+        });
+        languageSlot.addEventListener('focusout', event => {
+            if (!languageSlot.contains(event.relatedTarget)) setOpen(false);
+        });
+        languageSlot.addEventListener('keydown', event => {
+            if (event.key !== 'Escape' || options.hidden) return;
+            event.preventDefault();
+            event.stopPropagation();
+            languageToggle.focus({ preventScroll: true });
+            setOpen(false);
+        });
+        document.addEventListener('click', event => {
+            if (!options.hidden && !languageSlot.contains(event.target)) setOpen(false);
+        });
     }
 
     restoreLanguage();

@@ -39,10 +39,17 @@ function setLabLabel(element, source) {
 
 const labCanvasStyle = document.documentElement && getComputedStyle(document.documentElement);
 const labCanvasTheme = {
-    background: labCanvasStyle?.getPropertyValue('--lab-scene-base').trim() || '#061428',
-    glow: labCanvasStyle?.getPropertyValue('--lab-scene-glow').trim() || 'rgb(17 45 76 / 48%)',
-    glass: labCanvasStyle?.getPropertyValue('--lab-glass-color').trim() || '#38566d',
-    accent: labCanvasStyle?.getPropertyValue('--lab-accent').trim() || '#00bed0'
+    background: labCanvasStyle?.getPropertyValue('--lab-scene-base').trim() || '#08182b',
+    glow: labCanvasStyle?.getPropertyValue('--lab-scene-glow').trim() || 'rgb(29 51 74 / 48%)',
+    glass: '#2c4056',
+    accent: '#00bed0',
+    grid: ['rgba(132,166,222,.055)', 'rgba(143,185,237,.14)', 'rgba(155,195,242,.23)'],
+    point: '#fff',
+    electric: '#ff7a1a',
+    magnetic: '#50b8f0',
+    ink: '#f6f3ed',
+    secondary: '#b8c7d6',
+    muted: '#9fafbf'
 };
 
 function paintLabBackdrop(context, width, height) {

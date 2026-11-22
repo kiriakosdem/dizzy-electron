@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.">
     <title>Dizzy Electron | Με τι μοιάζει τελικά ένα άτομο;</title>
-    <script src="../../assets/js/english.js?v=articles" defer></script>
-    <script src="../../assets/js/language.js?v=flag-button" defer></script>
-    <script src="../../assets/js/theme.js?v=site-language"></script>
+    <script src="../../assets/js/english.js?v=masthead" defer></script>
+    <script src="../../assets/js/language.js?v=shared-language" defer></script>
+    <script src="../../assets/js/theme.js?v=nav-motion"></script>
     <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/css/common.css?v=mobile-nav-layout">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=footer-current-orange">
+    <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
     <link rel="stylesheet" href="../../assets/css/cards.css?v=orange-card-hover">
     <link rel="stylesheet" href="../../assets/css/lesson.css?v=atom-figure-order">
-    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=thicker-progress">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=contents-icon">
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
-    <script src="../../assets/js/lesson.js?v=mobile-subnavigation" defer></script>
+    <script src="../../assets/js/lesson.js?v=nav-motion" defer></script>
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -24,49 +25,26 @@
 <body class="simulation-lesson" id="top">
     <a class="lesson-skip-link" href="#lesson-content">Μετάβαση στο κείμενο</a>
     <div id="content">
-        <div id="NavigationBar">
-            <nav class="navbar navbar-center navbar-expand-lg navbar-dark bg-dark" aria-label="Κύρια πλοήγηση">
-                <div class="order-0">
-                    <div class="navbar-nav mr-auto">
-                        <a class="navbar-brand" href="../../index.html" aria-label="Dizzy Electron — Αρχική">
-                            <img class="site-logo" src="../../assets/brand/logo-navy.png" width="1200" height="626" alt="" aria-hidden="true">
-                        </a>
-                    </div>
-                </div>
-                <div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="btn dropdown-toggle" href="../../contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Υλικό</a>
-                                <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
-                                    <a class="dropdown-item" href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
-                                    <a class="dropdown-item" href="../../contents/index.html#physics-lessons">Κείμενα</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item" hidden>
-                            <div class="dropdown">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-lesson-dropdown aria-controls="lesson-school-years" aria-expanded="false">Υλικό για Σχολεία</button>
-                                <div class="dropdown-menu" id="lesson-school-years" aria-labelledby="dropdownMenu2">
-                                    <a class="dropdown-item" href="../../contents/index.html">Α' Γυμνασίου</a>
-                                    <a class="dropdown-item" href="../../contents/index.html">Β' Γυμνασίου</a>
-                                    <a class="dropdown-item" href="../../contents/index.html">Γ' Γυμνασίου</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="../../contents/index.html">Α' Λυκείου</a>
-                                    <a class="dropdown-item" href="../../contents/index.html">Β' Λυκείου</a>
-                                    <a class="dropdown-item" href="../../contents/index.html">Γ' Λυκείου</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item"><a class="btn" href="../../about/index.html">Σχετικά</a></li>
-                        <li class="nav-item"><a class="btn" href="../../contact/index.html">Επικοινωνία</a></li>
-                    </ul>
-                </div>
+    <div id="NavigationBar">
+        <nav class="site-masthead" aria-label="Κύρια πλοήγηση">
+            <a class="masthead-brand" href="../../index.html" aria-label="Dizzy Electron — Αρχική">
+                <img src="../../assets/brand/logo-navy.png" width="1200" height="626" alt="">
+            </a>
+            <ul id="RightBox" class="masthead-links">
+                <li><a href="../../labs/index.html">Εργαστήρια</a></li>
+                <li><a href="../../articles/index.html" data-current-section>Κείμενα</a></li>
+                <li><a href="../../about/index.html">Σχετικά</a></li>
+                <li><a href="../../contact/index.html">Επικοινωνία</a></li>
+            </ul>
+            <div class="masthead-tools">
+                <div data-site-language></div>
+                <div data-site-theme></div>
                 <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
                     <span class="navbar-toggler-icon" aria-hidden="true"></span>
                 </button>
-            </nav>
-        </div>
+            </div>
+        </nav>
+    </div>
         <nav class="lesson-reading-nav" aria-label="Πλοήγηση ανάγνωσης" hidden>
             <div class="lesson-reading-nav-inner">
                 <a href="../../index.html" aria-label="Dizzy Electron — Αρχική">
@@ -78,7 +56,7 @@
         </nav>
         <nav aria-label="Διαδρομή κειμένου">
             <ul class="breadcrumb">
-                <li><a href="../../contents/index.html#physics-lessons">Κείμενα</a></li>
+                <li><a href="../../articles/index.html">Κείμενα</a></li>
 
                 <li><span aria-current="page">Με τι μοιάζει τελικά ένα άτομο;</span></li>
             </ul>
@@ -254,6 +232,18 @@
                     <h2 id="interactive-animation-title">Διαδραστικό Εργαστήριο</h2>
                     <p>Στο εργαστήριο που ακολουθεί θα δεις σε διαδραστική μορφή όλες αυτές τις στάσιμες κυματικές μορφές συντονισμού που μπορεί να πάρει ένα ηλεκτρόνιο γύρω από έναν πυρήνα. Ορισμένες καταστάσεις έχουν σφαιρική συμμετρία· άλλες εμφανίζουν λοβούς και κόμβους, περιοχές όπου η η λύση της κυματικής εξίσωσης μηδενίζεται.</p>
                     <p>Οι καταστάσεις περιγράφονται από 3 αριθμούς που για ιστορικούς λόγους ονομάζονται <var>n</var>, <var>l</var> και <var>m</var>, οι οποίοι χαρακτηρίζουν μονοσήμαντα την κατάσταση, συνδέοντάς τη με την ενέργεια και τη στροφορμή της. Δοκίμασε να αλλάξεις αυτούς τους αριθμούς για να εξερευνήσεις τα διαφορετικά σχήματα. Μόνο ορισμένοι συνδυασμοί αριθμών είναι επιτρεπτοί γι’ αυτό θα δεις ότι δεν μπορείς πάντα να τους αλλάξεις προς όποια κατεύθυνση θες.</p>
+                    <section id="activities" class="lesson-panel" aria-labelledby="activities-title">
+                        <details class="lesson-panel-disclosure">
+                            <summary id="activities-title"><svg class="lesson-panel-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 3h6m-5 0v7l-6 9a1.3 1.3 0 0 0 1.1 2h13.8a1.3 1.3 0 0 0 1.1-2l-6-9V3M7 15h10"/></svg> Τι να παρατηρήσεις…</summary>
+                            <div class="card-body">
+                                <ul class="lesson-bullets" role="list">
+                                    <li>Στην μεταλλική πλάκα που είδαμε προηγουμένως, η άμμος συγκεντρώνεται κοντά στους κόμβους. Στο ατομικό νέφος, τι περιμένεις να συμβαίνει με την πυκνότητα κοντά σε έναν κόμβο;</li>
+                                    <li>Πώς αλλάζει το μέγεθος, όταν αυξάνεις το n;</li>
+                                    <li>Πώς αλλάζει ο αριθμός των λοβών και των κόμβων όταν αλλάζεις το n και το l?</li>
+                                </ul>
+                            </div>
+                        </details>
+                    </section>
                     <figure class="lesson-simulation">
                         <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/hydrogen-eigenstates/index.html?v=mobile-fullscreen" title="Διαδραστική προσομοίωση: Το Άτομο του Υδρογόνου" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
                         <figcaption class="figure-caption media-caption">
@@ -261,18 +251,6 @@
                             <a class="catalog-card-action" href="../../simulations/hydrogen-eigenstates/index.html" target="_blank" rel="noopener"><span class="catalog-action-label">Άνοιγμα σε νέα καρτέλα</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a>
                         </figcaption>
                     </figure>
-                </section>
-                <section id="activities" class="lesson-panel" aria-labelledby="activities-title">
-                    <details class="lesson-panel-disclosure">
-                        <summary id="activities-title"><svg class="lesson-panel-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 3h6m-5 0v7l-6 9a1.3 1.3 0 0 0 1.1 2h13.8a1.3 1.3 0 0 0 1.1-2l-6-9V3M7 15h10"/></svg> Τι να παρατηρήσεις…</summary>
-                        <div class="card-body">
-                            <ul class="lesson-bullets" role="list">
-                                <li>Στην μεταλλική πλάκα που είδαμε προηγουμένως, η άμμος συγκεντρώνεται κοντά στους κόμβους. Στο ατομικό νέφος, τι περιμένεις να συμβαίνει με την πυκνότητα κοντά σε έναν κόμβο;</li>
-                                <li>Πώς αλλάζει το μέγεθος, όταν αυξάνεις το n;</li>
-                                <li>Πώς αλλάζει ο αριθμός των λοβών και των κόμβων όταν αλλάζεις το n και το l?</li>
-                            </ul>
-                        </div>
-                    </details>
                 </section>
                 <section id="other-atoms" class="lesson-section illustrated-section" aria-labelledby="other-atoms-title">
                     <h2 id="other-atoms-title">Και για τα υπόλοιπα άτομα;</h2>
@@ -306,7 +284,7 @@
                 <!-- Google Doc lesson body ends -->
                 <nav id="change-chapter" class="lesson-chapter-nav" aria-label="Πλοήγηση μεταξύ κειμένων">
                     <a class="catalog-card-action mr-auto" href="ti-einai-i-aktinovolia.html" rel="prev"><svg class="action-arrow action-arrow--left" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg><span class="catalog-action-label">Τι είναι η ακτινοβολία;</span></a>
-                    <a class="catalog-card-action ml-auto" href="../../contents/index.html#interactive-lessons"><span class="catalog-action-label">Όλα τα εργαστήρια</span><svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a>
+                    <a class="catalog-card-action ml-auto" href="../../labs/index.html"><span class="catalog-action-label">Όλα τα εργαστήρια</span><svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a>
                 </nav>
             </main>
             <section class="lesson-recommendations" aria-labelledby="related-lessons-title">
@@ -344,7 +322,8 @@
                 </a>
             <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
                 <ul>
-                <li><a href="../../contents/index.html">Υλικό</a></li>
+                <li><a href="../../labs/index.html">Εργαστήρια</a></li>
+                <li><a href="../../articles/index.html">Κείμενα</a></li>
                 <li><a href="../../about/index.html">Σχετικά</a></li>
                 <li><a href="../../contact/index.html">Επικοινωνία</a></li>
                 </ul>

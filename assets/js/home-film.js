@@ -26,8 +26,7 @@ window.siteLanguage.onChange(updateFilmToggle);
 updateFilmToggle();
 filmToggle.hidden = false;
 
-const labels = document.querySelectorAll('.home-film-caption > [data-lab]');
-const filmAction = document.querySelector('.home-film-action');
+const labels = document.querySelectorAll('.home-film-label > span');
 const clipTrack = homeFilm.addTextTrack('metadata');
 clipTrack.mode = 'hidden';
 const clipSeconds = 4;
@@ -41,7 +40,6 @@ clipTrack.addEventListener('cuechange', () => {
     if (!cue) return;
     const activeLabel = labels[Number(cue.id)];
     labels.forEach(label => { label.hidden = label !== activeLabel; });
-    filmAction.setAttribute('href', activeLabel.dataset.lab);
 });
 
 if (!reducedFilmMotion.matches) {

@@ -1,6 +1,6 @@
 # Dizzy Electron
 
-A static learning website with Greek and English lessons and interactive physics simulations. Pages use plain HTML, CSS and JavaScript. Greek is the default, and the flag button in the navbar switches languages and saves the visitor’s choice in their browser.
+A static learning website with Greek and English lessons and interactive physics simulations. Pages use plain HTML, CSS and JavaScript. The header offers direct links to the labs and articles, a Greek and English selector, and a light and dark theme switch. Language and theme preferences are saved in the browser.
 
 ## Preview locally
 
@@ -17,7 +17,9 @@ Open <http://127.0.0.1:8765/>. Stop the server with Ctrl+C. Some pages load font
 | Location | Purpose |
 | --- | --- |
 | `index.html` | Homepage and featured available lessons |
-| `contents/index.html` | Catalogue of available and coming-soon lessons |
+| `articles/index.html` | Catalogue of available articles and upcoming topics |
+| `labs/index.html` | Catalogue of interactive physics labs |
+| `contents/index.html` | Redirect for old catalogue bookmarks |
 | `about/index.html` | Project background, author biography, and content reuse terms, linked from every About navbar item |
 | `contact/index.html`, `contact/thanks.html` | Contact/report form and submission confirmation page |
 | `lessons/physics/` | Lesson text, activities, navigation and simulation embeds |
@@ -70,7 +72,7 @@ Retained JSON validation reports describe earlier checks; running the suites doe
 
 ## Page locations
 
-Use `index.html` for the homepage, `contents/index.html` for the catalogue, `lessons/physics/` for lessons and `simulations/<topic>/index.html` for standalone labs. The original example is in `examples/example-lesson.html`.
+Use `index.html` for the homepage, `articles/index.html` and `labs/index.html` for the catalogues, `lessons/physics/` for lessons, and `simulations/<topic>/index.html` for standalone labs. The original example is in `examples/example-lesson.html`.
 
 All navigation and embeds use these locations directly. Legacy root HTML pages and the old animation URLs have been removed; old bookmarks should be updated to the new paths. Only the homepage HTML remains in the repository root.
 

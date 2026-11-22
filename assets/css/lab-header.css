@@ -1,18 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Literata:300,400,500,600,700');
+
 /* Keep the title and simulation actions in a single header. */
 .lab-header {
     --lab-header-control-size: 38px;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) repeat(3, auto);
+    grid-template-columns: auto minmax(0, 1fr) repeat(2, auto);
     flex: none;
     align-items: center;
     column-gap: clamp(6px, 1.5vw, 18px);
     padding: calc(var(--lab-frame-inset) + env(safe-area-inset-top)) max(var(--lab-frame-inset), env(safe-area-inset-right)) var(--lab-frame-inset) max(var(--lab-frame-inset), env(safe-area-inset-left));
     background: var(--lab-navy);
-    border-bottom: var(--lab-frame-border);
-    font-family: var(--lab-ui-font);
+    color: var(--lab-header-ink, var(--text-primary));
+    font-family: 'Literata', sans-serif;
 }
 
-.lab-header h1 {
+:root[data-theme="light"] .lab-header {
+    --lab-header-ink: var(--lab-paper);
+    --lab-header-hover: rgb(246 243 237 / 12%);
+    --lab-header-accent: var(--color-logo-cyan, #00bed0);
+}
+
+.lab-title-group {
+    display: flex;
+    align-items: center;
+    gap: clamp(4px, 1vw, 10px);
+}
+
+.lab-title-group h1 {
     margin: 0;
     font-size: clamp(1rem, 2.4vw, 1.3rem);
     line-height: 1.2;
@@ -33,46 +47,38 @@
     transform: scale(1.3);
 }
 
-.lab-language .language-button {
-    display: grid;
-    place-items: center;
-    width: var(--lab-header-control-size);
-    height: var(--lab-header-control-size);
-    padding: 0;
-    cursor: pointer;
-}
-.lab-language .language-button::before {
-    content: "";
-    box-sizing: border-box;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: url("../icons/flag-greece.svg") left center / cover no-repeat content-box;
-}
-.lab-language .language-button:lang(en)::before {
-    background-image: url("../icons/flag-uk.svg");
-    background-position: center;
+.lab-language {
+    --language-trigger-ink: var(--lab-header-ink, var(--text-primary));
+    --language-accent: var(--lab-header-accent, var(--text-accent));
+    --language-surface: var(--lab-panel-background);
+    --language-selected: var(--lab-button-fill);
+    --language-ink: var(--text-primary);
+    --language-muted: var(--text-secondary);
+    --language-radius: 8px;
 }
 
-.lab-header :is(#physicsButton, #controlsToggle, .language-button) {
+.lab-header :is(#physicsButton, #controlsToggle) {
     border: 0;
+    border-radius: 8px;
     background: var(--lab-navy);
 }
 
-.lab-header :is(#physicsButton, #controlsToggle) { border-radius: 8px; }
-.lab-header .language-button { border-radius: 50%; }
-
 .lab-header #physicsButton {
     display: inline-flex;
+    flex: none;
     align-items: center;
     justify-content: center;
     gap: 6px;
     min-height: var(--lab-header-control-size);
     padding: 0 10px;
-    color: var(--text-primary);
+    color: var(--lab-header-ink, var(--text-primary));
     font-size: .85rem;
     font-weight: 600;
     cursor: pointer;
+}
+.lab-header #physicsButton > span {
+    text-decoration: underline;
+    text-underline-offset: .2em;
 }
 .lab-header .lab-help-icon { display: none; font-size: 1.15rem; line-height: 1; }
 
@@ -80,17 +86,19 @@
     width: var(--lab-header-control-size);
     height: var(--lab-header-control-size);
     min-height: var(--lab-header-control-size);
+    color: var(--lab-header-ink, var(--text-primary));
 }
 
 @media (hover: hover) {
-    .lab-header :is(#physicsButton, #controlsToggle, .language-button):hover {
-        background: var(--lab-panel-background);
+    .lab-header :is(#physicsButton, #controlsToggle):hover {
+        background: var(--lab-header-hover, var(--lab-panel-background));
     }
 }
 
 @media (max-width: 600px) {
     .lab-header {
         column-gap: 6px;
+        padding-inline-start: max(16px, env(safe-area-inset-left));
     }
     .lab-header #physicsButton {
         width: var(--lab-header-control-size);
@@ -100,7 +108,10 @@
     .lab-header .lab-help-icon { display: inline; }
 }
 
-:root[data-lab-embedded] .lab-header { grid-template-columns: minmax(0, 1fr) auto auto; }
+:root[data-lab-embedded] .lab-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding-inline-start: max(16px, env(safe-area-inset-left));
+}
 :root[data-lab-embedded] .lab-header :is(.lab-site-brand, .lab-language) { display: none; }
 
 #closePhysics {

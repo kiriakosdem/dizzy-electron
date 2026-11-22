@@ -210,7 +210,6 @@ NAVIGATION BAR
 }
 
 #NavigationBar .navbar{
-    --switch-track-height: 38px;
 	padding: 0.25rem 0.4rem;
 	font-weight: bold;
 	letter-spacing: 0.1rem;
@@ -330,67 +329,184 @@ footer .footer-brand {
 
 #NavigationBar #dropdownMenu1::after { color: inherit; }
 
-#NavigationBar .language-item {
-    align-self: center;
+/* Site masthead */
+.site-masthead {
+    --masthead-gutter: max(clamp(12px, 3.8vw, 44px), calc((100% - 1280px) / 2));
+    --switch-track-height: 30px;
+    --switch-option-width: 29px;
+    --switch-option-height: 24px;
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(20px, 2.8vw, 38px);
+    min-height: 100px;
+    padding-inline: var(--masthead-gutter);
+    background: var(--color-navy);
+    color: var(--color-paper);
 }
 
-#NavigationBar .language-button {
+.masthead-brand {
     --hover-background: transparent;
-    display: inline-grid;
+    display: flex;
+    align-items: center;
+    justify-self: start;
+    width: 180px;
+    max-width: 100%;
+    min-height: 44px;
+}
+
+.masthead-brand img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.masthead-links {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 2.3vw, 30px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#NavigationBar .masthead-links a {
+    --hover-background: transparent;
+    --hover-color: var(--color-logo-orange);
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--color-paper);
+    font-size: 1.075rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#NavigationBar .masthead-links a:is([aria-current], [data-current-section]) {
+    color: var(--color-logo-orange);
+    text-decoration: none;
+}
+
+#NavigationBar .masthead-links a:is([aria-current], [data-current-section])::after {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 5px;
+    height: 2px;
+    background: currentColor;
+    content: "";
+}
+
+.masthead-tools {
+    display: flex;
+    align-items: center;
+    justify-self: end;
+    gap: 12px;
+}
+
+.masthead-appearance { display: none; }
+
+.site-masthead [data-lesson-menu] {
+    --hover-background: transparent;
+    --hover-color: var(--color-logo-orange);
+    display: none;
     place-items: center;
     width: 44px;
     height: 44px;
     padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: transparent;
-    vertical-align: middle;
-    cursor: pointer;
+    color: var(--color-paper);
 }
 
-#NavigationBar .language-button::before {
-    content: "";
-    box-sizing: border-box;
-    width: var(--switch-track-height);
-    height: var(--switch-track-height);
-    padding: 3px;
-    border: 1px solid var(--color-white);
-    border-radius: 50%;
-    background: url("../icons/flag-greece.svg") left center / cover no-repeat content-box;
+@media (max-width: 991.98px) {
+    .site-masthead {
+        grid-template-columns: minmax(0, 1fr) auto;
+        column-gap: 8px;
+        min-height: 80px;
+    }
+
+    .masthead-links {
+        position: absolute;
+        inset: 100% 0 auto;
+        display: grid;
+        visibility: hidden;
+        opacity: 0;
+        clip-path: inset(0 -32px 100% -32px);
+        pointer-events: none;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 20px;
+        padding: 6px var(--masthead-gutter) 16px;
+        background: var(--color-navy);
+        box-shadow: 0 12px 22px rgb(0 13 30 / 24%);
+    }
+
+    .masthead-links.show {
+        visibility: visible;
+        opacity: 1;
+        clip-path: inset(0 -32px -36px -32px);
+        pointer-events: auto;
+    }
+    .masthead-appearance {
+        display: flex;
+        grid-column: 1 / -1;
+        justify-content: center;
+        padding-block-start: 4px;
+    }
+    #NavigationBar .masthead-links a {
+        justify-content: center;
+        min-height: 52px;
+        font-size: 1.05rem;
+        text-align: center;
+    }
+    #NavigationBar .masthead-links a:is([aria-current], [data-current-section]) {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 6px;
+    }
+    #NavigationBar .masthead-links a:is([aria-current], [data-current-section])::after {
+        content: none;
+    }
+    .masthead-brand { width: 150px; }
+    .masthead-tools { gap: 6px; }
+    .masthead-tools [data-site-theme] { display: none; }
+    .site-masthead [data-lesson-menu] { display: grid; }
 }
 
-#NavigationBar .language-button:lang(en)::before {
-    background-image: url("../icons/flag-uk.svg");
-    background-position: center;
+@media (max-width: 991.98px) and (prefers-reduced-motion: no-preference) {
+    .masthead-links {
+        transition: clip-path 260ms ease, opacity 200ms ease, visibility 0s linear 260ms;
+    }
+
+    .masthead-links.show { transition-delay: 0s; }
 }
 
-#NavigationBar .language-button:hover::before {
-    border-color: var(--color-logo-orange);
+@media (max-width: 419px) {
+    .site-masthead { --masthead-gutter: 10px; column-gap: 6px; }
+    .masthead-tools { gap: 3px; }
 }
 
-#NavigationBar .language-button:focus-visible {
-    outline: 2px solid var(--color-logo-cyan);
-    outline-offset: 3px;
-}
-
-#NavigationBar .theme-toggle {
+#NavigationBar .site-masthead .theme-toggle {
     --hover-background: transparent;
+    --hover-color: var(--color-paper);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: auto;
     min-height: 44px;
-    padding: 0 8px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
 }
-.theme-track {
-    --thumb-size: 30px;
+#NavigationBar .theme-track {
     box-sizing: border-box;
     position: relative;
     display: grid;
-    grid-template-columns: repeat(2, var(--thumb-size));
+    grid-template-columns: repeat(2, var(--switch-option-width));
+    grid-template-rows: minmax(0, 1fr);
     place-items: center;
     height: var(--switch-track-height);
-    padding: 3px;
+    padding: 2px;
     border: 1px solid var(--color-white);
     border-radius: 999px;
     background: var(--color-navy);
@@ -398,22 +514,21 @@ footer .footer-brand {
 .theme-track::before {
     content: "";
     position: absolute;
-    left: 3px;
-    top: 3px;
-    width: var(--thumb-size);
-    height: var(--thumb-size);
-    border-radius: 50%;
+    left: 2px;
+    top: 2px;
+    width: var(--switch-option-width);
+    height: var(--switch-option-height);
+    border-radius: 999px;
     background: var(--color-logo-orange);
 }
 .theme-toggle[aria-checked="true"] .theme-track::before {
-    transform: translateX(var(--thumb-size));
+    transform: translateX(var(--switch-option-width));
     background: var(--color-logo-cyan);
 }
 .theme-track svg {
     position: relative;
-    width: 20px;
-    height: 20px;
-    margin-block: 5px;
+    width: 16px;
+    height: 16px;
     color: var(--color-white);
     fill: none;
     stroke: currentColor;
@@ -677,7 +792,7 @@ footer .footer-navigation li + li { margin-top: 10px; }
 footer .footer-navigation a { display: inline-block; padding: 2px 0; font-size: .95rem; }
 footer .footer-navigation a:hover { color: var(--color-logo-cyan); }
 footer .footer-navigation a[aria-current="page"] {
-    color: var(--color-logo-cyan);
+    color: var(--color-logo-orange);
     text-decoration: underline;
     text-underline-offset: 6px;
 }
@@ -723,8 +838,7 @@ footer .footer-navigation a {
     .breadcrumb a[href],
     #change-chapter a[href],
     #NavigationBar a.btn[aria-current="page"],
-    #NavigationBar .dropdown-item[aria-current="page"],
-    footer .footer-navigation a[aria-current="page"]
+    #NavigationBar .dropdown-item[aria-current="page"]
 ) {
     color: var(--color-logo-cyan);
 }
@@ -841,7 +955,7 @@ a[href*="creativecommons.org/"] {
 
 /* Animate the collapsed navbar at the same breakpoint as navbar-expand-lg. */
 @media (max-width: 991.98px) {
-    #NavigationBar #RightBox {
+    #NavigationBar .navbar #RightBox {
         display: grid;
         grid-template-rows: 0fr;
         align-items: stretch;
@@ -850,12 +964,12 @@ a[href*="creativecommons.org/"] {
         transition: grid-template-rows 280ms ease, visibility 280ms;
     }
 
-    #NavigationBar #RightBox.show {
+    #NavigationBar .navbar #RightBox.show {
         grid-template-rows: 1fr;
         visibility: visible;
     }
 
-    #NavigationBar #RightBox > .navbar-nav {
+    #NavigationBar .navbar #RightBox > .navbar-nav {
         flex-flow: row wrap;
         align-items: center;
         min-height: 0;
@@ -864,21 +978,20 @@ a[href*="creativecommons.org/"] {
         text-align: center;
     }
 
-    #NavigationBar #RightBox .nav-item:not(.language-item, :has(> .theme-toggle)) {
+    #NavigationBar .navbar #RightBox .nav-item {
         flex: 0 0 calc(100% - .8rem);
     }
 
-    .home-page #NavigationBar #RightBox.show {
+    .home-page #NavigationBar .navbar #RightBox.show {
         border-block-end: 1px solid rgb(255 255 255 / 35%);
     }
 
-    #NavigationBar #RightBox .btn { text-align: start; }
-    #NavigationBar #RightBox .dropdown-item { text-align: center; }
+    #NavigationBar .navbar #RightBox .btn { text-align: start; }
+    #NavigationBar .navbar #RightBox .dropdown-item { text-align: center; }
 
     #NavigationBar #dropdownMenu1::after { display: none; }
 
     #NavigationBar #lesson-subjects {
-        display: block;
         margin: 0 1rem .5rem;
         padding: 0 0 0 .75rem;
         background: transparent;
@@ -888,7 +1001,9 @@ a[href*="creativecommons.org/"] {
         box-shadow: none;
     }
 
-    #NavigationBar #RightBox #lesson-subjects .dropdown-item {
+    #NavigationBar #lesson-subjects { display: block; }
+
+    #NavigationBar .navbar #RightBox #lesson-subjects .dropdown-item {
         min-height: 44px;
         padding: .65rem .5rem;
         color: var(--color-white);
@@ -903,13 +1018,10 @@ a[href*="creativecommons.org/"] {
         outline-offset: -2px;
     }
 
-    #NavigationBar #RightBox .language-item {
-        margin: .4rem 0 .4rem 1rem;
-    }
 }
 
 @media (max-width: 991.98px) and (prefers-reduced-motion: reduce) {
-    #NavigationBar #RightBox {
+    #NavigationBar .navbar #RightBox {
         transition: none;
     }
 }

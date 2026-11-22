@@ -4,7 +4,10 @@
 .home-heading { background: var(--color-navy); color: var(--color-white); }
 .home-title-accent { color: var(--color-logo-orange); }
 .home-hero { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 5vw, 64px); align-items: stretch; }
+.home-hero-copy { display: grid; align-content: start; gap: 36px; }
+.home-hero-copy > :is(h1, p) { margin: 0; }
 .home-film-frame {
+    position: relative;
     align-self: start;
     width: 100%;
     min-width: 0;
@@ -44,26 +47,18 @@
 .home-film-toggle:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
 .home-film-toggle:not([data-playing]) .home-film-pause,
 .home-film-toggle[data-playing] .home-film-play { display: none; }
-.home-film-caption {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: .35rem;
-    padding: .5rem 1rem;
-    background: color-mix(in srgb, var(--color-navy) 70%, var(--color-graphite));
-    color: color-mix(in srgb, var(--color-paper) 80%, var(--color-graphite));
-    font-size: .875rem;
-    line-height: 1.4;
-    text-align: center;
-}
-.home-film-caption .home-film-action {
-    --hover-background: transparent;
-    flex: none;
-    color: var(--color-logo-cyan);
-    text-decoration: none;
-}
-.home-film-caption .home-film-action:is(:hover, :focus-visible) {
-    color: var(--color-logo-orange);
+.home-film-label {
+    position: absolute;
+    inset-block-end: 10px;
+    inset-inline: 10px 54px;
+    width: fit-content;
+    padding: .375rem .625rem;
+    border-radius: var(--corner-radius);
+    background: rgb(0 30 60 / 90%);
+    color: var(--color-white);
+    font-size: .8125rem;
+    line-height: 1.35;
+    pointer-events: none;
 }
 .home-heading .lesson-bullets { margin: 16px 0 0; }
 .home-heading .lesson-bullets > li + li { margin-top: .65em; }
@@ -82,6 +77,18 @@
     height: calc(var(--wave-height) + 1px);
     fill: var(--color-navy);
     pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .home-hero-wave path {
+        transform-box: view-box;
+        transform-origin: center top;
+        animation: home-wave-drift 18s ease-in-out infinite;
+    }
+}
+@keyframes home-wave-drift {
+    0%, 50%, 100% { transform: scaleX(1.06); }
+    25% { transform: translateX(2%) scale(1.06, .94); }
+    75% { transform: translateX(-2%) scale(1.06, 1.04); }
 }
 .home-band h2 { font-size: var(--section-title-size); line-height: 1.4; margin: 0 0 var(--section-heading-gap); }
 .home-band p { font-size: .95rem; color: var(--muted-ink); }
@@ -160,12 +167,12 @@
 .quote-step .action-arrow { --arrow-size: 20px; }
 .quote-pagination span { display: grid; place-items: center; width: clamp(24px, 3vw, 36px); border-radius: var(--corner-radius); }
 .quote-pagination span::before { content: ''; width: 7px; height: 7px; border-radius: 8px; background: var(--muted-ink); }
-.quote-pagination [aria-current="true"]::before { width: 22px; background: var(--color-logo-cyan); }
+.quote-pagination [aria-current="true"]::before { width: 22px; }
 @media (hover: hover) {
     .quote-controls .quote-step:hover { background: var(--band); color: var(--ink); }
 }
 @media (prefers-reduced-motion: no-preference) {
-    .quote-pagination span::before { transition: width 240ms ease, background-color 240ms; }
+    .quote-pagination span::before { transition: width 240ms ease; }
     .quote-step .action-arrow { transition: transform 180ms ease; }
     @media (hover: hover) {
         .quote-step[data-step="-1"]:hover .action-arrow { transform: translateX(-2px); }
@@ -175,7 +182,24 @@
 
 .home-page .quote-carousel { padding-block: clamp(24px, 3vw, 40px); }
 
-.home-primary-action { margin-top: 12px; }
+.home-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 20px;
+}
+.home-secondary-action {
+    --hover-background: transparent;
+    --hover-color: var(--color-logo-orange);
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--color-logo-cyan);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+.home-secondary-action:hover { text-decoration: underline; }
 @media (max-width: 767.98px) {
-    .home-primary-action { display: flex; width: fit-content; margin-inline: auto; }
+    .home-hero-actions { flex-direction: column; }
 }

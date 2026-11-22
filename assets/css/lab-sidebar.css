@@ -273,6 +273,28 @@
     background: var(--lab-button-fill);
 }
 
+:root[data-theme="light"] {
+    --lab-paper: var(--color-paper, #f6f3ed);
+    --lab-white: var(--color-white, #ffffff);
+    color-scheme: light;
+    background: var(--lab-paper);
+    --lab-accent: #007684;
+    --lab-sidebar-background: var(--lab-paper);
+    --lab-panel-background: var(--lab-white);
+    --lab-glass-color: var(--lab-white);
+    --lab-glass-button-color: #afa89c;
+    --text-primary: #102a43;
+    --text-secondary: #294762;
+    --text-muted: #526a81;
+    --lab-delete-fill: #fae9ed;
+    --lab-delete-edge: #e1aab8;
+    --lab-delete-hover: #f4d5dd;
+    --lab-delete-ink: #862c45;
+    --text-destructive: var(--lab-delete-ink);
+    --control-surface: var(--lab-panel-background);
+    --control-border: var(--lab-button-edge);
+}
+
 @media (pointer: coarse), (max-width: 750px) {
     :root { --row-height: 44px; }
     .panel { --group-heading-size: 14px; }

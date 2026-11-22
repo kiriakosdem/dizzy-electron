@@ -81,8 +81,10 @@
 }
 
 .time-bar .playback-toggle {
+    flex-shrink: 0;
     gap: 5px;
-    width: 72px;
+    width: 88px;
+    padding-inline: 8px;
     font-weight: 700;
 }
 
@@ -103,7 +105,7 @@
     white-space: nowrap;
 }
 
-.time-bar select { color-scheme: dark; }
+.time-bar select { color-scheme: inherit; }
 .time-bar > select { min-width: 56px; }
 
 /* Keep the selected multiplier compact when the menu includes effective rates. */
@@ -126,7 +128,7 @@
     color: transparent;
 }
 .time-bar :is(optgroup, option) {
-    background: var(--lab-navy);
+    background: var(--lab-paper, var(--lab-navy));
     color: var(--text-primary);
 }
 @media (forced-colors: active) {
@@ -138,6 +140,7 @@
     .time-bar { gap: 2px; }
     #lab .time-bar [role="timer"] { padding-inline: 3px; }
     .time-bar :is(button.playback-toggle, button.playback-icon) { width: 44px; }
+    .time-bar button.playback-toggle { padding-inline: 0; }
     .time-bar :is(.playback-toggle, .playback-step) > span { display: none; }
 }
 @media (pointer: coarse), (max-width: 500px) {
