@@ -4,6 +4,7 @@
 }
 
 :root[data-theme="dark"] body {
+    --surface: var(--page);
     background-color: var(--band);
 }
 
@@ -344,7 +345,7 @@ p {
 	margin-bottom: var(--section-heading-gap);
 }
 
-.simulation-lesson .lesson-section > h2 {
+.simulation-lesson :is(.lesson-section, .lesson-recommendations) > h2 {
     font-size: var(--section-title-size);
     font-weight: 600;
     line-height: 1.4;
@@ -457,7 +458,7 @@ p {
 /* Lesson navigation and media actions share the same text-link treatment. */
 #change-chapter .btn,
 main .simulation-toolbar .btn,
-main .figure-caption a {
+main .figure-caption a:not(.catalog-card-action) {
     --hover-background: transparent;
     background: transparent !important;
     color: var(--ink);
@@ -469,13 +470,13 @@ main .figure-caption a {
     text-underline-offset: 3px;
 }
 
-main .figure-caption a[href] {
+main .figure-caption a[href]:not(.catalog-card-action) {
     color: var(--caption-ink);
 }
 
 #change-chapter .btn:hover,
 main .simulation-toolbar .btn:hover,
-main .figure-caption a:hover {
+main .figure-caption a:not(.catalog-card-action):hover {
     color: var(--link-hover) !important;
     text-decoration: underline;
 }
@@ -541,7 +542,7 @@ main .figure-caption a:hover {
     object-position: center 22%;
 }
 
-@media (max-width: 575px) {
+@media (max-width: 767.98px) {
     .figure.atomic-model {
         display: block;
         float: none;

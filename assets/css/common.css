@@ -36,7 +36,7 @@ MAIN BODY AND TEXT
     --color-border: color-mix(in srgb, var(--color-navy) 18%, var(--color-paper));
     --page: var(--color-white);
     --band: var(--color-paper);
-    /* Cards and embedded content reuse the alternate page shade in both themes. */
+    /* Default surface for cards and embedded content. */
     --surface: var(--page);
     --ink: var(--color-navy);
     --muted-ink: var(--color-graphite);
@@ -50,8 +50,9 @@ MAIN BODY AND TEXT
 
 :root[data-theme="dark"] {
     color-scheme: dark;
-    --page: color-mix(in srgb, var(--color-navy) 51%, var(--color-graphite));
+    --page: #2c4056;
     --band: color-mix(in srgb, var(--color-navy) 70%, var(--color-graphite));
+    --surface: var(--band);
     --ink: var(--color-paper);
     --muted-ink: color-mix(in srgb, var(--color-paper) 80%, var(--color-graphite));
     --color-border: color-mix(in srgb, var(--surface) 50%, var(--color-navy));
@@ -61,6 +62,12 @@ MAIN BODY AND TEXT
 }
 
 :root[data-theme="dark"] body { background: var(--page); color: var(--ink); }
+
+/* Panels use the other shade inside sections painted with the blue band. */
+:root[data-theme="dark"] :where(.home-band, .contents-band--shaded,
+    .about-band--shaded, .contact-form-band) {
+    --surface: var(--page);
+}
 
 /* Bright brand accents remain legible on the site's permanent navy surfaces. */
 #NavigationBar,
@@ -225,7 +232,7 @@ footer .footer-brand {
 }
 
 #NavigationBar .site-logo {
-    width: 180px;
+    width: min(160px, calc(100vw - 88px));
 }
 
 
@@ -245,10 +252,6 @@ footer .footer-brand {
     #NavigationBar .order-0 {
         min-width: 0;
         max-width: calc(100% - 60px);
-    }
-
-    #NavigationBar .site-logo {
-        width: min(180px, calc(100vw - 88px));
     }
 }
 
@@ -439,31 +442,6 @@ a:hover{
 	border-color: transparent;
 	font-size: 1rem;
 }
-
-.scrollToTop{
-	position: fixed;
-	bottom: 2rem;
-	right: 2rem;
-	line-height: 1;
-	width: 50px;
-	height: 50px;
-	background-color: var(--color-navy);
-	color: var(--color-white);
-	text-align: center;
-	display: none;
-	z-index: 1000;
-	padding: 0;
-	border: 0;
-	border-radius: var(--corner-radius);
-}
-
-.scrollToTop > svg { position: absolute; width: 28px; height: 28px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
-.scrollToTop:hover{
-	background-color: var(--color-navy);
-	color: var(--color-white);
-}
-
-
 
 /* ---------------------------------------------------
 SOCIAL ICONS STYLE
@@ -810,14 +788,11 @@ a[href*="creativecommons.org/"] {
         min-height: 0;
         overflow: hidden;
         margin-left: 0 !important;
-        text-align: left;
+        text-align: center;
     }
-}
 
-@media (max-width: 767.98px) {
-    #NavigationBar #RightBox > .navbar-nav,
     #NavigationBar #RightBox .btn,
-    #NavigationBar #RightBox .dropdown-item { text-align: right; }
+    #NavigationBar #RightBox .dropdown-item { text-align: center; }
 }
 
 @media (max-width: 991.98px) and (prefers-reduced-motion: reduce) {
@@ -827,7 +802,29 @@ a[href*="creativecommons.org/"] {
 }
 
 .page-title { margin: 0 0 var(--page-title-gap); font-weight: 600; font-size: var(--title-size); line-height: 1.15; text-wrap: balance; }
-.primary-action { display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 13px 22px; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); background: var(--color-logo-orange); color: var(--color-navy); font-size: .95rem; font-weight: 600; line-height: 1.6; }
+.primary-action { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: 13px 22px; border: var(--border-width) solid var(--color-logo-orange); border-radius: var(--corner-radius); background: var(--color-logo-orange); color: var(--color-navy); font-size: .95rem; font-weight: 600; line-height: 1.6; }
+
+.action-with-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.action-arrow {
+    display: inline-block;
+    flex: none;
+    width: var(--arrow-size, 1rem);
+    height: var(--arrow-size, 1rem);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.action-arrow--left { rotate: 180deg; }
+.action-arrow--up { rotate: -90deg; }
+.action-arrow--external { rotate: -45deg; }
 .primary-action:hover { background: color-mix(in srgb, var(--color-logo-orange) 88%, var(--color-navy)); border-color: var(--color-navy); color: var(--color-navy); text-decoration: none; }
 
 @media (max-width: 575px) {

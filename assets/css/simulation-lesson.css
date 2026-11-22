@@ -1,10 +1,96 @@
 /* The page layout, typography, and cards come from lesson.css and cards.css.
    These additions only support the embedded labs and accessible navigation. */
 
-.simulation-lesson main,
-.simulation-lesson .lesson-sidebar {
-    min-width: 0;
+:root {
+    scroll-padding-top: var(--lesson-navbar-height, 0px);
 }
+
+.simulation-lesson .lesson-layout {
+    width: 100%;
+    max-width: 54rem;
+    padding-inline: 20px;
+}
+
+.lesson-recommendations {
+    margin-bottom: var(--section-start);
+}
+
+.lesson-site-nav,
+.lesson-reading-nav {
+    top: 0;
+    z-index: 1030;
+}
+
+.lesson-site-nav {
+    position: sticky;
+}
+
+.lesson-reading-nav {
+    position: fixed;
+    inset-inline: 0;
+    background: var(--color-navy);
+    color: var(--color-white);
+    --focus-ring: var(--color-logo-cyan);
+}
+
+.lesson-site-nav.is-offscreen,
+.lesson-reading-nav:not(.is-visible) {
+    transform: translateY(-100%);
+    visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .lesson-site-nav,
+    .lesson-reading-nav {
+        transition: transform 200ms ease, visibility 200ms;
+    }
+
+    .lesson-site-nav:not(.is-offscreen),
+    .lesson-reading-nav.is-visible {
+        transition: transform 200ms ease;
+    }
+}
+
+.lesson-reading-nav-inner {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .375rem 20px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.lesson-reading-nav-inner a {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+}
+
+.lesson-reading-nav-inner img {
+    width: 42px;
+    height: 42px;
+}
+
+.lesson-reading-progress {
+    display: block;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    border: 0;
+    background: #ffffff33;
+    color: var(--color-logo-cyan);
+}
+
+@media (max-width: 767.98px) {
+    .lesson-reading-progress { height: 1px; }
+}
+
+.lesson-reading-progress::-webkit-progress-bar { background: #ffffff33; }
+.lesson-reading-progress::-webkit-progress-value { background: var(--color-logo-cyan); }
+.lesson-reading-progress::-moz-progress-bar { background: var(--color-logo-cyan); }
 
 /* Match the reading rhythm of the About page's body paragraphs. */
 .simulation-lesson .lesson-section > p {
@@ -16,10 +102,18 @@
 }
 
 .simulation-lesson .lesson-subtitle {
-    margin: 0 0 2rem;
+    margin: 0;
     color: var(--muted-ink);
     text-align: center;
     line-height: 1.7;
+}
+
+.lesson-reading-time {
+    margin: .35rem 0 2rem;
+    color: var(--muted-ink);
+    text-align: center;
+    font-size: .875rem;
+    font-style: italic;
 }
 
 .lesson-simulation {
@@ -51,6 +145,10 @@
     text-align: right;
 }
 
+.media-caption > a.catalog-card-action {
+    text-decoration: none;
+}
+
 .simulation-frame {
     display: block;
     width: 100%;
@@ -75,8 +173,22 @@
     display: none;
 }
 
-.simulation-lesson #change-chapter .btn {
-    white-space: normal;
+.lesson-chapter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    padding-block: 4rem 2rem;
+}
+
+.lesson-chapter-nav a.catalog-card-action {
+    min-width: 0;
+    min-height: 44px;
+    max-width: 100%;
+    text-decoration: none;
+}
+
+.lesson-chapter-nav .catalog-action-label {
+    overflow-wrap: anywhere;
 }
 
 .lesson-skip-link {
@@ -104,113 +216,14 @@
     scroll-margin-top: 1rem;
 }
 
-/* Native disclosures keep mobile section navigation usable without JavaScript. */
-.lesson-mobile-navigation {
-    display: none;
-}
-
 .simulation-frame {
     scroll-margin-top: 1rem;
-}
-
-@media (max-width: 991px) {
-    .lesson-desktop-contents {
-        display: none;
-    }
-
-    .lesson-mobile-navigation {
-        display: block;
-        margin-bottom: 1.5rem;
-    }
-
-    .lesson-mobile-contents {
-        background: var(--surface);
-        border: var(--border-width) solid var(--color-border);
-        border-radius: var(--corner-radius);
-    }
-
-    .lesson-mobile-contents summary {
-        --hover-background: transparent;
-        --hover-color: var(--link-hover);
-        padding: 12px 16px;
-        min-height: 44px;
-        color: var(--ink);
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    .lesson-mobile-contents ul {
-        margin: 0;
-        padding: 0 16px 12px;
-    }
-
-    .lesson-mobile-contents a,
-    .lesson-mobile-navigation .lesson-lab-jump {
-        display: block;
-        padding: 5px 0;
-        min-height: 36px;
-        font-size: .9rem;
-        line-height: 1.6;
-        text-underline-offset: 3px;
-    }
-
-    .lesson-mobile-navigation .lesson-lab-jump {
-        width: fit-content;
-        max-width: 100%;
-        margin-top: 4px;
-    }
 }
 
 @media (max-width: 767px) {
     .simulation-frame {
         min-height: 640px;
     }
-}
-
-/* Sidebar sections share the quiet panels and teal links of the main pages. */
-.lesson-sidebar .contents-card {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto 36px;
-    padding: 16px 18px;
-    background: var(--surface);
-    border: var(--border-width) solid var(--color-border);
-    border-radius: var(--corner-radius);
-    box-shadow: none;
-    color: var(--ink);
-    text-align: left;
-}
-.lesson-sidebar .sidebar-heading {
-    font-size: var(--card-title-size);
-    font-weight: 600;
-    font-variant: normal;
-    line-height: 1.5;
-    text-align: left;
-    color: var(--ink);
-}
-.lesson-sidebar .contents-card ul { display: grid; gap: 2px; }
-.lesson-sidebar .contents-card ul a {
-    padding: 5px 12px;
-    border-radius: var(--corner-radius);
-    background: transparent;
-    color: var(--ink);
-    font-size: .88rem;
-    line-height: 1.6;
-    transition: background-color .18s ease, color .18s ease;
-}
-.lesson-sidebar .contents-card ul a:hover,
-.lesson-sidebar .contents-card ul a:focus-visible {
-    background: transparent;
-    color: var(--ink);
-    text-decoration: underline;
-}
-.lesson-sidebar .sidebar-heading { max-width: 320px; margin: 0 auto var(--section-heading-gap); }
-.lesson-sidebar .catalog-grid--sidebar { gap: 18px; }
-.lesson-sidebar .catalog-card { padding: 16px; }
-.lesson-sidebar a:focus-visible { outline-color: var(--focus-ring); }
-@media (max-width: 991px) {
-    .lesson-sidebar { margin-top: 32px; }
 }
 
 /* Keep the focus indicator inside the clipped embed frame. */
@@ -287,14 +300,19 @@
 
 /* Align phone reading columns and callouts to one consistent gutter. */
 @media (max-width: 991px) {
-    .simulation-lesson .container { width: 100%; padding-inline: 20px; }
-    .simulation-lesson .container > .row { margin-inline: 0; }
     .simulation-lesson .learning-goals-card,
     .simulation-lesson .example-card { margin-inline: 0; }
 }
 
 /* Section headings share a scale and a single consistent gap above their media. */
-.simulation-lesson .lesson-section > h2 { margin-top: 0; }
+.simulation-lesson :is(.lesson-section, .lesson-recommendations) > h2 { margin-top: 0; }
+@media (max-width: 767.98px) {
+    .simulation-lesson .lesson-section > .lesson-heading--accented {
+        /* A capital Greek vowel with tonos can extend left of its text box. */
+        text-indent: .25em;
+    }
+}
+
 .simulation-lesson #interactive-animation .lesson-simulation { margin-top: var(--section-heading-gap) !important; }
 
 /* Use one shared section gap instead of stacking top and bottom padding. */
@@ -304,7 +322,6 @@
 }
 .simulation-lesson .lesson-section > :last-child { margin-bottom: 0; }
 
-/* Match the contents disclosure on every screen size. */
 .lesson-panel-disclosure {
     background: var(--surface);
     border: var(--border-width) solid var(--color-border);
@@ -320,13 +337,21 @@
     font-weight: 600;
     cursor: pointer;
 }
+.lesson-panel-icon {
+    margin-inline: .2em .35em;
+    vertical-align: -.2em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
 .lesson-panel-disclosure .card-body { padding: 0 16px 16px; font-size: .9rem; }
 .lesson-panel-disclosure .card-body > :last-child { margin-bottom: 0; }
 .lesson-panel-disclosure summary:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
 
 /* One visual treatment for every reading panel and lesson card. */
-.simulation-lesson :is(.lesson-panel-disclosure, .lesson-mobile-contents,
-    .lesson-sidebar .contents-card, .example-card, .learning-goals-card,
+.simulation-lesson :is(.lesson-panel-disclosure, .example-card, .learning-goals-card,
     .lesson-simulation, .figure, .media-panel) {
     background: var(--lesson-panel-background);
     color: var(--ink);
@@ -359,15 +384,3 @@
 }
 
 .simulation-lesson ul.breadcrumb { border-inline: 0; }
-.simulation-lesson .lesson-sidebar .sidebar-heading { padding-inline-start: 0; }
-.simulation-lesson .lesson-sidebar .sidebar-heading::before,
-.simulation-lesson .lesson-sidebar .sidebar-heading::after { content: none; }
-.simulation-lesson .contents-card ul.lesson-bullets { padding-inline-start: 1.6em; }
-.simulation-lesson .contents-card ul.lesson-bullets a { padding-inline: 0; }
-.simulation-lesson .contents-card .lesson-bullets > li { font-size: .88rem; line-height: 1.6; }
-.simulation-lesson .contents-card .lesson-bullets > li::before,
-.simulation-lesson .contents-card .lesson-bullets > li::after { top: calc(5px + .5lh - .32em); }
-.simulation-lesson .lesson-mobile-contents ul.lesson-bullets { padding-inline-start: 2.6em; }
-.simulation-lesson .lesson-mobile-contents .lesson-bullets > li { font-size: .9rem; line-height: 1.6; }
-.simulation-lesson .lesson-mobile-contents .lesson-bullets > li::before,
-.simulation-lesson .lesson-mobile-contents .lesson-bullets > li::after { top: calc(5px + .5lh - .32em); }

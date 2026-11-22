@@ -18,7 +18,7 @@ Open <http://127.0.0.1:8765/>. Stop the server with Ctrl+C. Some pages load font
 | --- | --- |
 | `index.html` | Homepage and featured available lessons |
 | `contents/index.html` | Catalogue of available and coming-soon lessons |
-| `about/index.html` | Project background, author biography, content reuse terms and browser support, linked from every About navbar item |
+| `about/index.html` | Project background, author biography, and content reuse terms, linked from every About navbar item |
 | `contact/index.html`, `contact/thanks.html` | Contact/report form and submission confirmation page |
 | `lessons/physics/` | Lesson text, activities, navigation and simulation embeds |
 | `simulations/<topic>/index.html` | Standalone interactive simulation |
@@ -49,7 +49,6 @@ The `bouncing-balls` and `falling-blocks` simulation folders contain legacy Java
 - Load `common.css` and `cards.css` before lesson-specific styles. Keep all card spacing changes in `cards.css`.
 - Use relative paths so the site works both at a domain root and under a hosting subdirectory. Paths in CSS resolve relative to the stylesheet, while iframe paths resolve relative to the lesson page.
 - Keep the homepage, catalogue and related cards in sync when changing a lesson's title, description, icon or availability. They remain plain HTML; shared templates and a central catalogue would be a separate build-system change.
-- Keep each lesson's mobile contents disclosure and desktop contents list in sync when changing section titles or anchors. Responsive CSS shows only the appropriate navigation; both work without JavaScript.
 - Keep design experiments separate from the assets referenced by live pages. Do not edit bundled vendor code for site styling.
 
 ## Checks

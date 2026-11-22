@@ -23,21 +23,12 @@
 			  href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 		<!-- Our Custom CSS -->
 		<link rel="stylesheet" 
-			  href="../assets/css/common.css?v=section-hierarchy">
-    <link rel="stylesheet" href="../assets/css/cards.css?v=shared-panel-style">
+			  href="../assets/css/common.css?v=shared-back-to-top">
+    <link rel="stylesheet" href="../assets/css/cards.css?v=orange-card-hover">
 		<link rel="stylesheet" 
-			  href="../assets/css/lesson.css?v=muted-captions">
+			  href="../assets/css/lesson.css?v=dark-surface-pair">
 
 		<!-- JAVASCRIPT LIBRARIES -->		
-		<!-- Font Awesome -->
-		<script defer 
-				src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" 
-				integrity="sha384tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" 
-				crossorigin="anonymous"></script>
-		<script defer 
-				src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha3846OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" 
-				crossorigin="anonymous"></script>
-		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 		<!-- jQuery -->
 		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 		<!-- Popper -->
@@ -59,25 +50,6 @@
 		<!--<script src="../assets/vendor/matter/matter.js"></script>-->
 
 		<!-- EXTRA JAVASCRIPT CODE -->		
-		<!-- Scroll to Top Button -->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$(window).scroll(function () {
-					if ($(this).scrollTop() > 500) {
-						$('.scrollToTop').fadeIn(100);
-					} else {
-						$('.scrollToTop').fadeOut(500);
-					}
-				});
-				// scroll body to 0px on click
-				$('.scrollToTop').click(function () {
-					$('body,html').animate({
-						scrollTop: 0
-					}, 500);
-					return false;
-				});
-			});
-		</script>
 		<!--Sidebar -->
 		<script type="text/javascript">
 			$(document).ready(function () {
@@ -164,9 +136,11 @@
 	    <link rel="stylesheet" href="../assets/css/focus.css?v=accessible-interactions">
 
 	    <script src="../assets/js/focus.js" defer></script>
+    <link rel="stylesheet" href="../assets/css/scroll-to-top.css">
+    <script src="../assets/js/scroll-to-top.js" defer></script>
 </head>
 
-	<body>
+	<body id="top">
 
 		<div id="content">
 
@@ -191,7 +165,7 @@
 						<div class="nav-item">
 							<div class="dropdown">
 								<button class="btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									Μαθήματα
+									Υλικό
 								</button>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenu1">
 									<a class="dropdown-item" 
@@ -388,15 +362,15 @@
 
 						<div id="change-chapter" class="row m-auto">
 
-							<a href="#" class="btn mr-auto">
-								<i class="fas fa-arrow-left"></i>
-								&nbsp; 16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος ήχου
+							<a href="#" class="btn mr-auto action-with-arrow">
+								<svg class="action-arrow action-arrow--left" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg>
+								16.3 &nbsp; Ταχύτητα, συχνότητα και μήκος κύματος ήχου
 							</a>
 
 
-							<a href="#" class="btn ml-auto">
-								16.5 &nbsp; Το Φαινόμενο Doppler &nbsp;
-								<i class="fas fa-arrow-right"></i>
+							<a href="#" class="btn ml-auto action-with-arrow">
+								16.5 &nbsp; Το Φαινόμενο Doppler
+								<svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg>
 							</a>
 
 						</div>
@@ -618,10 +592,6 @@
 				</div>	
 			</div>
 
-			<!-- Scroll to top button-->
-			<a href="#" class="scrollToTop" role="button">
-				<i class="fa fa-arrow-up" aria-hidden="true"></i>
-			</a>
 
 			<!-- Footer -->
 			<div id="Footer">
@@ -635,7 +605,7 @@
 				    </a>
             <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
                 <ul>
-                <li><a href="../contents/index.html">Μαθήματα</a></li>
+                <li><a href="../contents/index.html">Υλικό</a></li>
                 <li><a href="../about/index.html">Σχετικά</a></li>
                 <li><a href="../contact/index.html">Επικοινωνία</a></li>
                 </ul>
@@ -647,6 +617,7 @@
 			
 		</div>
 		
+    <a class="scrollToTop" href="#top" aria-label="Επιστροφή στην κορυφή" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
 	</body>
 
 </html>

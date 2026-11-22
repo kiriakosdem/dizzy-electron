@@ -22,6 +22,19 @@
 .about-band a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
 .about-band a:hover { color: var(--ink); }
 .about-author-name { font-family: 'Fira Sans', sans-serif; font-weight: 500; color: var(--ink); }
+#author .about-shell { display: flow-root; }
+.about-author-portrait {
+    float: right;
+    width: min(32%, 200px);
+    height: auto;
+    aspect-ratio: 1;
+    margin: .2rem 0 .75rem 1rem;
+    border: 3px solid var(--color-logo-orange);
+    border-radius: 50%;
+    object-fit: cover;
+    shape-outside: circle(50%) border-box;
+    shape-margin: .75rem;
+}
 .about-page footer { margin-top: 0; padding-bottom: 20px; }
 .about-page #NavigationBar [aria-current="page"] { color: var(--color-logo-cyan); text-decoration: underline; text-underline-offset: 6px; }
 .about-skip-link { position: fixed; top: -100px; left: 16px; z-index: 1100; background: var(--surface); padding: 14px; color: var(--ink); }

@@ -8,12 +8,14 @@
     <title>Dizzy Electron | Επικοινωνία</title>
     <script src="../assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/common.css?v=action-hover-border">
+    <link rel="stylesheet" href="../assets/css/common.css?v=shared-back-to-top">
     <link rel="stylesheet" href="../assets/css/contact.css?v=section-hierarchy">
-    <script src="../assets/js/lesson.js?v=inline-lab-caption" defer></script>
+    <script src="../assets/js/lesson.js?v=shared-back-to-top" defer></script>
     <script src="../assets/js/contact.js?v=field-placeholders" defer></script>
     <link rel="stylesheet" href="../assets/css/focus.css?v=accessible-interactions">
     <script src="../assets/js/focus.js" defer></script>
+    <link rel="stylesheet" href="../assets/css/scroll-to-top.css">
+    <script src="../assets/js/scroll-to-top.js" defer></script>
 </head>
 <body class="contact-page" id="top">
     <a class="contact-skip-link" href="#contact-content">Μετάβαση στο περιεχόμενο</a>
@@ -30,7 +32,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="btn dropdown-toggle" href="../contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</a>
+                                <a class="btn dropdown-toggle" href="../contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Υλικό</a>
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="../contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="../contents/index.html#math-lessons">Μαθηματικά</a>
@@ -95,7 +97,7 @@
                     <p class="contact-hint">Τα πεδία με αστερίσκο (*) είναι απαραίτητα.</p>
                     <p class="contact-privacy">Η φόρμα αποστέλλει τα στοιχεία σου μέσω της υπηρεσίας <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener">FormSubmit</a>.</p>
                     <div class="contact-actions">
-                        <button class="contact-submit primary-action" type="submit">Αποστολή μηνύματος <span aria-hidden="true">→</span></button>
+                        <button class="contact-submit primary-action" type="submit">Αποστολή μηνύματος <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></button>
                     </div>
                 </form>
             </div>
@@ -115,7 +117,7 @@
         </a>
             <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
                 <ul>
-                <li><a href="../contents/index.html">Μαθήματα</a></li>
+                <li><a href="../contents/index.html">Υλικό</a></li>
                 <li><a href="../about/index.html">Σχετικά</a></li>
                 <li><a href="index.html" aria-current="page">Επικοινωνία</a></li>
                 </ul>
@@ -123,5 +125,6 @@
         </div>
         <p class="footer-copyright"><small>© 2026 Dizzy Electron</small></p>
     </footer>
+    <a class="scrollToTop" href="#top" aria-label="Επιστροφή στην κορυφή" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
 </body>
 </html>

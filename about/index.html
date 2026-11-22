@@ -9,11 +9,13 @@
     <title>Dizzy Electron | Σχετικά</title>
     <script src="../assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/common.css?v=section-hierarchy">
-    <link rel="stylesheet" href="../assets/css/about.css?v=section-hierarchy">
-    <script src="../assets/js/lesson.js?v=inline-lab-caption" defer></script>
+    <link rel="stylesheet" href="../assets/css/common.css?v=shared-back-to-top">
+    <link rel="stylesheet" href="../assets/css/about.css?v=creator-portrait">
+    <script src="../assets/js/lesson.js?v=shared-back-to-top" defer></script>
     <link rel="stylesheet" href="../assets/css/focus.css?v=accessible-interactions">
     <script src="../assets/js/focus.js" defer></script>
+    <link rel="stylesheet" href="../assets/css/scroll-to-top.css">
+    <script src="../assets/js/scroll-to-top.js" defer></script>
 </head>
 <body class="about-page" id="top">
     <a class="about-skip-link" href="#about-content">Μετάβαση στο περιεχόμενο</a>
@@ -30,7 +32,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="btn dropdown-toggle" href="../contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Μαθήματα</a>
+                                <a class="btn dropdown-toggle" href="../contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Υλικό</a>
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="../contents/index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="../contents/index.html#math-lessons">Μαθηματικά</a>
@@ -67,7 +69,24 @@
             <h1 class="page-title">Σχετικά</h1>
             <p>Ποιοι είμαστε και γιατί φτιάξαμε αυτή την ιστοσελίδα;</p>
         </header>
-        <section id="project" class="about-band about-band--shaded section-divider" aria-labelledby="project-title">
+        <section id="author" class="about-band about-band--shaded section-divider" aria-labelledby="author-title">
+            <div class="about-shell">
+                <h2 id="author-title">
+                    <svg class="about-section-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <circle cx="12" cy="7.5" r="4"/>
+                        <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
+                    </svg>
+                    Λίγα λόγια από τον δημιουργό
+                </h2>
+                <img class="about-author-portrait" src="../assets/images/creator-at-chalkboard.png" width="200" height="200" alt="Ο δημιουργός γράφει εξισώσεις στον πίνακα.">
+                <p>Από μικρός ήθελα να μάθω τα πάντα για τον κόσμο: πώς λειτουργεί ένας υπολογιστής, τι σχήμα έχει ένα άτομο, γιατί γλιστράει ο πάγος. </p>
+                <p>Το να ασχοληθώ με τη Φυσική λοιπόν ήταν μονόδρομος. Σπουδάζοντας στο τμήμα Φυσικής της Αθήνας, έμαθα για πρώτη φορά τις απαντήσεις σε πολλά από αυτά τα ερωτήματα αλλά και ότι υπάρχουν ακόμα και σήμερα πολλές ερωτήσεις που αυτή τη στιγμή κανείς δεν έχει ιδέα πώς να προσεγγίσει.</p>
+                <p>Και ενώ στην αρχή η ιδέα να καταπιαστώ με αυτά τα αναπάντητα ερωτήματα ήταν δελεαστική (και να πάρω και κανά δυο διδακτορικά κι άλλα τρία Νόμπελ λύνοντάς τα), συνειδητοποίησα τελικά ότι, ακόμα και αυτά που θεωρούνται απαντημένα, ο περισσότερος κόσμος τελικά δεν τα έχει κατανοήσει - ούτε κι εγώ.</p>
+                <p>Έβαλα στόχο, λοιπόν, να κάνω ό,τι περνάει από το χέρι μου ώστε να τα καταλάβω πρώτα εγώ (λύνοντας εξισώσεις, βλέποντας βίντεο, παίζοντας με διαδραστικές προσομοιώσεις) και όταν και εφόσον τα καταφέρω, να μοιραστώ τον τρόπο μου με όλους τους άλλους.</p>
+                <!-- <p class="about-author-name" lang="en">Κυριάκος Δεμερούκας</p> -->
+            </div>
+        </section>
+        <section id="project" class="about-band section-divider" aria-labelledby="project-title">
             <div class="about-shell">
                 <h2 id="project-title">
                     <svg class="about-section-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -77,23 +96,7 @@
                 </h2>
                 <p>Αυτή η ιστοσελίδα είναι ένας διαφορετικός χώρος μάθησης με πρωτότυπο εκπαιδευτικό περιεχόμενο για τη Φυσική και τα Μαθηματικά στα ελληνικά. Στόχος του είναι να κάνει τις έννοιες προσιτές, με καθαρές εξηγήσεις, εικόνες, προσομοιώσεις και ευκαιρίες για πειραματισμό.</p>
                 <p>Στην εποχή των smartphones και του διαδικτύου, αλλά και πιο πρόσφατα της Τεχνητής Νοημοσύνης, έχουμε στην διάθεσή μας εργαλεία για την κατανόηση της Φύσης πέρα από ένα απλό στατικό βιβλίο και έναν μουτζουρομένο πίνακα. Αυτά τα εργαλεία μπορούν να δώσουν τη δυνατότητα σε όσους μαθαίνουν Φυσική να δοκιμάζουν, να παίζουν, να καταλαβαίνουν και να διασκεδάζουν. Να μπορούν να ακολουθήσουν την περιέργειά τους και να χαρούν τη στιγμή που μια δύσκολη έννοια αρχίζει να βγάζει νόημα.</p>
-                <p>Το υλικό απευθύνεται σε όσους θέλουν να κατανοήσουν διαισθητικά τις ιδέες πίσω από τους τύπους, είτε μαθαίνουν μόνοι τους είτε χρησιμοποιούν τα μαθήματα ως συμπλήρωμα για τη μελέτη τους στο σχολείο.</p>
-            </div>
-        </section>
-        <section id="author" class="about-band section-divider" aria-labelledby="author-title">
-            <div class="about-shell">
-                <h2 id="author-title">
-                    <svg class="about-section-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                        <circle cx="12" cy="7.5" r="4"/>
-                        <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
-                    </svg>
-                    Λίγα λόγια από τον δημιουργό
-                </h2>
-                <p>Από μικρός ήθελα να μάθω τα πάντα για τον κόσμο: πώς λειτουργεί ένας υπολογιστής, τι σχήμα έχει ένα άτομο, γιατί γλιστράει ο πάγος. </p>
-                <p>Το να ασχοληθώ με τη Φυσική λοιπόν ήταν μονόδρομος. Σπουδάζοντας στο τμήμα Φυσικής της Αθήνας, έμαθα για πρώτη φορά τις απαντήσεις σε πολλά από αυτά τα ερωτήματα αλλά και ότι υπάρχουν ακόμα και σήμερα πολλές ερωτήσεις που αυτή τη στιγμή κανείς δεν έχει ιδέα πώς να προσεγγίσει.</p>
-                <p>Και ενώ στην αρχή η ιδέα να καταπιαστώ με αυτά τα αναπάντητα ερωτήματα ήταν δελεαστική (και να πάρω και κανά δυο διδακτορικά κι άλλα τρία Νόμπελ λύνοντάς τα), συνειδητοποίησα τελικά ότι, ακόμα και αυτά που θεωρούνται απαντημένα, ο περισσότερος κόσμος τελικά δεν τα έχει κατανοήσει - ούτε κι εγώ.</p>
-                <p>Έβαλα στόχο, λοιπόν, να κάνω ό,τι περνάει από το χέρι μου ώστε να τα καταλάβω πρώτα εγώ (λύνοντας εξισώσεις, βλέποντας βίντεο, παίζοντας με διαδραστικές προσομοιώσεις) και όταν και εφόσον τα καταφέρω, να μοιραστώ τον τρόπο μου με όλους τους άλλους.</p>
-                <!-- <p class="about-author-name" lang="en">Κυριάκος Δεμερούκας</p> -->
+                <p>Το υλικό απευθύνεται σε όσους θέλουν να κατανοήσουν διαισθητικά τις ιδέες πίσω από τους τύπους, είτε μαθαίνουν μόνοι τους είτε χρησιμοποιούν τα κείμενα ως συμπλήρωμα για τη μελέτη τους στο σχολείο.</p>
             </div>
         </section>
         <section id="terms-of-use" class="about-band about-band--shaded section-divider" aria-labelledby="terms-title">
@@ -104,22 +107,7 @@
                     </svg>
                     Όροι χρήσης
                 </h2>
-                <p>Το πρωτότυπο εκπαιδευτικό περιεχόμενο του Dizzy Electron διατίθεται με άδεια <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Αναφορά – Μη Εμπορική Χρήση 4.0 (CC BY-NC 4.0)</a>, εκτός αν αναφέρεται διαφορετικά.</p>
-                <p>Μπορείς να μοιραστείς και να προσαρμόσεις αυτό το υλικό για μη εμπορικούς σκοπούς, αναφέροντας τον δημιουργό και την πηγή, προσθέτοντας σύνδεσμο προς την άδεια και δηλώνοντας τυχόν αλλαγές. Η αναφορά δεν πρέπει να υπονοεί ότι ο δημιουργός εγκρίνει τη χρήση σου.</p>
-                <p>Υλικό τρίτων, όπως ενσωματωμένα βίντεο, εικόνες και βιβλιοθήκες λογισμικού, παραμένει υπό τους όρους των αντίστοιχων δημιουργών του.</p>
-            </div>
-        </section>
-        <section id="browser-support" class="about-band section-divider" aria-labelledby="browser-title">
-            <div class="about-shell">
-                <h2 id="browser-title">
-                    <svg class="about-section-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                        <rect x="2" y="4" width="20" height="16" rx="2"/>
-                        <path d="M2 9h20 M5.5 6.5h.1 M8.5 6.5h.1"/>
-                    </svg>
-                    Υποστήριξη προγραμμάτων περιήγησης
-                </h2>
-                <p>Για να εξερευνήσεις τα διαδραστικά εργαστήρια, χρησιμοποίησε μια ενημερωμένη έκδοση του προγράμματος περιήγησής σου με ενεργοποιημένη JavaScript.</p>
-                <p>Αν μια προσομοίωση δεν εμφανίζεται σωστά, δοκίμασε να ανανεώσεις τη σελίδα και να ενημερώσεις το πρόγραμμα περιήγησης. Ορισμένες λειτουργίες φορτώνουν εξωτερικές βιβλιοθήκες, ενώ τα ενσωματωμένα βίντεο απαιτούν σύνδεση στο διαδίκτυο.</p>
+                <p>Εκτός αν αναφέρεται διαφορετικά, το πρωτότυπο υλικό διατίθεται με άδεια <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Μπορείς να το μοιραστείς ή να το προσαρμόσεις για μη εμπορική χρήση, με αναφορά στον δημιουργό και την πηγή, σύνδεσμο στην άδεια και δήλωση τυχόν αλλαγών, χωρίς να υπονοείς έγκριση από τον δημιουργό. Το υλικό τρίτων διέπεται από τους δικούς του όρους.</p>
             </div>
         </section>
     </main>
@@ -133,7 +121,7 @@
         </a>
             <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
                 <ul>
-                <li><a href="../contents/index.html">Μαθήματα</a></li>
+                <li><a href="../contents/index.html">Υλικό</a></li>
                 <li><a href="index.html" aria-current="page">Σχετικά</a></li>
                 <li><a href="../contact/index.html">Επικοινωνία</a></li>
                 </ul>
@@ -141,5 +129,6 @@
         </div>
         <p class="footer-copyright"><small>© 2026 Dizzy Electron</small></p>
     </footer>
+    <a class="scrollToTop" href="#top" aria-label="Επιστροφή στην κορυφή" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
 </body>
 </html>

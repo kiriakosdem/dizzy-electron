@@ -4,19 +4,21 @@
     <link rel="icon" type="image/svg+xml" sizes="any" href="../assets/brand/favicon.svg?v=round">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Εξερεύνησε τα μαθήματα Φυσικής και Μαθηματικών του Dizzy Electron. Διάλεξε ένα διαδραστικό εργαστήριο και δες ποια θέματα ετοιμάζονται.">
-    <title>Dizzy Electron | Μαθήματα</title>
+    <meta name="description" content="Βρες κείμενα Φυσικής, διαδραστικά εργαστήρια και θέματα που ετοιμάζονται στο Dizzy Electron.">
+    <title>Dizzy Electron | Υλικό</title>
     <script src="../assets/js/theme.js?v=theme-switch-inset"></script>
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/common.css?v=section-hierarchy">
-    <link rel="stylesheet" href="../assets/css/cards.css?v=shared-panel-style">
-    <link rel="stylesheet" href="../assets/css/contents.css?v=compact-labs">
-    <script src="../assets/js/lesson.js?v=inline-lab-caption" defer></script>
+    <link rel="stylesheet" href="../assets/css/common.css?v=shared-back-to-top">
+    <link rel="stylesheet" href="../assets/css/cards.css?v=orange-card-hover">
+    <link rel="stylesheet" href="../assets/css/contents.css?v=upcoming-topic-bullets">
+    <script src="../assets/js/lesson.js?v=shared-back-to-top" defer></script>
     <link rel="stylesheet" href="../assets/css/focus.css?v=accessible-interactions">
     <script src="../assets/js/focus.js" defer></script>
+    <link rel="stylesheet" href="../assets/css/scroll-to-top.css">
+    <script src="../assets/js/scroll-to-top.js" defer></script>
 </head>
 <body class="contents-page" id="top">
-    <a class="contents-skip-link" href="#contents-content">Μετάβαση στα μαθήματα</a>
+    <a class="contents-skip-link" href="#contents-content">Μετάβαση στο υλικό</a>
         <div id="NavigationBar">
             <nav class="navbar navbar-center navbar-expand-lg navbar-dark bg-dark" aria-label="Κύρια πλοήγηση">
                 <div class="order-0">
@@ -30,7 +32,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <div class="dropdown">
-                                <a class="btn dropdown-toggle" href="index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false" aria-current="page">Μαθήματα</a>
+                                <a class="btn dropdown-toggle" href="index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false" aria-current="page">Υλικό</a>
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="index.html#physics-lessons">Φυσική</a>
                                     <a class="dropdown-item" href="index.html#math-lessons">Μαθηματικά</a>
@@ -65,36 +67,37 @@
 
     <main id="contents-content" tabindex="-1">
         <header class="contents-heading contents-shell">
-            <h1 class="page-title">Μαθήματα</h1>
-            <p>Εδώ μπορείς να εξερευνήσεις όλα τα διαθέσιμα μαθήματα φυσικής και μαθηματικών.</p>
+            <h1 class="page-title">Υλικό</h1>
+            <p>Κείμενα και διαδραστικά εργαστήρια για τη Φυσική και τα Μαθηματικά.</p>
         </header>
         <section id="physics-lessons" class="contents-band contents-band--shaded section-divider" aria-labelledby="physics-title">
             <div class="contents-shell">
                 <h2 id="physics-title">Φυσική</h2>
+                <p class="contents-intro">Κείμενα που εξηγούν φαινόμενα της Φυσικής με απλά παραδείγματα.</p>
                 <div class="catalog-grid">
-                    <a class="catalog-card" href="../lessons/physics/hydrogen-eigenstates.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
+                    <a class="catalog-card" href="../lessons/physics/me-ti-moiazei-telika-ena-atomo.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
                         <span class="catalog-icon catalog-icon--atom"><img src="../assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                         <h3 id="lesson-4-title">Με τι μοιάζει τελικά ένα άτομο;</h3>
                         <p id="lesson-4-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
-                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
                     </a>
-                    <a class="catalog-card" href="../lessons/physics/gravitational-field.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
+                    <a class="catalog-card" href="../lessons/physics/giati-i-selini-menei-se-trochia.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
                         <span class="catalog-icon catalog-icon--planet"><img src="../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
                         <h3 id="lesson-1-title">Γιατί η Σελήνη μένει σε τροχιά;</h3>
                         <p id="lesson-1-description">Ανακάλυψε πώς η βαρύτητα και η ταχύτητα κρατούν τη Σελήνη σε τροχιά.</p>
-                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
                     </a>
-                    <a class="catalog-card" href="../lessons/physics/electric-field.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
+                    <a class="catalog-card" href="../lessons/physics/pos-droun-oi-ilektrostatikes-dynameis.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
                         <span class="catalog-icon catalog-icon--lightning"><img src="../assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                         <h3 id="lesson-2-title">Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</h3>
                         <p id="lesson-2-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
-                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
                     </a>
-                    <a class="catalog-card" href="../lessons/physics/electromagnetic-field.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
+                    <a class="catalog-card" href="../lessons/physics/ti-einai-i-aktinovolia.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
                         <span class="catalog-icon catalog-icon--radiation"><img src="../assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                         <h3 id="lesson-3-title">Τι είναι η ακτινοβολία;</h3>
                         <p id="lesson-3-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
-                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Άνοιγμα μαθήματος</span> <span class="catalog-action-arrow">→</span></span>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
                     </a>
                 </div>
             </div>
@@ -104,17 +107,37 @@
                 <h2 id="interactive-lessons-title">Διαδραστικά εργαστήρια</h2>
                 <p class="contents-intro">Κάθε εργαστήριο ανοίγει σε νέα καρτέλα.</p>
                 <div class="catalog-grid">
-                    <a class="catalog-card catalog-card--lab" href="../simulations/hydrogen-eigenstates/index.html" target="_blank" rel="noopener" aria-labelledby="lab-4-title">
-                        <h3 id="lab-4-title">Το Άτομο του Υδρογόνου</h3>
+                    <a class="catalog-card catalog-card--lab" href="../simulations/hydrogen-eigenstates/index.html" target="_blank" rel="noopener" aria-labelledby="lab-4-title" aria-describedby="lab-4-description">
+                        <img class="lab-card-preview" src="../assets/images/labs/hydrogen-eigenstates.jpg" width="480" height="270" alt="" loading="lazy" decoding="async">
+                        <div class="lab-card-body">
+                            <h3 id="lab-4-title">Το Άτομο του Υδρογόνου</h3>
+                            <p id="lab-4-description">Εξερεύνησε τα τροχιακά του υδρογόνου σε 3D.</p>
+                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                        </div>
                     </a>
-                    <a class="catalog-card catalog-card--lab" href="../simulations/gravitational-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-1-title">
-                        <h3 id="lab-1-title">Το Βαρυτικό Πεδίο</h3>
+                    <a class="catalog-card catalog-card--lab" href="../simulations/gravitational-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-1-title" aria-describedby="lab-1-description">
+                        <img class="lab-card-preview" src="../assets/images/labs/gravitational-field.jpg" width="640" height="360" alt="" loading="lazy" decoding="async">
+                        <div class="lab-card-body">
+                            <h3 id="lab-1-title">Το Βαρυτικό Πεδίο</h3>
+                            <p id="lab-1-description">Δες πώς οι μάζες έλκονται μεταξύ τους.</p>
+                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                        </div>
                     </a>
-                    <a class="catalog-card catalog-card--lab" href="../simulations/electric-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-2-title">
-                        <h3 id="lab-2-title">Το Ηλεκτρικό Πεδίο</h3>
+                    <a class="catalog-card catalog-card--lab" href="../simulations/electric-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-2-title" aria-describedby="lab-2-description">
+                        <img class="lab-card-preview" src="../assets/images/labs/electric-field.jpg" width="640" height="360" alt="" loading="lazy" decoding="async">
+                        <div class="lab-card-body">
+                            <h3 id="lab-2-title">Το Ηλεκτρικό Πεδίο</h3>
+                            <p id="lab-2-description">Τοποθέτησε φορτία και δες πώς αλλάζει το πεδίο.</p>
+                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                        </div>
                     </a>
-                    <a class="catalog-card catalog-card--lab" href="../simulations/electromagnetic-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-3-title">
-                        <h3 id="lab-3-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
+                    <a class="catalog-card catalog-card--lab" href="../simulations/electromagnetic-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-3-title" aria-describedby="lab-3-description">
+                        <img class="lab-card-preview" src="../assets/images/labs/electromagnetic-field.jpg" width="800" height="450" alt="" loading="lazy" decoding="async">
+                        <div class="lab-card-body">
+                            <h3 id="lab-3-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
+                            <p id="lab-3-description">Δες πώς ένα κινούμενο φορτίο εκπέμπει ακτινοβολία.</p>
+                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -122,15 +145,15 @@
         <section class="contents-band contents-band--shaded section-divider contents-upcoming" aria-labelledby="upcoming-title">
             <div class="contents-shell">
                 <h2 id="upcoming-title">Ετοιμάζονται</h2>
-                <p class="contents-intro">Τα παρακάτω μαθήματα βρίσκονται υπό κατασκευή.</p>
+                <p class="contents-intro">Οι παρακάτω ενότητες ετοιμάζονται.</p>
                 <h3>Φυσική</h3>
-                <ul class="upcoming-topics">
+                <ul class="upcoming-topics lesson-bullets" role="list">
                     <li>Ποια είναι η διαφορά μεταξύ ήχου και θορύβου;</li>
                     <li>Γιατί ο ζεστός αέρας “ανεβαίνει” προς τα πάνω;</li>
                 </ul>
                 <div id="math-lessons">
                     <h3 id="math-title">Μαθηματικά</h3>
-                    <ul class="upcoming-topics">
+                    <ul class="upcoming-topics lesson-bullets" role="list">
                     <li>Αντίστροφοι αριθμοί</li>
                     <li>Τριγωνομετρικός κύκλος</li>
                     </ul>
@@ -138,7 +161,6 @@
             </div>
         </section>
     </main>
-    <a href="#top" class="scrollToTop" aria-label="Επιστροφή στην κορυφή"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
     <footer>
         <div class="footer-inner">
             <a class="footer-brand" href="../index.html" aria-label="Dizzy Electron — Αρχική">
@@ -149,7 +171,7 @@
         </a>
             <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
                 <ul>
-                <li><a href="index.html" aria-current="page">Μαθήματα</a></li>
+                <li><a href="index.html" aria-current="page">Υλικό</a></li>
                 <li><a href="../about/index.html">Σχετικά</a></li>
                 <li><a href="../contact/index.html">Επικοινωνία</a></li>
                 </ul>
@@ -157,5 +179,6 @@
         </div>
         <p class="footer-copyright"><small>© 2026 Dizzy Electron</small></p>
     </footer>
+    <a class="scrollToTop" href="#top" aria-label="Επιστροφή στην κορυφή" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
 </body>
 </html>

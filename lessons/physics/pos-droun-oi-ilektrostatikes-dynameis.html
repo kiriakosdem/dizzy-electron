@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <link rel="icon" type="image/svg+xml" sizes="any" href="../../assets/brand/favicon.svg?v=round">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.">
+    <title>Dizzy Electron | Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</title>
+    <script src="../../assets/js/theme.js?v=theme-switch-inset"></script>
+    <link rel="stylesheet" href="../../assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/common.css?v=shared-back-to-top">
+    <link rel="stylesheet" href="../../assets/css/cards.css?v=orange-card-hover">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=shared-caption-actions">
+    <link rel="stylesheet" href="../../assets/css/simulation-lesson.css?v=shared-caption-actions">
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="../../assets/js/lesson.js?v=shared-back-to-top" defer></script>
+    <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
+    <script src="../../assets/js/focus.js" defer></script>
+    <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
+    <script src="../../assets/js/scroll-to-top.js" defer></script>
+</head>
+<body class="simulation-lesson" id="top">
+    <a class="lesson-skip-link" href="#lesson-content">Μετάβαση στο κείμενο</a>
+    <div id="content">
+        <div id="NavigationBar">
+            <nav class="navbar navbar-center navbar-expand-lg navbar-dark bg-dark" aria-label="Κύρια πλοήγηση">
+                <div class="order-0">
+                    <div class="navbar-nav mr-auto">
+                        <a class="navbar-brand" href="../../index.html" aria-label="Dizzy Electron — Αρχική">
+                            <img class="site-logo" src="../../assets/brand/logo-navy.png" width="1200" height="626" alt="" aria-hidden="true">
+                        </a>
+                    </div>
+                </div>
+                <div id="RightBox" class="navbar-collapse collapse dual-collapse w-500 order-1">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="btn dropdown-toggle" href="../../contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Υλικό</a>
+                                <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
+                                    <a class="dropdown-item" href="../../contents/index.html#physics-lessons">Φυσική</a>
+                                    <a class="dropdown-item" href="../../contents/index.html#math-lessons">Μαθηματικά</a>
+                                    <a class="dropdown-item" href="../../contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item" hidden>
+                            <div class="dropdown">
+                                <button class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-lesson-dropdown aria-controls="lesson-school-years" aria-expanded="false">Υλικό για Σχολεία</button>
+                                <div class="dropdown-menu" id="lesson-school-years" aria-labelledby="dropdownMenu2">
+                                    <a class="dropdown-item" href="../../contents/index.html">Α' Γυμνασίου</a>
+                                    <a class="dropdown-item" href="../../contents/index.html">Β' Γυμνασίου</a>
+                                    <a class="dropdown-item" href="../../contents/index.html">Γ' Γυμνασίου</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="../../contents/index.html">Α' Λυκείου</a>
+                                    <a class="dropdown-item" href="../../contents/index.html">Β' Λυκείου</a>
+                                    <a class="dropdown-item" href="../../contents/index.html">Γ' Λυκείου</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item"><a class="btn" href="../../about/index.html">Σχετικά</a></li>
+                        <li class="nav-item"><a class="btn" href="../../contact/index.html">Επικοινωνία</a></li>
+                    </ul>
+                </div>
+                <button class="navbar-toggler" type="button" data-lesson-menu aria-controls="RightBox" aria-expanded="false" aria-label="Εμφάνιση πλοήγησης">
+                    <span class="navbar-toggler-icon" aria-hidden="true"></span>
+                </button>
+            </nav>
+        </div>
+        <nav class="lesson-reading-nav" aria-label="Πλοήγηση ανάγνωσης" hidden>
+            <div class="lesson-reading-nav-inner">
+                <a href="../../index.html" aria-label="Dizzy Electron — Αρχική">
+                    <img src="../../assets/brand/logo-navy-notext.png" width="32" height="32" alt="">
+                </a>
+                <span class="lesson-reading-title"></span>
+            </div>
+            <progress class="lesson-reading-progress" max="100" value="0" aria-label="Πρόοδος ανάγνωσης"></progress>
+        </nav>
+        <nav aria-label="Διαδρομή κειμένου">
+            <ul class="breadcrumb">
+                <li><a href="../../contents/index.html#physics-lessons">Φυσική</a></li>
+
+                <li><span aria-current="page">Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</span></li>
+            </ul>
+        </nav>
+        <div class="container lesson-layout">
+            <main id="lesson-content" tabindex="-1">
+                <!-- Google Doc lesson body begins -->
+                <h1>Πώς δρουν οι ηλεκτροστατικές δυνάμεις;</h1>
+                <p class="lesson-subtitle">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
+                <p class="lesson-reading-time" hidden></p>
+                <section class="lesson-panel" aria-labelledby="goals-title">
+                    <details class="lesson-panel-disclosure">
+                    <summary id="goals-title"><svg class="lesson-panel-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg> Συνέχισε το διάβασμα για να μάθεις...</summary>
+                    <div class="card-body">
+                        <ul class="lesson-bullets" role="list">
+                            <li>Να συνδέεις τη δύναμη σε ένα φορτίο με το ηλεκτρικό πεδίο στη θέση του.</li>
+                            <li>Να προβλέπεις την κίνηση ενός θετικού δοκιμαστικού φορτίου σε απλές διατάξεις.</li>
+                            <li>Να εξηγείς πώς η ηλεκτροστατική περιγραφή συνδέεται με την τοπική δράση του πεδίου.</li>
+                        </ul>
+                    </div>
+                </details>
+                </section>
+                <section id="introduction" class="lesson-section" aria-labelledby="introduction-title">
+                    <h2 id="introduction-title" class="lesson-heading--accented">Ένα μπαλόνι πλησιάζει</h2>
+                    <p>Έτριψες ένα μπαλόνι στα μαλλιά σου και το βλέπεις να τραβά μικρά κομμάτια χαρτιού. Η κίνηση αρχίζει πριν τα αγγίξει. Τι υπάρχει στον χώρο ανάμεσά τους; Για να ακολουθήσουμε την ιστορία με καθαρά βήματα, θα αφήσουμε για λίγο στην άκρη την πολύπλοκη κατανομή φορτίων του χαρτιού και θα ξεκινήσουμε με ένα μόνο φορτίο.</p>
+                    <p>Φαντάσου ότι τοποθετείς μικρούς ανιχνευτές σε διάφορα σημεία γύρω του. Καθένας έχει ένα μικρό θετικό δοκιμαστικό φορτίο. Σε κάθε θέση καταγράφουμε τη δύναμη που δέχεται. Οι μετρήσεις σχηματίζουν έναν χάρτη με μέτρο και κατεύθυνση σε κάθε σημείο. Αυτόν τον χάρτη περιγράφει το ηλεκτρικό πεδίο.</p>
+                </section>
+                <section id="theory" class="lesson-section" aria-labelledby="theory-title">
+                    <h2 id="theory-title">Από δύο φορτία σε ένα πεδίο</h2>
+                    <p>Όταν μια πηγή βρίσκεται στη θέση της, δημιουργεί ηλεκτρικό πεδίο στον γύρω χώρο. Ένα δεύτερο φορτίο αποκρίνεται στο πεδίο που υπάρχει στη δική του θέση. Η δύναμη που δέχεται γράφεται</p>
+                    <div class="lesson-equation">\[\vec{F}=q\vec{E}\]</div>
+                    <p>Η κατεύθυνση του <var>Ε</var> ορίζεται από τη δύναμη σε θετικό δοκιμαστικό φορτίο. Ένα αρνητικό φορτίο δέχεται δύναμη προς την αντίθετη κατεύθυνση. Στην ηλεκτροστατική περίπτωση, για μια σημειακή πηγή <var>Q</var>, το μέτρο του πεδίου είναι</p>
+                    <div class="lesson-equation">\[E=k\frac{|Q|}{r^2}\]</div>
+                    <p>Αν διπλασιάσεις την απόσταση, το πεδίο της μεμονωμένης πηγής γίνεται τέσσερις φορές ασθενέστερο. Αν προσθέσεις πηγές, τα επιμέρους πεδία αθροίζονται διανυσματικά. Έτσι, μια μικρή μετακίνηση της θέσης παρατήρησης μπορεί να αλλάξει και το μέτρο και την κατεύθυνση της συνολικής δύναμης.</p>
+                </section>
+                <section id="simulation" class="lesson-section" aria-labelledby="simulation-title">
+                    <h2 id="simulation-title">Η ιστορία στο εργαστήριο</h2>
+                    <p>Στο εργαστήριο επίλεξε <span lang="en">Single</span> και ενεργοποίησε τα <span lang="en">Field arrows</span>. Πριν αφήσεις δοκιμαστικό φορτίο, διάλεξε ένα σημείο και πρόβλεψε την πρώτη του κίνηση από το βέλος εκεί. Έπειτα σύρε ένα <span lang="en">Test charge</span> από τη μικρή εργαλειοθήκη στη θέση που διάλεξες.</p>
+                    <p>Το δοκιμαστικό φορτίο ξεκινά από ηρεμία και έχει θετικό πρόσημο. Οι πηγές μένουν στις θέσεις τους και το δοκιμαστικό φορτίο αποκρίνεται στο πεδίο τους. Τα ίχνη του δείχνουν πώς εξελίσσεται η κίνησή του. Καθώς αποκτά ταχύτητα, αυτή συμμετέχει στη διαμόρφωση της διαδρομής του μαζί με τη δύναμη.</p>
+
+                </section>
+                <section id="interactive-animation" class="lesson-section" aria-labelledby="interactive-animation-title">
+                    <h2 id="interactive-animation-title">Διαδραστική προσομοίωση</h2>
+                    <figure class="lesson-simulation">
+                        <iframe id="lesson-animation" class="simulation-frame" src="../../simulations/electric-field/index.html?v=mobile-fullscreen" title="Διαδραστική προσομοίωση: Το Ηλεκτρικό Πεδίο" loading="lazy" allowfullscreen aria-describedby="simulation-caption"></iframe>
+                        <figcaption class="figure-caption media-caption">
+                            <span id="simulation-caption">Προσομοίωση: Ηλεκτρικό πεδίο και δυναμικό από σημειακά φορτία.</span>
+                            <a class="catalog-card-action" href="../../simulations/electric-field/index.html" target="_blank" rel="noopener"><span class="catalog-action-label">Άνοιγμα σε νέα καρτέλα</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a>
+                        </figcaption>
+                    </figure>
+
+                    <p>Οι γραμμές πεδίου δείχνουν την τοπική διεύθυνση του <var>Ε</var>. Για να κρίνεις την κίνηση ενός φορτίου, συνδύασε αυτή την πληροφορία με την ταχύτητά του. Μια καμπύλη γραμμή πεδίου και η διαδρομή ενός ελεύθερου δοκιμαστικού φορτίου μπορούν να έχουν διαφορετικά σχήματα.</p>
+                </section>
+                <section id="activities" class="lesson-panel" aria-labelledby="activities-title">
+                    <details class="lesson-panel-disclosure">
+                    <summary id="activities-title"><svg class="lesson-panel-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M9 3h6m-5 0v7l-6 9a1.3 1.3 0 0 0 1.1 2h13.8a1.3 1.3 0 0 0 1.1-2l-6-9V3M7 15h10"/></svg> Δοκίμασέ το</summary>
+                    <div class="card-body">
+                        <p>Ακολούθησε το ίδιο θετικό δοκιμαστικό φορτίο σε τρεις διαφορετικές σκηνές.</p>
+                        <ul class="lesson-bullets" role="list">
+                            <li>Με το <span lang="en">Single</span>, άφησε ένα δοκιμαστικό φορτίο κοντά στη θετική πηγή. Παρατήρησε την αρχική απομάκρυνσή του και σύγκρινέ τη με τα βέλη.</li>
+                            <li>Επίλεξε την πηγή και άλλαξε το <span lang="en">Charge</span> της από θετικό σε αρνητικό. Τοποθέτησε νέο δοκιμαστικό φορτίο από ηρεμία στην ίδια περίπου θέση. Πώς αντιστρέφεται η αρχική επιτάχυνση;</li>
+                            <li>Επίλεξε <span lang="en">Dipole</span>. Σχεδίασε πρώτα το βέλος που περιμένεις στη μέση της απόστασης ανάμεσα στο + και το −. Έλεγξέ το με τα <span lang="en">Field arrows</span> και παρακολούθησε ένα δοκιμαστικό φορτίο που αφήνεις εκεί.</li>
+                            <li>Στην ίδια διάταξη, αύξησε τη <span lang="en">Mass</span> των δοκιμαστικών φορτίων και επανάλαβε την εκκίνηση. Το πεδίο των πηγών έχει την ίδια μορφή, ενώ η επιτάχυνση για δεδομένο φορτίο γίνεται μικρότερη.</li>
+                        </ul>
+                    </div>
+                </details>
+                </section>
+                <section id="takeaway" class="lesson-section" aria-labelledby="takeaway-title">
+                    <h2 id="takeaway-title">Τι διασχίζει τον χώρο ανάμεσά τους;</h2>
+                    <p>Μπορούμε πλέον να περιγράψουμε την ιστορία από τη θέση του δοκιμαστικού φορτίου. Εκεί υπάρχει ένα πεδίο και η δύναμη προκύπτει από το τοπικό γινόμενο <var>qΕ</var>. Στην κλασική ηλεκτρομαγνητική θεωρία, οι μεταβολές αυτού του πεδίου μεταδίδονται με πεπερασμένη ταχύτητα. Η πληροφορία για μια κίνηση της πηγής φτάνει αργότερα στα πιο μακρινά σημεία. Αυτή είναι η τοπική περιγραφή της αλληλεπίδρασης μέσω πεδίου.</p>
+                    <p>Το ηλεκτροστατικό εργαστήριο υπολογίζει κάθε φορά το πεδίο μιας στατικής διάταξης. Όταν μετακινείς μια πηγή, επανασχεδιάζει αμέσως τη νέα στατική λύση. Στο επόμενο μάθημα θα παρακολουθήσουμε τη χρονική διάδοση μιας πραγματικής μεταβολής και θα δούμε τι συμβαίνει ώσπου η πληροφορία να φτάσει μακριά.</p>
+                </section>
+                <section id="sources" class="lesson-panel" aria-labelledby="sources-title">
+                    <details class="lesson-panel-disclosure">
+                        <summary id="sources-title"><svg class="lesson-panel-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M12 6a5 5 0 0 0-5-3H3v16h4a5 5 0 0 1 5 2 5 5 0 0 1 5-2h4V3h-4a5 5 0 0 0-5 3Zm0 0v15"/></svg> Πηγές</summary>
+                        <div class="card-body">
+                            <ul class="lesson-bullets lesson-sources" role="list">
+                                <li><a href="https://openstax.org/books/university-physics-volume-2/pages/5-4-electric-field" target="_blank" rel="noopener">Ο ορισμός του ηλεκτρικού πεδίου στο OpenStax</a></li>
+                                <li><a href="https://openstax.org/books/university-physics-volume-2/pages/16-1-maxwells-equations-and-electromagnetic-waves" target="_blank" rel="noopener">Πεδία και ηλεκτρομαγνητικά κύματα στο OpenStax</a></li>
+                            </ul>
+                        </div>
+                    </details>
+                </section>
+                <!-- Google Doc lesson body ends -->
+                <nav id="change-chapter" class="lesson-chapter-nav" aria-label="Πλοήγηση μεταξύ κειμένων">
+                    <a class="catalog-card-action mr-auto" href="giati-i-selini-menei-se-trochia.html" rel="prev"><svg class="action-arrow action-arrow--left" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg><span class="catalog-action-label">Γιατί η Σελήνη μένει σε τροχιά;</span></a>
+                    <a class="catalog-card-action ml-auto" href="ti-einai-i-aktinovolia.html" rel="next"><span class="catalog-action-label">Τι είναι η ακτινοβολία;</span><svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a>
+                </nav>
+            </main>
+            <section class="lesson-recommendations" aria-labelledby="related-lessons-title">
+                <h2 id="related-lessons-title">Προτεινόμενα κείμενα</h2>
+                <div class="catalog-grid catalog-grid--recommendations">
+                    <a class="catalog-card" href="ti-einai-i-aktinovolia.html" aria-labelledby="related-1-title" aria-describedby="related-1-description">
+                        <span class="catalog-icon catalog-icon--radiation"><img src="../../assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3 id="related-1-title">Τι είναι η ακτινοβολία;</h3>
+                        <p id="related-1-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                    </a>
+                    <a class="catalog-card" href="giati-i-selini-menei-se-trochia.html" aria-labelledby="related-2-title" aria-describedby="related-2-description">
+                        <span class="catalog-icon catalog-icon--planet"><img src="../../assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3 id="related-2-title">Γιατί η Σελήνη μένει σε τροχιά;</h3>
+                        <p id="related-2-description">Ανακάλυψε πώς η βαρύτητα και η ταχύτητα κρατούν τη Σελήνη σε τροχιά.</p>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                    </a>
+                    <a class="catalog-card" href="me-ti-moiazei-telika-ena-atomo.html" aria-labelledby="related-3-title" aria-describedby="related-3-description">
+                        <span class="catalog-icon catalog-icon--atom"><img src="../../assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" loading="lazy" aria-hidden="true"></span>
+                        <h3 id="related-3-title">Με τι μοιάζει τελικά ένα άτομο;</h3>
+                        <p id="related-3-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
+                        <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                    </a>
+                </div>
+            </section>
+        </div>
+        <div id="Footer">
+            <footer>
+        <div class="footer-inner">
+            <a class="footer-brand" href="../../index.html" aria-label="Dizzy Electron — Αρχική">
+                    <picture>
+                <source media="(max-width: 575px)" srcset="../../assets/brand/logo-navy-notext.png" width="800" height="800">
+                <img class="site-logo" src="../../assets/brand/logo-navy.png" width="1200" height="626" alt="" aria-hidden="true">
+            </picture>
+                </a>
+            <nav class="footer-navigation" aria-label="Πλοήγηση υποσέλιδου">
+                <ul>
+                <li><a href="../../contents/index.html">Υλικό</a></li>
+                <li><a href="../../about/index.html">Σχετικά</a></li>
+                <li><a href="../../contact/index.html">Επικοινωνία</a></li>
+                </ul>
+            </nav>
+        </div>
+        <p class="footer-copyright"><small>© 2026 Dizzy Electron</small></p>
+    </footer>
+        </div>
+    </div>
+    <a class="scrollToTop" href="#top" aria-label="Επιστροφή στην κορυφή" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
+</body>
+</html>

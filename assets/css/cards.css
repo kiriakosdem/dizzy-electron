@@ -300,14 +300,14 @@ text-decoration-line: none;
     align-items: center;
     gap: 10px 12px;
     min-width: 0;
-    padding: 18px; border: var(--border-width) solid var(--color-border); border-radius: var(--corner-radius);
+    padding: 18px; border: var(--border-width) solid var(--card-border, var(--color-border)); border-radius: var(--corner-radius);
     background: var(--card-background, var(--surface)); color: var(--ink); text-decoration: none;
 
     transition: border-color .15s ease;
 }
 a.catalog-card:hover {
     background: var(--color-navy);
-    border-color: var(--color-navy);
+    border-color: var(--color-logo-orange);
     color: var(--color-logo-orange);
     text-decoration: none;
 }
@@ -372,11 +372,12 @@ a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg
 
 .catalog-card h3, .catalog-card h4 { font-size: var(--card-title-size); font-weight: 600; line-height: 1.35; margin: 0; overflow-wrap: anywhere; }
 .catalog-card p { grid-column: 1 / -1; font-size: .9rem; color: var(--muted-ink); margin: 0; line-height: 1.6; text-indent: 0; }
-.catalog-grid--sidebar { grid-template-columns: minmax(0, 1fr); max-width: 320px; margin-inline: auto; text-align: left; }
-.catalog-card-action { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: .35em; font-size: .85rem; font-weight: 600; color: var(--ink); }
+@media (min-width: 768px) {
+    .catalog-grid--recommendations { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.catalog-card-action { grid-column: 1 / -1; justify-self: start; display: inline-flex; align-items: center; gap: .5rem; font-size: .85rem; font-weight: 600; color: var(--ink); }
 .catalog-action-label { text-decoration: underline; text-underline-offset: 3px; }
 :root[data-theme="dark"] .catalog-card-action { color: var(--color-logo-cyan); }
-.catalog-card-action > .catalog-action-arrow { font-size: 1.2rem; }
 .catalog-topic-list { list-style: none; padding: 0; margin: 28px 0 0; }
 .catalog-topic { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 20px; align-items: start; padding: 26px 0; border-top: var(--border-width) solid var(--color-border); }
 .catalog-topic:last-child { padding-bottom: 0; }
@@ -433,17 +434,17 @@ a.catalog-card:hover .catalog-icon img { filter: url("../icons/color-filters.svg
 
 /* Shared card surfaces also style lesson disclosures and media panels. */
 :root {
-    --lesson-panel-background: var(--surface);
     --lesson-panel-border: var(--color-border);
 }
+.simulation-lesson {
+    --lesson-panel-background: var(--surface);
+}
 :root[data-theme="dark"] {
-    --lesson-panel-background: #2c4056;
     --lesson-panel-border: #687c91;
 }
 
 /* Keep lesson cards distinct from dark page bands without heavy shadows. */
 :root[data-theme="dark"] .catalog-card {
-    --card-background: var(--lesson-panel-background);
-    border-color: var(--lesson-panel-border);
+    --card-background: var(--surface);
+    --card-border: var(--lesson-panel-border);
 }
-:root[data-theme="dark"] a.catalog-card:hover { border-color: var(--color-logo-orange); }

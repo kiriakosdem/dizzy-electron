@@ -23,16 +23,55 @@
 }
 
 .contents-intro + .catalog-grid { margin-top: 20px; }
+
+@media (min-width: 651px) {
+    #physics-lessons .catalog-card {
+        min-height: 0;
+        grid-template-rows: auto 1fr auto;
+        row-gap: 8px;
+        padding: 14px 16px;
+    }
+}
+
 .contents-upcoming h3 { font-size: var(--card-title-size); margin: 24px 0 8px; }
-.upcoming-topics { margin: 0; padding-left: 1.25rem; color: var(--muted-ink); }
-.upcoming-topics li { padding-block: 6px; line-height: 1.6; }
+.upcoming-topics { margin: 0; padding-block: 6px; color: var(--muted-ink); }
+.upcoming-topics > li { line-height: 1.6; }
+.upcoming-topics > li + li { margin-block-start: 12px; }
 #math-lessons { scroll-margin-top: 24px; }
 
-/* Standalone labs have concise title-only cards. */
 .contents-page .catalog-card--lab {
     display: flex;
-    align-items: center;
-    min-height: 80px;
-    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
 }
-.catalog-card--lab h3 { text-decoration: underline; text-underline-offset: 4px; }
+
+.lab-card-preview {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--color-navy);
+}
+
+.lab-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .55rem;
+    padding: 1rem 1.125rem 1.125rem;
+    border-block-start: var(--border-width) solid var(--card-border, var(--color-border));
+}
+
+.catalog-card--lab .lab-card-body p {
+    line-height: 1.5;
+}
+
+.lab-card-body .catalog-card-action {
+    margin-top: auto;
+}

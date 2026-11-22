@@ -72,20 +72,90 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-const scrollToTop = document.querySelector('.scrollToTop');
-if (scrollToTop) {
-    scrollToTop.addEventListener('click', (event) => {
-        event.preventDefault();
-        window.scrollTo({
-            top: 0,
-            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
-        });
+// Keep figures in reading order on narrow screens and let the section text wrap
+// around the same figure on desktop.
+const illustratedSections = document.querySelectorAll('.illustrated-section');
+if (illustratedSections.length) {
+    const wrapFigures = matchMedia('(min-width: 768px)');
+    illustratedSections.forEach(section => {
+        const figure = section.querySelector(':scope > .atomic-model');
+        const heading = section.querySelector(':scope > h2');
+        if (!figure || !heading) return;
+
+        const readingPosition = document.createComment('Figure position in the text');
+        figure.before(readingPosition);
+        const placeFigure = () => {
+            const anchor = wrapFigures.matches ? heading : readingPosition;
+            if (anchor.nextSibling !== figure) anchor.after(figure);
+        };
+        wrapFigures.addEventListener('change', placeFigure);
+        placeFigure();
     });
-    const updateScrollButton = () => {
-        scrollToTop.style.display = window.scrollY > 500 ? 'block' : 'none';
+}
+
+const readingNav = document.querySelector('.lesson-reading-nav');
+if (readingNav) {
+    const lesson = document.getElementById('lesson-content');
+    const readingTime = lesson.querySelector('.lesson-reading-time');
+    const chapterLinks = document.getElementById('change-chapter');
+    const siteNav = document.getElementById('NavigationBar');
+    const lessonTitle = lesson.querySelector('h1');
+    const progress = readingNav.querySelector('progress');
+    const words = [...lesson.querySelectorAll(':scope > section')]
+        .map(section => section.textContent)
+        .join(' ')
+        .match(/[\p{L}\p{N}]+/gu);
+    const minutes = Math.max(1, Math.ceil((words?.length ?? 0) / 200));
+    readingTime.textContent = `(Χρόνος άναγνωσης: ${minutes} ${minutes === 1 ? 'λεπτό' : 'λεπτά'})`;
+    readingTime.hidden = false;
+    readingNav.querySelector('.lesson-reading-title').textContent = lessonTitle.textContent;
+    siteNav.classList.add('lesson-site-nav');
+
+    let directionEdge = Math.max(0, window.scrollY);
+    let scrollingDown = true;
+    let frame = 0;
+    const updateReadingNav = () => {
+        frame = 0;
+        const scrollY = Math.max(0, window.scrollY);
+        // Ignore small reversals so trackpad and touch scroll don't swap bars repeatedly.
+        if (scrollY > directionEdge + 6) scrollingDown = true;
+        if (scrollY < directionEdge - 6) scrollingDown = false;
+        directionEdge = scrollingDown ? Math.max(directionEdge, scrollY) : Math.min(directionEdge, scrollY);
+
+        const start = scrollY + lesson.getBoundingClientRect().top;
+        const end = scrollY + chapterLinks.getBoundingClientRect().top;
+        const distance = Math.max(1, end - start - window.innerHeight);
+        progress.value = 100 * Math.max(0, Math.min(1, (scrollY - start) / distance));
+
+        const pastTitle = lessonTitle.getBoundingClientRect().bottom <= siteNav.offsetHeight;
+        const usingSiteNav = siteNav.contains(document.activeElement) ||
+            menuToggle?.getAttribute('aria-expanded') === 'true';
+        const showReadingNav = readingNav.contains(document.activeElement) ||
+            (pastTitle && scrollingDown && !usingSiteNav);
+        siteNav.classList.toggle('is-offscreen', showReadingNav);
+        siteNav.inert = showReadingNav;
+        readingNav.classList.toggle('is-visible', showReadingNav);
+        readingNav.inert = !showReadingNav;
     };
-    window.addEventListener('scroll', updateScrollButton, { passive: true });
-    updateScrollButton();
+    const scheduleReadingUpdate = () => {
+        if (!frame) frame = requestAnimationFrame(updateReadingNav);
+    };
+    window.addEventListener('scroll', scheduleReadingUpdate, { passive: true });
+    window.addEventListener('resize', scheduleReadingUpdate);
+    siteNav.addEventListener('focusout', scheduleReadingUpdate);
+    readingNav.addEventListener('focusout', scheduleReadingUpdate);
+    const updateAnchorOffset = () => {
+        document.documentElement.style.setProperty('--lesson-navbar-height', siteNav.offsetHeight + 'px');
+    };
+    const readingLayoutObserver = new ResizeObserver(() => {
+        updateAnchorOffset();
+        scheduleReadingUpdate();
+    });
+    readingLayoutObserver.observe(lesson);
+    readingLayoutObserver.observe(siteNav);
+    updateAnchorOffset();
+    updateReadingNav();
+    readingNav.hidden = false;
 }
 
 // Keep the same iframe mounted in a native modal: closing restores the lesson
@@ -100,8 +170,19 @@ document.querySelectorAll('iframe.simulation-frame').forEach(frame => {
     bar.className = 'lesson-lab-bar';
     const exit = document.createElement('button');
     exit.type = 'button';
-    exit.className = 'lesson-interaction-toggle';
-    exit.textContent = '← Επιστροφή στο μάθημα';
+    exit.className = 'lesson-interaction-toggle action-with-arrow';
+    const svgNamespace = 'http://www.w3.org/2000/svg';
+    const exitArrow = document.createElementNS(svgNamespace, 'svg');
+    exitArrow.setAttribute('class', 'action-arrow action-arrow--left');
+    exitArrow.setAttribute('viewBox', '0 0 24 24');
+    exitArrow.setAttribute('width', '16');
+    exitArrow.setAttribute('height', '16');
+    exitArrow.setAttribute('aria-hidden', 'true');
+    exitArrow.setAttribute('focusable', 'false');
+    const exitArrowPath = document.createElementNS(svgNamespace, 'path');
+    exitArrowPath.setAttribute('d', 'M4 12h16m-7-7 7 7-7 7');
+    exitArrow.append(exitArrowPath);
+    exit.append(exitArrow, 'Επιστροφή στο μάθημα');
     bar.append(exit);
     const preview = document.createElement('div');
     preview.className = 'lesson-lab-preview';
@@ -164,7 +245,7 @@ document.querySelectorAll('iframe.simulation-frame').forEach(frame => {
 // Animate native disclosures while keeping keyboard and no-JavaScript behavior.
 const lessonPanelTransitions = new WeakMap();
 const panelReducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-document.querySelectorAll('.lesson-panel-disclosure, .lesson-mobile-contents').forEach(panel => {
+document.querySelectorAll('.lesson-panel-disclosure').forEach(panel => {
     const summary = panel.querySelector('summary');
     let animation;
     let expanded = panel.open;
@@ -203,7 +284,7 @@ document.querySelectorAll('.lesson-panel-disclosure, .lesson-mobile-contents').f
     });
 });
 
-// Contents links reveal the requested panel, including direct bookmarked links.
+// Reveal the requested panel when following a section link or bookmark.
 const revealLessonPanel = () => {
     let id;
     try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
