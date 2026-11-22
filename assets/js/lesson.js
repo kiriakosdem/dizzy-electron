@@ -4,22 +4,40 @@
 const menuToggle = document.querySelector('[data-lesson-menu]');
 const navigation = document.getElementById('RightBox');
 const dropdownButtons = [...document.querySelectorAll('[data-lesson-dropdown]')];
+const compactNavigation = matchMedia('(max-width: 991.98px)');
+const materialsLink = dropdownButtons.find(button => button.id === 'dropdownMenu1');
+const materialsAlwaysVisible = button => button === materialsLink && compactNavigation.matches;
 
 const setDropdown = (button, open) => {
-    button.setAttribute('aria-expanded', String(open));
-    document.getElementById(button.getAttribute('aria-controls')).classList.toggle('show', open);
+    const alwaysVisible = materialsAlwaysVisible(button);
+    if (alwaysVisible) button.removeAttribute('aria-expanded');
+    else button.setAttribute('aria-expanded', String(open));
+    document.getElementById(button.getAttribute('aria-controls')).classList.toggle('show', open && !alwaysVisible);
 };
 
 const closeDropdowns = () => dropdownButtons.forEach((button) => setDropdown(button, false));
 
+if (materialsLink) {
+    setDropdown(materialsLink, false);
+    compactNavigation.addEventListener('change', () => setDropdown(materialsLink, false));
+}
+
+const updateMenuLabel = () => {
+    const open = menuToggle.getAttribute('aria-expanded') === 'true';
+    menuToggle.setAttribute('aria-label', open
+        ? siteLanguage.text('Σύμπτυξη πλοήγησης', 'Hide navigation')
+        : siteLanguage.text('Εμφάνιση πλοήγησης', 'Show navigation'));
+};
+
 const setMenu = open => {
     menuToggle.setAttribute('aria-expanded', String(open));
-    menuToggle.setAttribute('aria-label', open ? 'Σύμπτυξη πλοήγησης' : 'Εμφάνιση πλοήγησης');
+    updateMenuLabel();
     navigation.classList.toggle('show', open);
     if (!open) closeDropdowns();
 };
 
 if (menuToggle && navigation) {
+    siteLanguage.onChange(updateMenuLabel);
     menuToggle.addEventListener('click', () => {
         setMenu(menuToggle.getAttribute('aria-expanded') !== 'true');
     });
@@ -101,14 +119,20 @@ if (readingNav) {
     const siteNav = document.getElementById('NavigationBar');
     const lessonTitle = lesson.querySelector('h1');
     const progress = readingNav.querySelector('progress');
-    const words = [...lesson.querySelectorAll(':scope > section')]
-        .map(section => section.textContent)
-        .join(' ')
-        .match(/[\p{L}\p{N}]+/gu);
-    const minutes = Math.max(1, Math.ceil((words?.length ?? 0) / 200));
-    readingTime.textContent = `(Χρόνος άναγνωσης: ${minutes} ${minutes === 1 ? 'λεπτό' : 'λεπτά'})`;
+    const updateReadingLabels = () => {
+        const words = [...lesson.querySelectorAll(':scope > section')]
+            .map(section => section.textContent)
+            .join(' ')
+            .match(/[\p{L}\p{N}]+/gu);
+        const minutes = Math.max(1, Math.ceil((words?.length ?? 0) / 200));
+        readingTime.textContent = siteLanguage.text(
+            `(Χρόνος ανάγνωσης: ${minutes} ${minutes === 1 ? 'λεπτό' : 'λεπτά'})`,
+            `(${minutes} min read)`);
+        readingNav.querySelector('.lesson-reading-title').textContent = lessonTitle.textContent;
+    };
+    updateReadingLabels();
+    siteLanguage.onChange(updateReadingLabels);
     readingTime.hidden = false;
-    readingNav.querySelector('.lesson-reading-title').textContent = lessonTitle.textContent;
     siteNav.classList.add('lesson-site-nav');
 
     let directionEdge = Math.max(0, window.scrollY);
@@ -165,7 +189,6 @@ document.querySelectorAll('iframe.simulation-frame').forEach(frame => {
     const compact = matchMedia('(pointer: coarse), (max-width: 767px)');
     const shell = document.createElement('dialog');
     shell.className = 'lesson-lab-view';
-    shell.setAttribute('aria-label', frame.title);
     const bar = document.createElement('div');
     bar.className = 'lesson-lab-bar';
     const exit = document.createElement('button');
@@ -182,14 +205,21 @@ document.querySelectorAll('iframe.simulation-frame').forEach(frame => {
     const exitArrowPath = document.createElementNS(svgNamespace, 'path');
     exitArrowPath.setAttribute('d', 'M4 12h16m-7-7 7 7-7 7');
     exitArrow.append(exitArrowPath);
-    exit.append(exitArrow, 'Επιστροφή στο μάθημα');
+    const exitLabel = document.createTextNode('');
+    exit.append(exitArrow, exitLabel);
     bar.append(exit);
     const preview = document.createElement('div');
     preview.className = 'lesson-lab-preview';
     const launch = document.createElement('button');
     launch.type = 'button';
     launch.className = 'lesson-interaction-toggle';
-    launch.textContent = 'Άνοιγμα σε πλήρη οθόνη';
+    const updateLabLabels = () => {
+        shell.setAttribute('aria-label', frame.title);
+        exitLabel.data = siteLanguage.text('Επιστροφή στο μάθημα', 'Back to lesson');
+        launch.textContent = siteLanguage.text('Άνοιγμα σε πλήρη οθόνη', 'Open fullscreen');
+    };
+    updateLabLabels();
+    siteLanguage.onChange(updateLabLabels);
     launch.setAttribute('aria-haspopup', 'dialog');
     launch.setAttribute('aria-controls', frame.id + '-view');
     shell.id = frame.id + '-view';

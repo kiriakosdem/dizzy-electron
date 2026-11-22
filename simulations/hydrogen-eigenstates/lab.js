@@ -40,14 +40,7 @@
         frame.height = renderer.domElement.height;
         const ctx = frame.getContext('2d');
         // Composite the transparent WebGL scene over the viewport's radial backdrop.
-        ctx.fillStyle = '#050f23';
-        ctx.fillRect(0, 0, frame.width, frame.height);
-        const x = frame.width * .58, y = frame.height * .48;
-        const backdrop = ctx.createRadialGradient(x, y, 0, x, y, Math.max(frame.width, frame.height) * .75);
-        backdrop.addColorStop(0, 'rgba(17,40,80,.48)');
-        backdrop.addColorStop(1, 'rgba(2,8,25,0)');
-        ctx.fillStyle = backdrop;
-        ctx.fillRect(0, 0, frame.width, frame.height);
+        paintLabBackdrop(ctx, frame.width, frame.height);
         ctx.drawImage(renderer.domElement, 0, 0);
         return frame;
     }, () => `hydrogen-${$('stateName').textContent}-${displayMode}.png`);
@@ -64,9 +57,16 @@
         stepper.querySelector('[data-step="-1"]').disabled = !canStep(key, -1);
         stepper.querySelector('[data-step="1"]').disabled = !canStep(key, 1);
         if (realPair) {
-            element.add(new Option(`±${value} (real)`, 'real'));
+            const option = new Option('', 'real');
+            setLabCopy(option, '±{0} (real)', [value]);
+            element.add(option);
             element.value = 'real';
         }
+    }
+    function describeRealOrbital(orbital) {
+        return orbital.m
+            ? labText('Real ±{0} combination: {1}({0}φ)', orbital.m, orbital.basis)
+            : labText('Real m = 0 orbital');
     }
     function reflectState(previous) {
         reflectQuantumNumber('n', 1, P.MAX_N);
@@ -94,7 +94,7 @@
                 const button = document.createElement('button');
                 button.type = 'button'; button.className = 'action-button';
                 button.textContent = orbital.label;
-                button.title = orbital.description;
+                setLabCopy(button, () => describeRealOrbital(orbital), [], 'title');
                 button.dataset.m = orbital.m; button.dataset.basis = orbital.basis;
                 button.addEventListener('click', () => changeState(state.n, state.l, orbital.m, orbital.basis));
                 row.appendChild(button);
@@ -102,8 +102,14 @@
         }
         for (const button of row.children) button.setAttribute('aria-pressed', String(
             Number(button.dataset.m) === state.m && button.dataset.basis === basis));
-        $('actionStatus').textContent = (selected ? `Selected ${selected.label}, ${selected.description}.` : `Selected n = ${state.n}, l = ${state.l}, m = ${state.m}.`) +
-            (previous && (previous.l !== state.l || previous.m !== state.m) ? ' Dependent values updated to an allowed combination.' : '');
+        const {n, l, m} = state;
+        const adjusted = previous && (previous.l !== l || previous.m !== m);
+        setLabCopy($('actionStatus'), () => {
+            const description = selected
+                ? labText('Selected {0}, {1}.', selected.label, describeRealOrbital(selected))
+                : labText('Selected n = {0}, l = {1}, m = {2}.', n, l, m);
+            return adjusted ? description + ' ' + labText('Dependent values updated to an allowed combination.') : description;
+        });
     }
     function changeState(n, l, m, nextBasis = basis) {
         basis = nextBasis;
@@ -130,7 +136,7 @@
     }
     function setDensity() {
         drawCount = Number(density.value);
-        $('densityValue').textContent = `${drawCount.toLocaleString('en-US')} spheres`;
+        setLabCopy($('densityValue'), '{0} spheres', [drawCount.toLocaleString('en-US')]);
         density.style.setProperty('--range-fill', `${100 * (drawCount - Number(density.min)) / (MAX_POINTS - Number(density.min))}%`);
         if (cloud) {
             cloud.count = drawCount;
@@ -139,7 +145,7 @@
         needsRender = true;
     }
     density.addEventListener('input', setDensity);
-    density.addEventListener('change', () => { $('actionStatus').textContent = `Showing ${drawCount.toLocaleString('en-US')} probability samples.`; });
+    density.addEventListener('change', () => { setLabCopy($('actionStatus'), 'Showing {0} probability samples.', [drawCount.toLocaleString('en-US')]); });
     function reflectDisplay() {
         const isSurface = displayMode === 'surface';
         const isPoints = displayMode === 'points';
@@ -148,24 +154,26 @@
         $('surfaceControls').hidden = !isSurface;
         $('fuzzyControls').hidden = displayMode !== 'fuzzy';
         $('phaseLegend').hidden = isPoints;
-        if (renderer) renderer.domElement.setAttribute('aria-label', `Three-dimensional hydrogen ${isSurface ? 'probability surface' : 'probability cloud'}. Drag to rotate and scroll or pinch to zoom.`);
+        if (renderer) setLabCopy(renderer.domElement, isSurface
+            ? 'Three-dimensional hydrogen probability surface. Drag to rotate and scroll or pinch to zoom.'
+            : 'Three-dimensional hydrogen probability cloud. Drag to rotate and scroll or pinch to zoom.', [], 'aria-label');
     }
     function setFuzziness() {
         const value = Number(fuzziness.value);
         $('fuzzinessValue').textContent = `${value}%`;
-        fuzziness.setAttribute('aria-valuetext', `${value} percent fuzziness`);
+        setLabCopy(fuzziness, '{0} percent fuzziness', [value], 'aria-valuetext');
         fuzziness.style.setProperty('--range-fill', `${value}%`);
         if (fuzzy) fuzzy.material.uniforms.fuzziness.value = value / 100;
         needsRender = true;
     }
     fuzziness.addEventListener('input', setFuzziness);
     fuzziness.addEventListener('change', () => {
-        $('actionStatus').textContent = `Cloud fuzziness set to ${fuzziness.value}%.`;
+        setLabCopy($('actionStatus'), 'Cloud fuzziness set to {0}%.', [fuzziness.value]);
     });
     function setEnclosure() {
         probability = Number(enclosure.value) / 100;
         $('enclosureValue').textContent = `${Number(enclosure.value).toFixed(1)}%`;
-        enclosure.setAttribute('aria-valuetext', `${Number(enclosure.value).toFixed(1)} percent enclosed probability`);
+        setLabCopy(enclosure, '{0} percent enclosed probability', [Number(enclosure.value).toFixed(1)], 'aria-valuetext');
         enclosure.style.setProperty('--range-fill', `${100 * (Number(enclosure.value) - Number(enclosure.min)) / (Number(enclosure.max) - Number(enclosure.min))}%`);
         if (ready && displayMode === 'surface') scheduleBuild();
     }
@@ -175,11 +183,11 @@
         scheduleBuild();
     });
     enclosure.addEventListener('input', setEnclosure);
-    enclosure.addEventListener('change', () => { $('actionStatus').textContent = `Surface encloses approximately ${(probability * 100).toFixed(1)}% probability.`; });
+    enclosure.addEventListener('change', () => { setLabCopy($('actionStatus'), 'Surface encloses approximately {0}% probability.', [(probability * 100).toFixed(1)]); });
     function scheduleBuild() {
         if (!ready) return;
         detection.visible = false;
-        status.textContent = displayMode === 'surface' ? 'Preparing the probability surface…' : 'Preparing the probability cloud…';
+        setLabCopy(status, displayMode === 'surface' ? 'Preparing the probability surface…' : 'Preparing the probability cloud…');
         status.hidden = false;
         cancelAnimationFrame(rebuildFrame);
         rebuildFrame = requestAnimationFrame(() => {
@@ -364,14 +372,14 @@
             surface.visible = isSurface;
             drawNodes();
             highlightSample(performance.now(), true);
-            $('scaleLabel').textContent = isSurface ? 'Surface extent from nucleus' : '99% probability radius';
+            setLabCopy($('scaleLabel'), isSurface ? 'Surface extent from nucleus' : '99% probability radius');
             $('scaleValue').textContent = `${(isSurface ? surfaceRadius : radius99).toFixed(2)} a₀`;
             $('scaleMetric').hidden = false;
             reflectDisplay();
             status.hidden = true; needsRender = true;
         } catch (error) {
             fuzzy.visible = false; cloud.visible = false; surface.visible = false; detection.visible = false;
-            status.hidden = false; status.textContent = 'The orbital could not be generated. Try another state or reload the lab.';
+            status.hidden = false; setLabCopy(status, 'The orbital could not be generated. Try another state or reload the lab.');
             console.error(error);
         }
     }
@@ -393,7 +401,7 @@
         renderer = new THREE.WebGLRenderer({antialias:true,alpha:true});
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
         renderer.outputEncoding = THREE.sRGBEncoding;
-        renderer.domElement.setAttribute('aria-label','Three-dimensional hydrogen probability cloud. Drag to rotate and scroll or pinch to zoom.');
+        setLabCopy(renderer.domElement, 'Three-dimensional hydrogen probability cloud. Drag to rotate and scroll or pinch to zoom.', [], 'aria-label');
         renderer.domElement.setAttribute('role','img');
         $('canvas-container').appendChild(renderer.domElement);
         orbit = new THREE.OrbitControls(camera, renderer.domElement);
@@ -442,10 +450,12 @@
                 initialViewSet = true;
             }
             updateZoomControls();
-            needsRender = true;
+            // The new drawing buffer needs a frame before the browser paints the resize.
+            renderer.render(scene, camera);
+            needsRender = false;
         }).observe(viewport);
         renderer.domElement.addEventListener('webglcontextlost', event => {
-            event.preventDefault(); status.textContent = 'The 3D view was interrupted. Reload the page to restore it.'; status.hidden = false;
+            event.preventDefault(); setLabCopy(status, 'The 3D view was interrupted. Reload the page to restore it.'); status.hidden = false;
         });
         buildVisualization();
         function animate(now = performance.now()) {
@@ -456,7 +466,7 @@
         }
         animate();
     } catch (error) {
-        status.textContent = 'The 3D view could not start. Check your connection and WebGL support, then reload the page.';
+        setLabCopy(status, 'The 3D view could not start. Check your connection and WebGL support, then reload the page.');
         status.hidden = false; console.error(error);
     }
 }());

@@ -14,6 +14,11 @@
     let current = 0;
     let timer;
 
+    function announceQuote() {
+        const of = siteLanguage.text('από', 'of');
+        status.textContent = `${current + 1} ${of} ${slides.length} · ${dots[current].getAttribute('aria-label')}`;
+    }
+
     function schedule() {
         clearTimeout(timer);
         if (visible && !document.hidden) {
@@ -43,7 +48,7 @@
             dots[current].removeAttribute('aria-current');
             dots[next].setAttribute('aria-current', 'true');
             current = next;
-            if (manual) status.textContent = `${next + 1} από ${slides.length} · ${dots[next].getAttribute('aria-label')}`;
+            if (manual) announceQuote();
         }
         schedule();
     }
@@ -60,6 +65,9 @@
         visible = entry.isIntersecting;
         schedule();
     }).observe(carousel);
+    siteLanguage.onChange(() => {
+        if (status.textContent) announceQuote();
+    });
     document.addEventListener('visibilitychange', schedule);
     schedule();
 })();

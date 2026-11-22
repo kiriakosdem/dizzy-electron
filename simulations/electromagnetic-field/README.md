@@ -14,7 +14,7 @@ Drag the teal probe marker to inspect the local field vector and retarded ray. T
 
 Select Pan, hold Shift while dragging, or drag with the middle mouse button to move the camera. Scroll or pinch to zoom. Use Reset view or H to recenter the camera on the charge.
 
-The Mouse time rate control sets normalized time units per real second at 1× playback. Its default is 24, making mouse manipulation practical while keeping the field propagation speed at c = 1. The playback speed selector multiplies this rate. Lower rates help examine an outgoing disturbance but also slow how quickly the charge can follow a fast pointer.
+The Mouse time rate control sets simulated nanoseconds per real second at 1× playback. The default is 24 ns/s in Mouse mode. Wave and Pulse modes advance at 1 ns/s at 1×. The playback speed selector multiplies these rates. Lower rates help examine an outgoing disturbance and slow how quickly the charge can follow a fast pointer.
 
 Restart creates a new stationary history at the current charge position, without moving the charge back to an arbitrary origin.
 
@@ -46,6 +46,8 @@ Text inputs, selectors, and focused buttons retain their normal keyboard behavio
 ## Physics and numerical representation
 
 The engine evaluates the retarded Lienard-Wiechert fields of a positive point charge on a prescribed planar trajectory. It is a two-dimensional slice of three-dimensional vacuum electromagnetism, not two-dimensional electrostatics. Both horizontal and vertical source velocity and acceleration enter the full vector formula. Normalized units set c = 1 and q/(4*pi*epsilon_0) = 1.
+
+The interface calibrates the normalized model to a 1 nC point charge. One internal time unit is 1 ns and one internal distance unit is 0.299792458 m, so a disturbance travels at the physical speed of light in the displayed units. The ruler and amplitude use meters, frequency uses megahertz, and peak speed uses kilometers per second. Snapshots report electric fields in V/m and magnetic fields in µT. The `FieldLab` debugging interface uses internal units.
 
 The velocity term has an explicit 1/R² factor. Its direction is not generally radial from the retarded source. The acceleration term has an explicit 1/R factor and is transverse to the direction from the retarded source at every distance. The total field approaches transverse behavior where radiation dominates. These statements refer to fixed emission conditions and direction.
 

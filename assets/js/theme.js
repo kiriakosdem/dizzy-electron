@@ -43,7 +43,10 @@
         toggle.type = 'button';
         toggle.className = 'btn theme-toggle';
         toggle.setAttribute('role', 'switch');
-        toggle.setAttribute('aria-label', 'Σκούρο θέμα');
+        const updateLabel = () => toggle.setAttribute('aria-label',
+            siteLanguage.text('Σκούρο θέμα', 'Dark theme'));
+        updateLabel();
+        siteLanguage.onChange(updateLabel);
         toggle.innerHTML = `
             <span class="theme-track" aria-hidden="true">
                 <svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">

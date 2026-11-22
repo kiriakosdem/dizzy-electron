@@ -60,6 +60,8 @@ function openLab(compact,{empty=false,random}={}){
  const sandbox={document,window:{matchMedia:()=>({matches:compact,addEventListener(){}}),devicePixelRatio:1,
   addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{observe(){}},
   performance:{now:()=>0},requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
+ // These interaction tests run the standalone lab, outside a lesson iframe.
+ sandbox.window.parent=sandbox.window;
  if(random){sandbox.Math=Object.create(Math);sandbox.Math.random=random;}
  vm.createContext(sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-scale.js"), "utf8"), sandbox);
@@ -165,18 +167,18 @@ test('playback clock and speed selector share the simulation slider rate',()=>{
  $('speedSelect').value='1';$('speedSelect').emit('change');
  assert.equal($('simulationSpeed').value,'1000000');
  advanceSeconds(api,1);
- assert.equal($('timeReadout').textContent,'t = 11.57 d');
+ assert.equal($('timeReadout').textContent,'11.57 d');
  $('pauseTest').emit('click');
  $('simulationSpeed').value='170000';$('simulationSpeed').emit('input');
  assert.equal($('sliderRate').textContent,'0.17×');
  assert.equal($('speedSelect').value,'custom');
  advanceSeconds(api,1);
- assert.equal($('timeReadout').textContent,'t = 11.57 d');
+ assert.equal($('timeReadout').textContent,'11.57 d');
  $('pauseTest').emit('click');
  advanceSeconds(api,1);
- assert.equal($('timeReadout').textContent,'t = 13.54 d');
+ assert.equal($('timeReadout').textContent,'13.54 d');
  $('resetTest').emit('click');
- assert.equal($('timeReadout').textContent,'t = 0.00 d');
+ assert.equal($('timeReadout').textContent,'0.00 d');
 });
 
 test('trajectories are independent of frame rate and display sensitivity',()=>{
@@ -203,12 +205,12 @@ test('individual masses, pause, resume, reset and individual deletion preserve s
  assert.ok(api.state().testMasses.every(t=>!t.running&&t.vx===0&&t.vy===0&&t.trail.length===1));
  api.placeTestMass(300,0);assert.equal(api.state().testMass.mass,.005);assert.equal(api.state().testMass.running,false);
  $('trashZone').emit('click',{detail:0});assert.equal(api.state().testMasses.length,2);
- $('clear').emit('click');assert.equal(api.state().testMasses.length,0);assert.equal(first.trail.length,0);assert.equal($('testPlayback').hidden,true);
+ $('clear').emit('click');assert.equal(api.state().testMasses.length,0);assert.equal(first.trail.length,0);assert.equal($('lab').classList.contains('test-active'),false);
 });
 
 test('contact, world edges and background frames handle particles without tunneling or catch-up jumps',()=>{
  const {$,api,document}=singleSourceLab();api.placeTestMass(-100,0);const p=api.state().testMass;p.vx=1;
- api.advanceSimulation(1/240);assert.equal(api.state().testMass,null);assert.equal(p.trail.length,0);assert.equal($('testPlayback').hidden,false);
+ api.advanceSimulation(1/240);assert.equal(api.state().testMass,null);assert.equal(p.trail.length,0);assert.equal($('lab').classList.contains('test-active'),true);
  api.seedSources([]);api.placeTestMass(1990,0);api.state().testMass.vx=1;api.advanceSimulation(1/240);assert.equal(api.state().testMass,null);
  api.placeTestMass(0,0);api.state().testMass.vx=.001;
  document.hidden=true;api.advanceSimulation(60);assert.equal(api.state().testMass.x,0);
@@ -295,7 +297,7 @@ function center(element){const r=element.getBoundingClientRect();return {clientX
 
 test('two source masses accelerate toward each other without any test particles',()=>{
  const {$,api}=openLab(false,{empty:true});$('presetPair').emit('click');const [a,b]=api.state().masses;
- assert.equal($('testPlayback').hidden,false);const forces=api.sourceAccelerations();assert.ok(forces[0].x>0);assert.ok(forces[1].x<0);
+ assert.equal($('lab').classList.contains('test-active'),true);const forces=api.sourceAccelerations();assert.ok(forces[0].x>0);assert.ok(forces[1].x<0);
  closeTo(forces[0].x,-forces[1].x);advanceSeconds(api,.2);
  assert.ok(a.x>-120&&b.x<120);assert.ok(a.vx>0&&b.vx<0);assert.equal(api.state().testMasses.length,0);
  closeTo(a.x,-b.x,1e-10);closeTo(a.vx,-b.vx,1e-12);
@@ -386,7 +388,7 @@ for(const compact of [false,true]){
  test(`${layout}: source tray drag survives lost capture and creates one mass at rest`,()=>{
   const {$,api}=openLab(compact,{empty:true}),button=$('addSource');button.emit('pointerdown',center(button));button.emit('pointermove',{clientX:160,clientY:540});button.releasePointerCapture(1);
   $('fieldCanvas').emit('pointerup',{clientX:160,clientY:540});$('fieldCanvas').emit('dblclick',{clientX:160,clientY:540});
-  assert.equal(api.state().masses.length,1);assert.equal(api.state().masses[0].mass,4);assert.equal(api.state().masses[0].vx,0);assert.equal($('testPlayback').hidden,false);
+  assert.equal(api.state().masses.length,1);assert.equal(api.state().masses[0].mass,4);assert.equal(api.state().masses[0].vx,0);assert.equal($('lab').classList.contains('test-active'),true);
  });
  test(`${layout}: source dragging freezes motion and preserves grab offset and velocity`,()=>{
   const {$,api,point}=openLab(compact),c=api.state().masses[0],canvas=$('fieldCanvas');c.vx=.001;

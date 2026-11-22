@@ -26,6 +26,8 @@
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--focus-ring, var(--color-logo-cyan, #00bed0)) 18%, transparent) !important;
 }
 
+.coordinate-field input:focus-visible { outline: none !important; }
+
 /* Custom switches hide their checkbox, so frame the visible control. */
 .switch > input:focus {
     outline: none !important;

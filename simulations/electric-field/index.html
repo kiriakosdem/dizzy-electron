@@ -9,12 +9,8 @@
 :root{--text-primary:#e8f0ff;--text-secondary:#b9d4f2;--text-muted:#8aabc9;--text-accent:#77b1f6;--text-destructive:#d29aa9;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text-primary);background:#061126;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden}
-.banner{display:flex;align-items:center;gap:14px;flex-shrink:0;width:100%;padding:11px 22px;z-index:3}
-.banner-copy{flex:1;min-width:0}
-.banner h1{margin:5px 0 4px;font-size:20px;letter-spacing:normal}
-.banner .subtitle{margin:0;line-height:1.4}
-#lab{width:100%;flex:1;min-height:0;position:relative;overflow:hidden;isolation:isolate;background:#061126;user-select:none}
-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#lab{width:100%;flex:1;min-height:0;position:relative;overflow:hidden;isolation:isolate;user-select:none}
+canvas{display:block;width:var(--field-canvas-width, 100%);height:100%;touch-action:none;cursor:grab}
 canvas.dragging{cursor:grabbing}
 canvas.placing{cursor:crosshair}
 canvas:focus,canvas:focus-visible{outline:none}
@@ -27,7 +23,6 @@ button,input{touch-action:manipulation}
 button:focus-visible,input:focus-visible{outline:2px solid #9acbff;outline-offset:3px}
 .eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--text-accent);text-transform:uppercase}
 h1{font-size:23px;line-height:1.13;margin:11px 0 7px;font-weight:670;letter-spacing:-.9px}
-.subtitle{font-size:12px;line-height:1.65;color:var(--text-muted);margin:0 0 21px}
 .divider{height:1px;background:rgba(159,190,237,.13);margin:18px 0}
 .preset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:var(--preset-height,36px);gap:6px}
 .preset-grid .action-button{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:100%;min-width:0;min-height:0;padding:4px 6px;color:var(--text-secondary);font-size:11px;line-height:1.2;white-space:normal}
@@ -45,7 +40,6 @@ button{font:inherit;cursor:pointer}
 #editBlock .coordinate-field > span:first-child{grid-column:auto}
 #editBlock .coordinate-field input{appearance:textfield}
 #editBlock .coordinate-field input::-webkit-inner-spin-button{appearance:none}
-.coordinate-field input:focus,.coordinate-field input:focus-visible{outline:none}
 .coordinate-unit{flex-shrink:0;color:var(--text-muted);font-size:10px;font-weight:500}
 @media(pointer:coarse){.coordinate-field input{min-height:44px;font-size:16px}}
 .charge-controls{margin-top:0}
@@ -54,27 +48,24 @@ button{font:inherit;cursor:pointer}
 .action-button{flex:1;min-width:0;min-height:40px;padding:9px 6px;border:1px solid #45658b;border-radius:8px;background:#193453;color:var(--text-secondary);font-size:11px;font-weight:650;box-shadow:inset 0 1px 0 #ffffff0d;transition:background .15s,border-color .15s}
 .action-button:hover{background:#254b75;border-color:#78a4d5}
 .action-button:active{background:#10253f}
-.legend{position:absolute;right:max(22px,env(safe-area-inset-right));top:20px;z-index:1;display:grid;gap:5px;padding:8px 12px;font-size:11px}
+.legend{position:absolute;right: max(var(--lab-overlay-inset), env(safe-area-inset-right));top:var(--lab-overlay-inset);z-index:1;display:grid;gap:5px;padding:8px 12px;font-size:11px}
 .legend-item{display:flex;align-items:center;gap:6px}
 .legend-vector{flex:none;width:26px;text-align:center;font-size:14px;line-height:1;color:#ff7a1a}
 .gradient{width:26px;height:6px;border-radius:3px;background:linear-gradient(90deg,rgba(255,122,26,0),#ff7a1a)}
 .potential-gradient{background:linear-gradient(90deg,#0085e5,#050f23 50%,#ff7a1a)}
-.hud{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));right:max(12px,env(safe-area-inset-right));width:max-content;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.hud{position:absolute;bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));right: max(var(--lab-overlay-inset), env(safe-area-inset-right));width:max-content;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:var(--lab-frame-inset)}
 .charge-popover{position:absolute;z-index:2;width:190px;padding:10px 12px}
 .charge-popover .control-label{margin:0 0 2px;font-size:11px;color:var(--text-secondary)}
-.charge-popover input[type=range]{height:28px;margin:0}
-@media(pointer:coarse){.charge-popover input[type=range]{height:44px}}
 .mode-msg{position:absolute;z-index:2;bottom:174px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;width:max-content;max-width:calc(100% - 32px);padding:8px 12px;font-size:12px}
-.mode-msg button{flex-shrink:0;min-height:44px;border:1px solid #73a6db;border-radius:7px;padding:0 10px;background:#14385f;color:var(--text-primary);font-size:12px}
+.mode-msg button{flex-shrink:0;min-height:44px;padding:0 10px;font-size:12px}
 .mode-msg[hidden]{display:none}
 
 
 /* Read-only overlays must not block charge drops or canvas gestures. */
 .legend,.hud{pointer-events:none}
-.controls-open .legend{right:314px}
-.controls-open .hud{right:304px}
+.controls-open .legend{right:calc(292px + var(--lab-overlay-inset))}
 .controls-open .mode-msg{left:calc((100% - 292px)/2);max-width:calc(100% - 324px)}
-.charge-tray{position:absolute;left:max(18px,env(safe-area-inset-left));bottom:max(18px,env(safe-area-inset-bottom));z-index:1;padding:12px}
+.charge-tray{position:absolute;left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));z-index:1;padding:12px}
 .tray-items{display:grid;grid-template-columns:repeat(3,64px);gap:8px;align-items:stretch}
 .tray-items>button{display:grid;grid-template-rows:minmax(0,1fr) auto;align-items:center;justify-items:center;row-gap:3px;line-height:12px}
 .tray-items>button>span{align-self:end;white-space:nowrap}
@@ -101,21 +92,18 @@ button:disabled{cursor:default;opacity:.45}
 .charge-ghost.test{display:grid;place-items:center}.charge-ghost.test .charge-art{width:20px;height:20px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media(max-width:750px),(max-height:500px) and (max-width:950px){
- .banner{padding:calc(8px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left))}.banner h1{font-size:18px;margin:4px 0}.banner .subtitle{font-size:11px;margin:0}
  .panel{width:min(320px,100%)}
  .panel-backdrop{display:block;position:absolute;inset:0;z-index:2;border:0;background:rgba(2,8,20,.48)}
  #lab.controls-open .legend,#lab.controls-open .hud,#lab.controls-open .mode-msg,#lab.controls-open .charge-tray,#lab.controls-open .canvas-dock{visibility:hidden}
  .test-active .mode-msg{bottom:calc(246px + env(safe-area-inset-bottom))}
- .legend{right:max(12px,env(safe-area-inset-right));top:12px}
- .hud{right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom))}
  .action-button{min-height:44px}.control-label{font-size:12px}.action-button{font-size:12px}
  .control-label{margin:6px 0 5px}
 
- .charge-tray{left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));padding:10px}
+ .charge-tray{left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));padding:10px}
  .mode-msg{bottom:calc(214px + env(safe-area-inset-bottom));font-size:12px}
 }
 .canvas-dock{z-index:1}
-.controls-open .canvas-dock{right:calc(292px + max(18px,env(safe-area-inset-right)))}
+.controls-open .canvas-dock{right:calc(292px + max(var(--lab-overlay-inset),env(safe-area-inset-right)))}
 .canvas-dock .charge-tray{position:static;grid-area:1 / 1;justify-self:start;min-width:0;max-width:100%;pointer-events:auto}
 .canvas-dock .hud{position:static;min-width:0}
 .canvas-dock .tray-items{grid-template-columns:repeat(3,minmax(0,64px))}
@@ -130,31 +118,34 @@ button:disabled{cursor:default;opacity:.45}
 
 
 }
-@media(max-width:750px),(max-height:500px) and (max-width:950px){.controls-open .canvas-dock{right:max(12px,env(safe-area-inset-right))}}
-@media(max-height:500px) and (max-width:950px){.banner{padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:6px}.banner h1{font-size:18px;margin:3px 0}.banner .subtitle{display:none}}
+@media(max-width:750px),(max-height:500px) and (max-width:950px){.controls-open .canvas-dock{right:max(var(--lab-overlay-inset),env(safe-area-inset-right))}}
 @media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=readable-lab-controls">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css">
-    <link rel="stylesheet" href="../../assets/css/lab-select.css">
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=readable-lab-controls">
-    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=readable-lab-controls">
-    <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=canvas-palette">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=persistent-narrow-playback">
+    <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=compact-segment-titles">
+    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
+    <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=mobile-fullscreen">
-    <script src="../../assets/js/lab-canvas.js?v=mobile-fullscreen"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-question-label">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=unbroken-test-labels">
+    <script src="../../assets/js/lab-canvas.js?v=lesson-surfaces"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
 </head>
 <body id="top">
-<header class="banner">
-    <div class="banner-copy">
-        <h1>The Electric Field</h1>
-        <p class="subtitle">Explore how charges shape the space around them. More on the physics of the simulation <button id="physicsButton" type="button" aria-label="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog">here</button>.</p>
-    </div>
-    <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls"><svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg></button>
+<header class="lab-header">
+    <a class="lab-site-brand" href="../../index.html" aria-label="Dizzy Electron home">
+        <img src="../../assets/brand/logo-navy-notext.png" width="800" height="800" alt="">
+    </a>
+    <h1>The Electric Field</h1>
+    <div class="lab-language"></div>
+    <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><span class="lab-help-icon" aria-hidden="true">?</span></button>
+    <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg>
+    </button>
 </header>
 <div id="lab">
   <div class="canvas-frame field-frame">
@@ -171,31 +162,31 @@ button:disabled{cursor:default;opacity:.45}
   </div>
   <button class="panel-backdrop" id="controlsBackdrop" type="button" aria-label="Close controls" tabindex="-1" hidden></button>
   <aside class="panel" id="controlsPanel" aria-label="Field controls">
-    <details open class="panel-section" id="visualizationSettings" aria-label="Display settings">
+    <details class="panel-section" id="visualizationSettings" aria-label="Display settings">
     <summary><h2>
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
       Display
     </h2></summary>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17 17 3M10 3h7v7M3 7l4-4M3 3h4v4M13 17l4-4M13 13h4v4"/></svg>Field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric field arrows"></button></div>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true" fill="currentColor"><path d="M5 5h1m8 0h1M5 14h1m8 0h1" stroke-width="3" stroke-linecap="round"/></svg>Field sample points</span><button id="samplePointsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Field sample points"></button></div>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="3" stroke-opacity=".5"/><rect x="4" y="4" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".15" stroke="none"/><rect x="11" y="4" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".4" stroke="none"/><rect x="4" y="11" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".6" stroke="none"/><rect x="11" y="11" width="5" height="5" rx="1" fill="currentColor" stroke="none"/></svg>Field strength heatmap</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric field heatmap"></button></div>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 5V2M14.3 7.5l2.6-1.5M14.3 12.5l2.6 1.5M10 15v3M5.7 12.5l-2.6 1.5M5.7 7.5 3.1 6"/></svg>Field lines</span><button id="fieldLinesToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle field lines"></button></div>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="2"/><circle cx="10" cy="10" r="5"/><circle cx="10" cy="10" r="8"/></svg>Electric potential</span><button id="potentialToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric potential heatmap" title="Potential V = k Σ(q/r), relative to zero at infinity. Orange is positive; blue is negative."></button></div>
-    <div class="control-label slider-label"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 4h3M9 4h9M2 10h9M15 10h3M2 16h2M8 16h10"/><circle cx="7" cy="4" r="2"/><circle cx="13" cy="10" r="2"/><circle cx="6" cy="16" r="2"/></svg>Display sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
+    <div class="toggle-row"><span class="toggle-label">Point grid</span><button id="samplePointsToggle" class="switch" role="switch" aria-checked="false" aria-label="Point grid"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric field arrows"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Field strength</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric field strength"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Field lines</span><button id="fieldLinesToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle field lines"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Electric potential</span><button id="potentialToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric potential heatmap" title="Potential V = k Σ(q/r), relative to zero at infinity. Orange is positive; blue is negative."></button></div>
+    <div class="control-label slider-label"><span class="toggle-label">Display sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
     <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field and potential color sensitivity"/>
     <div class="range-scale" aria-hidden="true"><span>0.3</span><span>4</span></div>
   </details>
     <details open class="panel-section" id="chargesConfiguration" aria-label="Examples">
       <summary><h2>
-        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="6.5" r="4.5"/><path d="M4 6.5h4m-2-2v4"/><circle cx="14" cy="13.5" r="4.5"/><path d="M12 13.5h4"/></svg>
-        Charge configuration
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M7.5 7.3a2.5 2.5 0 1 1 3.9 2c-1 .6-1.4 1.2-1.4 2.2m0 2.8h.01"/></svg>
+        Examples
       </h2></summary>
       <div class="preset-grid" role="group" aria-label="Load a charge configuration">
         <button class="action-button preset-button" id="presetSingle" type="button" title="One positive charge. Starts a fresh scene.">Single</button>
         <button class="action-button preset-button" id="presetDipole" type="button" title="Equal positive and negative charges. Starts a fresh scene.">Dipole</button>
         <button class="action-button preset-button" id="presetRow" type="button" title="Five evenly spaced positive charges. Starts a fresh scene.">Row</button>
         <button class="action-button preset-button" id="presetRandom" type="button" title="Five scattered charges with mixed signs and strengths. Starts a fresh scene.">Random</button>
-        <button id="clear" class="action-button danger-button" type="button">Clear all</button>
+        <button id="clear" class="action-button danger-button" type="button"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Clear all</span></button>
       </div>
     </details>
     <details open class="panel-section" id="testBlock" aria-label="Test charge" aria-describedby="testModelHint" hidden>
@@ -204,27 +195,27 @@ button:disabled{cursor:default;opacity:.45}
         Test charges
       </h2></summary>
       <p class="sr-only" id="testModelHint">F = qE · a = F/m. Starts at rest; source charges stay fixed. One grid unit is 1 cm. At 1× playback, 1 millisecond is simulated per real second.</p>
-      <label class="control-label slider-label" for="testMass"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="4.5" r="2.5"/><path d="M5 7h10l3 10H2Z"/></svg>Mass</span><span class="control-value" id="testMassText">100 g</span></label>
+      <label class="control-label slider-label" for="testMass"><span class="toggle-label">Mass</span><span class="control-value" id="testMassText">100 g</span></label>
       <input type="range" id="testMass" min="1" max="1000" step="1" value="100" aria-label="Mass of all test charges" aria-valuetext="100 grams" aria-describedby="testMassHint" title="Applies to all existing and new test charges. Mass: 1 g–1 kg. More mass means slower acceleration."/>
       <div class="range-scale" aria-hidden="true"><span>1</span><span>1,000</span></div>
       <p class="sr-only" id="testMassHint">All test charges share this mass, from 1 gram to 1 kilogram. More mass means slower acceleration. The test charge and trail disappear on contact with a source or at the lab edge.</p>
-      <label class="control-label slider-label" for="testChargeStrength"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="6" r="4"/><circle cx="14" cy="14" r="4"/><path d="M4 6h4M6 4v4M12 14h4"/></svg>Charge</span><span class="control-value" id="testChargeText">+10.0 μC</span></label>
+      <label class="control-label slider-label" for="testChargeStrength"><span class="toggle-label">Charge</span><span class="control-value" id="testChargeText">+10.0 μC</span></label>
       <input type="range" id="testChargeStrength" min="0.1" max="20" step="0.1" value="10" aria-label="Positive charge of all test charges" aria-valuetext="10 microcoulombs" aria-describedby="testChargeHint" title="Applies to all existing and new test charges. Positive charge only: +0.1 to +20 μC."/>
       <div class="range-scale" aria-hidden="true"><span>+0.1</span><span>+20</span></div>
       <p class="sr-only" id="testChargeHint">All test charges share a strictly positive charge, from 0.1 to 20 microcoulombs. Larger values increase the electric force.</p>
       <p class="sr-only" id="testStatus" role="status">Place a test charge to watch its motion.</p>
     </details>
-    <details open class="panel-section" id="editBlock" aria-label="Selected charge">
+    <details open class="panel-section" id="editBlock" hidden aria-label="Selected charge">
       <summary><h2>
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M10 1v2.5M10 16.5V19M1 10h2.5M16.5 10H19M7.5 10h5M10 7.5v5"/></svg>
         Selected charge
       </h2></summary>
       <div class="charge-controls">
-        <label class="control-label slider-label" for="chargeStrength"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="6" r="4"/><circle cx="14" cy="14" r="4"/><path d="M4 6h4M6 4v4M12 14h4"/></svg>Charge</span><span class="control-value" id="strengthText">+4.0 C</span></label>
+        <label class="control-label slider-label" for="chargeStrength"><span class="toggle-label">Charge</span><span class="control-value" id="strengthText">+4.0 C</span></label>
         <input type="range" id="chargeStrength" min="-10" max="10" step="0.1" value="4" aria-label="Selected static charge in coulombs" title="Negative values reverse polarity. Zero makes the source neutral."/>
         <div class="range-scale" aria-hidden="true"><span>−10</span><span>+10</span></div>
       </div>
-      <div class="control-label"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 8c0 5-6 10-6 10S4 13 4 8a6 6 0 1 1 12 0Z"/><circle cx="10" cy="8" r="2"/></svg>Position</span></div>
+      <div class="control-label"><span class="toggle-label">Position</span></div>
       <div class="coordinate-fields" role="group" aria-label="Selected charge position in centimeters">
         <label class="coordinate-field"><span>X</span><input id="chargeX" type="number" min="-2000" max="2000" step="1" aria-label="Selected charge X coordinate in centimeters" /><span class="coordinate-unit" aria-hidden="true">cm</span></label>
         <label class="coordinate-field"><span>Y</span><input id="chargeY" type="number" min="-1500" max="1500" step="1" aria-label="Selected charge Y coordinate in centimeters" /><span class="coordinate-unit" aria-hidden="true">cm</span></label>
@@ -245,14 +236,14 @@ button:disabled{cursor:default;opacity:.45}
       <button class="trash-zone danger-button" id="trashZone" type="button" aria-label="Delete selected charge, or drag a charge here" title="Drop a charge here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Delete</span></button>
     </div>
   </div>
-  <div class="time-bar canvas-surface" id="testPlayback" hidden role="group" aria-label="Playback for all test charges">
-      <button class="playback-toggle" id="pauseTest" type="button" aria-label="Pause all test charges" title="Pause all test charges">
+  <div class="time-bar canvas-surface" id="testPlayback" data-hide-when-idle role="group" aria-label="Playback for all test charges">
+      <button class="playback-toggle" id="pauseTest" type="button" disabled aria-label="Play all test charges" title="Play all test charges">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
       </button>
-      <button id="resetTest" type="button" aria-label="Reset all test charges to their starting positions" title="Reset all test charges to their starting positions">
+      <button class="playback-icon" id="resetTest" type="button" disabled aria-label="Reset all test charges to their starting positions" title="Reset all test charges to their starting positions">
           <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg>
       </button>
-      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated milliseconds">t = 0.00 ms</span>
+      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated milliseconds">0.00 ms</span>
       <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
           <option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option>
       </select>
@@ -288,8 +279,12 @@ button:disabled{cursor:default;opacity:.45}
     <h3>Canvas controls and scale</h3>
     <p>Drag the background to pan. Scroll or pinch to zoom. One grid unit represents one centimetre.</p>
     <p>Drag a charge to move it, or drop it on the trash button to remove it. Moving a test charge releases it from rest at its new position. At 1× playback, one real second represents one millisecond of simulated motion.</p>
+    <p class="source-reference"><a href="../../lessons/physics/pos-droun-oi-ilektrostatikes-dynameis.html" target="_blank" rel="noopener">Read the lesson</a></p>
   </div>
 </dialog>
+    <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
+    <script src="../../assets/js/lab-greek.js?v=help-question-label"></script>
+    <script src="../../assets/js/language.js?v=compact-lab-header"></script>
 <script>
 (()=>{'use strict';
 const lab=document.getElementById('lab'), canvas=document.getElementById('fieldCanvas'), ctx=canvas.getContext('2d',{alpha:false});
@@ -300,7 +295,7 @@ let controlsOpen=!embedded&&!compactLayout.matches,chargeHover=null,touchEditorI
 function setControlsOpen(open,{returnFocus=false}={}){
  controlsOpen=open;$('controlsPanel').hidden=!open;$('controlsBackdrop').hidden=!open||!compactLayout.matches;
  $('controlsToggle').setAttribute('aria-expanded',String(open));
- $('controlsToggle').setAttribute('aria-label',open?'Hide controls':'Show controls');
+ setLabCopy($('controlsToggle'), open ? 'Hide controls' : 'Show controls', [], 'aria-label');
  $('controlsToggleIcon').setAttribute('d',open?'M5 5l10 10M15 5L5 15':'M3 5h14M3 10h14M3 15h14');lab.classList.toggle('controls-open',open);
  if(returnFocus)$('controlsToggle').focus({preventScroll:true});
 }
@@ -312,7 +307,7 @@ setupLabCanvasTools(() => visibleFieldSnapshot(canvas, $('controlsPanel')), () =
 const SAMPLE=50, MINOR=25, MAJOR=100, SUPER_MAJOR=400, MIN_ZOOM=.30,MAX_ZOOM=2;
 const PAN_X=2000,PAN_Y=1500;
 let vw=0,vh=0,dpr=1, camera={x:0,y:0,zoom:1};
-let charges=[], nextId=1,selectedId=null,placing=0,activeDrag=null,showFieldLines=false,showFieldArrows=true,showSamplePoints=true,showHeatmap=false,showPotential=false,sensitivity=1;
+let charges=[], nextId=1,selectedId=null,placing=0,activeDrag=null,showFieldLines=false,showFieldArrows=true,showSamplePoints=false,showHeatmap=false,showPotential=false,sensitivity=1;
 let sourceDrag=null,suppressDragClick=false;
 // Source q values are coulombs; positions/velocities use cm and cm per simulated second.
 // fieldAt omits k and uses cm distances; dynamics converts its result into cm/s².
@@ -351,7 +346,8 @@ function loadChargeConfiguration(kind){
  charges=layout.map(c=>({id:nextId++,...c}));selectedId=charges[0].id;
  if(compactLayout.matches)setControlsOpen(false,{returnFocus:true});
  fitChargesToView();setMode();syncPanel();
- $('actionStatus').textContent=kind.charAt(0).toUpperCase()+kind.slice(1)+' configuration loaded. '+charges.length+' static '+(charges.length===1?'charge.':'charges.');
+ const count=charges.length, presetName=kind.charAt(0).toUpperCase()+kind.slice(1);
+ setLabCopy($('actionStatus'), () => labText(count===1 ? '{0} configuration loaded. {1} static charge.' : '{0} configuration loaded. {1} static charges.', labText(presetName), count));
 }
 function fitChargesToView(){
  if(!charges.length)return;
@@ -366,37 +362,48 @@ function fitChargesToView(){
 function toScreen(x,y){return {x:(x-camera.x)*camera.zoom+vw/2,y:(camera.y-y)*camera.zoom+vh/2};}
 function toWorld(x,y){return {x:(x-vw/2)/camera.zoom+camera.x,y:camera.y-(y-vh/2)/camera.zoom};}
 function pointerPos(ev){let r=canvas.getBoundingClientRect();return{x:ev.clientX-r.left,y:ev.clientY-r.top};}
-function resize(){let r=lab.getBoundingClientRect();vw=r.width;vh=r.height;dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(vw*dpr);canvas.height=Math.round(vh*dpr);canvas.style.width=vw+'px';canvas.style.height=vh+'px';constrainCamera();updateZoomControls();}
-const observer=new ResizeObserver(resize);observer.observe(lab);resize();
-function setMode(){canvas.classList.toggle('placing',placing!==0);$('addPositive').classList.toggle('active',placing===1);$('addNegative').classList.toggle('active',placing===-1);$('addPositive').setAttribute('aria-pressed',String(placing===1));$('addNegative').setAttribute('aria-pressed',String(placing===-1));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));$('modeMessageText').textContent=placing==='test'?'Click or tap to release the test charge from rest. Press Enter to place near view center.':'Tap or click the grid to place your charge.';$('modeMessage').hidden=placing===0;positionChargePopover();}
+function resize(){
+ const {width,height}=canvas.getBoundingClientRect();
+ const pixelRatio=Math.min(window.devicePixelRatio||1,2);
+ if(width===vw&&height===vh&&pixelRatio===dpr)return;
+ vw=width;vh=height;dpr=pixelRatio;
+ const pixelWidth=Math.round(vw*dpr),pixelHeight=Math.round(vh*dpr);
+ if(canvas.width!==pixelWidth)canvas.width=pixelWidth;
+ if(canvas.height!==pixelHeight)canvas.height=pixelHeight;
+ constrainCamera();updateZoomControls();
+ // Resizing clears the drawing buffer. Repaint before this frame is presented.
+ drawFrame();
+}
+function setMode(){canvas.classList.toggle('placing',placing!==0);$('addPositive').classList.toggle('active',placing===1);$('addNegative').classList.toggle('active',placing===-1);$('addPositive').setAttribute('aria-pressed',String(placing===1));$('addNegative').setAttribute('aria-pressed',String(placing===-1));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));setLabCopy($('modeMessageText'), placing==='test'?'Click or tap to release the test charge from rest. Press Enter to place near view center.':'Tap or click the grid to place your charge.');$('modeMessage').hidden=placing===0;positionChargePopover();}
 function startPlacing(sign){placing=(placing===sign?0:sign);if(sign==='test')selectTestCharge();else if(testSelected){testSelected=false;syncPanel();}setMode();if(placing&&compactLayout.matches)setControlsOpen(false,{returnFocus:true});if(placing==='test')canvas.focus({preventScroll:true});}
 $('cancelPlacement').onclick=()=>{placing=0;setMode();};
-function addCharge(x,y,sign){const c={id:nextId++,x,y,q:sign*4};charges.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});$('actionStatus').textContent=(sign>0?'Positive':'Negative')+' charge added. '+charges.length+' charges in the field.';}
-function removeCharge(id=selectedId){if(!charges.some(c=>c.id===id))return;charges=charges.filter(c=>c.id!==id);if(selectedId===id)selectedId=charges.length?charges[charges.length-1].id:null;syncPanel();$('actionStatus').textContent='Charge removed. '+charges.length+' charges in the field.';}
+function addCharge(x,y,sign){const c={id:nextId++,x,y,q:sign*4};charges.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});setLabCopy($('actionStatus'), sign>0 ? 'Positive charge added. Charges in the field: {0}.' : 'Negative charge added. Charges in the field: {0}.', [charges.length]);}
+function removeCharge(id=selectedId){if(!charges.some(c=>c.id===id))return;charges=charges.filter(c=>c.id!==id);if(selectedId===id)selectedId=charges.length?charges[charges.length-1].id:null;syncPanel();setLabCopy($('actionStatus'), 'Charge removed. Charges in the field: {0}.', [charges.length]);}
 function updateTimeReadout(){
- const label='t = '+(simulationTime*1000).toFixed(2)+' ms';
+ const label=(simulationTime*1000).toFixed(2)+' ms';
  const readout=$('timeReadout');
  if(readout.textContent!==label)readout.textContent=label;
 }
 function syncTestControls(){
  $('testBlock').hidden=!testSelected;$('editBlock').hidden=testSelected||!selected();
- $('testPlayback').hidden=!testCharges.length;lab.classList.toggle('test-active',testCharges.length>0);
+ lab.classList.toggle('test-active',testCharges.length>0);
  if(!testCharges.length)simulationTime=0;
  updateTimeReadout();
  syncTestMass();syncTestChargeStrength();
- const playLabel=testPaused?'Play':'Pause';
- $('playIcon').setAttribute('d',testPaused?'M4 2l9 6-9 6Z':'M3 2h4v12H3zM9 2h4v12H9z');
- $('playLabel').textContent=playLabel;
- $('pauseTest').title=playLabel+' all test charges';
- $('pauseTest').setAttribute('aria-label',$('pauseTest').title);
+ const playing=testCharges.length>0&&!testPaused;
+ const playLabel=playing?'Pause':'Play';
+ $('playIcon').setAttribute('d',playing?'M3 2h4v12H3zM9 2h4v12H9z':'M4 2l9 6-9 6Z');
+ setLabCopy($('playLabel'), playLabel);
+ setLabLabel($('pauseTest'), playing ? 'Pause all test charges' : 'Play all test charges');
  $('pauseTest').disabled=!testCharges.length;
  $('resetTest').disabled=!testCharges.length;
- $('testStatus').textContent=!testCharges.length?'Place a test charge to watch its motion.':testPaused?'All test charges paused. Continue to resume motion.':'Test charges moving under the electric force.';
- $('testBlock').title='F = qE; a = F/m. Test charges move independently in the fixed source field. Drag one to release it from a new point. 1 grid unit = 1 cm. At 1× playback, 1 ms is simulated per real second. '+$('testStatus').textContent;
+ const status=!testCharges.length?'Place a test charge to watch its motion.':testPaused?'All test charges paused. Continue to resume motion.':'Test charges moving under the electric force.';
+ setLabCopy($('testStatus'), status);
+ setLabCopy($('testBlock'), () => labText('F = qE; a = F/m. Test charges move independently in the fixed source field. Drag one to release it from a new point. 1 grid unit = 1 cm. At 1× playback, 1 ms is simulated per real second.') + ' ' + labText(status), [], 'title');
  positionChargePopover();
 }
-function syncTestMass(){const grams=Math.round(testMass*1000);$('testMass').value=String(grams);$('testMassText').textContent=grams.toLocaleString('en-US')+' g';$('testMass').setAttribute('aria-valuetext',grams+(grams===1?' gram':' grams'));updateRangeFill($('testMass'));}
-function syncTestChargeStrength(){const microcoulombs=Math.round(testQ*1e7)/10;$('testChargeStrength').value=String(microcoulombs);$('testChargeText').textContent=(microcoulombs>0?'+':'')+microcoulombs.toFixed(1)+' μC';$('testChargeStrength').setAttribute('aria-valuetext',microcoulombs+' microcoulombs');updateRangeFill($('testChargeStrength'));}
+function syncTestMass(){const grams=Math.round(testMass*1000);$('testMass').value=String(grams);$('testMassText').textContent=grams.toLocaleString('en-US')+' g';setLabCopy($('testMass'), grams===1 ? '{0} gram' : '{0} grams', [grams], 'aria-valuetext');updateRangeFill($('testMass'));}
+function syncTestChargeStrength(){const microcoulombs=Math.round(testQ*1e7)/10;$('testChargeStrength').value=String(microcoulombs);$('testChargeText').textContent=(microcoulombs>0?'+':'')+microcoulombs.toFixed(1)+' μC';setLabCopy($('testChargeStrength'), '{0} microcoulombs', [microcoulombs], 'aria-valuetext');updateRangeFill($('testChargeStrength'));}
 function selectTestCharge(id=selectedTestId){if(!testCharges.some(t=>t.id===id))id=testCharges.length?testCharges[testCharges.length-1].id:null;if(!testSelected||selectedId!==null||id!==selectedTestId){testSelected=true;selectedId=null;selectedTestId=id;syncPanel();}}
 function removeSelection(){if(testSelected)removeTestCharge();else removeCharge();}
 function removeTestCharge(id=selectedTestId){const t=testCharges.find(t=>t.id===id);if(t)t.trail.length=0;testCharges=testCharges.filter(t=>t.id!==id);if(selectedTestId===id)selectedTestId=testCharges.length?testCharges[testCharges.length-1].id:null;if(!testCharges.length){testAccumulator=0;lastFrameTime=null;}syncTestControls();}
@@ -405,12 +412,12 @@ function canPlaceTestCharge(x,y){return Math.abs(x)<PAN_X&&Math.abs(y)<PAN_Y&&!c
 function placeTestCharge(x,y){
  selectTestCharge();
  if(!canPlaceTestCharge(x,y)){
-  placing='test';setMode();$('modeMessageText').textContent='Choose a point inside the grid, at least 24 cm from each source.';return false;
+  placing='test';setMode();setLabCopy($('modeMessageText'), 'Choose a point inside the grid, at least 24 cm from each source.');return false;
  }
  const testCharge={id:nextTestId++,x,y,vx:0,vy:0,q:testQ,mass:testMass,startX:x,startY:y,running:!testPaused,trail:[{x,y}],trailClock:0};
  testCharges.push(testCharge);selectedTestId=testCharge.id;
  if(testCharges.length===1){testAccumulator=0;lastFrameTime=null;}syncTestControls();canvas.focus({preventScroll:true});
- $('actionStatus').textContent='Positive test charge released from rest.';return true;
+ setLabCopy($('actionStatus'), 'Positive test charge released from rest.');return true;
 }
 function placeFromTool(x,y,kind){if(kind==='test')return placeTestCharge(x,y);addCharge(x,y,kind);return true;}
 function placeTestNearCenter(){
@@ -419,7 +426,7 @@ function placeTestNearCenter(){
   const x=visibleWidth/2+radius*Math.cos(i*Math.PI/4),y=vh/2+radius*Math.sin(i*Math.PI/4),world=toWorld(x,y);
   if(canPlaceTestCharge(world.x,world.y)&&overWorkspace({clientX:rect.left+x,clientY:rect.top+y},8)){placeTestCharge(world.x,world.y);placing=0;setMode();return;}
  }
- $('modeMessageText').textContent='No clear point near the center. Click or tap farther from a source to place the test charge.';
+ setLabCopy($('modeMessageText'), 'No clear point near the center. Click or tap farther from a source to place the test charge.');
 }
 function resetTestCharges(){
  if(!testCharges.length)return;
@@ -447,7 +454,7 @@ function testStopAlongSegment(x,y,nx,ny){
  return hit;
 }
 function stopTestCharge(hit,id){
- removeTestCharge(id);$('actionStatus').textContent=hit.reason==='source'?'Test charge and trail removed on contact with a source.':'Test charge and trail removed at the lab edge.';
+ removeTestCharge(id);setLabCopy($('actionStatus'), hit.reason==='source'?'Test charge and trail removed on contact with a source.':'Test charge and trail removed at the lab edge.');
 }
 function advanceTestCharge(elapsed){
  if(testPaused||!testCharges.some(t=>t.running)||document.hidden||(activeDrag&&activeDrag.kind!=='test')||(sourceDrag&&sourceDrag.sign!=='test')){testAccumulator=0;return;}
@@ -491,7 +498,7 @@ function applyCoordinate(axis,input){
  const c=selected();if(!c)return;
  const raw=input.value.trim(),value=Number(raw);
  if(!raw||!Number.isFinite(value)){
-  input.value=String(Math.round(c[axis]));$('actionStatus').textContent='Enter a valid '+axis.toUpperCase()+' coordinate in centimeters.';return;
+  input.value=String(Math.round(c[axis]));setLabCopy($('actionStatus'), 'Enter a valid {0} coordinate in centimeters.', [axis.toUpperCase()]);return;
  }
  const limit=axis==='x'?PAN_X:PAN_Y;
  c[axis]=clamp(Math.round(value),-limit,limit);syncCoordinateInputs(c);
@@ -500,12 +507,15 @@ function applyCoordinate(axis,input){
  if(p.x<32||p.x>visibleWidth-32||p.y<32||p.y>vh-32){
   camera.x=c.x+(vw-visibleWidth)/(2*camera.zoom);camera.y=c.y;constrainCamera();
  }
- $('actionStatus').textContent='Charge position: X '+Math.round(c.x)+' cm, Y '+Math.round(c.y)+' cm.'+(Math.abs(value)>limit?' '+axis.toUpperCase()+' limited to '+(-limit)+' cm through '+limit+' cm.':'');
+ const position=[Math.round(c.x), Math.round(c.y)];
+ setLabCopy($('actionStatus'), Math.abs(value)>limit
+  ? 'Charge position: X {0} cm, Y {1} cm. {2} limited to {3} cm through {4} cm.'
+  : 'Charge position: X {0} cm, Y {1} cm.', [...position, axis.toUpperCase(), -limit, limit]);
 }
 function syncPanel(){
  const c=selected();$('editBlock').hidden=!c;
  positionChargePopover();
- if(c){for(const id of ['chargeStrength','canvasChargeStrength']){$(id).value=String(c.q);updateRangeFill($(id));$(id).setAttribute('aria-valuetext',c.q.toFixed(1)+' coulombs');}const value=(c.q>0?'+':'')+c.q.toFixed(1)+' C';$('strengthText').textContent=value;$('canvasStrengthText').textContent=value;$('canvasChargeName').textContent='Charge '+String(c.id).padStart(2,'0');syncCoordinateInputs(c);}
+ if(c){for(const id of ['chargeStrength','canvasChargeStrength']){$(id).value=String(c.q);updateRangeFill($(id));setLabCopy($(id), '{0} coulombs', [c.q.toFixed(1)], 'aria-valuetext');}const value=(c.q>0?'+':'')+c.q.toFixed(1)+' C';$('strengthText').textContent=value;$('canvasStrengthText').textContent=value;setLabCopy($('canvasChargeName'), 'Charge {0}', [String(c.id).padStart(2,'0')]);syncCoordinateInputs(c);}
  syncTestControls();
 }
 function closeChargeEditor(){chargeHover=null;touchEditorId=null;$('chargePopover').hidden=true;}
@@ -745,7 +755,7 @@ function grid(){const b=worldBounds();for(const spacing of [MINOR,MAJOR,SUPER_MA
  for(let n=startY;n<=endY;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const y=toScreen(0,n*spacing).y;ctx.moveTo(0,Math.round(y)+.5);ctx.lineTo(vw,Math.round(y)+.5);}
  ctx.strokeStyle=spacing===MINOR?'rgba(132,166,222,.055)':spacing===MAJOR?'rgba(143,185,237,.14)':'rgba(155,195,242,.23)';ctx.lineWidth=1;ctx.stroke();}
 }
-function background(){ctx.fillStyle='#050f23';ctx.fillRect(0,0,vw,vh);const glow=ctx.createRadialGradient(vw*.58,vh*.48,0,vw*.58,vh*.48,Math.max(vw,vh)*.75);glow.addColorStop(0,'rgba(17,40,80,.48)');glow.addColorStop(1,'rgba(2,8,25,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,vw,vh);if(showHeatmap||showPotential)drawHeatmap();grid();}
+function background(){paintLabBackdrop(ctx,vw,vh);if(showHeatmap||showPotential)drawHeatmap();grid();}
 // Sample the resultant field, including cancellation between charges. Cache the
 // screen-space raster until the camera, sources, viewport, or sensitivity changes.
 function drawHeatmap(){
@@ -944,7 +954,7 @@ function starburst(x,y,id,r=18){ctx.beginPath();starburstPoints(id,r).forEach((p
 function drawCharges(){for(const c of charges){const s=toScreen(c.x,c.y);if(s.x<-50||s.x>vw+50||s.y<-50||s.y>vh+50)continue;
  if(activeDrag?.kind==='charge'&&activeDrag.moved&&activeDrag.id===c.id)continue;
  const isSelected=c.id===selectedId;
- if(isSelected){ctx.save();const halo=ctx.createRadialGradient(s.x,s.y,13,s.x,s.y,39);halo.addColorStop(0,'rgba(83,159,249,.25)');halo.addColorStop(.6,'rgba(49,123,221,.20)');halo.addColorStop(1,'rgba(49,123,221,0)');ctx.beginPath();ctx.arc(s.x,s.y,39,0,Math.PI*2);ctx.fillStyle=halo;ctx.fill();ctx.beginPath();ctx.arc(s.x,s.y,27,0,Math.PI*2);ctx.strokeStyle='rgba(83,159,249,.62)';ctx.lineWidth=1.25;ctx.stroke();ctx.restore();}
+ if(isSelected)paintLabSelection(ctx,s.x,s.y,27,39);
  ctx.save();if(c.q===0){ctx.beginPath();ctx.arc(s.x,s.y,17.5,0,Math.PI*2);ctx.setLineDash([4,3]);}else starburst(s.x,s.y,c.id,17.5);ctx.fillStyle=c.q>0?'#f4f8ff':c.q<0?'#050a15':'#273b53';ctx.fill();ctx.lineWidth=c.q>0?2:1.25;ctx.strokeStyle=c.q===0?'#8aabc9':'#f5f8ff';ctx.stroke();ctx.restore();
  ctx.save();ctx.font='800 16px ui-monospace,monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=c.q>0?'#0b1730':'#f3f8ff';ctx.fillText(c.q>0?'+':c.q<0?'−':'0',s.x,s.y+.2);ctx.restore();
  }}
@@ -960,19 +970,43 @@ function drawTestCharge(){
  if(trail.length){const a=toScreen(trail[trail.length-1].x,trail[trail.length-1].y),b=toScreen(testCharge.x,testCharge.y);ctx.globalAlpha=.5;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
  ctx.globalAlpha=1;
  const s=toScreen(testCharge.x,testCharge.y);
- if(testSelected&&testCharge.id===selectedTestId){ctx.beginPath();ctx.arc(s.x,s.y,12,0,Math.PI*2);ctx.strokeStyle='rgba(115,180,255,.8)';ctx.lineWidth=1;ctx.stroke();}
+ if(testSelected&&testCharge.id===selectedTestId)paintLabSelection(ctx,s.x,s.y,12);
  starburst(s.x,s.y,0,6.5);ctx.fillStyle='#ffffff';ctx.strokeStyle='#ffffff';ctx.lineWidth=.8;ctx.shadowColor='#ffffff';ctx.shadowBlur=5;ctx.fill();ctx.stroke();ctx.restore();
  }
 }
-function render(now){if(Number.isFinite(now)){const elapsed=lastFrameTime===null?0:(now-lastFrameTime)/1000;lastFrameTime=now;advanceTestCharge(elapsed);}positionChargePopover();if(vw&&vh){ctx.setTransform(dpr,0,0,dpr,0,0);background();if(showFieldLines)drawFieldLines();if(showFieldArrows||showSamplePoints)drawFieldSamples();drawCharges();drawTestCharge();if(!sourceDrag){const drag=activeDrag?.moved?activeDrag:null,c=drag?.kind==='charge'?charges.find(c=>c.id===drag.id):drag?.kind==='test'?testCharges.find(t=>t.id===drag.id):null;if(c)showChargeGhost(drag.kind==='test'?'test':c.q,c.id,toScreen(c.x,c.y),drag.kind==='test'&&!drag.valid);else $('chargeGhost').hidden=true;}}requestAnimationFrame(render);}
+function drawFrame(){
+ positionChargePopover();
+ if(!vw||!vh)return;
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ background();
+ if(showFieldLines)drawFieldLines();
+ if(showFieldArrows||showSamplePoints)drawFieldSamples();
+ drawCharges();
+ drawTestCharge();
+ if(!sourceDrag){
+  const drag=activeDrag?.moved?activeDrag:null;
+  const object=drag?.kind==='charge'?charges.find(c=>c.id===drag.id):drag?.kind==='test'?testCharges.find(t=>t.id===drag.id):null;
+  if(object)showChargeGhost(drag.kind==='test'?'test':object.q,object.id,toScreen(object.x,object.y),drag.kind==='test'&&!drag.valid);
+  else $('chargeGhost').hidden=true;
+ }
+}
+function render(now){
+ if(Number.isFinite(now)){
+  const elapsed=lastFrameTime===null?0:(now-lastFrameTime)/1000;
+  lastFrameTime=now;
+  advanceTestCharge(elapsed);
+ }
+ drawFrame();
+ requestAnimationFrame(render);
+}
 setChargeArtwork($('addPositive').querySelector('svg'),1);setChargeArtwork($('addNegative').querySelector('svg'),2);
 setChargeArtwork($('addTest').querySelector('svg'),0);
 document.querySelectorAll('input[type=range]').forEach(input=>{updateRangeFill(input);input.addEventListener('input',()=>updateRangeFill(input));});
+const observer=new ResizeObserver(resize);observer.observe(canvas);resize();
 resetCamera();initializeEmptyScene();requestAnimationFrame(render);
 })();
 </script>
 <script src="../../assets/js/lab-toggle.js"></script>
 <script src="../../assets/js/lab-physics.js"></script>
-    <a class="scrollToTop" href="#top" aria-label="Επιστροφή στην κορυφή" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
 </body>
 </html>

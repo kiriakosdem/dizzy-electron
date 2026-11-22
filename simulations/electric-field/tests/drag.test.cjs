@@ -55,6 +55,8 @@ function openLab(compact,{empty=false,random}={}){
  const sandbox={document,window:{matchMedia:()=>({matches:compact,addEventListener(){}}),devicePixelRatio:1,
   addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{observe(){}},
   requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
+ // These interaction tests run the standalone lab, outside a lesson iframe.
+ sandbox.window.parent=sandbox.window;
  if(random){sandbox.Math=Object.create(Math);sandbox.Math.random=random;}
  vm.createContext(sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-scale.js"), "utf8"), sandbox);
@@ -76,18 +78,18 @@ test('playback time follows the fixed steps once for all test charges',()=>{
  particle.vx=1e6;
  $('speedSelect').value='0.5';$('speedSelect').emit('change');
  api.advanceTestCharge(.1);
- assert.equal($('timeReadout').textContent,'t = 0.05 ms');
+ assert.equal($('timeReadout').textContent,'0.05 ms');
  assert.ok(Math.abs(particle.x-50)<1e-8);
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
- assert.equal($('timeReadout').textContent,'t = 0.05 ms');
+ assert.equal($('timeReadout').textContent,'0.05 ms');
  $('speedSelect').value='2';$('speedSelect').emit('change');
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
- assert.equal($('timeReadout').textContent,'t = 0.25 ms');
+ assert.equal($('timeReadout').textContent,'0.25 ms');
  assert.ok(Math.abs(particle.x-250)<1e-8);
  $('resetTest').emit('click');
- assert.equal($('timeReadout').textContent,'t = 0.00 ms');
+ assert.equal($('timeReadout').textContent,'0.00 ms');
  assert.equal(particle.x,0);
 });
 
@@ -419,7 +421,7 @@ test('mass, pause, reset and remove controls preserve the expected motion state'
  $('pauseTest').emit('click');advanceSeconds(api,1);assert.ok(api.state().testCharge.x>101);
  $('resetTest').emit('click');const particle=api.state().testCharge;
  assert.equal(particle.x,100);assert.equal(particle.vx,0);assert.equal(particle.running,false);assert.equal(particle.trail.length,1);
- $('trashZone').emit('click',{detail:0});assert.equal(api.state().testCharge,null);assert.equal($('testPlayback').hidden,true);
+ $('trashZone').emit('click',{detail:0});assert.equal(api.state().testCharge,null);assert.equal($('lab').classList.contains('test-active'),false);
 });
 
 test('placement rejects the point-charge singularity without discarding an existing test charge',()=>{
@@ -432,7 +434,7 @@ test('source contact removes a fast test charge and its entire trail without tun
  const {$,api}=singleSourceLab(-4);api.placeTestCharge(-100,0);const particle=api.state().testCharge;particle.vx=100000000;
  particle.trail.push({x:-90,y:0});api.advanceTestCharge(1/240);
  assert.equal(api.state().testCharge,null);assert.equal(particle.trail.length,0);
- assert.equal($('testPlayback').hidden,true);assert.equal($('lab').classList.contains('test-active'),false);
+ assert.equal($('lab').classList.contains('test-active'),false);
  assert.equal(api.state().charges.length,1);api.advanceTestCharge(1/60);
  // Moving a source onto the particle removes it before evaluating the singular field.
  const second=singleSourceLab();second.api.placeTestCharge(100,0);second.api.state().charges[0].x=100;
@@ -605,7 +607,7 @@ test('clearing and loading a preset remove every test charge and trail',()=>{
   const {$,api}=openLab(false);api.placeTestCharge(0,0);api.placeTestCharge(0,100);
   const particles=[...api.state().testCharges];$(action).emit('click');
   assert.equal(api.state().testCharges.length,0);assert.equal(api.state().testCharge,null);
-  assert.ok(particles.every(t=>t.trail.length===0));assert.equal($('testPlayback').hidden,true);
+  assert.ok(particles.every(t=>t.trail.length===0));assert.equal($('lab').classList.contains('test-active'),false);
  }
 });
 
@@ -780,7 +782,7 @@ test('loading a preset clears moving particles, trails, placement and pointer ow
  $('presetDipole').emit('click',{detail:0});
  assert.equal(api.state().testCharges.length,0);assert.ok(particles.every(t=>t.trail.length===0));
  assert.equal(api.state().activeDrag,null);assert.equal(api.state().sourceDrag,null);assert.equal(api.state().placing,0);
- assert.equal($('chargeGhost').hidden,true);assert.equal($('testPlayback').hidden,true);
+ assert.equal($('chargeGhost').hidden,true);assert.equal($('lab').classList.contains('test-active'),false);
  assert.equal($('editBlock').hidden,false);assert.equal($('testBlock').hidden,true);
  api.placeTestCharge(0,100);assert.equal(api.state().testCharge.mass,.25);closeTo(api.state().testCharge.q,5e-6,1e-15);
 });
@@ -818,7 +820,7 @@ for(const compact of [false,true]){
  test(`${compact?'mobile':'desktop'}: the real page starts with an empty canvas and no selected charge`,()=>{
   const {$,api}=openLab(compact,{empty:true});
   assert.equal(api.state().charges.length,0);assert.equal(api.state().testCharges.length,0);assert.equal(api.state().selectedId,null);
-  assert.equal($('editBlock').hidden,true);assert.equal($('testBlock').hidden,true);assert.equal($('chargePopover').hidden,true);assert.equal($('testPlayback').hidden,true);
+  assert.equal($('editBlock').hidden,true);assert.equal($('testBlock').hidden,true);assert.equal($('chargePopover').hidden,true);assert.equal($('lab').classList.contains('test-active'),false);
   closeTo(api.fieldAt(100,100).mag,0);api.render();
   $('presetSingle').emit('click');assert.equal(api.state().charges.length,1);assert.equal($('editBlock').hidden,false);
  });

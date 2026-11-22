@@ -17,19 +17,53 @@
     clip-path: inset(0 round var(--frame-radius));
     background: var(--color-navy);
 }
+.home-film-media { position: relative; }
 .home-film {
     display: block;
     width: 100%;
     aspect-ratio: 3 / 2;
     object-fit: cover;
 }
+.home-film-toggle {
+    position: absolute;
+    inset-block-end: 10px;
+    inset-inline-end: 10px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(0 30 60 / 82%);
+    color: var(--color-white);
+    cursor: pointer;
+}
+.home-film-toggle::before { content: ""; position: absolute; inset: -5px; }
+.home-film-toggle:not([hidden]) { display: grid; }
+.home-film-toggle:hover { background: var(--color-navy); }
+.home-film-toggle:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+.home-film-toggle:not([data-playing]) .home-film-pause,
+.home-film-toggle[data-playing] .home-film-play { display: none; }
 .home-film-caption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
     padding: .5rem 1rem;
     background: color-mix(in srgb, var(--color-navy) 70%, var(--color-graphite));
     color: color-mix(in srgb, var(--color-paper) 80%, var(--color-graphite));
     font-size: .875rem;
     line-height: 1.4;
     text-align: center;
+}
+.home-film-caption .home-film-action {
+    --hover-background: transparent;
+    flex: none;
+    color: var(--color-logo-cyan);
+    text-decoration: none;
+}
+.home-film-caption .home-film-action:is(:hover, :focus-visible) {
+    color: var(--color-logo-orange);
 }
 .home-heading .lesson-bullets { margin: 16px 0 0; }
 .home-heading .lesson-bullets > li + li { margin-top: .65em; }

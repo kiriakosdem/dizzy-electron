@@ -8,14 +8,6 @@
 }
 .panel-backdrop { display: none; }
 .panel .panel-section h3 { font-weight: 400; }
-.panel-options {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding: 3px;
-  border: 1px solid #45658b;
-  border-radius: 10px;
-  background: #0b1c31;
-}
 .panel-button {
   min-height: 36px;
   width: 100%;
@@ -35,21 +27,6 @@
   background: #254b75;
 }
 .panel-button[aria-pressed="true"] { border-color: #9acbff; color: var(--text-primary); }
-/* Each selector has one outline around its three choices. */
-.panel-options .panel-button {
-  height: var(--row-height);
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 2px;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  box-shadow: none;
-}
-.panel-options .panel-button:enabled:hover { background: #193453; }
-.panel-options .panel-button[aria-pressed="true"] { background: #254b75; }
 .density-options .panel-button { position: relative; cursor: pointer; }
 .density-options input {
   position: absolute;
@@ -62,24 +39,13 @@
   border-radius: inherit;
   cursor: pointer;
 }
-.density-options input:hover { background: #193453; }
-.density-options input:checked { background: #254b75; }
 .density-options span { position: relative; pointer-events: none; }
-.density-options input:checked + span { color: var(--text-primary); }
 @media (forced-colors: active) {
   .density-options input:checked { border: 2px solid Highlight; }
 }
 .panel-button:disabled { opacity: .45; }
 #manualControls, #automaticControls { margin-top: 12px; }
-.panel .source-stats {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  margin-top: 6px;
-  color: var(--text-muted);
-  font-size: 11px;
-  font-variant-numeric: tabular-nums;
-}
+#automaticControls .state-details { margin-top: 6px; }
 .panel .toggle-row { min-height: 33px; cursor: pointer; }
 .panel select {
   width: 100%;

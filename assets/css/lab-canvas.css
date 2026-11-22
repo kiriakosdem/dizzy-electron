@@ -6,18 +6,21 @@
 }
 
 :root {
+    --lab-overlay-inset: calc(2 * var(--lab-frame-inset));
     --lab-number-font: "Lab numerals", ui-monospace, monospace;
     --lab-ui-font: "Lab numerals", Inter, ui-sans-serif, system-ui, sans-serif;
-    --canvas-background: rgba(11, 28, 49, .96);
-    --canvas-stroke: rgba(150, 192, 242, .32);
-    --canvas-border: 1px solid var(--canvas-stroke);
-    --canvas-radius: 10px;
+    --lab-scene-base: #08182b;
+    --lab-scene-glow: color-mix(in srgb, var(--lab-panel-background) 48%, transparent);
+    --glass-tint: color-mix(in srgb, var(--lab-glass-color) 82%, transparent);
     font-family: var(--lab-ui-font);
 }
+
+#lab { background: var(--lab-sidebar-background); }
 
 /* Clip the scene and draw its inset border in the same coordinate space.
    Pointer and camera coordinates stay relative to the full-size canvas. */
 .canvas-frame {
+    background: var(--lab-scene-base);
     clip-path: inset(var(--lab-frame-inset) round var(--lab-frame-radius));
 }
 .canvas-frame::after {
@@ -36,15 +39,84 @@
 }
 
 #lab .canvas-surface {
-    background: var(--canvas-background);
-    border: var(--canvas-border);
-    border-radius: var(--canvas-radius);
-    box-shadow: 0 4px 16px #02091440;
+    background: var(--glass-tint);
+    border: 1px solid transparent;
+    border-radius: 14px;
+    box-shadow: inset 0 1px 0 rgb(246 243 237 / 15%), 0 4px 14px rgb(2 9 20 / 30%);
     color: var(--text-secondary);
     font-family: var(--lab-ui-font);
 }
 
-#lab :is(.mass-tray, .charge-tray) { border-style: dashed; }
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    #lab .canvas-surface {
+        --glass-tint: color-mix(in srgb, var(--lab-glass-color) 65%, transparent);
+        -webkit-backdrop-filter: blur(14px) saturate(125%);
+        backdrop-filter: blur(14px) saturate(125%);
+    }
+}
+
+#lab .canvas-surface :is(button, select) {
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+#lab .canvas-surface :is(button, select):enabled:hover {
+    background-color: var(--lab-button-hover);
+}
+#lab .canvas-surface button:enabled:active {
+    background-color: var(--lab-button-selected);
+}
+#lab .canvas-surface button:disabled { opacity: .45; cursor: default; }
+
+#lab .tray-items > button > span {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.15;
+}
+#lab .tray-items > .test-source > span:lang(el) {
+    font-size: 8.5px;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+#lab .canvas-surface :is(.source-stack, .pointer-options button[aria-pressed="true"], .trash-zone),
+#lab .canvas-surface.quantum-stepper button {
+    background: color-mix(in srgb, var(--lab-glass-button-color) 24%, transparent);
+    border-color: transparent;
+    box-shadow: inset 0 1px 0 rgb(246 243 237 / 18%), 0 2px 5px rgb(2 9 20 / 24%);
+}
+#lab .canvas-surface :is(.source-stack, .pointer-options button):enabled:hover,
+#lab .canvas-surface.quantum-stepper button:enabled:hover {
+    background-color: color-mix(in srgb, var(--lab-glass-button-color) 38%, transparent);
+}
+#lab .canvas-surface :is(.source-stack, .pointer-options button):is([aria-pressed="true"], .active) {
+    background-color: color-mix(in srgb, var(--lab-button-selected) 85%, transparent);
+    box-shadow: inset 0 1px 0 rgb(213 250 255 / 32%), 0 2px 5px rgb(2 9 20 / 24%);
+    color: #fff;
+}
+#lab .canvas-surface #cancelPlacement {
+    background: var(--lab-button-fill);
+}
+#lab .canvas-surface #cancelPlacement:enabled:hover {
+    background: var(--lab-button-selected);
+    border-color: var(--lab-accent);
+}
+#lab .canvas-surface .playback-toggle {
+    background: var(--lab-button-selected);
+    color: var(--text-primary);
+}
+#lab .canvas-surface .playback-toggle:enabled:hover {
+    background: color-mix(in srgb, var(--lab-accent) 38%, var(--lab-button-fill));
+}
+#lab .canvas-surface .tray-items .trash-zone {
+    background-color: color-mix(in srgb, var(--lab-delete-fill) 90%, transparent);
+    color: var(--lab-delete-ink);
+}
+#lab .canvas-surface .tray-items .trash-zone:hover,
+#lab .canvas-surface .tray-items .trash-zone.over {
+    background-color: color-mix(in srgb, var(--lab-delete-hover) 90%, transparent);
+    color: var(--lab-delete-ink);
+}
+#lab .scale-readout { color: var(--text-secondary); }
 
 #lab :is(.legend, .canvas-legend, .orbital-legend) {
     padding: 8px 12px;
@@ -59,8 +131,8 @@
 .canvas-tools {
     position: absolute;
     z-index: 1;
-    top: 20px;
-    left: max(18px, env(safe-area-inset-left));
+    top: var(--lab-overlay-inset);
+    left: max(var(--lab-overlay-inset), env(safe-area-inset-left));
     display: flex;
     align-items: center;
     gap: 2px;
@@ -78,7 +150,6 @@
     background: transparent;
     cursor: pointer;
 }
-.canvas-tools button:hover { background: #25486e; }
 .canvas-tools svg {
     width: 18px;
     height: 18px;
@@ -93,7 +164,7 @@
 .canvas-tools [aria-pressed="true"] .contract-icon { display: inline; }
 .canvas-tools-message {
     position: absolute;
-    top: calc(100% + 6px);
+    top: calc(100% + var(--lab-frame-inset));
     left: 0;
     width: max-content;
     max-width: min(220px, 80vw);
@@ -102,8 +173,8 @@
 }
 
 #lab :is([role="timer"], output, .control-value, .range-scale, input[type="number"],
-         #speedSelect, .quantum-grid select, .quantum-stepper > span, #stateName, .real-orbitals button,
-         .state-details dd, .source-stats, .scale-readout, #canvasStrengthText, #canvasChargeName,
+         #speedSelect, .quantum-stepper > span, #stateName, .real-orbitals button,
+         .state-details dd, .scale-readout, #canvasStrengthText, #canvasChargeName,
          #canvasMassName, .mass-art text, .charge-art text) {
     font-family: var(--lab-number-font);
     font-variant-numeric: tabular-nums;
@@ -113,14 +184,11 @@
     .canvas-tools button { width: 44px; height: 44px; }
 }
 @media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
-    .canvas-tools { top: 12px; left: max(12px, env(safe-area-inset-left)); }
     .controls-open .canvas-tools { visibility: hidden; }
 }
 
 @media (max-width: 440px) {
-    #lab :is(.mass-tray, .charge-tray) { border-style: dashed; }
-
-#lab :is(.legend, .canvas-legend, .orbital-legend) {
+    #lab :is(.legend, .canvas-legend, .orbital-legend) {
         max-width: calc(100% - 132px - env(safe-area-inset-left) - env(safe-area-inset-right));
     }
 }
@@ -133,3 +201,43 @@
 
 /* The lesson fullscreen view supplies its own persistent exit button. */
 [data-lesson-fullscreen] #fullscreenButton { display: none; }
+
+/* Segments share one track, with only the selected tile raised. */
+#lab .panel-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2px;
+    min-height: var(--row-height);
+    padding: 3px;
+    border: 1px solid var(--lab-button-edge);
+    border-radius: 9px;
+    background: var(--lab-sidebar-background);
+}
+
+#lab .panel-options > .panel-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    padding: 4px 5px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    box-shadow: none;
+    color: var(--text-secondary);
+    font-size: var(--segment-size, var(--control-text, 13px));
+    white-space: nowrap;
+    text-align: center;
+}
+
+#lab .panel-options > .panel-button:hover:not(:disabled) {
+    background: var(--lab-button-hover);
+}
+#lab .panel-options > .panel-button:is([aria-pressed="true"], :has(input:checked)) {
+    background: var(--lab-button-selected);
+    color: var(--text-primary);
+    box-shadow: inset 0 0 0 1px var(--lab-accent);
+}
+.segment-label { flex: none; }
+.segment-wrap .segment-label { flex: 0 1 auto; min-width: 0; white-space: normal; overflow-wrap: anywhere; }

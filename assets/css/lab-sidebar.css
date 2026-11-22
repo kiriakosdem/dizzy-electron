@@ -1,24 +1,48 @@
 :root {
-    --row-height: 40px;
-    --lab-frame-inset: 6px;
-    --lab-frame-border: 1px solid #355170;
+    --lab-accent: var(--color-logo-cyan, #00bed0);
+    --lab-navy: var(--color-navy, #001e3c);
+    --lab-sidebar-background: #14283d;
+    --lab-panel-background: #1d334a;
+    --lab-panel-edge: color-mix(in srgb, var(--text-primary) 12%, transparent);
+    --lab-glass-color: #2c4056;
+    --lab-glass-button-color: #738ea7;
+    --text-primary: var(--color-paper, #f6f3ed);
+    --text-secondary: #b8c7d6;
+    --text-muted: #9fafbf;
+    --text-accent: var(--lab-accent);
+    --lab-button-fill: var(--lab-glass-color);
+    --lab-button-edge: color-mix(in srgb, var(--text-secondary) 30%, transparent);
+    --lab-button-hover: color-mix(in srgb, var(--lab-accent) 16%, var(--lab-button-fill));
+    --lab-button-selected: color-mix(in srgb, var(--lab-accent) 30%, var(--lab-button-fill));
+    --lab-delete-fill: #382832;
+    --lab-delete-edge: #78515b;
+    --lab-delete-hover: #4d333d;
+    --lab-delete-hover-edge: #a77780;
+    --lab-delete-ink: #eac3c9;
+    --row-height: 36px;
+    --lab-frame-inset: 8px;
+    /* Keep frame edges the same color over both the canvas and the sidebar cards. */
+    --lab-frame-border: 1px solid color-mix(in srgb, var(--text-primary) 12%, var(--lab-panel-background));
     --lab-frame-radius: 12px;
 }
 
 .panel {
-    --control-text: 14px;
+    --control-text: 12px;
+    --group-heading-size: 13px;
     --caption-gap: 6px;
     --group-gap: 12px;
-    --icon-size: 16px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: var(--lab-frame-inset) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) 10px;
+    gap: var(--lab-frame-inset);
+    background: var(--lab-sidebar-background);
+    padding: var(--lab-frame-inset) max(var(--lab-frame-inset), env(safe-area-inset-right)) max(var(--lab-frame-inset), env(safe-area-inset-bottom)) 0;
 }
 
 /* The compact drawer overlays the canvas and uses the page surface behind its cards. */
 @media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
-    .panel { background-color: inherit; }
+    .panel {
+        padding-inline-start: var(--lab-frame-inset);
+    }
 }
 
 .panel-section {
@@ -26,7 +50,7 @@
     padding: 12px;
     border: var(--lab-frame-border);
     border-radius: var(--lab-frame-radius);
-    background: rgba(18, 39, 66, .6);
+    background: var(--lab-panel-background);
 }
 
 .panel-section > :last-child { margin-bottom: 0; }
@@ -54,7 +78,7 @@
 }
 .panel-section[open] > summary::after { transform: rotate(45deg); }
 .panel-section > summary:focus-visible {
-    outline: 2px solid var(--text-accent);
+    outline: 2px solid var(--lab-accent);
     outline-offset: 4px;
     border-radius: 4px;
 }
@@ -74,7 +98,7 @@
     width: 18px;
     height: 18px;
     fill: none;
-    stroke: var(--text-accent);
+    stroke: var(--lab-accent);
     stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -83,30 +107,18 @@
 /* Section titles, group captions, control labels, then secondary readouts. */
 .panel h3, .panel legend {
     color: var(--text-secondary);
-    font-size: var(--control-text);
+    font-size: var(--group-heading-size);
     font-weight: 650;
     line-height: 1.35;
 }
 .panel h3 { margin: var(--group-gap) 0 var(--caption-gap); }
+.panel h3:has(+ .panel-options) { font-size: var(--control-text); }
 .panel legend { margin: 0 0 var(--caption-gap); padding: 0; }
-.panel :is(.icon-label, .toggle-label, h3, .stat-label) {
+.panel :is(.icon-label, .toggle-label, h3) {
     display: inline-flex;
     align-items: center;
     gap: 8px;
 }
-
-.panel :is(.control-icon, .toggle-icon) {
-    width: var(--icon-size);
-    height: var(--icon-size);
-    flex: none;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    pointer-events: none;
-}
-.panel :is(.control-icon, .toggle-icon) { color: var(--text-muted); }
 
 .panel :is(.control-label, .toggle-row) {
     display: flex;
@@ -121,22 +133,25 @@
 .panel .control-label:has(+ input[type="range"]) { margin-bottom: 0; }
 .panel summary + :is(h3, .control-label), .panel summary + div > .control-label:first-child { margin-top: 0; }
 .panel .toggle-row { min-height: var(--row-height); margin: 0; }
-.panel :is(output, .control-value, .state-details dd, .stat-label > :last-child) {
+.panel :is(output, .control-value, .state-details dd) {
     flex: none;
     padding: 3px 7px;
     border: 1px solid #45658b;
     border-radius: 8px;
-    background: #08162b;
+    background: var(--lab-sidebar-background);
     color: var(--text-secondary);
     white-space: nowrap;
-    font-size: 14px;
+    font-size: var(--control-text);
     font-weight: 400;
     font-variant-numeric: tabular-nums;
     text-align: end;
 }
-.panel .source-stats { flex-wrap: wrap; }
-.panel .stat-label { gap: 4px; }
+.panel .state-details,
+.panel .state-details dd { margin: 0; }
 .panel .state-details > div {
+    display: flex;
+    justify-content: space-between;
+    text-align: start;
     align-items: center;
     gap: 8px;
     min-height: var(--row-height);
@@ -147,10 +162,11 @@
 .panel .state-details dt { color: inherit; }
 .panel .muted {
     margin: var(--group-gap) 0;
-    font-size: 14px;
+    font-size: var(--control-text);
     line-height: 1.5;
     color: var(--text-muted);
 }
+.panel .range-scale { font-size: 11px; }
 .panel .muted:last-child { margin-bottom: 0; }
 
 .panel :is(.action-button, .panel-button, .display-mode label, select) {
@@ -158,11 +174,53 @@
     font-size: var(--control-text);
 }
 .panel select { margin: 0; }
-.panel :is(.action-button, button.panel-button) {
+.panel :is(select, .coordinate-field) {
+    background: var(--lab-sidebar-background);
+    border-color: var(--lab-button-edge);
+}
+#controlsPanel :is(.action-button, .panel-button, .display-mode label) {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     gap: 6px;
+    height: auto;
+    padding: 4px 5px;
+    border: 1px solid var(--lab-button-edge);
+    border-radius: 8px;
+    background: var(--lab-button-fill);
+    box-shadow: none;
+    color: var(--text-secondary);
+    font-weight: 650;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+#controlsPanel .display-mode label {
+    display: flex;
+    justify-content: flex-start;
+    padding-inline: 8px;
+}
+#controlsPanel .display-mode input { accent-color: var(--lab-accent); }
+#controlsPanel .display-mode label + label { margin-top: 4px; }
+#controlsPanel :is(.action-button, .panel-button, .display-mode label):hover:not(:disabled) {
+    background: var(--lab-button-hover);
+    border-color: var(--lab-accent);
+}
+#controlsPanel :is(.action-button, .panel-button, .display-mode label):is([aria-pressed="true"], :has(input:checked)) {
+    background: var(--lab-button-selected);
+    border-color: var(--lab-accent);
+    color: var(--text-primary);
+}
+#controlsPanel .density-options input:is(:hover, :checked) { background: transparent; }
+#controlsPanel button.danger-button {
+    background: var(--lab-delete-fill);
+    border-color: var(--lab-delete-edge);
+    color: var(--lab-delete-ink);
+}
+#controlsPanel .danger-button .trash-icon { width: 16px; height: 16px; }
+#controlsPanel button.danger-button:hover:not(:disabled) {
+    background: var(--lab-delete-hover);
+    border-color: var(--lab-delete-hover-edge);
+    color: var(--lab-delete-ink);
 }
 .panel .preset-grid { grid-auto-rows: var(--row-height); }
 .panel .coordinate-fields { margin-top: 0; }
@@ -201,15 +259,23 @@
     width: 100%;
     height: 20px;
     box-sizing: border-box;
-    border: 1px solid #45658b;
-    background: #23354f;
+    border: 1px solid var(--lab-button-edge);
+    background: var(--lab-button-fill);
 }
-.panel [role="switch"]::after { left: 3px; width: 14px; height: 14px; background: #b2bfd1; }
-.panel [role="switch"][aria-checked="true"]::before, .panel [role="switch"]:checked::before { background: #2869ae; }
-.panel [role="switch"][aria-checked="true"]::after, .panel [role="switch"]:checked::after { left: auto; right: 3px; background: white; }
+.panel [role="switch"]::after { left: 3px; width: 14px; height: 14px; background: var(--text-secondary); }
+.panel [role="switch"]:is([aria-checked="true"], :checked)::before {
+    border-color: var(--lab-accent);
+    background: var(--lab-accent);
+}
+.panel [role="switch"]:is([aria-checked="true"], :checked)::after {
+    left: auto;
+    right: 3px;
+    background: var(--lab-button-fill);
+}
 
 @media (pointer: coarse), (max-width: 750px) {
     :root { --row-height: 44px; }
+    .panel { --group-heading-size: 14px; }
     .panel [role="switch"] { width: 44px; }
     .panel select, .panel .coordinate-field input { font-size: 16px; }
 }

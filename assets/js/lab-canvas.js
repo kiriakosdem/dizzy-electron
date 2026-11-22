@@ -1,3 +1,82 @@
+function labText(source, ...values) {
+    const translated = window.siteLanguage?.translate(source) ?? source;
+    return translated.replace(/\{(\d+)\}/g, (placeholder, index) => values[index] ?? placeholder);
+}
+
+// Keep generated labels in sync with the language without resetting the lab.
+const labCopyBindings = new WeakMap();
+let labCopyListenerAdded = false;
+function setLabCopy(element, source, values = [], attribute) {
+    if (window.siteLanguage && !labCopyListenerAdded) {
+        labCopyListenerAdded = true;
+        window.siteLanguage.onChange(() => {
+            for (const target of document.querySelectorAll('[data-lab-copy]')) {
+                labCopyBindings.get(target)?.forEach(update => update());
+            }
+        });
+    }
+
+    const update = () => {
+        const value = typeof source === 'function' ? source() : labText(source, ...values);
+        if (attribute) element.setAttribute(attribute, value);
+        else element.textContent = value;
+    };
+    if (window.siteLanguage) {
+        if (!labCopyBindings.has(element)) {
+            labCopyBindings.set(element, new Map());
+            element.setAttribute('data-lab-copy', '');
+        }
+        labCopyBindings.get(element).set(attribute, update);
+    }
+    update();
+}
+
+
+function setLabLabel(element, source) {
+    setLabCopy(element, source, [], 'title');
+    setLabCopy(element, source, [], 'aria-label');
+}
+
+const labCanvasStyle = document.documentElement && getComputedStyle(document.documentElement);
+const labCanvasTheme = {
+    background: labCanvasStyle?.getPropertyValue('--lab-scene-base').trim() || '#061428',
+    glow: labCanvasStyle?.getPropertyValue('--lab-scene-glow').trim() || 'rgb(17 45 76 / 48%)',
+    glass: labCanvasStyle?.getPropertyValue('--lab-glass-color').trim() || '#38566d',
+    accent: labCanvasStyle?.getPropertyValue('--lab-accent').trim() || '#00bed0'
+};
+
+function paintLabBackdrop(context, width, height) {
+    context.fillStyle = labCanvasTheme.background;
+    context.fillRect(0, 0, width, height);
+    const x = width * .58, y = height * .48;
+    const glow = context.createRadialGradient(x, y, 0, x, y, Math.max(width, height) * .75);
+    glow.addColorStop(0, labCanvasTheme.glow);
+    glow.addColorStop(1, 'transparent');
+    context.fillStyle = glow;
+    context.fillRect(0, 0, width, height);
+}
+
+function paintLabSelection(context, x, y, radius, haloRadius = 0) {
+    context.save();
+    if (haloRadius) {
+        const halo = context.createRadialGradient(x, y, radius / 2, x, y, haloRadius);
+        halo.addColorStop(0, labCanvasTheme.accent);
+        halo.addColorStop(1, 'transparent');
+        context.globalAlpha = .25;
+        context.fillStyle = halo;
+        context.beginPath();
+        context.arc(x, y, haloRadius, 0, Math.PI * 2);
+        context.fill();
+    }
+    context.globalAlpha = .85;
+    context.strokeStyle = labCanvasTheme.accent;
+    context.lineWidth = 1.25;
+    context.beginPath();
+    context.arc(x, y, radius, 0, Math.PI * 2);
+    context.stroke();
+    context.restore();
+}
+
 // Each lab supplies the frame it wants to export. Capture synchronously so a
 // WebGL renderer can copy its drawing buffer before the browser clears it.
 function setupLabCanvasTools(capture, filename) {
@@ -8,7 +87,7 @@ function setupLabCanvasTools(capture, filename) {
 
     function notify(text) {
         clearTimeout(messageTimeout);
-        message.textContent = text;
+        setLabCopy(message, text);
         message.hidden = false;
         messageTimeout = setTimeout(() => { message.hidden = true; }, 4000);
     }
@@ -46,8 +125,7 @@ function setupLabCanvasTools(capture, filename) {
 
     function updateFullscreenButton() {
         const active = isFullscreen();
-        fullscreen.title = active ? 'Exit full screen' : 'Full screen';
-        fullscreen.setAttribute('aria-label', fullscreen.title);
+        setLabLabel(fullscreen, active ? 'Exit full screen' : 'Full screen');
         fullscreen.setAttribute('aria-pressed', String(active));
     }
 
@@ -86,6 +164,7 @@ function visibleFieldSnapshot(canvas, panel) {
 // canvas/OrbitControls handlers, but keep the browser's native scroll chaining.
 (() => {
     if (window.parent === window) return;
+    document.documentElement.setAttribute('data-lab-embedded', '');
     const fullscreen = () => {
         if (document.fullscreenElement || document.webkitFullscreenElement) return true;
         try {

@@ -7,35 +7,39 @@
 <meta name="color-scheme" content="dark">
 <meta name="description" content="An interactive, offline electromagnetic field laboratory with retarded Liénard–Wiechert fields, a moving point charge, and a movable field probe.">
 <title>Electromagnetic Field Laboratory</title>
-<link rel="stylesheet" href="lab.css">
-<link rel="stylesheet" href="sidebar.css">
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=readable-lab-controls">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css">
-    <link rel="stylesheet" href="../../assets/css/lab-select.css">
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=readable-lab-controls">
-    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=readable-lab-controls">
+<link rel="stylesheet" href="lab.css?v=segment-spacing">
+<link rel="stylesheet" href="sidebar.css?v=named-readouts">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=canvas-palette">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=below-canvas">
+    <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=compact-segment-titles">
+    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=mobile-fullscreen">
-    <script src="../../assets/js/lab-canvas.js?v=mobile-fullscreen"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-question-label">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=segment-spacing">
+    <script src="../../assets/js/lab-canvas.js?v=lesson-surfaces"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
 </head>
 <body id="top">
-<header class="banner">
-    <div class="banner-copy">
-        <h1>The Electromagnetic Field</h1>
-        <p class="subtitle">Explore the fields of a moving charge. More on the physics of the simulation <button id="physicsButton" type="button" aria-label="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog">here</button>.</p>
-    </div>
+<header class="lab-header">
+    <a class="lab-site-brand" href="../../index.html" aria-label="Dizzy Electron home">
+        <img src="../../assets/brand/logo-navy-notext.png" width="800" height="800" alt="">
+    </a>
+    <h1>The Electromagnetic Field</h1>
+    <div class="lab-language"></div>
+    <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><span class="lab-help-icon" aria-hidden="true">?</span></button>
     <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
-            <svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg>
-        </button>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg>
+    </button>
 </header>
 <main id="lab" class="controls-open">
-      <section class="stage canvas-frame" id="stage" aria-label="Interactive electromagnetic field visualization">
-        <canvas id="fieldCanvas" class="field-canvas" tabindex="0" aria-label="Electric and magnetic fields. Choose a position for the charge, then drag it. Drag the probe to inspect the field. Shift-drag or use Pan to move the view. Scroll to zoom. Arrow keys move the probe.">This simulation needs a browser with HTML canvas support.</canvas>
+      <section class="stage" id="stage" aria-label="Interactive electromagnetic field visualization">
+        <div class="canvas-frame playback-field-frame" id="canvasFrame">
+            <canvas id="fieldCanvas" class="field-canvas" tabindex="0" aria-label="Electric and magnetic fields. Choose a position for the charge, then drag it. Drag the probe to inspect the field. Shift-drag or choose View to move the view. Scroll to zoom. Arrow keys move the probe.">This simulation needs a browser with HTML canvas support.</canvas>
+        </div>
         <div class="canvas-tools canvas-surface" id="canvasTools" role="group" aria-label="Canvas tools">
           <button type="button" id="fullscreenButton" title="Full screen" aria-label="Full screen" aria-pressed="false">
             <svg viewBox="0 0 20 20" aria-hidden="true"><path class="expand-icon" d="M3 7V3h4m6 0h4v4m0 6v4h-4m-6 0H3v-4"/><path class="contract-icon" d="M7 3v4H3m10-4v4h4m0 6h-4v4M7 17v-4H3"/></svg>
@@ -50,25 +54,38 @@
         <div class="placement-message canvas-surface" id="placementMessage">Tap or click to place a charge.</div>
         <div class="canvas-empty canvas-surface" id="emptyMessage" hidden>Enable a field layer to show the field.</div>
         <div class="canvas-dock">
-          <div class="panel-options pointer-tools canvas-surface" role="group" aria-label="Pointer tool">
-            <button type="button" class="panel-button" data-tool="charge" aria-pressed="true">Charge</button>
-            <button type="button" class="panel-button" data-tool="probe" aria-pressed="false">Probe</button>
-            <button type="button" class="panel-button" data-tool="pan" aria-pressed="false">Pan</button>
+          <div class="pointer-tools canvas-surface" role="group" aria-label="Pointer tool">
+            <div class="pointer-options">
+              <button type="button" data-tool="charge" aria-pressed="true">Charge</button>
+              <button type="button" data-tool="probe" aria-pressed="false">Probe</button>
+              <button type="button" data-tool="pan" aria-pressed="false">View</button>
+            </div>
           </div>
           <div class="time-bar canvas-surface" role="group" aria-label="Playback">
               <button class="playback-toggle" id="playButton" type="button" aria-label="Play simulation" title="Play simulation">
                   <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
               </button>
-              <button id="resetButton" type="button" aria-label="Restart time (R)" title="Restart time (R)">
+              <button class="playback-icon playback-step" id="stepButton" type="button" aria-label="Step simulation forward" title="Step forward (.)" aria-keyshortcuts=".">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 3v10l7-5zM11 3h2v10h-2z"/></svg><span>Step</span>
+              </button>
+              <button class="playback-icon" id="resetButton" type="button" aria-label="Restart time (R)" title="Restart time (R)">
                   <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg>
               </button>
-              <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in normalized units">t = 0.00</span>
-              <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
-                  <option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option>
-              </select>
+              <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulated time in SI units">0.00 ns</span>
+              <div class="playback-speed">
+                  <span id="speedMultiplier" aria-hidden="true">1×</span>
+                  <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
+                      <optgroup label="Playback speed">
+                          <option value="0.25">0.25× · 6 ns/s</option>
+                          <option value="0.5">0.5× · 12 ns/s</option>
+                          <option value="1" selected>1× · 24 ns/s</option>
+                          <option value="2">2× · 48 ns/s</option>
+                      </optgroup>
+                  </select>
+              </div>
           </div>
           <div class="hud">
-            <div class="scale-readout"><span id="scaleLabel">5 units</span><div class="scale-rule" id="scaleRule"></div></div>
+            <div class="scale-readout"><span id="scaleLabel">1 m</span><div class="scale-rule" id="scaleRule"></div></div>
             <div class="zoom canvas-surface" role="group" aria-label="View controls">
                 <button type="button" id="zoomOut" aria-label="Zoom out" title="Zoom out (−)"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
                 <output id="zoomLabel" aria-label="Zoom level">100%</output>
@@ -85,53 +102,56 @@
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h3m5 0h8M2 14h9m5 0h2"/><circle cx="7.5" cy="6" r="2.5"/><circle cx="13.5" cy="14" r="2.5"/></svg>
           Simulation
         </h2></summary>
-        <h3 id="motionHeading"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10c3-9 5-9 8 0s5 9 8 0"/></svg>Source motion</h3>
+        <h3 id="motionHeading">Source motion</h3>
         <div class="panel-options" role="group" aria-labelledby="motionHeading">
-          <button type="button" class="panel-button" data-motion="manual" aria-pressed="true">Mouse</button>
-          <button type="button" class="panel-button" data-motion="continuous" aria-pressed="false">Wave</button>
-          <button type="button" class="panel-button" data-motion="pulse" aria-pressed="false">Pulse</button>
+          <button type="button" class="panel-button" data-motion="manual" aria-pressed="true"><span class="segment-label">Mouse</span></button>
+          <button type="button" class="panel-button" data-motion="continuous" aria-pressed="false"><span class="segment-label">Wave</span></button>
+          <button type="button" class="panel-button" data-motion="pulse" aria-pressed="false"><span class="segment-label">Pulse</span></button>
         </div>
         <div id="manualControls">
-          <label class="control-label" for="manualRate"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 5v5l3 2"/></svg>Mouse time rate</span> <output id="manualRateValue" for="manualRate">24 units/s</output></label>
-          <input id="manualRate" type="range" min="8" max="48" step="4" value="24" title="Simulation time units per real second at 1× playback">
-          <div class="range-scale" aria-hidden="true"><span>8</span><span>48</span></div>
+          <label class="control-label" for="manualRate"><span class="icon-label">Mouse time rate</span> <output id="manualRateValue" for="manualRate">24 ns/s</output></label>
+          <input id="manualRate" type="range" min="8" max="48" step="4" value="24" title="Simulated nanoseconds per real second at 1× playback">
+          <div class="range-scale" aria-hidden="true"><span>8 ns/s</span><span>48 ns/s</span></div>
         </div>
         <div id="automaticControls" hidden>
-          <button type="button" class="panel-button" id="pulseButton" hidden>Emit another pulse</button>
-          <label class="control-label" for="amplitude"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 16V4m-2 2 2-2 2 2M7 15c3 0 3-10 6-10s3 10 5 10"/></svg>Amplitude</span> <output id="amplitudeValue" for="amplitude">0.70 units</output></label>
+          <label class="control-label" for="amplitude"><span class="icon-label">Amplitude</span> <output id="amplitudeValue" for="amplitude">0.210 m</output></label>
           <input id="amplitude" type="range" min="0" max="1.5" step="0.02" value="0.70">
-          <div class="range-scale" aria-hidden="true"><span>0</span><span>1.5</span></div>
-          <div class="control-label"><label class="icon-label" for="frequency"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M1 10q2-10 4 0t4 0 4 0 4 0"/></svg><span id="frequencyLabel">Frequency</span></label><output id="frequencyValue" for="frequency">0.100 / time</output></div>
+          <div class="range-scale" aria-hidden="true"><span>0 m</span><span>0.450 m</span></div>
+          <div class="control-label"><label class="icon-label" for="frequency"><span id="frequencyLabel">Frequency</span></label><output id="frequencyValue" for="frequency">100 MHz</output></div>
           <input id="frequency" type="range" min="0.015" max="0.2" step="0.005" value="0.1">
-          <div class="range-scale" aria-hidden="true"><span>0.015</span><span>0.2</span></div>
-          <div class="source-stats"><span class="stat-label"><span>v<sub>peak</sub></span> <span id="peakSpeed">0.44 c</span></span><span class="stat-label"><span id="wavelengthLabel">λ</span> <span id="wavelength">10.0 units</span></span></div>
+          <div class="range-scale" aria-hidden="true"><span>15 MHz</span><span>200 MHz</span></div>
+          <dl class="state-details">
+            <div><dt>Peak speed</dt><dd id="peakSpeed">131,856 km/s</dd></div>
+            <div><dt id="wavelengthLabel">Wavelength</dt><dd id="wavelength">3.00 m</dd></div>
+          </dl>
+          <button type="button" class="panel-button" id="pulseButton" hidden>Emit another pulse</button>
         </div>
       </details>
-      <details open class="panel-section">
+      <details class="panel-section">
         <summary><h2>
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
           Display
         </h2></summary>
-        <h3 id="fieldHeading"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 16V4m0 12h14M3 16 15 4m-5 0h5v5"/></svg>Field component</h3>
-        <div class="panel-options" role="group" aria-labelledby="fieldHeading">
-          <button type="button" class="panel-button" data-mode="total" aria-pressed="true">Total</button>
-          <button type="button" class="panel-button" data-mode="velocity" aria-pressed="false">Velocity</button>
-          <button type="button" class="panel-button" data-mode="radiation" aria-pressed="false">Radiation</button>
+        <label class="toggle-row"><span class="icon-label">Point grid</span> <input type="checkbox" role="switch" id="showSamplePoints"></label>
+        <h3 id="densityHeading">Point density</h3>
+        <div id="density" class="panel-options density-options" role="radiogroup" aria-labelledby="densityHeading">
+          <label class="panel-button"><input type="radio" name="density" value="50"><span class="segment-label">Sparse</span></label>
+          <label class="panel-button"><input type="radio" name="density" value="38" checked><span class="segment-label">Balanced</span></label>
+          <label class="panel-button"><input type="radio" name="density" value="29"><span class="segment-label">Dense</span></label>
         </div>
-        <label class="toggle-row"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17 17 3M10 3h7v7M3 7l4-4M3 3h4v4M13 17l4-4M13 13h4v4"/></svg>Electric vectors</span> <input type="checkbox" role="switch" id="showElectric" checked></label>
-        <label class="toggle-row"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><g fill="currentColor" stroke="none"><circle cx="6" cy="6" r="1.35"/><circle cx="14" cy="6" r="1.35"/><circle cx="6" cy="14" r="1.35"/><circle cx="14" cy="14" r="1.35"/></g></svg>Field sample points</span> <input type="checkbox" role="switch" id="showSamplePoints" checked></label>
-        <label class="toggle-row"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="5.5" cy="10" r="3.5"/><circle cx="5.5" cy="10" r="0.6"/><circle cx="14.5" cy="10" r="3.5"/><path d="m13 8.5 3 3m0-3-3 3"/></svg>Magnetic dots / crosses</span> <input type="checkbox" role="switch" id="showMagnetic" checked></label>
-        <label class="toggle-row"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10h1m2-3a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12m3-15a12 12 0 0 1 0 18"/></svg>Propagation guides</span> <input type="checkbox" role="switch" id="showGuides" checked></label>
-        <label class="toggle-row"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="4" cy="15" r="2"/><path d="m6 13 10-9m-5 0h5v5"/></svg>Retarded source ray</span> <input type="checkbox" role="switch" id="showRay" checked></label>
-        <label class="control-label" for="gain"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 5h3m4 0h9M2 14h8m4 0h4"/><circle cx="7" cy="5" r="2"/><circle cx="12" cy="14" r="2"/></svg>Field visibility</span> <output id="gainValue" for="gain">1.5×</output></label>
+        <h3 id="fieldHeading">Field component</h3>
+        <div class="panel-options" role="group" aria-labelledby="fieldHeading">
+          <button type="button" class="panel-button" data-mode="total" aria-pressed="true"><span class="segment-label">Total</span></button>
+          <button type="button" class="panel-button" data-mode="velocity" aria-pressed="false"><span class="segment-label">Velocity</span></button>
+          <button type="button" class="panel-button" data-mode="radiation" aria-pressed="false"><span class="segment-label">Radiation</span></button>
+        </div>
+        <label class="toggle-row"><span class="icon-label">Electric field</span> <input type="checkbox" role="switch" id="showElectric" checked></label>
+        <label class="toggle-row"><span class="icon-label">Magnetic field</span> <input type="checkbox" role="switch" id="showMagnetic" checked></label>
+        <label class="control-label" for="gain"><span class="icon-label">Field visibility</span> <output id="gainValue" for="gain">1.5×</output></label>
         <input id="gain" type="range" min="0.25" max="4" step="0.05" value="1.5">
         <div class="range-scale" aria-hidden="true"><span>0.25</span><span>4</span></div>
-        <h3 id="densityHeading"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><g fill="currentColor" stroke="none"><circle cx="4" cy="4" r="1.35"/><circle cx="4" cy="10" r="1.35"/><circle cx="4" cy="16" r="1.35"/><circle cx="10" cy="4" r="1.35"/><circle cx="10" cy="10" r="1.35"/><circle cx="10" cy="16" r="1.35"/><circle cx="16" cy="4" r="1.35"/><circle cx="16" cy="10" r="1.35"/><circle cx="16" cy="16" r="1.35"/></g></svg>Sample density</h3>
-        <div id="density" class="panel-options density-options" role="radiogroup" aria-labelledby="densityHeading">
-          <label class="panel-button"><input type="radio" name="density" value="50"><span>Sparse</span></label>
-          <label class="panel-button"><input type="radio" name="density" value="38" checked><span>Balanced</span></label>
-          <label class="panel-button"><input type="radio" name="density" value="29"><span>Dense</span></label>
-        </div>
+        <label class="toggle-row"><span class="icon-label">Propagation guides</span> <input type="checkbox" role="switch" id="showGuides" checked></label>
+        <label class="toggle-row"><span class="icon-label">Retarded source ray</span> <input type="checkbox" role="switch" id="showRay" checked></label>
       </details>
     </aside>
 </main>
@@ -142,7 +162,7 @@
     <h3>1. What does a distant point know?</h3>
     <p>The fields use the charge’s position, velocity and acceleration at the <strong>retarded time</strong>, the earlier time at which its influence left the source. Every sample solves the implicit equation below. This is why a new pulse does not reach the whole screen at once.</p>
     <div class="math-block"><div class="math-row">t<sub>r</sub> + R(t<sub>r</sub>)/c = t</div><div class="math-row">R(t<sub>r</sub>) = |<b>x</b> − <b>r</b><sub>q</sub>(t<sub>r</sub>)|</div><div class="math-row"><b>n</b> = [<b>x</b> − <b>r</b><sub>q</sub>(t<sub>r</sub>)] / R(t<sub>r</sub>)</div></div>
-    <p>Here <b>x</b> is the observation point, <b>r</b><sub>q</sub> is the source position, R is the retarded distance, c is the speed of light, and <b>n</b> is the unit direction from the retarded source to the observer. The numerical solver uses safeguarded Newton iterations with a bracket guaranteed by the source speed bound. If D is the distance from the current source and V is its maximum speed, the triangle inequality gives D/(c + V) ≤ t − t<sub>r</sub> ≤ D/(c − V). This remains valid for a freely moved charge. Its target equation residual is 10<sup>−10</sup> normalized time units.</p>
+    <p>Here <b>x</b> is the observation point, <b>r</b><sub>q</sub> is the source position, R is the retarded distance, c is the speed of light, and <b>n</b> is the unit direction from the retarded source to the observer. The numerical solver uses safeguarded Newton iterations with a bracket guaranteed by the source speed bound. If D is the distance from the current source and V is its maximum speed, the triangle inequality gives D/(c + V) ≤ t − t<sub>r</sub> ≤ D/(c − V). This remains valid for a freely moved charge. Its target equation residual is 10<sup>−10</sup> nanoseconds.</p>
     <h3>2. Two contributions, one electric field</h3>
     <p>The simulation evaluates the <strong>Liénard–Wiechert field formula</strong>, as given in Michael Fowler’s University of Virginia lecture, “The Lienard-Weichert Potentials and Fields.” It is used because it separates the velocity contribution from the acceleration contribution without a slow-motion approximation.</p>
     <div class="math-block"><div class="math-row"><b>E</b> = <b>E</b><sub>v</sub> + <b>E</b><sub>r</sub></div><div class="math-row"><b>E</b><sub>v</sub> = K (1 − |<b>β</b>|²)(<b>n</b> − <b>β</b>) / [κ³ R²]</div><div class="math-row"><b>E</b><sub>r</sub> = K <b>n</b> × [(<b>n</b> − <b>β</b>) × <b>a</b>] / [c² κ³ R]</div><div class="math-row"><b>B</b> = <b>n</b> × <b>E</b> / c</div></div>
@@ -157,22 +177,26 @@
     <h3>4. Motion, units and honest visualization</h3>
     <p><strong>Continuous wave.</strong> Around your chosen center (x₀, y₀), the source follows x(t) = x₀ and y(t) = y₀ + A sin(2πft), where A is amplitude and f is frequency. Its derivatives are v<sub>y</sub>(t) = 2πfA cos(2πft) and a<sub>y</sub>(t) = −(2πf)²A sin(2πft). This steady oscillation exists for all earlier times, including negative times. Changing source parameters restarts this steady-state experiment rather than simulating a causal change of the drive.</p>
     <p><strong>Single pulse.</strong> The charge is stationary before t = 0 and after t = T, where T = 1/f. During the pulse, set u = πt/T and use x(t) = x₀ and y(t) = y₀ + A sin⁴u. Differentiation gives v<sub>y</sub> = 4A(π/T)sin³u cos u and a<sub>y</sub> = 4A(π/T)²(3sin²u cos²u − sin⁴u). Position, velocity and acceleration join continuously to the stationary portions. “Emit another pulse” restarts this experiment.</p>
-    <p>Normalized units set c = 1 and q/(4πε₀) = 1. Distances and times are not labeled as meters or seconds. Source speed is limited to 0.65c. Automatic parameters are clamped when necessary. Mouse motion follows a speed-limited target controller. A small disk of radius 0.14 units around the current charge is excluded because the point-charge field is singular there. A larger visual source marker can cover nearby samples at distant zoom levels.</p>
+    <p>The readouts use SI units for a positive 1 nC point charge in vacuum. One internal time unit is 1 ns, and light travels 0.299792458 m in that time. The solver uses c = 1 and q/(4πε₀) = 1 internally. Source speed is limited to 0.65c. The excluded disk around the point charge has a radius of about 4.2 cm. At low zoom, the visual charge marker can cover nearby samples.</p>
     <p><strong>Vector scale.</strong> Directions are unmodified. Let s = ln(1 + g|<b>E</b>|), where g is 250 times the visibility setting. The arrow length is L = L<sub>max</sub>s/(1 + s). This chosen display mapping is monotonic but is not proportional to physical field strength. Magnetic symbols similarly encode c|B<sub>z</sub>|. Snapshot readings use the unscaled numerical field.</p>
     <p>Electric arrows and magnetic glyphs use interleaved grids, each evaluated at its own actual sample position. Propagation guides are circles of constant emission time centered on the source position at that time. They are not electric field lines or a claim of equal radiation in every direction. Dashed gray rays join the retarded source position to the probe. The probe’s angle uses the selected electric component and this retarded direction, not the direction from the current charge.</p>
 <p><strong>Mouse motion.</strong> There is no pre-placed charge. Your first click chooses a stationary initial condition: the charge is assumed to have existed at that location for all earlier times. This is not a charge suddenly created in empty space. Restarting in Mouse mode establishes a new stationary initial condition and clears the old history.</p>
-    <p>The cursor specifies a target, not an instantaneous teleport. The source follows it with bounded speed and acceleration. Very fast drags show an outlined target while the real charge catches up. Mouse mode defaults to 24 normalized time units per real second at 1× playback. The Mouse time rate control changes that display clock, not the speed of light in the field equations. Dragging a paused charge explicitly resumes playback.</p>
-    <p>The recorded path uses steps no longer than 0.05 normalized time units. Let Δ = t<sub>k+1</sub> − t<sub>k</sub> and u = t − t<sub>k</sub> within one step. The implementation chooses bounded endpoint velocities and defines</p>
+    <p>The cursor specifies a target, not an instantaneous teleport. The source follows it with bounded speed and acceleration. Very fast drags show an outlined target while the real charge catches up. At 1× playback, manual motion advances 24 simulated nanoseconds per real second by default. Wave and Pulse modes advance one simulated nanosecond per real second. The Mouse time rate control changes that display clock, not the speed of light in the field equations. Dragging a paused charge explicitly resumes playback.</p>
+    <p>The recorded path uses steps no longer than 0.05 nanoseconds. Let Δ = t<sub>k+1</sub> − t<sub>k</sub> and u = t − t<sub>k</sub> within one step. The implementation chooses bounded endpoint velocities and defines</p>
     <div class="math-block"><div class="math-row"><b>a</b><sub>k</sub> = (<b>v</b><sub>k+1</sub> − <b>v</b><sub>k</sub>) / Δ</div><div class="math-row"><b>r</b>(t) = <b>r</b><sub>k</sub> + <b>v</b><sub>k</sub>u + ½<b>a</b><sub>k</sub>u²</div><div class="math-row">d<b>r</b>/dt = <b>v</b><sub>k</sub> + <b>a</b><sub>k</sub>u = <b>v</b>(t)</div><div class="math-row">d<b>v</b>/dt = <b>a</b><sub>k</sub></div></div>
     <p>These expressions follow by integrating constant acceleration over a step. Position and velocity remain continuous. Acceleration is piecewise constant and may jump at step boundaries. Because velocity interpolates between two vectors whose magnitudes do not exceed 0.65c, the triangle inequality keeps every intermediate velocity below the same bound. The full stored trajectory is used for retarded fields, including after you release the mouse. Only decorative guide circles are limited in number.</p>
     <p>Switching from an automatic trajectory to Mouse control preserves its earlier analytic history. Switching to an automatic motion starts a new experiment centered at the current charge position. The charge is prescribed externally, with no self-force, radiation reaction, or response to the noninteracting probe.</p>
     <p>Arrow bases are spatial sample points. They do not represent particles moving through space.</p>
     <h3 id="shortcutsHeading">Keyboard and pointer controls</h3>
-    <div class="shortcut-grid"><div><span>Charge / probe / pan tools</span><span class="keycap">Q / P / G</span></div><div><span>Play or pause</span><span class="keycap">SPACE</span></div><div><span>One time step</span><span class="keycap">.</span></div><div><span>Total / velocity / radiation</span><span class="keycap">1 / 2 / 3</span></div><div><span>Restart time</span><span class="keycap">R</span></div><div><span>Zoom in / out</span><span class="keycap">+ / −</span></div><div><span>Recenter overview</span><span class="keycap">H</span></div><div><span>Move focused canvas probe</span><span class="keycap">ARROWS</span></div><div><span>Close these notes</span><span class="keycap">ESC</span></div></div>
-    <p>Click or tap to place your first charge. Drag the charge or the probe directly. The Charge tool can also set a new target anywhere. The Probe tool places or drags the probe anywhere. Use the Pan tool, Shift-drag, or the middle mouse button to pan. Scroll or pinch to zoom. Q selects Charge, P selects Probe, and G selects Pan. Arrow keys move the probe when the canvas is focused. Hold Shift for a larger keyboard step. Use Reset view or H to recenter the camera on the charge. A snapshot exports the current canvas with its field mode, time and numerical probe readings. The page starts paused with no charge. Placing or dragging the charge is an explicit action that starts playback.</p>
+    <div class="shortcut-grid"><div><span>Charge / Probe / View tools</span><span class="keycap">Q / P / G</span></div><div><span>Play or pause</span><span class="keycap">SPACE</span></div><div><span>One time step</span><span class="keycap">.</span></div><div><span>Total / velocity / radiation</span><span class="keycap">1 / 2 / 3</span></div><div><span>Restart time</span><span class="keycap">R</span></div><div><span>Zoom in / out</span><span class="keycap">+ / −</span></div><div><span>Recenter overview</span><span class="keycap">H</span></div><div><span>Move focused canvas probe</span><span class="keycap">ARROWS</span></div><div><span>Close these notes</span><span class="keycap">ESC</span></div></div>
+    <p>Click or tap to place your first charge. Drag the charge or the probe directly. The Charge tool can also set a new target anywhere. The Probe tool places or drags the probe anywhere. Use the View tool, Shift-drag, or the middle mouse button to pan. Scroll or pinch to zoom. Q selects Charge, P selects Probe, and G selects View. Arrow keys move the probe when the canvas is focused. Hold Shift for a larger keyboard step. Use Reset view or H to recenter the camera on the charge. A snapshot exports the current canvas with its field mode, time and numerical probe readings. The page starts paused with no charge. Placing or dragging the charge is an explicit action that starts playback.</p>
     <div class="source-reference"><strong>Formula references</strong><p><a href="https://galileoandeinstein.phys.virginia.edu/Elec_Mag/2022_Lectures/EM_67_Lienard_Weichert.html" target="_blank" rel="noopener noreferrer">Michael Fowler, University of Virginia. The Lienard-Weichert Potentials and Fields.</a><br>Electric-field decomposition, retarded geometry, and the transverse radiation field.</p><p><a href="https://www.feynmanlectures.caltech.edu/II_21.html" target="_blank" rel="noopener noreferrer">The Feynman Lectures on Physics, Volume II, Chapter 21. Solutions of Maxwell’s Equations with Currents and Charges.</a><br>Retarded potentials and fields of a moving point charge.</p><p>The analytic trajectory, visual mapping and numerical solver are implemented locally. There are no libraries, fonts, trackers or remote assets required to run this file.</p></div>
+    <p class="source-reference"><a href="../../lessons/physics/ti-einai-i-aktinovolia.html" target="_blank" rel="noopener">Read the lesson</a></p>
   </div>
 </dialog>
+    <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
+    <script src="../../assets/js/lab-greek.js?v=help-question-label"></script>
+    <script src="../../assets/js/language.js?v=compact-lab-header"></script>
 <script id="physics-engine">
 "use strict";
 /** Retarded Lienard-Wiechert fields for a prescribed planar trajectory.
@@ -183,6 +207,16 @@
  */
 const ChargeFieldPhysics = (() => {
   const C = 1;
+  // Calibrate the normalized model to a 1 nC charge and one nanosecond per time unit.
+  const lightSpeed = 299_792_458;
+  const secondsPerUnit = 1e-9;
+  const metersPerUnit = lightSpeed * secondsPerUnit;
+  const chargeCoulombs = 1e-9;
+  const electricFieldUnit = 8.98755179e9 * chargeCoulombs / metersPerUnit ** 2;
+  const SI = Object.freeze({
+    secondsPerUnit, metersPerUnit, chargeCoulombs, electricFieldUnit,
+    magneticFieldUnit: electricFieldUnit / lightSpeed
+  });
   const CORE_RADIUS = 0.14;
   const MAX_BETA = 0.65;
   const HISTORY_STEP = 0.05;
@@ -351,7 +385,7 @@ const ChargeFieldPhysics = (() => {
     const magnitude = Math.max(Math.hypot(current.x, current.y), Math.hypot(previous.x, previous.y));
     return Number.isFinite(rate) && rate > Math.max(1e-9, HIGHLIGHT_RATE * magnitude);
   }
-  return Object.freeze({ C, CORE_RADIUS, MAX_BETA, HISTORY_STEP, HIGHLIGHT_WINDOW, HIGHLIGHT_RATE,
+  return Object.freeze({ C, SI, CORE_RADIUS, MAX_BETA, HISTORY_STEP, HIGHLIGHT_WINDOW, HIGHLIGHT_RATE,
     MotionHistory, trajectory, retarded, peakSpeed, sample, component, isChanging });
 })();
 
@@ -361,19 +395,26 @@ const ChargeFieldPhysics = (() => {
 "use strict";
 (() => {
   const $ = id => document.getElementById(id);
-  const canvas = $("fieldCanvas"), stage = $("stage");
+  const canvas = $("fieldCanvas"), stage = $("canvasFrame");
   const ctx = canvas.getContext("2d", { alpha: false });
-  if (!ctx) { $("emptyMessage").hidden = false; $("emptyMessage").textContent = "Your browser could not initialize a 2D canvas."; return; }
+  if (!ctx) { $("emptyMessage").hidden = false; setLabCopy($("emptyMessage"), "Your browser could not initialize a 2D canvas."); return; }
   const overlayStyle = getComputedStyle(document.documentElement);
-  const overlayFont = overlayStyle.getPropertyValue("--lab-ui-font").trim();
+  let overlayFont = overlayStyle.getPropertyValue("--lab-ui-font").trim();
   const numberFont = overlayStyle.getPropertyValue("--lab-number-font").trim();
-  const overlayBackground = overlayStyle.getPropertyValue("--canvas-background").trim();
-  const overlayStroke = overlayStyle.getPropertyValue("--canvas-stroke").trim();
   const P = ChargeFieldPhysics;
+  const meters = value => value * P.SI.metersPerUnit;
+  const megahertz = value => value / P.SI.secondsPerUnit * 1e-6;
+  function formatTime(value, digits = 2) {
+    const nanoseconds = value * P.SI.secondsPerUnit * 1e9;
+    if (nanoseconds >= 1e9) return (nanoseconds / 1e9).toFixed(digits) + " s";
+    if (nanoseconds >= 1e6) return (nanoseconds / 1e6).toFixed(digits) + " ms";
+    if (nanoseconds >= 1e3) return (nanoseconds / 1e3).toFixed(digits) + " µs";
+    return nanoseconds.toFixed(digits) + " ns";
+  }
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const state = { time: 0, playing: false, speed: 1, mode: "total", motion: "manual",
     amplitude: .70, frequency: .10, gain: 1.5, density: 38,
-    showElectric: true, showSamplePoints: true, showMagnetic: true, showGuides: true, showRay: true,
+    showElectric: true, showSamplePoints: false, showMagnetic: true, showGuides: true, showRay: true,
     placed: false, tool: "charge", manualRate: 24,
     anchorX: 0, anchorY: 0, zoom: 1, cameraX: 0, cameraY: 0, probeX: 13.5, probeY: 3.1 };
   let W = 0, H = 0, dpr = 1, baseScale = 1, dirty = true, lastFrame = 0, lastClockUpdate = 0;
@@ -446,14 +487,29 @@ const ChargeFieldPhysics = (() => {
   function worldToScreen(x, y) { const s = scale(); return { x: W * .5 + (x - state.cameraX) * s, y: H * .5 - (y - state.cameraY) * s }; }
   function screenToWorld(x, y) { const s = scale(); return { x: state.cameraX + (x - W * .5) / s, y: state.cameraY - (y - H * .5) / s }; }
   function localPointer(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
-  function toast(message) { clearTimeout(toastTimeout); $("toast").textContent = message; $("toast").classList.add("visible"); toastTimeout = setTimeout(() => $("toast").classList.remove("visible"), 3200); }
+  function toast(message) { clearTimeout(toastTimeout); setLabCopy($("toast"), message); $("toast").classList.add("visible"); toastTimeout = setTimeout(() => $("toast").classList.remove("visible"), 3200); }
   function paintRange(input) { const v = (Number(input.value) - Number(input.min)) / (Number(input.max) - Number(input.min)); input.style.setProperty("--range-fill", (v * 100).toFixed(1) + "%"); }
+  function basePlaybackRate() { return state.motion === "manual" ? state.manualRate : 1; }
+  function updatePlaybackSpeed() {
+    const select = $("speedSelect");
+    const formatRate = new Intl.NumberFormat(document.documentElement.lang, { maximumFractionDigits: 2 });
+    const baseNanoseconds = basePlaybackRate() * P.SI.secondsPerUnit * 1e9;
+    for (const option of select.options) {
+      const rate = formatRate.format(Number(option.value) * baseNanoseconds);
+      option.textContent = option.value + "× · " + rate + " ns/s";
+    }
+    $("speedMultiplier").textContent = select.value + "×";
+    setLabCopy(select.querySelector("optgroup"), "Playback speed", [], "label");
+    const activeRate = formatRate.format(state.speed * baseNanoseconds);
+    const rateDescription = activeRate === "1" ? "1 nanosecond per real second" : "{0} nanoseconds per real second";
+    setLabCopy(select, rateDescription, [activeRate], "title");
+  }
   function updatePlayback() {
     $("playIcon").setAttribute("d", state.playing ? "M3 2h4v12H3zM9 2h4v12H9z" : "M4 2l9 6-9 6Z");
-    $("playLabel").textContent = state.playing ? "Pause" : "Play";
-    $("playButton").setAttribute("aria-label", state.playing ? "Pause simulation" : "Play simulation");
+    setLabCopy($("playLabel"), state.playing ? "Pause" : "Play");
+    setLabLabel($("playButton"), state.playing ? "Pause simulation" : "Play simulation");
     $("playButton").disabled = !state.placed;
-    $("playButton").title = $("playLabel").textContent + " simulation";
+    $("stepButton").disabled = !state.placed;
     $("resetButton").disabled = !state.placed;
     dirty = true;
   }
@@ -474,17 +530,31 @@ const ChargeFieldPhysics = (() => {
     $('manualControls').hidden = !manual;
     $('automaticControls').hidden = manual;
     $("amplitude").value = state.amplitude; $("frequency").value = state.frequency;
-    $("amplitudeValue").textContent = state.amplitude.toFixed(2) + " units";
-    $("frequencyValue").textContent = state.frequency.toFixed(3) + " / time";
-    $("frequencyLabel").textContent = state.motion === "pulse" ? "Inverse pulse duration" : "Frequency";
-    $("peakSpeed").textContent = (P.peakSpeed(params()) / P.C).toFixed(2) + " c";
-    $("wavelengthLabel").textContent = state.motion === "pulse" ? "T" : "λ";
-    $("wavelength").textContent = (1 / state.frequency).toFixed(1) + (state.motion === "pulse" ? " time" : " units");
+    const amplitude = meters(state.amplitude).toFixed(3);
+    const frequency = megahertz(state.frequency).toFixed(0);
+    $("amplitudeValue").textContent = amplitude + " m";
+    $("frequencyValue").textContent = frequency + " MHz";
+    setLabCopy($("amplitude"), "{0} meters", [amplitude], "aria-valuetext");
+    setLabCopy($("frequency"), "{0} megahertz", [frequency], "aria-valuetext");
+    setLabCopy($("frequencyLabel"), state.motion === "pulse" ? "Inverse pulse duration" : "Frequency");
+    const kilometersPerSecond = meters(P.peakSpeed(params())) / P.SI.secondsPerUnit / 1000;
+    $("peakSpeed").textContent = Math.round(kilometersPerSecond).toLocaleString("en-US") + " km/s";
+    setLabCopy($("wavelengthLabel"), state.motion === "pulse" ? "Pulse duration" : "Wavelength");
+    $("wavelength").textContent = state.motion === "pulse"
+      ? formatTime(1 / state.frequency)
+      : meters(P.C / state.frequency).toFixed(2) + " m";
     $("pulseButton").hidden = state.motion !== "pulse";
     $("manualRate").value = state.manualRate;
-    $("manualRateValue").textContent = state.manualRate.toFixed(0) + " units/s";
-    paintRange($("amplitude")); paintRange($("frequency")); paintRange($("manualRate"));
+    updateManualRate();
+    paintRange($("amplitude")); paintRange($("frequency"));
     updateInteraction();
+  }
+  function updateManualRate() {
+    const rate = state.manualRate.toFixed(0);
+    $("manualRateValue").textContent = rate + " ns/s";
+    setLabCopy($("manualRate"), "{0} nanoseconds per real second", [rate], "aria-valuetext");
+    paintRange($("manualRate"));
+    updatePlaybackSpeed();
   }
   function enforceSpeed(edited) {
     if (P.peakSpeed(params()) <= P.MAX_BETA * P.C) return false;
@@ -524,7 +594,7 @@ const ChargeFieldPhysics = (() => {
   }
   function updateZoom() {
     $("zoomLabel").textContent = Math.round(state.zoom * 100) + "%";
-    updateLabScale($("scaleLabel"), $("scaleRule"), scale(), "units");
+    updateLabScale($("scaleLabel"), $("scaleRule"), scale() / P.SI.metersPerUnit, "m");
     $("zoomOut").disabled = state.zoom <= .25001;
     $("zoomIn").disabled = state.zoom >= 5.9999;
   }
@@ -596,12 +666,7 @@ const ChargeFieldPhysics = (() => {
     }
   }
   function drawBackground() {
-    ctx.fillStyle = "#050f23";
-    ctx.fillRect(0, 0, W, H);
-    const glow = ctx.createRadialGradient(W * .58, H * .48, 0, W * .58, H * .48, Math.max(W, H) * .75);
-    glow.addColorStop(0, "rgba(17,40,80,.48)"); glow.addColorStop(1, "rgba(2,8,25,0)");
-    ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
-
+    paintLabBackdrop(ctx, W, H);
     drawGrid();
   }
   function visibleRadius() {
@@ -679,15 +744,19 @@ const ChargeFieldPhysics = (() => {
       }
     }
   }
-  function label(text, x, y, color = "#bdc9d9", align = "left") {
+  function label(source, x, y, color = "#bdc9d9", align = "left") {
+    const text = labText(source);
+    ctx.save();
     ctx.font = "11px " + overlayFont;
     const width = ctx.measureText(text).width;
     const bx = align === "right" ? x - width : x;
     ctx.beginPath();
-    ctx.roundRect(bx - 5, y - 12, width + 10, 18, 5);
-    ctx.fillStyle = overlayBackground; ctx.fill();
-    ctx.strokeStyle = overlayStroke; ctx.lineWidth = 1; ctx.stroke();
+    ctx.roundRect(bx - 5, y - 12, width + 10, 18, 7);
+    ctx.globalAlpha = .82;
+    ctx.fillStyle = labCanvasTheme.glass; ctx.fill();
+    ctx.globalAlpha = 1;
     ctx.fillStyle = color; ctx.fillText(text, bx, y + 1);
+    ctx.restore();
   }
   // The same eleven irregular rays as the electric lab's first positive charge.
   const chargeMarker = new Path2D();
@@ -728,12 +797,9 @@ const ChargeFieldPhysics = (() => {
       ctx.strokeStyle = "#cfba7480"; ctx.lineWidth = 1; ctx.setLineDash([3,5]);
       ctx.beginPath(); ctx.moveTo(center.x, center.y); ctx.lineTo(t.x,t.y); ctx.stroke(); ctx.setLineDash([]);
       ctx.strokeStyle = "#e5c675"; ctx.beginPath(); ctx.arc(t.x,t.y,7,0,2*Math.PI); ctx.stroke();
-      label("TARGET", t.x + 13, t.y - 12, "#aa9968");
+      label("Target", t.x + 13, t.y - 12, "#aa9968");
     }
-    if (drag?.kind === "charge") {
-      ctx.strokeStyle = "#9acbff88"; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.arc(center.x, center.y, 24, 0, 2 * Math.PI); ctx.stroke();
-    }
+    if (drag?.kind === "charge") paintLabSelection(ctx, center.x, center.y, 24);
     drawChargeMarker(center);
     const right = center.x > W - 115;
     label("Charge", center.x + (right ? -16 : 16), center.y - 18, "#e8f0ff", right ? "right" : "left");
@@ -752,7 +818,7 @@ const ChargeFieldPhysics = (() => {
       ctx.beginPath(); ctx.moveTo(source.x, source.y); ctx.lineTo(point.x, point.y); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
       ctx.strokeStyle = "#a4b0c3"; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(source.x, source.y, 5, 0, 2 * Math.PI); ctx.stroke();
       const currentSource = P.trajectory(state.time, p);
-      if (Math.hypot(f.sourceX - currentSource.x, f.sourceY - currentSource.y) * scale() > 21) label("retarded", source.x - 14, source.y + 3, "#8291a6", "right");
+      if (Math.hypot(f.sourceX - currentSource.x, f.sourceY - currentSource.y) * scale() > 21) label("Retarded", source.x - 14, source.y + 3, "#8291a6", "right");
     }
     ctx.strokeStyle = "#8edac0"; ctx.fillStyle = "#102018d0"; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.arc(point.x, point.y, 11, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
@@ -780,7 +846,7 @@ const ChargeFieldPhysics = (() => {
     return (value < 0 ? "−" : signed ? "+" : "") + num;
   }
   function updateClock() {
-    $("timeReadout").textContent = "t = " + state.time.toFixed(2);
+    $("timeReadout").textContent = formatTime(state.time);
   }
   function draw() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.lineCap = "round"; ctx.lineJoin = "round";
@@ -792,7 +858,7 @@ const ChargeFieldPhysics = (() => {
     const dt = lastFrame ? Math.min((now - lastFrame) / 1000, .05) : 0;
     lastFrame = now;
     const canAnimate = simulationActive();
-    if (canAnimate) advanceTime(dt * state.speed * (state.motion === "manual" ? state.manualRate : 1));
+    if (canAnimate) advanceTime(dt * state.speed * basePlaybackRate());
     if (dirty) {
       draw();
       if (now - lastClockUpdate > 75 || !canAnimate) { updateClock(); lastClockUpdate = now; }
@@ -804,42 +870,56 @@ const ChargeFieldPhysics = (() => {
     draw();
     const out = document.createElement("canvas");
     out.width = canvas.width; out.height = canvas.height + Math.round(108 * dpr);
-    const oc = out.getContext("2d"); oc.fillStyle = "#0b1c31"; oc.fillRect(0, 0, out.width, out.height); oc.drawImage(canvas, 0, 0);
+    const oc = out.getContext("2d"); oc.fillStyle = labCanvasTheme.background; oc.fillRect(0, 0, out.width, out.height); oc.drawImage(canvas, 0, 0);
     oc.scale(dpr, dpr); oc.fillStyle = "#e8f0ff"; oc.font = "600 18px " + overlayFont;
-    oc.fillText("Electromagnetic Field · " + state.mode, 22, 30, W - 40);
+    const modes = {total: "Total", velocity: "Velocity", radiation: "Radiation"};
+    const motions = {manual: "Mouse", continuous: "Wave", pulse: "Pulse"};
+    const captionFont = document.documentElement.lang === "el" ? overlayFont : numberFont;
+    oc.fillText(labText("The Electromagnetic Field") + " · " + labText(modes[state.mode]), 22, 30, W - 40);
     const source = sourceNow();
     const sourceInfo = state.motion === "manual"
-      ? (source ? "x " + source.x.toFixed(2) + "   y " + source.y.toFixed(2) : "Not placed")
-      : "A = " + state.amplitude.toFixed(2) + "   f = " + state.frequency.toFixed(3);
-    oc.fillStyle = "#b9d4f2"; oc.font = "12px " + numberFont;
-    oc.fillText("t = " + state.time.toFixed(3) + "   " + state.motion + "   " + sourceInfo, 22, 53, W - 40);
-    oc.fillStyle = "#b9d4f2"; oc.font = "11px " + numberFont;
+      ? (source ? "x = " + meters(source.x).toFixed(2) + " m   y = " + meters(source.y).toFixed(2) + " m" : labText("Not placed"))
+      : "A = " + meters(state.amplitude).toFixed(3) + " m   " +
+        (state.motion === "pulse" ? "T = " + formatTime(1 / state.frequency) : "f = " + megahertz(state.frequency).toFixed(0) + " MHz");
+    oc.fillStyle = "#b9d4f2"; oc.font = "12px " + captionFont;
+    oc.fillText("t = " + formatTime(state.time, 3) + "   " + labText(motions[state.motion]) + "   " + sourceInfo, 22, 53, W - 40);
+    oc.fillStyle = "#b9d4f2"; oc.font = "11px " + captionFont;
     const field = P.sample(state.probeX, state.probeY, state.time, params());
-    let probeLine = "Probe (" + state.probeX.toFixed(2) + ", " + state.probeY.toFixed(2) + ")";
-    let fieldLine = state.placed ? "Inside excluded core" : "No charge placed";
+    let probeLine = labText("Probe") + " (" + meters(state.probeX).toFixed(2) + ", " + meters(state.probeY).toFixed(2) + ") m";
+    let fieldLine = labText(state.placed ? "Inside excluded core" : "No charge placed");
     if (field.valid) {
       const electric = P.component(field, state.mode);
       const mag = Math.hypot(electric.x, electric.y);
       const angle = mag > EPS
         ? (Math.acos(Math.max(-1, Math.min(1, (electric.x * field.nx + electric.y * field.ny) / mag))) * 180 / Math.PI).toFixed(1) + "°"
         : "—";
-      probeLine += "   Ev " + prettyField(Math.hypot(field.evx, field.evy)) + "   Er " + prettyField(Math.hypot(field.erx, field.ery));
-      fieldLine = "Angle " + angle + "   Bz " + prettyField(electric.b, true) + "   Delay " + (field.R / P.C).toFixed(2);
+      probeLine += "   Ev " + prettyField(Math.hypot(field.evx, field.evy) * P.SI.electricFieldUnit) +
+        "   Er " + prettyField(Math.hypot(field.erx, field.ery) * P.SI.electricFieldUnit) + " V/m";
+      const magnetic = prettyField(electric.b * P.SI.magneticFieldUnit * 1e6, true) + " µT";
+      fieldLine = labText("Angle {0}   Bz {1}   Delay {2}", angle, magnetic, formatTime(field.R / P.C));
     }
     oc.fillText(probeLine, 20, H + 23, W - 40); oc.fillText(fieldLine, 20, H + 46, W - 40);
-    oc.fillStyle = "#8aabc9"; oc.font = "10px " + numberFont;
-    oc.fillText("3D vacuum fields in a 2D slice. c = 1. Arrow lengths: log compressed", 20, H + 71, W - 40);
-    oc.fillText("Orange E · Blue Bz · Visibility " + state.gain.toFixed(2), 20, H + 91, W - 40);
+    oc.fillStyle = "#8aabc9"; oc.font = "10px " + captionFont;
+    oc.fillText(labText("3D vacuum fields in a 2D slice. Charge: 1 nC. Arrow lengths: log compressed."), 20, H + 71, W - 40);
+    oc.fillText(labText("Orange E · Blue Bz · Visibility {0}", state.gain.toFixed(2)), 20, H + 91, W - 40);
     return out;
   }
-  function stepTime() { setPlaying(false); advanceTime(state.motion === "manual" ? .20 : 1 / (120 * state.frequency)); }
+  function stepTime() {
+    if (!state.placed) return;
+    setPlaying(false);
+    advanceTime(state.motion === "manual" ? .20 : 1 / (120 * state.frequency));
+  }
   document.querySelectorAll('button[data-tool]').forEach(b => b.addEventListener('click', () => setTool(b.dataset.tool)));
   $('manualRate').addEventListener('input', e => {
-    state.manualRate = Number(e.target.value); $('manualRateValue').textContent = state.manualRate.toFixed(0) + ' units/s'; paintRange(e.target);
+    state.manualRate = Number(e.target.value); updateManualRate();
   });
   $("playButton").addEventListener("click", () => setPlaying(!state.playing));
+  $("stepButton").addEventListener("click", stepTime);
   $("resetButton").addEventListener("click", () => { restart(); toast(state.motion === "manual" ? "Time reset at the current charge position." : "Time restarted at t = 0."); });
-  $("speedSelect").addEventListener("change", e => { state.speed = Number(e.target.value); });
+  $("speedSelect").addEventListener("change", e => {
+    state.speed = Number(e.target.value);
+    updatePlaybackSpeed();
+  });
   document.querySelectorAll("[data-mode]").forEach(b => b.addEventListener("click", () => setMode(b.dataset.mode)));
   document.querySelectorAll("[data-motion]").forEach(b => b.addEventListener("click", () => setMotion(b.dataset.motion)));
   $("pulseButton").addEventListener("click", () => { restart(true); toast("Pulse restarted."); });
@@ -983,6 +1063,13 @@ const ChargeFieldPhysics = (() => {
     }
   });
   document.addEventListener("visibilitychange", () => { lastFrame = performance.now(); });
+  window.siteLanguage?.onChange(() => {
+    overlayFont = overlayStyle.getPropertyValue("--lab-ui-font").trim();
+    updateZoom();
+    updatePlaybackSpeed();
+    dirty = true;
+  });
+  document.fonts?.addEventListener("loadingdone", () => { dirty = true; });
   const observer = new ResizeObserver(resize); observer.observe(stage);
   document.querySelectorAll("input[type=range]").forEach(paintRange);
   updatePlayback(); updateSourceControls(); resize();
@@ -1031,7 +1118,7 @@ const ChargeFieldPhysics = (() => {
     backdrop.hidden = !(open && compact.matches);
     stage.inert = open && compact.matches;
     toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "Hide controls" : "Show controls");
+    setLabCopy(toggle, open ? "Hide controls" : "Show controls", [], "aria-label");
     document.getElementById("controlsToggleIcon").setAttribute("d", open ? "M5 5l10 10M15 5L5 15" : "M3 5h14M3 10h14M3 15h14");
   }
 
@@ -1051,7 +1138,7 @@ const ChargeFieldPhysics = (() => {
     if (panel.hidden || document.getElementById("physicsDialog").open) return;
     if (event.key === "Escape") closePanel();
     if (event.key !== "Tab" || !compact.matches) return;
-    const buttons = [...document.querySelectorAll(".banner button"), ...panel.querySelectorAll("button, input, select, summary")]
+    const buttons = [...document.querySelectorAll(".lab-header a[href], .lab-header button"), ...panel.querySelectorAll("button, input, select, summary")]
       .filter(element => !element.disabled && element.getClientRects().length);
     const first = buttons[0], last = buttons[buttons.length - 1];
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
@@ -1061,7 +1148,7 @@ const ChargeFieldPhysics = (() => {
 })();
 </script>
 <script src="../../assets/js/lab-toggle.js"></script>
+<script src="../../assets/js/lab-segments.js"></script>
 <script src="../../assets/js/lab-physics.js"></script>
-    <a class="scrollToTop" href="#top" aria-label="Επιστροφή στην κορυφή" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
 </body>
 </html>

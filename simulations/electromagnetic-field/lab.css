@@ -19,17 +19,6 @@ button, select { cursor: pointer; }
 button:disabled { cursor: default; opacity: .45; }
 svg { display: block; }
 
-.banner {
-    flex: none;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px max(22px, env(safe-area-inset-right)) 11px max(22px, env(safe-area-inset-left));
-}
-.banner-actions { display: flex; align-items: center; gap: inherit; margin-left: auto; }
-.banner-title { flex: 1; min-width: 0; }
-.banner h1 { margin: 0; font-size: 20px; line-height: 1.13; font-weight: 670; }
 .panel-toggle, .icon-button {
     flex: none;
     display: grid;
@@ -46,15 +35,16 @@ svg { display: block; }
 .icon-button svg { width: 18px; height: 18px; }
 .panel-toggle:hover, .icon-button:hover { border-color: #9acbff; background: #193453; color: var(--text-primary); }
 
-#lab { flex: 1; min-height: 0; position: relative; overflow: hidden; isolation: isolate; background: #050f23; }
+#lab { flex: 1; min-height: 0; position: relative; overflow: hidden; isolation: isolate; }
 #stage { position: absolute; inset: 0; overflow: hidden; }
+.playback-field-frame { position: absolute; inset: 0 0 var(--playback-reserve, 0px); }
 .controls-open #stage { right: 292px; }
 .field-canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
 .field-canvas[data-tool="pan"] { cursor: grab; }
 .field-canvas.dragging { cursor: grabbing; }
-.canvas-legend { position: absolute; top: 20px; }
+.canvas-legend { position: absolute; top: var(--lab-overlay-inset); }
 .canvas-legend {
-    right: max(22px, env(safe-area-inset-right));
+    right: max(var(--lab-overlay-inset), env(safe-area-inset-right));
     display: grid;
     gap: 5px;
     padding: 8px 12px;
@@ -85,31 +75,54 @@ svg { display: block; }
 .pointer-tools {
     grid-area: 1 / 1;
     justify-self: start;
-    width: 168px;
+    display: grid;
+    max-width: 100%;
+    min-height: var(--row-height);
+    padding: 3px;
     pointer-events: auto;
 }
-@container (max-width: 360px) {
-    .pointer-tools { width: 148px; }
+#lab .pointer-tools.canvas-surface { background: var(--lab-sidebar-background); }
+.pointer-options {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 2px;
 }
-@container (max-width: 295px) {
-    .canvas-dock .pointer-tools { grid-area: 2 / 1 / auto / -1; }
-    .canvas-dock .time-bar { grid-row: 3; }
+.pointer-options button {
+    padding: 0 8px;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
 }
-.canvas-dock .hud { display: grid; justify-items: end; gap: 5px; }
+@container (max-width: 500px) {
+    .pointer-options { grid-auto-columns: minmax(0, auto); }
+    .pointer-options button {
+        min-width: 0;
+        padding-inline: 3px;
+        font-size: 11px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+}
+@container (max-width: 335px) {
+    .canvas-dock > .pointer-tools {
+        grid-column: 1 / -1;
+        max-width: calc(100% - 124px);
+    }
+    .canvas-dock .zoom button { width: 24px; }
+    .canvas-dock .zoom output { width: 36px; }
+}
+@media (max-width: 440px) {
+    :is(.placement-message, .canvas-empty):lang(el) { top: 42%; }
+}
+.canvas-dock .hud { display: grid; justify-items: end; gap: var(--lab-frame-inset); }
 
 @media (pointer: coarse) {
     .icon-button { min-height: 44px; }
     .icon-button { width: 44px; }
 }
 @media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
-    .banner { gap: 8px; padding: calc(8px + env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)); }
-    .banner h1 { font-size: 18px; }
     .controls-open #stage { right: 0; }
-    .canvas-legend { top: 12px; }
-    .canvas-legend { right: max(12px, env(safe-area-inset-right)); }
     .toast { top: 92px; }
-}
-@media (max-width: 360px) {
-    .banner { flex-wrap: wrap; gap: 5px; padding-inline: max(8px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-right)); }
-    .banner h1 { font-size: 16px; }
 }

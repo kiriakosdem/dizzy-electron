@@ -1,6 +1,6 @@
 # Dizzy Electron
 
-A static Greek learning website with interactive physics simulations. Pages use plain HTML, CSS and JavaScript; there is no build or dependency installation step.
+A static learning website with Greek and English lessons and interactive physics simulations. Pages use plain HTML, CSS and JavaScript. Greek is the default, and the flag button in the navbar switches languages and saves the visitor’s choice in their browser.
 
 ## Preview locally
 
@@ -49,6 +49,7 @@ The `bouncing-balls` and `falling-blocks` simulation folders contain legacy Java
 - Load `common.css` and `cards.css` before lesson-specific styles. Keep all card spacing changes in `cards.css`.
 - Use relative paths so the site works both at a domain root and under a hosting subdirectory. Paths in CSS resolve relative to the stylesheet, while iframe paths resolve relative to the lesson page.
 - Keep the homepage, catalogue and related cards in sync when changing a lesson's title, description, icon or availability. They remain plain HTML; shared templates and a central catalogue would be a separate build-system change.
+- When editing Greek page copy, update its matching entry in `assets/js/english.js`. Keys match individual text nodes or accessibility and metadata attributes with whitespace collapsed. Inline markup splits a sentence into multiple text nodes. Labels created by JavaScript have their translations next to the code that updates them.
 - Keep design experiments separate from the assets referenced by live pages. Do not edit bundled vendor code for site styling.
 
 ## Checks

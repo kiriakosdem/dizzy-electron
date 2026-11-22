@@ -7,6 +7,12 @@
     background-repeat: no-repeat;
 }
 
+.time-bar select {
+    padding-inline: 5px 18px;
+    background-position: right 5px center;
+    background-size: 9px auto;
+}
+
 @media (forced-colors: active) {
     :is(.panel, .time-bar) select { appearance: auto; background-image: none; }
 }

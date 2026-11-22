@@ -184,7 +184,33 @@ p{
 NAVIGATION BAR
 ---------------------------------------------------*/
 
+:root {
+    scroll-padding-top: var(--site-navbar-height, 0px);
+}
+
+#NavigationBar.site-nav-scroll {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+#NavigationBar.site-nav-scroll.is-offscreen {
+    transform: translateY(-100%);
+    visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    #NavigationBar.site-nav-scroll {
+        transition: transform 200ms ease;
+    }
+
+    #NavigationBar.site-nav-scroll.is-offscreen {
+        transition: transform 200ms ease, visibility 200ms;
+    }
+}
+
 #NavigationBar .navbar{
+    --switch-track-height: 38px;
 	padding: 0.25rem 0.4rem;
 	font-weight: bold;
 	letter-spacing: 0.1rem;
@@ -304,6 +330,49 @@ footer .footer-brand {
 
 #NavigationBar #dropdownMenu1::after { color: inherit; }
 
+#NavigationBar .language-item {
+    align-self: center;
+}
+
+#NavigationBar .language-button {
+    --hover-background: transparent;
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#NavigationBar .language-button::before {
+    content: "";
+    box-sizing: border-box;
+    width: var(--switch-track-height);
+    height: var(--switch-track-height);
+    padding: 3px;
+    border: 1px solid var(--color-white);
+    border-radius: 50%;
+    background: url("../icons/flag-greece.svg") left center / cover no-repeat content-box;
+}
+
+#NavigationBar .language-button:lang(en)::before {
+    background-image: url("../icons/flag-uk.svg");
+    background-position: center;
+}
+
+#NavigationBar .language-button:hover::before {
+    border-color: var(--color-logo-orange);
+}
+
+#NavigationBar .language-button:focus-visible {
+    outline: 2px solid var(--color-logo-cyan);
+    outline-offset: 3px;
+}
+
 #NavigationBar .theme-toggle {
     --hover-background: transparent;
     display: inline-flex;
@@ -315,10 +384,12 @@ footer .footer-brand {
 }
 .theme-track {
     --thumb-size: 30px;
+    box-sizing: border-box;
     position: relative;
     display: grid;
     grid-template-columns: repeat(2, var(--thumb-size));
     place-items: center;
+    height: var(--switch-track-height);
     padding: 3px;
     border: 1px solid var(--color-white);
     border-radius: 999px;
@@ -785,14 +856,56 @@ a[href*="creativecommons.org/"] {
     }
 
     #NavigationBar #RightBox > .navbar-nav {
+        flex-flow: row wrap;
+        align-items: center;
         min-height: 0;
         overflow: hidden;
         margin-left: 0 !important;
         text-align: center;
     }
 
-    #NavigationBar #RightBox .btn,
+    #NavigationBar #RightBox .nav-item:not(.language-item, :has(> .theme-toggle)) {
+        flex: 0 0 calc(100% - .8rem);
+    }
+
+    .home-page #NavigationBar #RightBox.show {
+        border-block-end: 1px solid rgb(255 255 255 / 35%);
+    }
+
+    #NavigationBar #RightBox .btn { text-align: start; }
     #NavigationBar #RightBox .dropdown-item { text-align: center; }
+
+    #NavigationBar #dropdownMenu1::after { display: none; }
+
+    #NavigationBar #lesson-subjects {
+        display: block;
+        margin: 0 1rem .5rem;
+        padding: 0 0 0 .75rem;
+        background: transparent;
+        border: 0;
+        border-inline-start: 1px solid rgb(255 255 255 / 35%);
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    #NavigationBar #RightBox #lesson-subjects .dropdown-item {
+        min-height: 44px;
+        padding: .65rem .5rem;
+        color: var(--color-white);
+        font-size: .9rem;
+        text-align: start;
+        white-space: normal;
+    }
+
+    #NavigationBar #lesson-subjects .dropdown-item:is(:hover, :focus-visible) {
+        background: rgb(255 255 255 / 10%);
+        outline-color: var(--color-logo-cyan);
+        outline-offset: -2px;
+    }
+
+    #NavigationBar #RightBox .language-item {
+        margin: .4rem 0 .4rem 1rem;
+    }
 }
 
 @media (max-width: 991.98px) and (prefers-reduced-motion: reduce) {

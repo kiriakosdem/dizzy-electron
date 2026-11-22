@@ -78,14 +78,14 @@
     display: block;
     appearance: none;
     width: 100%;
-    height: 2px;
+    height: 4px;
     border: 0;
     background: #ffffff33;
     color: var(--color-logo-cyan);
 }
 
 @media (max-width: 767.98px) {
-    .lesson-reading-progress { height: 1px; }
+    .lesson-reading-progress { height: 3px; }
 }
 
 .lesson-reading-progress::-webkit-progress-bar { background: #ffffff33; }

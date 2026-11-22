@@ -6,14 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Εξερεύνησε τη Φυσική με κείμενα και διαδραστικά εργαστήρια, στον δικό σου ρυθμό.">
     <title>Dizzy Electron | Φυσική στην πράξη</title>
-    <script src="assets/js/theme.js?v=theme-switch-inset"></script>
+    <script src="assets/js/english.js?v=film-caption-punctuation" defer></script>
+    <script src="assets/js/language.js?v=flag-button" defer></script>
+    <script src="assets/js/navbar-scroll.js" defer></script>
+    <script src="assets/js/theme.js?v=site-language"></script>
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/common.css?v=shared-back-to-top">
+    <link rel="stylesheet" href="assets/css/common.css?v=mobile-nav-layout">
     <link rel="stylesheet" href="assets/css/cards.css?v=orange-card-hover">
-    <link rel="stylesheet" href="assets/css/home.css?v=compact-film-caption">
-    <script src="assets/js/lesson.js?v=shared-back-to-top" defer></script>
-    <script src="assets/js/home-film.js?v=montage-labels" defer></script>
-    <script src="assets/js/home-carousel.js?v=quote-markers" defer></script>
+    <link rel="stylesheet" href="assets/css/home.css?v=film-caption-punctuation">
+    <script src="assets/js/lesson.js?v=mobile-subnavigation" defer></script>
+    <script src="assets/js/home-film.js?v=film-lab-link" defer></script>
+    <script src="assets/js/home-carousel.js?v=site-language" defer></script>
     <link rel="stylesheet" href="assets/css/focus.css?v=accessible-interactions">
     <script src="assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="assets/css/scroll-to-top.css">
@@ -36,9 +39,8 @@
                             <div class="dropdown">
                                 <a class="btn dropdown-toggle" href="contents/index.html#top" id="dropdownMenu1" data-lesson-dropdown aria-controls="lesson-subjects" aria-expanded="false">Υλικό</a>
                                 <div class="dropdown-menu" id="lesson-subjects" aria-labelledby="dropdownMenu1">
-                                    <a class="dropdown-item" href="contents/index.html#physics-lessons">Φυσική</a>
-                                    <a class="dropdown-item" href="contents/index.html#math-lessons">Μαθηματικά</a>
                                     <a class="dropdown-item" href="contents/index.html#interactive-lessons">Διαδραστικά εργαστήρια</a>
+                                    <a class="dropdown-item" href="contents/index.html#physics-lessons">Κείμενα</a>
                                 </div>
                             </div>
                         </li>
@@ -76,16 +78,26 @@
                     <a class="primary-action home-primary-action" href="contents/index.html">Εξερεύνησε το υλικό <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a>
                 </div>
                 <figure class="home-film-frame">
-                    <video class="home-film" muted loop playsinline preload="metadata"
-                        poster="assets/media/simulation-highlights.jpg"
-                        aria-label="Προσομοιώσεις: περιστροφή ηλεκτρικού διπόλου, βαρυτική τροχιά δύο σωμάτων, διάδοση ηλεκτρομαγνητικών κυμάτων και περιστρεφόμενη απεικόνιση του τροχιακού 5d_yz του υδρογόνου">
-                        <source src="assets/media/simulation-highlights.mp4?v=5d-yz" type="video/mp4">
-                    </video>
+                    <div class="home-film-media">
+                        <video id="home-film" class="home-film" muted loop playsinline preload="metadata"
+                            poster="assets/media/simulation-highlights.jpg"
+                            aria-label="Προσομοιώσεις: περιστροφή ηλεκτρικού διπόλου, βαρυτική τροχιά δύο σωμάτων, διάδοση ηλεκτρομαγνητικών κυμάτων και περιστρεφόμενη απεικόνιση του τροχιακού 5d_yz του υδρογόνου">
+                            <source src="assets/media/simulation-highlights.mp4?v=5d-yz" type="video/mp4">
+                        </video>
+                        <button class="home-film-toggle" type="button" aria-controls="home-film" aria-label="Αναπαραγωγή βίντεο" hidden>
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false">
+                                <path class="home-film-play" d="M8 5v14l11-7z"/>
+                                <path class="home-film-pause" d="M7 5h4v14H7zM13 5h4v14h-4z"/>
+                            </svg>
+                        </button>
+                    </div>
                     <figcaption class="home-film-caption">
-                        <span>Ηλεκτρικό δίπολο</span>
-                        <span hidden>Βαρυτική τροχιά δύο σωμάτων</span>
-                        <span hidden>Ηλεκτρομαγνητικά κύματα</span>
-                        <span hidden>Τροχιακό υδρογόνου 5d<sub>yz</sub></span>
+                        <span data-lab="simulations/electric-field/index.html">Ηλεκτρικό δίπολο</span>
+                        <span data-lab="simulations/gravitational-field/index.html" hidden>Βαρυτική τροχιά δύο σωμάτων</span>
+                        <span data-lab="simulations/electromagnetic-field/index.html" hidden>Ηλεκτρομαγνητικά κύματα</span>
+                        <span data-lab="simulations/hydrogen-eigenstates/index.html" hidden>Τροχιακό υδρογόνου 5d<sub>yz</sub></span>
+                        <span aria-hidden="true">-</span>
+                        <a class="home-film-action catalog-card-action" href="simulations/electric-field/index.html" target="_blank" rel="noopener"><span class="catalog-action-label">Δοκίμασέ το!</span></a>
                     </figcaption>
                 </figure>
             </div>
@@ -136,7 +148,7 @@
         <section class="section-divider" aria-label="Αποφθέγματα επιστημόνων" aria-roledescription="carousel">
             <div class="quote-carousel home-shell">
                 <div class="quote-track">
-                    <figure class="home-excerpt" lang="el">
+                    <figure class="home-excerpt">
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
                         <p>Αν διδάσκεις σε μια τάξη και λες «το αντικείμενο θα κινηθεί λόγω της τριβής», αυτό δεν είναι επιστήμη. Είναι απλώς μια λέξη… Αν θέλεις να διαπιστώσεις αν το καταλαβαίνεις, δοκίμασε να το εξηγήσεις με καθημερινά λόγια, χωρίς να χρησιμοποιήσεις τη λέξη που μόλις έμαθες.</p>
@@ -149,7 +161,7 @@
                         </div>
                     </figcaption>
                     </figure>
-                    <figure class="home-excerpt" lang="el" hidden>
+                    <figure class="home-excerpt" hidden>
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
                         <p>Ακόμη και για τον φυσικό, η περιγραφή με απλά λόγια αποτελεί κριτήριο του βαθμού κατανόησης που έχει επιτευχθεί.</p>
@@ -162,7 +174,7 @@
                         </div>
                     </figcaption>
                     </figure>
-                    <figure class="home-excerpt" lang="el" hidden>
+                    <figure class="home-excerpt" hidden>
                     <blockquote cite="https://www.oxfordreference.com/display/10.1093/acref/9780191826719.001.0001/q-oro-ed4-00003988">
                         <span class="home-quote-mark" aria-hidden="true">“</span>
                         <p>Δύσκολα μπορεί κανείς να αρνηθεί ότι ο υπέρτατος στόχος κάθε θεωρίας είναι να κάνει τα θεμελιώδη στοιχεία της, που δεν επιδέχονται περαιτέρω αναγωγή, όσο το δυνατόν απλούστερα και λιγότερα, χωρίς να θυσιάζει την επαρκή περιγραφή ούτε ενός δεδομένου της εμπειρίας.</p>
@@ -175,7 +187,7 @@
                         </div>
                     </figcaption>
                     </figure>
-                    <figure class="home-excerpt" lang="el" hidden>
+                    <figure class="home-excerpt" hidden>
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
                         <p>Η αλήθεια βρίσκεται πάντοτε στην απλότητα και όχι στην πολλαπλότητα και τη σύγχυση των πραγμάτων.</p>
@@ -188,7 +200,7 @@
                         </div>
                     </figcaption>
                     </figure>
-                    <figure class="home-excerpt" lang="el" hidden>
+                    <figure class="home-excerpt" hidden>
                     <blockquote>
                         <span class="home-quote-mark" aria-hidden="true">“</span>
                         <p>Ο ερευνητής, στην προσπάθειά του να εκφράσει τους θεμελιώδεις νόμους της φύσης με μαθηματική μορφή, πρέπει να επιδιώκει κυρίως τη μαθηματική ομορφιά… Συχνά συμβαίνει οι απαιτήσεις της απλότητας και της ομορφιάς να συμπίπτουν.</p>

@@ -9,12 +9,8 @@
 :root{--text-primary:#e8f0ff;--text-secondary:#b9d4f2;--text-muted:#8aabc9;--text-accent:#77b1f6;--text-destructive:#d29aa9;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text-primary);background:#061126;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden}
-.banner{display:flex;align-items:center;gap:14px;flex-shrink:0;width:100%;padding:11px 22px;z-index:3}
-.banner-copy{flex:1;min-width:0}
-.banner h1{margin:5px 0 4px;font-size:20px;letter-spacing:normal}
-.banner .subtitle{margin:0;line-height:1.4}
-#lab{width:100%;flex:1;min-height:0;position:relative;overflow:hidden;isolation:isolate;background:#061126;user-select:none}
-canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#lab{width:100%;flex:1;min-height:0;position:relative;overflow:hidden;isolation:isolate;user-select:none}
+canvas{display:block;width:var(--field-canvas-width, 100%);height:100%;touch-action:none;cursor:grab}
 canvas.dragging{cursor:grabbing}
 canvas.placing{cursor:crosshair}
 canvas:focus,canvas:focus-visible{outline:none}
@@ -27,7 +23,6 @@ button,input{touch-action:manipulation}
 button:focus-visible,input:focus-visible{outline:2px solid #9acbff;outline-offset:3px}
 .eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--text-accent);text-transform:uppercase}
 h1{font-size:23px;line-height:1.13;margin:11px 0 7px;font-weight:670;letter-spacing:-.9px}
-.subtitle{font-size:12px;line-height:1.65;color:var(--text-muted);margin:0 0 21px}
 .divider{height:1px;background:rgba(159,190,237,.13);margin:18px 0}
 .preset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:var(--preset-height,36px);gap:6px}
 .preset-grid .action-button{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:100%;min-width:0;min-height:0;padding:4px 6px;color:var(--text-secondary);font-size:11px;line-height:1.2;white-space:normal}
@@ -46,7 +41,6 @@ button{font:inherit;cursor:pointer}
 #editBlock .coordinate-field > span:first-child{grid-column:auto}
 #editBlock .coordinate-field input{appearance:textfield}
 #editBlock .coordinate-field input::-webkit-inner-spin-button{appearance:none}
-.coordinate-field input:focus,.coordinate-field input:focus-visible{outline:none}
 .coordinate-unit{flex-shrink:0;color:var(--text-muted);font-size:10px;font-weight:500}
 @media(pointer:coarse){.coordinate-field input{min-height:44px;font-size:16px}}
 .mass-controls{margin-top:0}
@@ -55,27 +49,24 @@ button{font:inherit;cursor:pointer}
 .action-button{flex:1;min-width:0;min-height:40px;padding:9px 6px;border:1px solid #45658b;border-radius:8px;background:#193453;color:var(--text-secondary);font-size:11px;font-weight:650;box-shadow:inset 0 1px 0 #ffffff0d;transition:background .15s,border-color .15s}
 .action-button:hover{background:#254b75;border-color:#78a4d5}
 .action-button:active{background:#10253f}
-.legend{position:absolute;right:max(22px,env(safe-area-inset-right));top:20px;z-index:1;display:grid;gap:5px;padding:8px 12px;font-size:11px}
+.legend{position:absolute;right: max(var(--lab-overlay-inset), env(safe-area-inset-right));top:var(--lab-overlay-inset);z-index:1;display:grid;gap:5px;padding:8px 12px;font-size:11px}
 .legend-item{display:flex;align-items:center;gap:6px}
 .legend-vector{flex:none;width:26px;text-align:center;font-size:14px;line-height:1;color:#0085e5}
 .gradient{width:26px;height:6px;border-radius:3px;background:linear-gradient(90deg,rgba(0,133,229,0),#0085e5)}
 .potential-gradient{background:linear-gradient(90deg,#0085e5,rgba(0,133,229,0))}
-.hud{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));right:max(12px,env(safe-area-inset-right));width:max-content;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.hud{position:absolute;bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));right: max(var(--lab-overlay-inset), env(safe-area-inset-right));width:max-content;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:var(--lab-frame-inset)}
 .mass-popover{position:absolute;z-index:2;width:190px;padding:10px 12px}
 .mass-popover .control-label{margin:0 0 2px;font-size:11px;color:var(--text-secondary)}
-.mass-popover input[type=range]{height:28px;margin:0}
-@media(pointer:coarse){.mass-popover input[type=range]{height:44px}}
 .mode-msg{position:absolute;z-index:2;bottom:174px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;width:max-content;max-width:calc(100% - 32px);padding:8px 12px;font-size:12px}
-.mode-msg button{flex-shrink:0;min-height:44px;border:1px solid #73a6db;border-radius:7px;padding:0 10px;background:#14385f;color:var(--text-primary);font-size:12px}
+.mode-msg button{flex-shrink:0;min-height:44px;padding:0 10px;font-size:12px}
 .mode-msg[hidden]{display:none}
 
 
 /* Read-only overlays must not block mass drops or canvas gestures. */
 .legend,.hud{pointer-events:none}
-.controls-open .legend{right:314px}
-.controls-open .hud{right:304px}
+.controls-open .legend{right:calc(292px + var(--lab-overlay-inset))}
 .controls-open .mode-msg{left:calc((100% - 292px)/2);max-width:calc(100% - 324px)}
-.mass-tray{position:absolute;left:max(18px,env(safe-area-inset-left));bottom:max(18px,env(safe-area-inset-bottom));z-index:1;padding:12px}
+.mass-tray{position:absolute;left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));z-index:1;padding:12px}
 .tray-items{display:grid;grid-template-columns:repeat(2,64px);gap:8px;align-items:stretch}
 .tray-items>button{display:grid;grid-template-rows:minmax(0,1fr) auto;align-items:center;justify-items:center;row-gap:3px;line-height:12px}
 .tray-items>button>span{align-self:end;white-space:nowrap}
@@ -103,21 +94,18 @@ button:disabled{cursor:default;opacity:.45}
 .mass-ghost.test{display:grid;place-items:center}.mass-ghost.test .mass-art{width:20px;height:20px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media(max-width:750px),(max-height:500px) and (max-width:950px){
- .banner{padding:calc(8px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 8px max(16px,env(safe-area-inset-left))}.banner h1{font-size:18px;margin:4px 0}.banner .subtitle{font-size:11px;margin:0}
  .panel{width:min(320px,100%)}
  .panel-backdrop{display:block;position:absolute;inset:0;z-index:2;border:0;background:rgba(2,8,20,.48)}
  #lab.controls-open .legend,#lab.controls-open .hud,#lab.controls-open .mode-msg,#lab.controls-open .mass-tray,#lab.controls-open .canvas-dock{visibility:hidden}
  .test-active .mode-msg{bottom:calc(246px + env(safe-area-inset-bottom))}
- .legend{right:max(12px,env(safe-area-inset-right));top:12px}
- .hud{right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom))}
  .action-button{min-height:44px}.control-label{font-size:12px}.action-button{font-size:12px}
  .control-label{margin:6px 0 5px}
 
- .mass-tray{left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));padding:10px}
+ .mass-tray{left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));padding:10px}
  .mode-msg{bottom:calc(214px + env(safe-area-inset-bottom));font-size:12px}
 }
 .canvas-dock{z-index:1}
-.controls-open .canvas-dock{right:calc(292px + max(18px,env(safe-area-inset-right)))}
+.controls-open .canvas-dock{right:calc(292px + max(var(--lab-overlay-inset),env(safe-area-inset-right)))}
 .canvas-dock .mass-tray{position:static;grid-area:1 / 1;justify-self:start;min-width:0;max-width:100%;pointer-events:auto}
 .canvas-dock .hud{position:static;min-width:0}
 .canvas-dock .tray-items{grid-template-columns:repeat(2,minmax(0,64px))}
@@ -131,31 +119,34 @@ button:disabled{cursor:default;opacity:.45}
 
 
 }
-@media(max-width:750px),(max-height:500px) and (max-width:950px){.controls-open .canvas-dock{right:max(12px,env(safe-area-inset-right))}}
-@media(max-height:500px) and (max-width:950px){.banner{padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:6px}.banner h1{font-size:18px;margin:3px 0}.banner .subtitle{display:none}}
+@media(max-width:750px),(max-height:500px) and (max-width:950px){.controls-open .canvas-dock{right:max(var(--lab-overlay-inset),env(safe-area-inset-right))}}
 @media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=readable-lab-controls">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css">
-    <link rel="stylesheet" href="../../assets/css/lab-select.css">
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=readable-lab-controls">
-    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=readable-lab-controls">
-    <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=canvas-palette">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=persistent-narrow-playback">
+    <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=compact-segment-titles">
+    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
+    <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=mobile-fullscreen">
-    <script src="../../assets/js/lab-canvas.js?v=mobile-fullscreen"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-question-label">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=unbroken-test-labels">
+    <script src="../../assets/js/lab-canvas.js?v=lesson-surfaces"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
 </head>
 <body id="top">
-<header class="banner">
-    <div class="banner-copy">
-        <h1>The Gravitational Field</h1>
-        <p class="subtitle">Explore how masses attract one another. More on the physics of the simulation <button id="physicsButton" type="button" aria-label="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog">here</button>.</p>
-    </div>
-    <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls"><svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg></button>
+<header class="lab-header">
+    <a class="lab-site-brand" href="../../index.html" aria-label="Dizzy Electron home">
+        <img src="../../assets/brand/logo-navy-notext.png" width="800" height="800" alt="">
+    </a>
+    <h1>The Gravitational Field</h1>
+    <div class="lab-language"></div>
+    <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><span class="lab-help-icon" aria-hidden="true">?</span></button>
+    <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg>
+    </button>
 </header>
 <div id="lab">
   <div class="canvas-frame field-frame">
@@ -172,26 +163,26 @@ button:disabled{cursor:default;opacity:.45}
   </div>
   <button class="panel-backdrop" id="controlsBackdrop" type="button" aria-label="Close controls" tabindex="-1" hidden></button>
   <aside class="panel" id="controlsPanel" aria-label="Field controls">
-    <details open class="panel-section" id="visualizationSettings" aria-label="Display settings">
+    <details class="panel-section" id="visualizationSettings" aria-label="Display settings">
     <summary><h2>
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
       Display
     </h2></summary>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 17 17 3M10 3h7v7M3 7l4-4M3 3h4v4M13 17l4-4M13 13h4v4"/></svg>Field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle gravitational field arrows"></button></div>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true" fill="currentColor"><path d="M5 5h1m8 0h1M5 14h1m8 0h1" stroke-width="3" stroke-linecap="round"/></svg>Field sample points</span><button id="samplePointsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Field sample points"></button></div>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="3" stroke-opacity=".5"/><rect x="4" y="4" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".15" stroke="none"/><rect x="11" y="4" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".4" stroke="none"/><rect x="4" y="11" width="5" height="5" rx="1" fill="currentColor" fill-opacity=".6" stroke="none"/><rect x="11" y="11" width="5" height="5" rx="1" fill="currentColor" stroke="none"/></svg>Field strength heatmap</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle gravitational field heatmap"></button></div>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 5V2M14.3 7.5l2.6-1.5M14.3 12.5l2.6 1.5M10 15v3M5.7 12.5l-2.6 1.5M5.7 7.5 3.1 6"/></svg>Field lines</span><button id="fieldLinesToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle field lines"></button></div>
-    <div class="toggle-row"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="2"/><circle cx="10" cy="10" r="5"/><circle cx="10" cy="10" r="8"/></svg>Gravitational potential</span><button id="potentialToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle gravitational potential heatmap" title="Potential Φ = −G Σ(M/r), in J/kg, relative to zero at infinity. Deeper blue means a more negative potential."></button></div>
-    <div class="control-label slider-label"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 4h3M9 4h9M2 10h9M15 10h3M2 16h2M8 16h10"/><circle cx="7" cy="4" r="2"/><circle cx="13" cy="10" r="2"/><circle cx="6" cy="16" r="2"/></svg>Display sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
+    <div class="toggle-row"><span class="toggle-label">Point grid</span><button id="samplePointsToggle" class="switch" role="switch" aria-checked="false" aria-label="Point grid"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle gravitational field arrows"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Field strength</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle gravitational field strength"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Field lines</span><button id="fieldLinesToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle field lines"></button></div>
+    <div class="toggle-row"><span class="toggle-label">Gravitational potential</span><button id="potentialToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle gravitational potential heatmap" title="Potential Φ = −G Σ(M/r), in J/kg, relative to zero at infinity. Deeper blue means a more negative potential."></button></div>
+    <div class="control-label slider-label"><span class="toggle-label">Display sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
     <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field and potential color sensitivity"/>
     <div class="range-scale" aria-hidden="true"><span>0.3</span><span>4</span></div>
   </details>
-    <details open class="panel-section" id="simulationBlock" aria-label="Simulation settings">
+    <details class="panel-section" id="simulationBlock" aria-label="Simulation settings">
       <summary><h2>
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h3m5 0h8M2 14h9m5 0h2"/><circle cx="7.5" cy="6" r="2.5"/><circle cx="13.5" cy="14" r="2.5"/></svg>
         Simulation
       </h2></summary>
-      <label class="control-label slider-label" for="simulationSpeed"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 5v5l3 2"/></svg>Time speed</span><span class="control-value" id="simulationSpeedText">1,000,000×</span></label>
+      <label class="control-label slider-label" for="simulationSpeed"><span class="toggle-label">Time speed</span><span class="control-value" id="simulationSpeedText">1,000,000×</span></label>
       <input type="range" id="simulationSpeed" min="100000" max="1000000" step="5000" value="1000000" aria-label="Simulation time speed" aria-valuetext="1000000 simulated seconds per real second" aria-describedby="simulationSpeedHint" title="Applies to all source and test masses. 100,000 to 1,000,000 simulated seconds per real second."/>
       <div class="range-scale" aria-hidden="true"><span>100,000</span><span>1,000,000</span></div>
       <p class="sr-only" id="simulationSpeedHint">Time is accelerated for visible motion under weak gravity. This changes how quickly time passes, not the gravitational field or acceleration.</p>
@@ -199,7 +190,7 @@ button:disabled{cursor:default;opacity:.45}
     </details>
     <details open class="panel-section" id="massesConfiguration" aria-label="Examples">
       <summary><h2>
-        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="12" r="4.5"/><circle cx="14.5" cy="5" r="3"/><circle cx="16" cy="15" r="2"/></svg>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M7.5 7.3a2.5 2.5 0 1 1 3.9 2c-1 .6-1.4 1.2-1.4 2.2m0 2.8h.01"/></svg>
         Examples
       </h2></summary>
       <div class="preset-grid" role="group" aria-label="Load a mass configuration">
@@ -207,26 +198,26 @@ button:disabled{cursor:default;opacity:.45}
         <button class="action-button preset-button" id="presetPair" type="button" title="Two 4 Earth-mass bodies in a mutual circular orbit. Starts a fresh scene.">Pair</button>
         <button class="action-button preset-button" id="presetRow" type="button" title="Five evenly spaced 3 Earth-mass bodies with rotational velocity. Starts a fresh scene.">Row</button>
         <button class="action-button preset-button" id="presetRandom" type="button" title="Five scattered masses with random velocities and zero total momentum. Starts a fresh scene.">Random</button>
-        <button id="clear" class="action-button danger-button" type="button">Clear all</button>
+        <button id="clear" class="action-button danger-button" type="button"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Clear all</span></button>
       </div>
     </details>
-    <details open class="panel-section" id="editBlock" aria-label="Selected mass">
+    <details open class="panel-section" id="editBlock" hidden aria-label="Selected mass">
       <summary><h2>
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M10 1v2.5M10 16.5V19M1 10h2.5M16.5 10H19"/><circle cx="10" cy="10" r="2"/></svg>
         Selected mass
       </h2></summary>
       <div class="mass-controls">
-        <label class="control-label slider-label" for="massStrength"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="4.5" r="2.5"/><path d="M5 7h10l3 10H2Z"/></svg>Mass</span><span class="control-value"><span id="strengthText">4.0</span> <i>M</i><sub>⊕</sub></span></label>
+        <label class="control-label slider-label" for="massStrength"><span class="toggle-label">Mass</span><span class="control-value"><span id="strengthText">4.0</span> <i>M</i><sub>⊕</sub></span></label>
         <input type="range" id="massStrength" min="0.1" max="10" step="0.1" value="4" aria-label="Selected mass in Earth masses"/>
         <div class="range-scale" aria-hidden="true"><span id="sidebarMassScaleMin">0.1</span><span id="sidebarMassScaleMax">10</span></div>
       </div>
-      <div class="control-label"><span class="toggle-label"><svg class="toggle-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 8c0 5-6 10-6 10S4 13 4 8a6 6 0 1 1 12 0Z"/><circle cx="10" cy="8" r="2"/></svg>Position</span></div>
+      <div class="control-label"><span class="toggle-label">Position</span></div>
       <div class="coordinate-fields" role="group" aria-label="Selected mass position in astronomical units">
         <label class="coordinate-field"><span>X</span><input id="massX" type="number" step="0.000001" aria-label="Selected mass X coordinate in astronomical units" /><span class="coordinate-unit" aria-hidden="true">AU</span></label>
         <label class="coordinate-field"><span>Y</span><input id="massY" type="number" step="0.000001" aria-label="Selected mass Y coordinate in astronomical units" /><span class="coordinate-unit" aria-hidden="true">AU</span></label>
       </div>
       <div id="velocityBlock" hidden>
-        <div class="control-label"><span class="icon-label"><svg class="control-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h5M2 14h5M5 10h13m-5-5 5 5-5 5"/></svg>Velocity</span><span class="control-value" id="velocitySpeedText">0 km/s</span></div>
+        <div class="control-label"><span class="icon-label">Velocity</span><span class="control-value" id="velocitySpeedText">0 km/s</span></div>
         <div class="coordinate-fields" role="group" aria-label="Velocity components in kilometers per simulated second">
           <label class="coordinate-field"><span>X</span><input id="velocityX" type="number" min="-1000" max="1000" step="any" inputmode="decimal" aria-label="Selected object X velocity in kilometers per second" aria-describedby="velocityHint" /><span class="coordinate-unit" title="Kilometers per simulated second">km/s</span></label>
           <label class="coordinate-field"><span>Y</span><input id="velocityY" type="number" min="-1000" max="1000" step="any" inputmode="decimal" aria-label="Selected object Y velocity in kilometers per second" aria-describedby="velocityHint" /><span class="coordinate-unit" title="Kilometers per simulated second">km/s</span></label>
@@ -249,14 +240,14 @@ button:disabled{cursor:default;opacity:.45}
       <button class="trash-zone danger-button" id="trashZone" type="button" aria-label="Delete selected mass, or drag a mass here" title="Drop a mass here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Delete</span></button>
     </div>
   </div>
-  <div class="time-bar canvas-surface" id="testPlayback" hidden role="group" aria-label="Playback for all masses">
-      <button class="playback-toggle" id="pauseTest" type="button" aria-label="Pause all masses" title="Pause all masses">
+  <div class="time-bar canvas-surface" id="testPlayback" data-hide-when-idle role="group" aria-label="Playback for all masses">
+      <button class="playback-toggle" id="pauseTest" type="button" disabled aria-label="Play all masses" title="Play all masses">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
       </button>
-      <button id="resetTest" type="button" aria-label="Reset all masses to their starting positions and velocities" title="Reset all masses to their starting positions and velocities">
+      <button class="playback-icon" id="resetTest" type="button" disabled aria-label="Reset all masses to their starting positions and velocities" title="Reset all masses to their starting positions and velocities">
           <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg>
       </button>
-      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated days">t = 0.00 d</span>
+      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated days">0.00 d</span>
       <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
           <option value="0.1">0.1×</option><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option>
           <option id="sliderRate" value="custom" hidden disabled></option>
@@ -294,8 +285,12 @@ button:disabled{cursor:default;opacity:.45}
     <p>Drag the background to pan. Scroll or pinch to zoom. The ruler and position controls use astronomical units (AU). Masses are measured in Earth masses (<i>M</i><sub>⊕</sub>). The Pair preset starts two bodies of 4 <i>M</i><sub>⊕</sub> about 0.016 AU apart in a circular orbit. The enlarged body markers set the contact distances in this model.</p>
     <p>Drag a mass to reposition it with its velocity preserved, or drop it on the trash button to remove it. Select a mass to edit its horizontal and vertical velocity in km/s. The teal arrow shows its direction of motion.</p>
     <p>Adjust the time scale in the Simulation controls. <span id="timeScaleHint">Time: 1,000,000 simulated seconds per real second.</span></p>
+    <p class="source-reference"><a href="../../lessons/physics/giati-i-selini-menei-se-trochia.html" target="_blank" rel="noopener">Read the lesson</a></p>
   </div>
 </dialog>
+    <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
+    <script src="../../assets/js/lab-greek.js?v=help-question-label"></script>
+    <script src="../../assets/js/language.js?v=compact-lab-header"></script>
 <script>
 (()=>{'use strict';
 const lab=document.getElementById('lab'), canvas=document.getElementById('fieldCanvas'), ctx=canvas.getContext('2d',{alpha:false});
@@ -306,7 +301,7 @@ let controlsOpen=!embedded&&!compactLayout.matches,massHover=null,touchEditorId=
 function setControlsOpen(open,{returnFocus=false}={}){
  controlsOpen=open;$('controlsPanel').hidden=!open;$('controlsBackdrop').hidden=!open||!compactLayout.matches;
  $('controlsToggle').setAttribute('aria-expanded',String(open));
- $('controlsToggle').setAttribute('aria-label',open?'Hide controls':'Show controls');
+ setLabCopy($('controlsToggle'), open ? 'Hide controls' : 'Show controls', [], 'aria-label');
  $('controlsToggleIcon').setAttribute('d',open?'M5 5l10 10M15 5L5 15':'M3 5h14M3 10h14M3 15h14');lab.classList.toggle('controls-open',open);
  if(returnFocus)$('controlsToggle').focus({preventScroll:true});
 }
@@ -318,7 +313,7 @@ setupLabCanvasTools(() => visibleFieldSnapshot(canvas, $('controlsPanel')), () =
 const SAMPLE=50, MINOR=25, MAJOR=100, SUPER_MAJOR=400, MIN_ZOOM=.30,MAX_ZOOM=2;
 const PAN_X=2000,PAN_Y=1500;
 let vw=0,vh=0,dpr=1, camera={x:0,y:0,zoom:1};
-let masses=[], nextId=1,selectedId=null,placing=0,activeDrag=null,showFieldLines=false,showFieldArrows=true,showSamplePoints=true,showHeatmap=false,showPotential=false,sensitivity=1;
+let masses=[], nextId=1,selectedId=null,placing=0,activeDrag=null,showFieldLines=false,showFieldArrows=true,showSamplePoints=false,showHeatmap=false,showPotential=false,sensitivity=1;
 let sourceDrag=null,suppressDragClick=false;
 // Source masses are Earth masses; positions and velocities use grid units and grid units per simulated second.
 // Newtonian field g = −G Σ(M r / |r|³) is in N/kg (m/s²); potential is in J/kg.
@@ -363,7 +358,8 @@ function loadMassConfiguration(kind){
  masses=layout.map(c=>createSourceMass({id:nextId++,...c}));selectedId=masses[0].id;
  if(compactLayout.matches)setControlsOpen(false,{returnFocus:true});
  fitMassesToView(kind==='pair');setMode();syncPanel();
- $('actionStatus').textContent=kind.charAt(0).toUpperCase()+kind.slice(1)+' configuration loaded. '+masses.length+' '+(masses.length===1?'mass.':'masses.');
+ const count=masses.length, presetName=kind.charAt(0).toUpperCase()+kind.slice(1);
+ setLabCopy($('actionStatus'), () => labText(count===1 ? '{0} configuration loaded. {1} mass.' : '{0} configuration loaded. {1} masses.', labText(presetName), count));
 }
 // Speeds use grid units per simulated second. Pair motion is an exact two-body circular
 // initial condition; the other multi-body scenes start gravitationally bound.
@@ -404,9 +400,19 @@ function fitMassesToView(orbit=false){
 function toScreen(x,y){return {x:(x-camera.x)*camera.zoom+vw/2,y:(camera.y-y)*camera.zoom+vh/2};}
 function toWorld(x,y){return {x:(x-vw/2)/camera.zoom+camera.x,y:camera.y-(y-vh/2)/camera.zoom};}
 function pointerPos(ev){let r=canvas.getBoundingClientRect();return{x:ev.clientX-r.left,y:ev.clientY-r.top};}
-function resize(){let r=lab.getBoundingClientRect();vw=r.width;vh=r.height;dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(vw*dpr);canvas.height=Math.round(vh*dpr);canvas.style.width=vw+'px';canvas.style.height=vh+'px';constrainCamera();updateZoomControls();}
-const observer=new ResizeObserver(resize);observer.observe(lab);resize();
-function setMode(){canvas.classList.toggle('placing',placing!==0);$('addSource').classList.toggle('active',placing===4);$('addSource').setAttribute('aria-pressed',String(placing===4));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));$('modeMessageText').textContent=placing==='test'?'Click or tap to release the test mass from rest. Press Enter to place near view center.':'Tap or click the grid to place your mass.';$('modeMessage').hidden=placing===0;positionMassPopover();}
+function resize(){
+ const {width,height}=canvas.getBoundingClientRect();
+ const pixelRatio=Math.min(window.devicePixelRatio||1,2);
+ if(width===vw&&height===vh&&pixelRatio===dpr)return;
+ vw=width;vh=height;dpr=pixelRatio;
+ const pixelWidth=Math.round(vw*dpr),pixelHeight=Math.round(vh*dpr);
+ if(canvas.width!==pixelWidth)canvas.width=pixelWidth;
+ if(canvas.height!==pixelHeight)canvas.height=pixelHeight;
+ constrainCamera();updateZoomControls();
+ // Resizing clears the drawing buffer. Repaint before this frame is presented.
+ drawFrame();
+}
+function setMode(){canvas.classList.toggle('placing',placing!==0);$('addSource').classList.toggle('active',placing===4);$('addSource').setAttribute('aria-pressed',String(placing===4));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));setLabCopy($('modeMessageText'), placing==='test'?'Click or tap to release the test mass from rest. Press Enter to place near view center.':'Tap or click the grid to place your mass.');$('modeMessage').hidden=placing===0;positionMassPopover();}
 function startPlacing(sourceMass){placing=(placing===sourceMass?0:sourceMass);if(sourceMass==='test')selectTestMass();else if(testSelected){testSelected=false;syncPanel();}setMode();if(placing&&compactLayout.matches)setControlsOpen(false,{returnFocus:true});if(placing==='test')canvas.focus({preventScroll:true});}
 $('cancelPlacement').onclick=()=>{placing=0;setMode();};
 function createSourceMass(source){
@@ -417,10 +423,10 @@ function releaseSourceMass(c){
  c.trail=[{x:c.x,y:c.y}];c.trailClock=0;
  c.resetMembers=[{id:c.id,x:c.x,y:c.y,mass:c.mass,vx:c.vx,vy:c.vy}];
 }
-function addMass(x,y,sourceMass){const c=createSourceMass({id:nextId++,x,y,mass:sourceMass});masses.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});$('actionStatus').textContent=sourceMass.toFixed(1)+' Earth masses added. '+masses.length+' masses in the field.';}
-function removeMass(id=selectedId){if(!masses.some(c=>c.id===id))return;masses=masses.filter(c=>c.id!==id);if(selectedId===id)selectedId=masses.length?masses[masses.length-1].id:null;syncPanel();$('actionStatus').textContent='Mass removed. '+masses.length+' masses in the field.';}
+function addMass(x,y,sourceMass){const c=createSourceMass({id:nextId++,x,y,mass:sourceMass});masses.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});setLabCopy($('actionStatus'), '{0} Earth masses added. Masses in the field: {1}.', [sourceMass.toFixed(1), masses.length]);}
+function removeMass(id=selectedId){if(!masses.some(c=>c.id===id))return;masses=masses.filter(c=>c.id!==id);if(selectedId===id)selectedId=masses.length?masses[masses.length-1].id:null;syncPanel();setLabCopy($('actionStatus'), 'Mass removed. Masses in the field: {0}.', [masses.length]);}
 function updateTimeReadout(){
- const label='t = '+(simulationTime/86400).toFixed(2)+' d';
+ const label=(simulationTime/86400).toFixed(2)+' d';
  const readout=$('timeReadout');
  if(readout.textContent!==label)readout.textContent=label;
 }
@@ -429,18 +435,18 @@ function syncPanel(){
  $('editBlock').hidden=!body;
  if(body)syncSelectedProperties(body);
  const hasBodies=masses.length+testMasses.length>0;
- $('testPlayback').hidden=!hasBodies;lab.classList.toggle('test-active',hasBodies);
+ lab.classList.toggle('test-active',hasBodies);
  if(!hasBodies)simulationTime=0;
  updateTimeReadout();
  syncSimulationSpeed();syncVelocityControls();
- const playLabel=simulationPaused?'Play':'Pause';
- $('playIcon').setAttribute('d',simulationPaused?'M4 2l9 6-9 6Z':'M3 2h4v12H3zM9 2h4v12H9z');
- $('playLabel').textContent=playLabel;
- $('pauseTest').title=playLabel+' all masses';
- $('pauseTest').setAttribute('aria-label',$('pauseTest').title);
+ const playing=hasBodies&&!simulationPaused;
+ const playLabel=playing?'Pause':'Play';
+ $('playIcon').setAttribute('d',playing?'M3 2h4v12H3zM9 2h4v12H9z':'M4 2l9 6-9 6Z');
+ setLabCopy($('playLabel'), playLabel);
+ setLabLabel($('pauseTest'), playing ? 'Pause all masses' : 'Play all masses');
  $('pauseTest').disabled=!hasBodies;
  $('resetTest').disabled=!hasBodies;
- $('testStatus').textContent=!testMasses.length?'Place a test mass to watch its motion.':simulationPaused?'All masses paused. Continue to resume motion.':'Test masses moving under gravity; all have the same acceleration at a given point.';
+ setLabCopy($('testStatus'), !testMasses.length?'Place a test mass to watch its motion.':simulationPaused?'All masses paused. Continue to resume motion.':'Test masses moving under gravity; all have the same acceleration at a given point.');
  positionMassPopover();
 }
 function syncSimulationSpeed(){
@@ -452,8 +458,8 @@ function syncSimulationSpeed(){
  custom.textContent=preset?'':rate+'×';
  $('speedSelect').value=preset?String(rate):'custom';
  $('simulationSpeed').value=String(simulationSpeed);$('simulationSpeedText').textContent=speed+'×';
- $('simulationSpeed').setAttribute('aria-valuetext',simulationSpeed+' simulated seconds per real second');
- $('timeScaleHint').textContent='Time: '+speed+' simulated seconds per real second.';updateRangeFill($('simulationSpeed'));
+ setLabCopy($('simulationSpeed'), '{0} simulated seconds per real second', [simulationSpeed], 'aria-valuetext');
+ setLabCopy($('timeScaleHint'), 'Time: {0} simulated seconds per real second.', [speed]);updateRangeFill($('simulationSpeed'));
 }
 function selectTestMass(id=selectedTestId){if(!testMasses.some(t=>t.id===id))id=testMasses.length?testMasses[testMasses.length-1].id:null;if(!testSelected||selectedId!==null||id!==selectedTestId){testSelected=true;selectedId=null;selectedTestId=id;syncPanel();}}
 function removeSelection(){if(testSelected)removeTestMass();else removeMass();}
@@ -463,12 +469,12 @@ function canPlaceTestMass(x,y){return Math.abs(x)<PAN_X&&Math.abs(y)<PAN_Y&&!mas
 function placeTestMass(x,y){
  selectTestMass();
  if(!canPlaceTestMass(x,y)){
-  placing='test';setMode();$('modeMessageText').textContent='Choose a point inside the grid, at least 0.001605 AU from each source.';return false;
+  placing='test';setMode();setLabCopy($('modeMessageText'), 'Choose a point inside the grid, at least 0.001605 AU from each source.');return false;
  }
  const particle={id:nextTestId++,x,y,vx:0,vy:0,mass:.005,startX:x,startY:y,startVx:0,startVy:0,running:!simulationPaused,trail:[{x,y}],trailClock:0};
  testMasses.push(particle);selectedTestId=particle.id;
  if(!masses.length&&testMasses.length===1){simulationAccumulator=0;lastFrameTime=null;}syncPanel();canvas.focus({preventScroll:true});
- $('actionStatus').textContent='Test mass released from rest.';return true;
+ setLabCopy($('actionStatus'), 'Test mass released from rest.');return true;
 }
 function placeFromTool(x,y,kind){if(kind==='test')return placeTestMass(x,y);addMass(x,y,kind);return true;}
 function placeTestNearCenter(){
@@ -477,7 +483,7 @@ function placeTestNearCenter(){
   const x=visibleWidth/2+radius*Math.cos(i*Math.PI/4),y=vh/2+radius*Math.sin(i*Math.PI/4),world=toWorld(x,y);
   if(canPlaceTestMass(world.x,world.y)&&overWorkspace({clientX:rect.left+x,clientY:rect.top+y},8)){placeTestMass(world.x,world.y);placing=0;setMode();return;}
  }
- $('modeMessageText').textContent='No clear point near the center. Click or tap farther from a source to place the test mass.';
+ setLabCopy($('modeMessageText'), 'No clear point near the center. Click or tap farther from a source to place the test mass.');
 }
 function resetSimulation(){
  if(!masses.length&&!testMasses.length)return;
@@ -486,7 +492,7 @@ function resetSimulation(){
  if(!masses.some(c=>c.id===selectedId))selectedId=testSelected?null:masses[0]?.id??null;
  for(const t of testMasses)Object.assign(t,{x:t.startX,y:t.startY,vx:t.startVx,vy:t.startVy,running:false,trail:[{x:t.startX,y:t.startY}],trailClock:0});
  simulationPaused=true;simulationTime=0;simulationAccumulator=0;lastFrameTime=null;syncPanel();
- $('actionStatus').textContent='All masses reset to their starting positions and velocities. Continue to resume motion.';
+ setLabCopy($('actionStatus'), 'All masses reset to their starting positions and velocities. Continue to resume motion.');
 }
 function testAcceleration(x,y){const field=fieldAt(x,y);return{x:field.x/METERS_PER_GRID_UNIT,y:field.y/METERS_PER_GRID_UNIT};}
 // Earliest contact between a relative motion segment and a circle.
@@ -531,11 +537,11 @@ function mergeContactingSources(previous=new Map(masses.map(c=>[c.id,{x:c.x,y:c.
    masses.splice(j,1);changed=true;again=true;break outer;
   }
  }
- if(changed){syncPanel();$('actionStatus').textContent='Source masses combined, conserving mass and momentum. Reset restores the starting arrangement.';}
+ if(changed){syncPanel();setLabCopy($('actionStatus'), 'Source masses combined, conserving mass and momentum. Reset restores the starting arrangement.');}
  return changed;
 }
 function stopTestMass(hit,id){
- removeTestMass(id);$('actionStatus').textContent=hit.reason==='source'?'Test mass and trail removed on contact with a source.':'Test mass and trail removed at the lab edge.';
+ removeTestMass(id);setLabCopy($('actionStatus'), hit.reason==='source'?'Test mass and trail removed on contact with a source.':'Test mass and trail removed at the lab edge.');
 }
 function sampleTrail(body){
  const trail=body.trail;
@@ -610,13 +616,13 @@ function applyCoordinate(axis,input){
  const c=selectedBody();if(!c)return;
  const raw=input.value.trim(),value=Number(raw);
  if(!raw||!Number.isFinite(value)){
-  input.value=String(positionAU(c[axis]));$('actionStatus').textContent='Enter a valid '+axis.toUpperCase()+' coordinate in astronomical units.';return;
+  input.value=String(positionAU(c[axis]));setLabCopy($('actionStatus'), 'Enter a valid {0} coordinate in astronomical units.', [axis.toUpperCase()]);return;
  }
  const limit=axis==='x'?PAN_X:PAN_Y;
  const coordinate=clamp(value/AU_PER_GRID_UNIT,-limit,limit);
  const x=axis==='x'?coordinate:c.x,y=axis==='y'?coordinate:c.y;
  if(testSelected&&!canPlaceTestMass(x,y)){
-  syncCoordinateInputs(c);$('actionStatus').textContent='Choose a position inside the grid and clear of source masses.';return;
+  syncCoordinateInputs(c);setLabCopy($('actionStatus'), 'Choose a position inside the grid and clear of source masses.');return;
  }
  c[axis]=coordinate;
  if(testSelected){
@@ -628,23 +634,23 @@ function applyCoordinate(axis,input){
  if(p.x<32||p.x>visibleWidth-32||p.y<32||p.y>vh-32){
   camera.x=c.x+(vw-visibleWidth)/(2*camera.zoom);camera.y=c.y;constrainCamera();
  }
- $('actionStatus').textContent='Mass position: X '+positionAU(c.x)+' AU, Y '+positionAU(c.y)+' AU.';
+ setLabCopy($('actionStatus'), 'Mass position: X {0} AU, Y {1} AU.', [positionAU(c.x), positionAU(c.y)]);
 }
 function syncSelectedProperties(c){
  const min=testSelected ? .001 : .1,max=testSelected ? .01 : Math.max(10,Math.ceil(c.mass));
  const value=testSelected?String(c.mass):c.mass.toFixed(1);
  const slider=$('massStrength');
  slider.min=String(min);slider.max=String(max);slider.step=String(min);slider.value=String(c.mass);
- slider.setAttribute('aria-valuetext',value+' Earth masses');updateRangeFill(slider);
+ setLabCopy(slider, '{0} Earth masses', [value], 'aria-valuetext');updateRangeFill(slider);
  $('sidebarMassScaleMin').textContent=String(min);$('sidebarMassScaleMax').textContent=String(max);
  $('strengthText').textContent=value;
  syncCoordinateInputs(c);
  if(!testSelected){
   const popover=$('canvasMassStrength');
   popover.max=String(max);popover.value=String(c.mass);
-  popover.setAttribute('aria-valuetext',value+' Earth masses');updateRangeFill(popover);
+  setLabCopy(popover, '{0} Earth masses', [value], 'aria-valuetext');updateRangeFill(popover);
   $('canvasStrengthText').textContent=value;
-  $('canvasMassName').textContent='Mass '+String(c.id).padStart(2,'0');
+  setLabCopy($('canvasMassName'), 'Mass {0}', [String(c.id).padStart(2,'0')]);
   $('massScaleMiddle').textContent=String(max/2);$('massScaleMax').textContent=String(max);
  }
 }
@@ -668,13 +674,13 @@ function setSelectedVelocity(vx,vy){
   for(const c of body.resetMembers){c.vx+=vx-initialVx;c.vy+=vy-initialVy;}
  }
  syncVelocityControls(true);
- $('actionStatus').textContent='Selected '+(testSelected?'test mass':'mass')+' velocity set to X '+velocityText(vx)+' km/s, Y '+velocityText(vy)+' km/s. Press Play to continue.';
+ setLabCopy($('actionStatus'), testSelected ? 'Selected test mass velocity set to X {0} km/s, Y {1} km/s. Press Play to continue.' : 'Selected mass velocity set to X {0} km/s, Y {1} km/s. Press Play to continue.', [velocityText(vx), velocityText(vy)]);
 }
 function applyVelocity(){
  if(!selectedBody())return;
  const rawX=$('velocityX').value.trim(),rawY=$('velocityY').value.trim(),x=Number(rawX),y=Number(rawY);
  if(!rawX||!rawY||!Number.isFinite(x)||!Number.isFinite(y)){
-  syncVelocityControls(true);$('actionStatus').textContent='Enter valid X and Y velocities in km/s.';return;
+  syncVelocityControls(true);setLabCopy($('actionStatus'), 'Enter valid X and Y velocities in km/s.');return;
  }
  setSelectedVelocity(clamp(x,-MAX_SPEED_KM_S,MAX_SPEED_KM_S)*GRID_UNITS_PER_KM,clamp(y,-MAX_SPEED_KM_S,MAX_SPEED_KM_S)*GRID_UNITS_PER_KM);
 }
@@ -938,7 +944,7 @@ function grid(){const b=worldBounds();for(const spacing of [MINOR,MAJOR,SUPER_MA
  for(let n=startY;n<=endY;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const y=toScreen(0,n*spacing).y;ctx.moveTo(0,Math.round(y)+.5);ctx.lineTo(vw,Math.round(y)+.5);}
  ctx.strokeStyle=spacing===MINOR?'rgba(132,166,222,.055)':spacing===MAJOR?'rgba(143,185,237,.14)':'rgba(155,195,242,.23)';ctx.lineWidth=1;ctx.stroke();}
 }
-function background(){ctx.fillStyle='#050f23';ctx.fillRect(0,0,vw,vh);const glow=ctx.createRadialGradient(vw*.58,vh*.48,0,vw*.58,vh*.48,Math.max(vw,vh)*.75);glow.addColorStop(0,'rgba(17,40,80,.48)');glow.addColorStop(1,'rgba(2,8,25,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,vw,vh);if(showHeatmap||showPotential)drawHeatmap();grid();}
+function background(){paintLabBackdrop(ctx,vw,vh);if(showHeatmap||showPotential)drawHeatmap();grid();}
 // Sample the resultant field, including cancellation between masses. Cache the
 // screen-space raster until the camera, sources, viewport, or sensitivity changes.
 function drawHeatmap(){
@@ -1144,7 +1150,7 @@ function drawAsteroid(x,y,radius){
 function drawMasses(){for(const c of masses){const s=toScreen(c.x,c.y);if(s.x<-50||s.x>vw+50||s.y<-50||s.y>vh+50)continue;
  if(activeDrag?.kind==='mass'&&activeDrag.moved&&activeDrag.id===c.id)continue;
  const isSelected=c.id===selectedId;
- if(isSelected){ctx.save();const halo=ctx.createRadialGradient(s.x,s.y,13,s.x,s.y,39);halo.addColorStop(0,'rgba(83,159,249,.25)');halo.addColorStop(.6,'rgba(49,123,221,.20)');halo.addColorStop(1,'rgba(49,123,221,0)');ctx.beginPath();ctx.arc(s.x,s.y,39,0,Math.PI*2);ctx.fillStyle=halo;ctx.fill();ctx.beginPath();ctx.arc(s.x,s.y,27,0,Math.PI*2);ctx.strokeStyle='rgba(83,159,249,.62)';ctx.lineWidth=1.25;ctx.stroke();ctx.restore();}
+ if(isSelected)paintLabSelection(ctx,s.x,s.y,27,39);
  drawAsteroid(s.x,s.y,18);
  }}
 function drawTrails(bodies,kind){
@@ -1165,7 +1171,7 @@ function drawTestMass(){
  if(activeDrag?.kind==='test'&&activeDrag.id===testMass.id&&activeDrag.moved)continue;
  ctx.save();
  const s=toScreen(testMass.x,testMass.y);
- if(testSelected&&testMass.id===selectedTestId){ctx.beginPath();ctx.arc(s.x,s.y,12,0,Math.PI*2);ctx.strokeStyle='rgba(115,180,255,.8)';ctx.lineWidth=1;ctx.stroke();}
+ if(testSelected&&testMass.id===selectedTestId)paintLabSelection(ctx,s.x,s.y,12);
  drawAsteroid(s.x,s.y,8.5);ctx.restore();
  }
 }
@@ -1177,15 +1183,42 @@ function drawSelectedVelocity(){
  ctx.beginPath();ctx.moveTo(p.x+ux*start,p.y+uy*start);ctx.lineTo(x,y);ctx.moveTo(x-ux*7-uy*4,y-uy*7+ux*4);ctx.lineTo(x,y);ctx.lineTo(x-ux*7+uy*4,y-uy*7-ux*4);ctx.stroke();
  ctx.font='italic 12px ui-sans-serif,system-ui';ctx.fillText('v',x-uy*11,y+ux*11);ctx.restore();
 }
-function render(now){if(Number.isFinite(now)){const elapsed=lastFrameTime===null?0:(now-lastFrameTime)/1000;lastFrameTime=now;advanceSimulation(elapsed);}positionMassPopover();if(vw&&vh){ctx.setTransform(dpr,0,0,dpr,0,0);background();if(showFieldLines)drawFieldLines();if(showFieldArrows||showSamplePoints)drawFieldSamples();drawTrails(masses,'mass');drawTrails(testMasses,'test');drawMasses();drawTestMass();drawSelectedVelocity();if(!sourceDrag){const drag=activeDrag?.moved?activeDrag:null,c=drag?.kind==='mass'?masses.find(c=>c.id===drag.id):drag?.kind==='test'?testMasses.find(t=>t.id===drag.id):null;if(c)showMassGhost(drag.kind==='test'?'test':c.mass,c.id,toScreen(c.x,c.y),drag.kind==='test'&&!drag.valid);else $('massGhost').hidden=true;}}requestAnimationFrame(render);}
+function drawFrame(){
+ positionMassPopover();
+ if(!vw||!vh)return;
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ background();
+ if(showFieldLines)drawFieldLines();
+ if(showFieldArrows||showSamplePoints)drawFieldSamples();
+ drawTrails(masses,'mass');
+ drawTrails(testMasses,'test');
+ drawMasses();
+ drawTestMass();
+ drawSelectedVelocity();
+ if(!sourceDrag){
+  const drag=activeDrag?.moved?activeDrag:null;
+  const object=drag?.kind==='mass'?masses.find(c=>c.id===drag.id):drag?.kind==='test'?testMasses.find(t=>t.id===drag.id):null;
+  if(object)showMassGhost(drag.kind==='test'?'test':object.mass,object.id,toScreen(object.x,object.y),drag.kind==='test'&&!drag.valid);
+  else $('massGhost').hidden=true;
+ }
+}
+function render(now){
+ if(Number.isFinite(now)){
+  const elapsed=lastFrameTime===null?0:(now-lastFrameTime)/1000;
+  lastFrameTime=now;
+  advanceSimulation(elapsed);
+ }
+ drawFrame();
+ requestAnimationFrame(render);
+}
 setMassArtwork($('addSource').querySelector('svg'));
 setMassArtwork($('addTest').querySelector('svg'));
 document.querySelectorAll('input[type=range]').forEach(input=>{updateRangeFill(input);input.addEventListener('input',()=>updateRangeFill(input));});
+const observer=new ResizeObserver(resize);observer.observe(canvas);resize();
 resetCamera();initializeEmptyScene();requestAnimationFrame(render);
 })();
 </script>
 <script src="../../assets/js/lab-toggle.js"></script>
 <script src="../../assets/js/lab-physics.js"></script>
-    <a class="scrollToTop" href="#top" aria-label="Επιστροφή στην κορυφή" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
 </body>
 </html>

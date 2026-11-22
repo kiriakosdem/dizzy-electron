@@ -1,12 +1,38 @@
+/* Match the dock's available width after its 32px inset and optional 292px sidebar. */
+@media (max-width: 892px) {
+    #lab {
+        --playback-position: absolute;
+        --idle-playback-display: flex;
+        --playback-grid-area: auto;
+        --playback-row-height: calc(var(--playback-control-height, var(--lab-bar-control-height)) + 16px + env(safe-area-inset-bottom));
+    }
+}
+@media (min-width: 893px) and (max-width: 1184px) and (min-height: 501px),
+       (min-width: 951px) and (max-width: 1184px) {
+    #lab.controls-open {
+        --playback-position: absolute;
+        --idle-playback-display: flex;
+        --playback-grid-area: auto;
+        --playback-row-height: calc(var(--playback-control-height, var(--lab-bar-control-height)) + 16px + env(safe-area-inset-bottom));
+    }
+}
+#lab:has(.time-bar) {
+    --playback-reserve: var(--playback-row-height, 0px);
+}
+#lab .field-frame { bottom: var(--playback-reserve, 0px); }
+@media (min-width: 751px) and (min-height: 501px), (min-width: 951px) {
+    #lab.controls-open .field-frame { --field-canvas-width: calc(100% + 292px); }
+}
+
 .canvas-dock {
     position: absolute;
-    left: max(18px, env(safe-area-inset-left));
-    right: max(18px, env(safe-area-inset-right));
-    bottom: max(18px, env(safe-area-inset-bottom));
+    left: max(var(--lab-overlay-inset), env(safe-area-inset-left));
+    right: max(var(--lab-overlay-inset), env(safe-area-inset-right));
+    bottom: calc(max(var(--lab-overlay-inset), env(safe-area-inset-bottom)) + var(--playback-reserve, 0px));
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: end;
-    gap: 8px;
+    gap: var(--lab-frame-inset);
     container-type: inline-size;
     pointer-events: none;
 }
@@ -17,15 +43,23 @@
 }
 
 .time-bar {
-    grid-area: 1 / 2;
-    justify-self: center;
+    grid-area: var(--playback-grid-area, 1 / 2);
+    position: var(--playback-position, static);
+    inset-inline: min(0px, var(--lab-frame-inset) - var(--lab-overlay-inset));
+    bottom: calc(max(var(--lab-frame-inset), env(safe-area-inset-bottom))
+        - max(var(--lab-overlay-inset), env(safe-area-inset-bottom)) - var(--playback-row-height, 0px));
+    margin-inline: auto;
     display: flex;
     align-items: center;
     gap: 4px;
-    max-width: 100%;
+    justify-content: space-between;
     padding: 3px;
-    font: 600 12px/1 system-ui, sans-serif;
+    font: 600 12px/1 var(--lab-ui-font);
     pointer-events: auto;
+}
+
+#lab:not(.test-active) .time-bar[data-hide-when-idle] {
+    display: var(--idle-playback-display, none);
 }
 
 .time-bar button, .time-bar select {
@@ -49,49 +83,64 @@
 .time-bar .playback-toggle {
     gap: 5px;
     width: 72px;
-    background: #77b1f6;
-    color: #08162b;
     font-weight: 700;
 }
 
-.time-bar button:enabled:hover, .time-bar select:hover { background-color: #25486e; }
-.time-bar .playback-toggle:enabled:hover { background: #9acbff; }
-.time-bar button:disabled { opacity: .45; cursor: default; }
 .time-bar svg { width: 16px; height: 16px; }
 .time-bar .playback-toggle svg { width: 14px; fill: currentColor; }
 
-.time-bar [role="timer"] {
-    min-width: 15ch;
-    padding: 0 4px 0 8px;
-    border-left: 1px solid rgba(150, 192, 242, .23);
-    font: 11px/22px ui-monospace, monospace;
-    font-variant-numeric: tabular-nums;
+#lab .time-bar .playback-icon { color: var(--text-secondary); }
+.time-bar .playback-step { width: 62px; gap: 4px; }
+
+#lab .time-bar [role="timer"] {
+    flex: none;
+    box-sizing: content-box;
+    width: 10ch;
+    padding: 0 5px;
+    color: var(--text-primary);
+    font: 600 13px/1 var(--lab-number-font);
+    text-align: center;
     white-space: nowrap;
 }
 
-.time-bar select { padding: 0 3px; color-scheme: dark; }
-.time-bar option { background: #0b1c31; color: #b9d4f2; }
+.time-bar select { color-scheme: dark; }
+.time-bar > select { min-width: 56px; }
 
-@media (pointer: coarse) {
-    .time-bar button { width: 44px; }
+/* Keep the selected multiplier compact when the menu includes effective rates. */
+.time-bar .playback-speed {
+    display: grid;
+    flex: none;
+    width: 56px;
+    align-items: center;
+}
+.time-bar .playback-speed > * { grid-area: 1 / 1; }
+.time-bar .playback-speed > span {
+    z-index: 1;
+    padding-left: 5px;
+    color: var(--text-primary);
+    pointer-events: none;
+}
+#lab .time-bar .playback-speed select {
+    width: 100%;
+    padding: 0;
+    color: transparent;
+}
+.time-bar :is(optgroup, option) {
+    background: var(--lab-navy);
+    color: var(--text-primary);
+}
+@media (forced-colors: active) {
+    #lab .time-bar .playback-speed select { color: ButtonText; }
+    .time-bar .playback-speed > span { visibility: hidden; }
 }
 
-@media (max-width: 500px) {
-    .canvas-dock {
-        left: max(12px, env(safe-area-inset-left));
-        right: max(12px, env(safe-area-inset-right));
-        bottom: max(12px, env(safe-area-inset-bottom));
-    }
-}
-
-/* A second bottom row gives playback the full width of a narrow canvas. */
-@container (max-width: 740px) {
-    .time-bar { grid-area: 2 / 1 / auto / -1; }
-}
-
-@container (max-width: 340px) {
+@container (max-width: 500px) {
     .time-bar { gap: 2px; }
-    .time-bar .playback-toggle { width: 60px; }
-    .time-bar button { width: 30px; }
-    .time-bar [role="timer"] { min-width: 12ch; padding: 0 4px; font-size: 10px; }
+    #lab .time-bar [role="timer"] { padding-inline: 3px; }
+    .time-bar :is(button.playback-toggle, button.playback-icon) { width: 44px; }
+    .time-bar :is(.playback-toggle, .playback-step) > span { display: none; }
+}
+@media (pointer: coarse), (max-width: 500px) {
+    #lab { --playback-control-height: 44px; }
+    .time-bar :is(button, select) { min-height: 44px; min-width: 44px; }
 }

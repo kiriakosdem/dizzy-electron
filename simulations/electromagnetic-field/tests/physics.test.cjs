@@ -40,6 +40,13 @@ assert.ok(report.maxDecompositionError < 1e-12);
 
 // A stationary charge gives E = (x,y)/R^3 and no magnetic field.
 const staticP = { amplitude: 0, frequency: 0.1, motion: 'continuous' };
+const { metersPerUnit, secondsPerUnit, electricFieldUnit, magneticFieldUnit } = P.SI;
+assert.ok(Math.abs(P.C * metersPerUnit / secondsPerUnit - 299_792_458) < 1e-6);
+const oneMeterField = P.sample(1 / metersPerUnit, 0, 0, staticP);
+assert.ok(oneMeterField.valid);
+assert.ok(Math.abs(oneMeterField.ex * electricFieldUnit - 8.98755179) < 1e-8,
+  'A stationary 1 nC charge produces about 8.99 V/m one meter away.');
+assert.ok(Math.abs(electricFieldUnit / magneticFieldUnit - 299_792_458) < 1e-6);
 const staticField = P.sample(3, 4, 9, staticP);
 assert.ok(Math.abs(staticField.ex - 3 / 125) < 1e-12);
 assert.ok(Math.abs(staticField.ey - 4 / 125) < 1e-12);
