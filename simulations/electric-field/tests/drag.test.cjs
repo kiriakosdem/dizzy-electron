@@ -29,7 +29,7 @@ function openLab(compact,{empty=false,random,startup=false}={}){
    rect:{left:0,top:0,right:0,bottom:0,width:0,height:0},
    classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle(c,on){if(on===undefined)on=!classes.has(c);on?classes.add(c):classes.delete(c);},contains:c=>classes.has(c)},
    getBoundingClientRect(){return this.rect;},getClientRects(){return this.hidden?[]:[this.rect];},
-   getContext(){return context;},setAttribute(name,value){attributes.set(name,String(value));},getAttribute(name){return attributes.get(name)??null;},focus(){},contains(){return false;},append(){},replaceChildren(){},
+   getContext(){return context;},setAttribute(name,value){attributes.set(name,String(value));},getAttribute(name){return attributes.get(name)??null;},removeAttribute(){},focus(){},contains(){return false;},append(){},before(){},after(){},replaceChildren(){},
    querySelector(selector){if(selector==='.selected')return null;if(!children.has(selector))children.set(selector,element());return children.get(selector);},
    addEventListener(type,handler){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(handler);},
    emit(type,values={}){
@@ -55,7 +55,11 @@ function openLab(compact,{empty=false,random,startup=false}={}){
  rect('chargeTray',18,top+height-100,253,82);rect('addPositive',31,top+height-87,64,56);
  rect('addNegative',105,top+height-87,64,56);rect('trashZone',182,top+height-87,76,56);
  rect('zoom',width-410,top+height-60,100,32);$('modeMessage').hidden=true;
- const document={hidden:false,addEventListener(){},getElementById:$,createElement:()=>element(),querySelector:selector=>selector==='.zoom'?$('zoom'):null,querySelectorAll:()=>[],
+ const controlsLayout=new Map([
+  ['.lab-header',element()],['.lab-workspace',element()],
+  ['.canvas-dock, .orbital-controls',$('canvasDock')],['.time-bar',$('testPlayback')]
+ ]);
+ const document={hidden:false,addEventListener(){},getElementById:$,createElement:()=>element(),querySelector:selector=>selector==='.zoom'?$('zoom'):controlsLayout.get(selector)??null,querySelectorAll:()=>[],
   elementFromPoint(){throw Error('Drop validation must not depend on the preview being absent from hit testing');}};
  const sandbox={document,window:{matchMedia:()=>({matches:compact,addEventListener(){}}),devicePixelRatio:1,
   addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{observe(){}},
@@ -66,6 +70,7 @@ function openLab(compact,{empty=false,random,startup=false}={}){
  vm.createContext(sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-scale.js"), "utf8"), sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-canvas.js"), "utf8"), sandbox);
+ vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-toggle.js"), "utf8"), sandbox);
  vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({charges,selectedId,activeDrag,sourceDrag,camera,testCharge:selectedTest()||null,testCharges,selectedTestId,placing}),seedSources:sources=>{charges=sources.map((c,i)=>({id:i+1,...c}));nextId=charges.length+1;selectedId=charges[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestCharge,advanceTestCharge,fieldAt,potentialAt,potentialColor};})();`),sandbox);
  const api=sandbox.labTest;
  // Use a clean workspace for gesture fixtures that don't exercise startup.

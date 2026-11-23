@@ -7,19 +7,19 @@
 <meta name="color-scheme" content="dark light">
 <meta name="description" content="An interactive, offline electromagnetic field laboratory with retarded Liénard–Wiechert fields, a moving point charge, and a movable field probe.">
 <title>Electromagnetic Field Laboratory</title>
-<link rel="stylesheet" href="lab.css?v=larger-tool-buttons">
-<link rel="stylesheet" href="sidebar.css?v=named-readouts">
+<link rel="stylesheet" href="lab.css?v=bottom-drawer">
+<link rel="stylesheet" href="sidebar.css?v=bottom-drawer">
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=tray-button-spacing">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=dock-spacing">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=solid-selections">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=time-layout">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-link">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=solid-selections">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=dock-spacing">
     <script src="../../assets/js/lab-canvas.js?v=dark-canvas"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -35,11 +35,13 @@
         <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><span class="lab-help-icon" aria-hidden="true">?</span></button>
     </div>
     <div class="lab-language"></div>
-    <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
+    <button class="panel-toggle dock-tile" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg>
+        <span class="drawer-toggle-label">Controls</span>
     </button>
 </header>
 <main id="lab" class="controls-open">
+    <div class="lab-workspace">
       <section class="stage" id="stage" aria-label="Interactive electromagnetic field visualization">
         <div class="canvas-frame playback-field-frame" id="canvasFrame">
             <canvas id="fieldCanvas" class="field-canvas" tabindex="0" aria-label="Electric and magnetic fields. Drag the charge to move it. Drag the probe to inspect the field. Shift-drag or choose View to move the view. Scroll to zoom. Arrow keys move the probe.">This simulation needs a browser with HTML canvas support.</canvas>
@@ -57,22 +59,22 @@
         <div id="toast" class="toast canvas-surface" role="status" aria-live="polite"></div>
         <div class="placement-message canvas-surface" id="placementMessage">Tap, click, or press Enter on the grid to place a charge.</div>
         <div class="canvas-empty canvas-surface" id="emptyMessage" hidden>Enable a field layer to show the field.</div>
-        <div class="canvas-dock">
+        <div class="canvas-dock lab-dock">
           <div class="pointer-tools canvas-surface" role="group" aria-label="Pointer tool">
             <div class="pointer-options">
-              <button type="button" data-tool="charge" aria-pressed="true">
+              <button class="dock-tile" type="button" data-tool="charge" aria-pressed="true">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 2 5 5-2-2 5 3 3-5 1-3 4-2-4-5 1 2-5-3-3 5-1zM8 10h4m-2-2v4"/></svg><span>Charge</span>
               </button>
-              <button type="button" data-tool="probe" aria-pressed="false">
+              <button class="dock-tile" type="button" data-tool="probe" aria-pressed="false">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 2v3m0 10v3M2 10h3m10 0h3m-6 0h-4m2-2v4"/></svg><span>Probe</span>
               </button>
-              <button type="button" data-tool="pan" aria-pressed="false">
+              <button class="dock-tile" type="button" data-tool="pan" aria-pressed="false">
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v16M2 10h16M7 5l3-3 3 3m-6 10 3 3 3-3M5 7l-3 3 3 3m10-6 3 3-3 3"/></svg><span>View</span>
               </button>
             </div>
           </div>
           <div class="time-bar canvas-surface" role="group" aria-label="Playback">
-              <button class="playback-toggle" id="playButton" type="button" aria-label="Play simulation" title="Play simulation">
+              <button class="playback-toggle dock-tile" id="playButton" type="button" aria-label="Play simulation" title="Play simulation">
                   <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
               </button>
               <button class="playback-icon playback-step" id="stepButton" type="button" aria-label="Step simulation forward" title="Step forward (.)" aria-keyshortcuts=".">
@@ -105,8 +107,25 @@
           </div>
         </div>
       </section>
-    <button type="button" class="panel-backdrop" id="controlsBackdrop" aria-label="Close controls" tabindex="-1" hidden></button>
+    </div>
+    <div class="panel-backdrop" id="controlsBackdrop" aria-hidden="true" hidden></div>
     <aside class="panel" id="controlsPanel" aria-label="Simulation controls">
+    <div class="drawer-heading">
+      <h2>Controls</h2>
+      <button class="drawer-close" id="controlsClose" type="button" aria-label="Close controls">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <details open class="panel-section drawer-playback" id="drawerPlayback">
+      <summary><h2>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
+        Time
+      </h2></summary>
+      <div class="drawer-playback-fields">
+        <label for="speedSelect">Playback speed</label>
+        <div class="drawer-playback-actions" id="drawerPlaybackActions"></div>
+      </div>
+    </details>
       <details open class="panel-section">
         <summary><h2>
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h3m5 0h8M2 14h9m5 0h2"/><circle cx="7.5" cy="6" r="2.5"/><circle cx="13.5" cy="14" r="2.5"/></svg>
@@ -206,8 +225,9 @@
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=dock-playback-labels"></script>
+    <script src="../../assets/js/lab-greek.js?v=time-section"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
+    <script src="../../assets/js/lab-toggle.js?v=stacked-dock"></script>
 <script id="physics-engine">
 "use strict";
 /** Retarded Lienard-Wiechert fields for a prescribed planar trajectory.
@@ -1054,7 +1074,7 @@ const ChargeFieldPhysics = (() => {
     pointers.clear(); drag = pinch = null; canvas.classList.remove("dragging"); canvas.style.cursor = "crosshair";
   });
   document.addEventListener("keydown", e => {
-    if ($( "physicsDialog").open) return;
+    if (labControls.drawerOpen || $("physicsDialog").open) return;
     const tag = document.activeElement?.tagName;
     if (["INPUT", "SELECT", "TEXTAREA"].includes(tag)) return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;
@@ -1122,52 +1142,6 @@ const ChargeFieldPhysics = (() => {
 })();
 
 </script>
-<script>
-(() => {
-  const lab = document.getElementById("lab");
-  const stage = document.getElementById("stage");
-  const panel = document.getElementById("controlsPanel");
-  const toggle = document.getElementById("controlsToggle");
-  const backdrop = document.getElementById("controlsBackdrop");
-  const compact = matchMedia("(max-width:750px), (max-height:500px) and (max-width:950px)");
-  const embedded = window.self !== window.top;
-
-  function setPanel(open) {
-    panel.hidden = !open;
-    lab.classList.toggle("controls-open", open);
-    backdrop.hidden = !(open && compact.matches);
-    stage.inert = open && compact.matches;
-    toggle.setAttribute("aria-expanded", String(open));
-    setLabCopy(toggle, open ? "Hide controls" : "Show controls", [], "aria-label");
-    document.getElementById("controlsToggleIcon").setAttribute("d", open ? "M5 5l10 10M15 5L5 15" : "M3 5h14M3 10h14M3 15h14");
-  }
-
-  function closePanel(focusTarget = toggle) {
-    setPanel(false);
-    focusTarget.focus({ preventScroll: true });
-  }
-
-  toggle.addEventListener("click", () => setPanel(panel.hidden));
-  backdrop.addEventListener("click", () => closePanel());
-  compact.addEventListener("change", () => {
-    const open = embedded ? !panel.hidden : !compact.matches;
-    if (!open && panel.contains(document.activeElement)) closePanel();
-    else setPanel(open);
-  });
-  document.addEventListener("keydown", event => {
-    if (panel.hidden || document.getElementById("physicsDialog").open) return;
-    if (event.key === "Escape") closePanel();
-    if (event.key !== "Tab" || !compact.matches) return;
-    const buttons = [...document.querySelectorAll(".lab-header a[href], .lab-header button"), ...panel.querySelectorAll("button, input, select, summary")]
-      .filter(element => !element.disabled && element.getClientRects().length);
-    const first = buttons[0], last = buttons[buttons.length - 1];
-    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-    if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-  });
-  setPanel(!embedded && !compact.matches);
-})();
-</script>
-<script src="../../assets/js/lab-toggle.js"></script>
 <script src="../../assets/js/lab-segments.js"></script>
 <script src="../../assets/js/lab-physics.js"></script>
 </body>

@@ -225,8 +225,72 @@
 @media (pointer: coarse) {
     .canvas-tools button { width: 44px; height: 44px; }
 }
+
 @media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
-    .controls-open .canvas-tools { visibility: hidden; }
+    #lab {
+        --dock-tile-width: clamp(54px, 13.8vw, 62px);
+        --dock-tile-height: 46px;
+        --dock-tile-gap: 3px;
+        --dock-section-gap: clamp(10px, 3vw, 15px);
+        --dock-divider: color-mix(in srgb, var(--text-secondary) 42%, transparent);
+    }
+
+    .lab-dock {
+        align-items: center;
+        gap: var(--dock-tile-gap) var(--dock-section-gap);
+        padding: 4px;
+        border-radius: 14px;
+        background: var(--glass-tint);
+        box-shadow: var(--lab-glass-surface-shadow);
+    }
+
+    .lab-dock::after,
+    .canvas-dock::before {
+        content: "";
+        position: absolute;
+        inset-block: 6px;
+        inset-inline-start: calc((var(--dock-section-gap) + 1px) / -2);
+        width: 1px;
+        background: var(--dock-divider);
+        pointer-events: none;
+    }
+    .lab-dock::after { grid-area: settings; }
+    .canvas-dock::before { grid-area: playback; }
+
+    #lab .lab-dock .dock-tile {
+        display: grid;
+        grid-template: 18px auto / minmax(0, 1fr);
+        align-content: center;
+        justify-items: center;
+        gap: 2px;
+        width: var(--dock-tile-width);
+        height: var(--dock-tile-height);
+        min-width: 0;
+        padding: 2px 0;
+        font: 650 clamp(10px, 2.4vw, 11px)/1.05 var(--lab-ui-font);
+        text-align: center;
+        white-space: normal;
+    }
+
+    #lab .lab-dock .dock-tile > svg {
+        align-self: center;
+        width: 18px;
+        height: 18px;
+    }
+
+    #lab .lab-dock .dock-tile > span {
+        display: block;
+        align-self: start;
+        min-width: 0;
+        line-height: inherit;
+        white-space: normal;
+    }
+    #lab .lab-dock .tray-items > .test-source > span,
+    #lab .lab-dock [data-tool="probe"]:lang(el) > span {
+        font-size: clamp(8px, 2vw, 9px);
+    }
+
+    #lab .lab-dock #controlsToggle { grid-area: settings; }
 }
 
 @media (max-width: 440px) {

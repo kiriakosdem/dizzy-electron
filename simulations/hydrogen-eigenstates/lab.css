@@ -17,8 +17,6 @@ button,select,input{font:inherit;touch-action:manipulation}button,select{cursor:
     background-image:radial-gradient(circle 75cqmax at 58% 48%, var(--lab-scene-glow), transparent);
 }
 canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}
-.panel{position:absolute;inset:0 0 0 auto;width:292px;overflow-y:auto;overscroll-behavior:contain;z-index:3}
-.panel-backdrop{display:none}
 .quantum-rows { display: grid; gap: calc(var(--lab-frame-inset) / 2); }
 .quantum-rows label {
     display: grid;
@@ -56,17 +54,6 @@ output{font-variant-numeric:tabular-nums}
 details{font-size:11px;line-height:1.7;color:var(--text-muted)}summary{color:var(--text-secondary);cursor:pointer;min-height:30px}details a{color:var(--text-accent)}
 .render-status{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:12px 16px;max-width:90%;width:max-content;font-size:12px;line-height:1.6}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-@media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
-    .panel { width: min(320px, 100%); }
-    .panel-backdrop {
-        display: block;
-        position: absolute;
-        inset: 0;
-        z-index: 2;
-        border: 0;
-        background: rgb(2 8 20 / 48%);
-    }
-}
 @media(prefers-reduced-motion:reduce){#viewport{transition:none}}
 
 .orbital-legend {
@@ -120,32 +107,71 @@ details{font-size:11px;line-height:1.7;color:var(--text-muted)}summary{color:var
     font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 750px), (pointer: coarse) and (max-height: 500px) and (max-width: 950px) {
-    #lab { --playback-reserve: calc(60px + env(safe-area-inset-bottom)); }
+@media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
+    #lab { --playback-reserve: calc(var(--dock-tile-height) + 18px + env(safe-area-inset-bottom)); }
     #viewport { bottom: var(--playback-reserve); }
     .orbital-controls {
+        --orbital-step-width: clamp(28px, 7.75vw, 44px);
         inset-inline: max(var(--lab-frame-inset), env(safe-area-inset-left))
                       max(var(--lab-frame-inset), env(safe-area-inset-right));
         bottom: max(var(--lab-frame-inset), env(safe-area-inset-bottom));
+        grid-template: "orbitals settings" / minmax(0, 480px) auto;
+        justify-content: center;
     }
     #stateName {
         position: absolute;
         left: var(--lab-frame-inset);
-        bottom: calc(var(--playback-reserve) + var(--lab-overlay-inset) - max(var(--lab-frame-inset), env(safe-area-inset-bottom)));
+        bottom: calc(100% + var(--lab-overlay-inset));
     }
     .quantum-controls {
+        grid-area: orbitals;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0;
+        gap: var(--dock-section-gap);
         width: 100%;
     }
-    #lab .quantum-stepper { min-width: 0; border-radius: 0; }
-    #lab .quantum-stepper:first-child { border-start-start-radius: 14px; border-end-start-radius: 14px; }
-    #lab .quantum-stepper:last-child { border-start-end-radius: 14px; border-end-end-radius: 14px; }
-    #lab .quantum-stepper button { width: clamp(24px, 8.125vw, 36px); height: 36px; }
-    .quantum-stepper > span { min-width: 0; font-size: clamp(10px, 3.125vw, 12px); white-space: nowrap; }
+    #lab .quantum-stepper {
+        position: relative;
+        display: grid;
+        grid-template-columns: var(--orbital-step-width) minmax(0, 1fr) var(--orbital-step-width);
+        align-items: center;
+        justify-items: center;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+    }
+    .quantum-stepper + .quantum-stepper::before {
+        content: "";
+        position: absolute;
+        inset-block: 6px;
+        inset-inline-start: calc((var(--dock-section-gap) + 1px) / -2);
+        width: 1px;
+        background: var(--dock-divider);
+        pointer-events: none;
+    }
+    #lab .quantum-stepper button {
+        width: 100%;
+        height: var(--dock-tile-height);
+    }
+    .quantum-stepper > span { min-width: 0; padding-inline: 2px; font-size: clamp(9px, 2.5vw, 12px); white-space: nowrap; }
 }
-@media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
-    .controls-open .orbital-controls { visibility: hidden; }
+
+@media (max-width: 459px) {
+    .quantum-controls { --dock-section-gap: 8px; }
+    .orbital-controls { --orbital-step-width: 28px; }
+    .quantum-stepper > span { padding-inline: 0; }
+}
+
+@media (max-width: 383px) {
+    #lab { --playback-reserve: calc(2 * var(--dock-tile-height) + 22px + env(safe-area-inset-bottom)); }
+    .orbital-controls {
+        grid-template: "orbitals" "settings" / minmax(0, 1fr);
+    }
+    .orbital-controls::after { display: none; }
+    .orbital-controls > #controlsToggle { justify-self: center; }
 }
 
 @media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}

@@ -14,11 +14,9 @@ canvas{display:block;width:var(--field-canvas-width, 100%);height:100%;touch-act
 canvas.dragging{cursor:grabbing}
 canvas.placing{cursor:crosshair}
 canvas:focus,canvas:focus-visible{outline:none}
-.panel{position:absolute;top:0;right:0;bottom:0;width:292px;overflow-y:auto;overscroll-behavior:contain;z-index:3}
 [hidden]{display:none!important}
 .panel-toggle{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:44px;min-height:44px;padding:0;border:1px solid rgba(159,197,255,.3);border-radius:11px;background:#102440;color:var(--text-primary);font-size:13px;font-weight:650;box-shadow:0 6px 24px #0004}
 .panel-toggle svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
-.panel-backdrop{display:none}
 button,input{touch-action:manipulation}
 button:focus-visible,input:focus-visible{outline:2px solid #9acbff;outline-offset:3px}
 .eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--text-accent);text-transform:uppercase}
@@ -90,15 +88,12 @@ button:disabled{cursor:default;opacity:.45}
 .mass-ghost.test{display:grid;place-items:center}.mass-ghost.test .mass-art{width:20px;height:20px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media(max-width:750px),(max-height:500px) and (max-width:950px){
- .panel{width:min(320px,100%)}
- .panel-backdrop{display:block;position:absolute;inset:0;z-index:2;border:0;background:rgba(2,8,20,.48)}
- #lab.controls-open .legend,#lab.controls-open .hud,#lab.controls-open .mode-msg,#lab.controls-open .mass-tray,#lab.controls-open .canvas-dock{visibility:hidden}
- .test-active .mode-msg{bottom:calc(246px + env(safe-area-inset-bottom))}
+ .controls-open .legend{right:max(var(--lab-overlay-inset),env(safe-area-inset-right))}
+ .controls-open .mode-msg{left:50%;max-width:calc(100% - 32px)}
  .action-button{min-height:44px}.control-label{font-size:12px}.action-button{font-size:12px}
  .control-label{margin:6px 0 5px}
 
  .mass-tray{left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));padding:10px}
- .mode-msg{bottom:calc(214px + env(safe-area-inset-bottom));font-size:12px}
 }
 .canvas-dock{z-index:1}
 .controls-open .canvas-dock{right:calc(292px + max(var(--lab-overlay-inset),env(safe-area-inset-right)))}
@@ -119,16 +114,16 @@ button:disabled{cursor:default;opacity:.45}
 @media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=tray-button-spacing">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=dock-spacing">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=solid-selections">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=time-layout">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-link">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=solid-selections">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=dock-spacing">
     <script src="../../assets/js/lab-canvas.js?v=dark-canvas"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -144,11 +139,13 @@ button:disabled{cursor:default;opacity:.45}
         <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><span class="lab-help-icon" aria-hidden="true">?</span></button>
     </div>
     <div class="lab-language"></div>
-    <button class="panel-toggle" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
+    <button class="panel-toggle dock-tile" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg>
+        <span class="drawer-toggle-label">Controls</span>
     </button>
 </header>
 <div id="lab">
+    <div class="lab-workspace">
   <div class="canvas-frame field-frame">
     <canvas id="fieldCanvas" tabindex="0" aria-label="Interactive gravitational-field vector visualization" aria-description="Drag masses from the tray onto the canvas. Drag a mass into Trash to remove it, or select it and press Delete or Backspace. Drag the background to pan; pinch or scroll to zoom."></canvas>
     <div class="field-empty-message canvas-surface" id="emptyMessage">Drag a mass from the tray onto the grid.</div>
@@ -162,8 +159,72 @@ button:disabled{cursor:default;opacity:.45}
     </button>
     <span class="canvas-tools-message canvas-surface" id="canvasToolsMessage" role="status" hidden></span>
   </div>
-  <button class="panel-backdrop" id="controlsBackdrop" type="button" aria-label="Close controls" tabindex="-1" hidden></button>
+  <div class="mass-popover canvas-surface" id="massPopover" role="group" aria-label="Selected mass slider" hidden>
+    <label class="control-label" for="canvasMassStrength"><span id="canvasMassName">Mass</span><span><span id="canvasStrengthText">4.0</span> <i>M</i><sub>⊕</sub></span></label>
+    <input type="range" id="canvasMassStrength" min="0.1" max="10" step="0.1" value="4" aria-label="Selected mass in Earth masses"/>
+    <div class="range-scale" aria-hidden="true"><span>0.1</span><span id="massScaleMiddle">5</span><span id="massScaleMax">10</span></div>
+  </div>
+  <div class="canvas-dock lab-dock" id="canvasDock">
+  <div class="mass-tray canvas-surface" id="massTray" role="group" aria-label="Mass tray">
+    <div class="tray-items">
+      <button class="source-stack dock-tile" id="addSource" type="button" aria-label="Mass: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a 4 Earth-mass source, or click then place"><svg class="mass-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><path class="asteroid-facet" d="M-16 -8 -8 -17 2 -18 9 -12 -2 -10 -10 1Z"/><circle class="asteroid-crater" cx="-6" cy="-4" r="4.2"/><circle class="asteroid-crater" cx="7" cy="5" r="3.4"/><circle class="asteroid-crater" cx="-5" cy="10" r="2"/><circle class="asteroid-crater" cx="9" cy="-7" r="1.8"/><text/></svg><span>Mass</span></button>
+      <button class="source-stack test-source dock-tile" id="addTest" type="button" aria-label="Drag a test mass onto the canvas, or click then place" aria-pressed="false" title="Add a test mass at rest"><svg class="mass-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><path class="asteroid-facet" d="M-16 -8 -8 -17 2 -18 9 -12 -2 -10 -10 1Z"/><circle class="asteroid-crater" cx="-6" cy="-4" r="4.2"/><circle class="asteroid-crater" cx="7" cy="5" r="3.4"/><circle class="asteroid-crater" cx="-5" cy="10" r="2"/><circle class="asteroid-crater" cx="9" cy="-7" r="1.8"/><text/></svg><span>Test mass</span></button>
+      <button class="trash-zone danger-button dock-tile" id="trashZone" type="button" aria-label="Delete selected mass, or drag a mass here" title="Drop a mass here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Delete</span></button>
+    </div>
+  </div>
+  <div class="time-bar canvas-surface" id="testPlayback" data-hide-when-idle role="group" aria-label="Playback for all masses">
+      <button class="playback-toggle dock-tile" id="pauseTest" type="button" disabled aria-label="Play all masses" title="Play all masses">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
+      </button>
+      <button class="playback-icon playback-step" id="stepButton" type="button" disabled aria-label="Step simulation forward" title="Step forward (.)" aria-keyshortcuts=".">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 3v10l7-5zM11 3h2v10h-2z"/></svg><span>Step</span>
+      </button>
+      <button class="playback-icon playback-reset" id="resetTest" type="button" disabled aria-label="Reset all masses to their starting positions and velocities" title="Reset all masses to their starting positions and velocities">
+          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
+      </button>
+      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated days">0.00 d</span>
+      <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
+          <option value="0.1">0.1×</option><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option>
+          <option id="sliderRate" value="custom" hidden disabled></option>
+      </select>
+  </div>
+  <div class="hud" role="group" aria-label="Distance scale and zoom">
+    <div class="scale-readout"><span id="distanceLabel"></span><div class="scale-rule" id="scaleRule"></div></div>
+    <div class="zoom canvas-surface" role="group" aria-label="View controls">
+        <button type="button" id="zoomOut" aria-label="Zoom out" title="Zoom out"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
+        <output id="zoomLabel" aria-label="Zoom level">100%</output>
+        <button type="button" id="zoomIn" aria-label="Zoom in" title="Zoom in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
+        <button type="button" id="resetView" aria-label="Reset view" title="Reset view"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m2 8 6-5 6 5M4 6.5V13h8V6.5"/></svg></button>
+    </div>
+  </div>
+  </div>
+  <div class="mass-ghost" id="massGhost" hidden aria-hidden="true"><svg class="mass-art" viewBox="-24 -24 48 48"><path/><path class="asteroid-facet" d="M-16 -8 -8 -17 2 -18 9 -12 -2 -10 -10 1Z"/><circle class="asteroid-crater" cx="-6" cy="-4" r="4.2"/><circle class="asteroid-crater" cx="7" cy="5" r="3.4"/><circle class="asteroid-crater" cx="-5" cy="10" r="2"/><circle class="asteroid-crater" cx="9" cy="-7" r="1.8"/><text/></svg></div>
+  <div class="sr-only" id="actionStatus" role="status" aria-live="polite"></div>
+  <div class="legend canvas-surface" id="fieldLegend" aria-label="Visualization legend">
+    <div class="legend-item" id="gravitationalFieldLegend"><span class="legend-vector" role="img" aria-label="Vector">↗</span><span>Gravitational field</span></div>
+    <div class="legend-item" id="strengthLegend" hidden><span class="gradient" role="img" aria-label="Weak to strong"></span><span>Field strength</span></div>
+    <div class="legend-item" id="potentialLegend" hidden title="Φ = −G Σ(M/r), in J/kg, zero at infinity. Logarithmic color intensity; adjusted by Display sensitivity."><span class="gradient potential-gradient" role="img" aria-label="More negative to zero"></span><span>Gravitational potential</span></div>
+  </div>
+  <div class="mode-msg canvas-surface" id="modeMessage" role="status" hidden><span id="modeMessageText">Tap or click the grid to place your mass.</span><button id="cancelPlacement" type="button">Cancel</button></div>
+    </div>
+    <div class="panel-backdrop" id="controlsBackdrop" aria-hidden="true" hidden></div>
   <aside class="panel" id="controlsPanel" aria-label="Field controls">
+    <div class="drawer-heading">
+      <h2>Controls</h2>
+      <button class="drawer-close" id="controlsClose" type="button" aria-label="Close controls">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+    <details open class="panel-section drawer-playback" id="drawerPlayback">
+      <summary><h2>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
+        Time
+      </h2></summary>
+      <div class="drawer-playback-fields">
+        <label for="speedSelect">Playback speed</label>
+        <div class="drawer-playback-actions" id="drawerPlaybackActions"></div>
+      </div>
+    </details>
     <details class="panel-section" id="visualizationSettings" aria-label="Display settings">
     <summary><h2>
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
@@ -229,53 +290,6 @@ button:disabled{cursor:default;opacity:.45}
       </div>
     </details>
   </aside>
-  <div class="mass-popover canvas-surface" id="massPopover" role="group" aria-label="Selected mass slider" hidden>
-    <label class="control-label" for="canvasMassStrength"><span id="canvasMassName">Mass</span><span><span id="canvasStrengthText">4.0</span> <i>M</i><sub>⊕</sub></span></label>
-    <input type="range" id="canvasMassStrength" min="0.1" max="10" step="0.1" value="4" aria-label="Selected mass in Earth masses"/>
-    <div class="range-scale" aria-hidden="true"><span>0.1</span><span id="massScaleMiddle">5</span><span id="massScaleMax">10</span></div>
-  </div>
-  <div class="canvas-dock" id="canvasDock">
-  <div class="mass-tray canvas-surface" id="massTray" role="group" aria-label="Mass tray">
-    <div class="tray-items">
-      <button class="source-stack" id="addSource" type="button" aria-label="Mass: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a 4 Earth-mass source, or click then place"><svg class="mass-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><path class="asteroid-facet" d="M-16 -8 -8 -17 2 -18 9 -12 -2 -10 -10 1Z"/><circle class="asteroid-crater" cx="-6" cy="-4" r="4.2"/><circle class="asteroid-crater" cx="7" cy="5" r="3.4"/><circle class="asteroid-crater" cx="-5" cy="10" r="2"/><circle class="asteroid-crater" cx="9" cy="-7" r="1.8"/><text/></svg><span>Mass</span></button>
-      <button class="source-stack test-source" id="addTest" type="button" aria-label="Drag a test mass onto the canvas, or click then place" aria-pressed="false" title="Add a test mass at rest"><svg class="mass-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><path class="asteroid-facet" d="M-16 -8 -8 -17 2 -18 9 -12 -2 -10 -10 1Z"/><circle class="asteroid-crater" cx="-6" cy="-4" r="4.2"/><circle class="asteroid-crater" cx="7" cy="5" r="3.4"/><circle class="asteroid-crater" cx="-5" cy="10" r="2"/><circle class="asteroid-crater" cx="9" cy="-7" r="1.8"/><text/></svg><span>Test mass</span></button>
-      <button class="trash-zone danger-button" id="trashZone" type="button" aria-label="Delete selected mass, or drag a mass here" title="Drop a mass here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Delete</span></button>
-    </div>
-  </div>
-  <div class="time-bar canvas-surface" id="testPlayback" data-hide-when-idle role="group" aria-label="Playback for all masses">
-      <button class="playback-toggle" id="pauseTest" type="button" disabled aria-label="Play all masses" title="Play all masses">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
-      </button>
-      <button class="playback-icon playback-step" id="stepButton" type="button" disabled aria-label="Step simulation forward" title="Step forward (.)" aria-keyshortcuts=".">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 3v10l7-5zM11 3h2v10h-2z"/></svg><span>Step</span>
-      </button>
-      <button class="playback-icon playback-reset" id="resetTest" type="button" disabled aria-label="Reset all masses to their starting positions and velocities" title="Reset all masses to their starting positions and velocities">
-          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
-      </button>
-      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated days">0.00 d</span>
-      <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
-          <option value="0.1">0.1×</option><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option>
-          <option id="sliderRate" value="custom" hidden disabled></option>
-      </select>
-  </div>
-  <div class="hud" role="group" aria-label="Distance scale and zoom">
-    <div class="scale-readout"><span id="distanceLabel"></span><div class="scale-rule" id="scaleRule"></div></div>
-    <div class="zoom canvas-surface" role="group" aria-label="View controls">
-        <button type="button" id="zoomOut" aria-label="Zoom out" title="Zoom out"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
-        <output id="zoomLabel" aria-label="Zoom level">100%</output>
-        <button type="button" id="zoomIn" aria-label="Zoom in" title="Zoom in"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
-        <button type="button" id="resetView" aria-label="Reset view" title="Reset view"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m2 8 6-5 6 5M4 6.5V13h8V6.5"/></svg></button>
-    </div>
-  </div>
-  </div>
-  <div class="mass-ghost" id="massGhost" hidden aria-hidden="true"><svg class="mass-art" viewBox="-24 -24 48 48"><path/><path class="asteroid-facet" d="M-16 -8 -8 -17 2 -18 9 -12 -2 -10 -10 1Z"/><circle class="asteroid-crater" cx="-6" cy="-4" r="4.2"/><circle class="asteroid-crater" cx="7" cy="5" r="3.4"/><circle class="asteroid-crater" cx="-5" cy="10" r="2"/><circle class="asteroid-crater" cx="9" cy="-7" r="1.8"/><text/></svg></div>
-  <div class="sr-only" id="actionStatus" role="status" aria-live="polite"></div>
-  <div class="legend canvas-surface" id="fieldLegend" aria-label="Visualization legend">
-    <div class="legend-item" id="gravitationalFieldLegend"><span class="legend-vector" role="img" aria-label="Vector">↗</span><span>Gravitational field</span></div>
-    <div class="legend-item" id="strengthLegend" hidden><span class="gradient" role="img" aria-label="Weak to strong"></span><span>Field strength</span></div>
-    <div class="legend-item" id="potentialLegend" hidden title="Φ = −G Σ(M/r), in J/kg, zero at infinity. Logarithmic color intensity; adjusted by Display sensitivity."><span class="gradient potential-gradient" role="img" aria-label="More negative to zero"></span><span>Gravitational potential</span></div>
-  </div>
-  <div class="mode-msg canvas-surface" id="modeMessage" role="status" hidden><span id="modeMessageText">Tap or click the grid to place your mass.</span><button id="cancelPlacement" type="button">Cancel</button></div>
 </div>
 <dialog id="physicsDialog" aria-labelledby="physicsTitle">
   <div class="dialog-head"><h2 id="physicsTitle">The Gravitational Field</h2><button id="closePhysics" type="button" aria-label="Close physics notes"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
@@ -294,26 +308,15 @@ button:disabled{cursor:default;opacity:.45}
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=dock-playback-labels"></script>
+    <script src="../../assets/js/lab-greek.js?v=time-section"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
+    <script src="../../assets/js/lab-toggle.js?v=stacked-dock"></script>
 <script>
 (()=>{'use strict';
 const lab=document.getElementById('lab'), canvas=document.getElementById('fieldCanvas'), ctx=canvas.getContext('2d',{alpha:false});
 const $=id=>document.getElementById(id);
-const compactLayout=window.matchMedia('(max-width:750px), (max-height:500px) and (max-width:950px)');
-const embedded=window.self!==window.top;
-let controlsOpen=!embedded&&!compactLayout.matches,massHover=null,touchEditorId=null;
-function setControlsOpen(open,{returnFocus=false}={}){
- controlsOpen=open;$('controlsPanel').hidden=!open;$('controlsBackdrop').hidden=!open||!compactLayout.matches;
- $('controlsToggle').setAttribute('aria-expanded',String(open));
- setLabCopy($('controlsToggle'), open ? 'Hide controls' : 'Show controls', [], 'aria-label');
- $('controlsToggleIcon').setAttribute('d',open?'M5 5l10 10M15 5L5 15':'M3 5h14M3 10h14M3 15h14');lab.classList.toggle('controls-open',open);
- if(returnFocus)$('controlsToggle').focus({preventScroll:true});
-}
-$('controlsToggle').onclick=()=>setControlsOpen(!controlsOpen);
-$('controlsBackdrop').onclick=()=>setControlsOpen(false,{returnFocus:true});
-compactLayout.addEventListener('change',()=>setControlsOpen(embedded?controlsOpen:!compactLayout.matches,{returnFocus:!embedded&&$('controlsPanel').contains(document.activeElement)}));
-setControlsOpen(controlsOpen);
+const compactLayout=labControls.compact;
+let massHover=null,touchEditorId=null;
 setupLabCanvasTools(() => visibleFieldSnapshot(canvas, $('controlsPanel')), () => 'gravitational-field.png');
 const SAMPLE=50, MINOR=25, MAJOR=100, SUPER_MAJOR=400, MIN_ZOOM=.30,MAX_ZOOM=2;
 const PAN_X=2000,PAN_Y=1500;
@@ -360,7 +363,7 @@ function loadMassConfiguration(kind,{initial=false}={}){
  assignPresetVelocities(layout,kind);
  cancelInteraction();placing=0;testSelected=false;simulationTime=0;removeAllTestMasses();nextId=1;
  masses=layout.map(c=>createSourceMass({id:nextId++,...c}));selectedId=masses[0].id;
- if(!initial&&compactLayout.matches)setControlsOpen(false,{returnFocus:true});
+ if(!initial&&compactLayout.matches)labControls.close();
  fitMassesToView(kind==='pair');setMode();syncPanel();
  const count=masses.length, presetName=kind.charAt(0).toUpperCase()+kind.slice(1);
  setLabCopy($('actionStatus'), () => labText(count===1 ? '{0} configuration loaded. {1} mass.' : '{0} configuration loaded. {1} masses.', labText(presetName), count));
@@ -394,7 +397,7 @@ function fitMassesToView(orbit=false){
  if(!masses.length)return;
  let xmin=Math.min(...masses.map(c=>c.x)),xmax=Math.max(...masses.map(c=>c.x)),ymin=Math.min(...masses.map(c=>c.y)),ymax=Math.max(...masses.map(c=>c.y));
  if(orbit){const radius=Math.hypot(xmax-xmin,ymax-ymin)/2,centerX=(xmin+xmax)/2,centerY=(ymin+ymax)/2;xmin=centerX-radius;xmax=centerX+radius;ymin=centerY-radius;ymax=centerY+radius;}
- const visibleWidth=vw-(controlsOpen&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),topPadding=Math.min(80,vh*.2);
+ const visibleWidth=vw-(labControls.open&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),topPadding=Math.min(80,vh*.2);
  const dock=$('canvasDock').getBoundingClientRect();
  const dockBelowCanvas=dock.top>=canvas.getBoundingClientRect().bottom;
  const dockHeight=vw<=500?Math.max(dock.height,208):Math.max($('massTray').getBoundingClientRect().height,150);
@@ -419,7 +422,7 @@ function resize(){
  drawFrame();
 }
 function setMode(){canvas.classList.toggle('placing',placing!==0);$('addSource').classList.toggle('active',placing===4);$('addSource').setAttribute('aria-pressed',String(placing===4));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));setLabCopy($('modeMessageText'), placing==='test'?'Click or tap to release the test mass from rest. Press Enter to place near view center.':'Tap or click the grid to place your mass.');$('modeMessage').hidden=placing===0;positionMassPopover();}
-function startPlacing(sourceMass){placing=(placing===sourceMass?0:sourceMass);if(sourceMass==='test')selectTestMass();else if(testSelected){testSelected=false;syncPanel();}setMode();if(placing&&compactLayout.matches)setControlsOpen(false,{returnFocus:true});if(placing==='test')canvas.focus({preventScroll:true});}
+function startPlacing(sourceMass){placing=(placing===sourceMass?0:sourceMass);if(sourceMass==='test')selectTestMass();else if(testSelected){testSelected=false;syncPanel();}setMode();if(placing&&compactLayout.matches)labControls.close();if(placing==='test')canvas.focus({preventScroll:true});}
 $('cancelPlacement').onclick=()=>{placing=0;setMode();};
 function createSourceMass(source){
  const {id,x,y,mass,vx=0,vy=0}=source;
@@ -486,7 +489,7 @@ function placeTestMass(x,y){
 }
 function placeFromTool(x,y,kind){if(kind==='test')return placeTestMass(x,y);addMass(x,y,kind);return true;}
 function placeTestNearCenter(){
- const visibleWidth=vw-(controlsOpen&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),rect=canvas.getBoundingClientRect();
+ const visibleWidth=vw-(labControls.open&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),rect=canvas.getBoundingClientRect();
  for(let radius=0;radius<=160;radius+=40)for(let i=0;i<(radius?8:1);i++){
   const x=visibleWidth/2+radius*Math.cos(i*Math.PI/4),y=vh/2+radius*Math.sin(i*Math.PI/4),world=toWorld(x,y);
   if(canPlaceTestMass(world.x,world.y)&&overWorkspace({clientX:rect.left+x,clientY:rect.top+y},8)){placeTestMass(world.x,world.y);placing=0;setMode();return;}
@@ -646,7 +649,7 @@ function applyCoordinate(axis,input){
  }else releaseSourceMass(c);
  syncCoordinateInputs(c);
  // Follow precise moves that would otherwise put the mass outside the visible grid.
- const p=toScreen(c.x,c.y),visibleWidth=vw-(controlsOpen&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0);
+ const p=toScreen(c.x,c.y),visibleWidth=vw-(labControls.open&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0);
  if(p.x<32||p.x>visibleWidth-32||p.y<32||p.y>vh-32){
   camera.x=c.x+(vw-visibleWidth)/(2*camera.zoom);camera.y=c.y;constrainCamera();
  }
@@ -718,8 +721,8 @@ window.addEventListener('pointermove',e=>{
 lab.addEventListener('pointerleave',()=>{massHover=null;positionMassPopover();});
 function positionMassPopover(){
  const editor=$('massPopover'),c=selected();
- if(!c||testSelected||placing||sourceDrag||activeDrag||(compactLayout.matches&&controlsOpen)){editor.hidden=true;return;}
- const p=toScreen(c.x,c.y),visibleWidth=vw-(controlsOpen&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0);
+ if(!c||testSelected||placing||sourceDrag||activeDrag||(compactLayout.matches&&labControls.open)){editor.hidden=true;return;}
+ const p=toScreen(c.x,c.y),visibleWidth=vw-(labControls.open&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0);
  const width=editor.getBoundingClientRect().width||190,height=editor.getBoundingClientRect().height||80;
  const x=clamp(p.x-width/2,8,visibleWidth-width-8),y=Math.max(8,p.y-height-34);
  if(p.x<0||p.x>visibleWidth||p.y<0||p.y>vh||visibleWidth<width+16){editor.hidden=true;return;}
@@ -939,7 +942,7 @@ for(const type of ['click','dblclick'])window.addEventListener(type,e=>{
  if(suppressDragClick&&e.detail!==0){e.preventDefault();e.stopImmediatePropagation();}
 },true);
 canvas.addEventListener('dblclick',e=>{if(placing||!overWorkspace(e,MASS_RADIUS))return;const p=pointerPos(e);if(!massAt(p)){const w=toWorld(p.x,p.y);addMass(w.x,w.y,4);}});
-window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('massPopover').hidden){closeMassEditor();canvas.focus({preventScroll:true});return;}cancelInteraction(true);placing=0;setMode();if(controlsOpen)setControlsOpen(false,{returnFocus:true});}
+window.addEventListener('keydown',e=>{if(labControls.drawerOpen)return;if(e.key==='Escape'){if(!$('massPopover').hidden){closeMassEditor();canvas.focus({preventScroll:true});return;}cancelInteraction(true);placing=0;setMode();if(labControls.open)labControls.close();}
  if(e.key==='.'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target?.closest?.('input,select,textarea,[contenteditable]')&&!$('physicsDialog').open&&!$('stepButton').disabled){e.preventDefault();stepMasses();}
  if(e.key==='Enter'&&e.target===canvas&&placing==='test'){e.preventDefault();placeTestNearCenter();}
   if((e.key==='Delete'||e.key==='Backspace')&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)&&!e.target.isContentEditable){e.preventDefault();removeSelection();}
@@ -1236,7 +1239,6 @@ loadMassConfiguration('pair',{initial:true});
 requestAnimationFrame(render);
 })();
 </script>
-<script src="../../assets/js/lab-toggle.js"></script>
 <script src="../../assets/js/lab-physics.js"></script>
 </body>
 </html>
