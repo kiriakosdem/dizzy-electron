@@ -9,28 +9,37 @@ const labControls = (() => {
     const panel = $('controlsPanel');
     const backdrop = $('controlsBackdrop');
     const embedded = window.self !== window.top;
-    const compact = window.matchMedia(embedded ? 'not all' : '(max-width: 892px), (max-height: 500px) and (max-width: 950px)');
+    const root = document.documentElement;
+    const compactViewport = window.matchMedia('(max-width: 892px), (max-height: 500px) and (max-width: 950px)');
 
     const playbackBar = document.querySelector('.time-bar');
-    const simulationReset = $('simulationReset');
-    const reset = playbackBar?.querySelector('.playback-reset');
-    const timer = playbackBar?.querySelector('[role="timer"]');
+    let compact;
+    let canvasWidth = 0;
     let sidebarSections;
+    let drawerSections;
+
+    function updatePlaybackLayout() {
+        if (playbackBar) {
+            lab.classList.toggle('desktop-playback-layout', !compact && (!embedded || canvasWidth >= 600));
+        }
+    }
 
     if (embedded && playbackBar) {
         const canvasFrame = workspace.querySelector('.canvas-frame');
         new ResizeObserver(([entry]) => {
             // The sidebar takes space from the canvas in a lesson iframe.
-            lab.classList.toggle('desktop-playback-layout', entry.contentRect.width >= 600);
+            canvasWidth = entry.contentRect.width;
+            updatePlaybackLayout();
         }).observe(canvasFrame);
     }
 
     function setOpen(open) {
-        const drawerOpen = open && compact.matches;
-        if (drawerOpen) {
+        const drawerOpen = open && compact;
+        if (drawerOpen && !sidebarSections) {
             const sections = [...document.querySelectorAll('#controlsPanel details.panel-section')];
-            sidebarSections ??= sections.map(section => [section, section.open]);
-            for (const section of sections) section.open = section.hasAttribute('data-drawer-default-open');
+            sidebarSections = sections.map(section => [section, section.open]);
+            drawerSections ??= sections.map(section => [section, section.hasAttribute('data-drawer-default-open')]);
+            for (const [section, wasOpen] of drawerSections) section.open = wasOpen;
         }
         panel.hidden = !open;
         if (drawerOpen) panel.scrollTop = 0;
@@ -40,8 +49,8 @@ const labControls = (() => {
         workspace.inert = drawerOpen;
         lab.classList.toggle('controls-open', open);
         toggle.setAttribute('aria-expanded', String(open));
-        setLabCopy(toggle, compact.matches ? 'Controls' : open ? 'Hide controls' : 'Show controls', [], 'aria-label');
-        $('controlsToggleIcon').setAttribute('d', open && !compact.matches
+        setLabCopy(toggle, compact ? 'Controls' : open ? 'Hide controls' : 'Show controls', [], 'aria-label');
+        $('controlsToggleIcon').setAttribute('d', open && !compact
             ? 'M5 5l10 10M15 5L5 15'
             : 'M3 5h4m4 0h6M9 3v4M3 10h8m4 0h2m-4-2v4M3 15h2m4 0h8M7 13v4');
     }
@@ -53,16 +62,16 @@ const labControls = (() => {
     }
 
     function updateLayout(open) {
-        if (!embedded && playbackBar) lab.classList.toggle('desktop-playback-layout', !compact.matches);
         const active = document.activeElement;
         const focusWasInPanel = panel.contains(active);
-        if (compact.matches) {
+        if (compact) {
             dock.append(toggle);
             panel.setAttribute('role', 'dialog');
             panel.setAttribute('aria-modal', 'true');
             toggle.setAttribute('aria-haspopup', 'dialog');
         } else {
             if (sidebarSections) {
+                drawerSections = sidebarSections.map(([section]) => [section, section.open]);
                 for (const [section, wasOpen] of sidebarSections) section.open = wasOpen;
                 sidebarSections = undefined;
             }
@@ -71,18 +80,23 @@ const labControls = (() => {
             panel.removeAttribute('aria-modal');
             toggle.removeAttribute('aria-haspopup');
         }
-        if (reset) {
-            if (compact.matches) simulationReset.append(reset);
-            else timer.before(reset);
-        }
-
         setOpen(open);
-        if (compact.matches && open) {
-            closeButton.focus({ preventScroll: true });
-        } else if (active === toggle || active === closeButton || focusWasInPanel) {
+        if (active === toggle || active === closeButton || focusWasInPanel) {
             const target = !panel.hidden && active.getClientRects().length ? active : toggle;
             target.focus({ preventScroll: true });
         }
+    }
+
+    function updateDisplayMode() {
+        const fullscreen = embedded && (root.hasAttribute('data-lesson-fullscreen') ||
+            document.fullscreenElement || document.webkitFullscreenElement);
+        const nextCompact = compactViewport.matches && (!embedded || Boolean(fullscreen));
+        if (compact === nextCompact) return;
+        compact = nextCompact;
+        // Fullscreen embeds use the same compact layout rules as standalone labs.
+        if (embedded) root.toggleAttribute('data-lab-embedded', !compact);
+        updatePlaybackLayout();
+        updateLayout(!embedded && !compact);
     }
 
     toggle.addEventListener('click', () => {
@@ -91,14 +105,19 @@ const labControls = (() => {
             return;
         }
         setOpen(true);
-        if (compact.matches) closeButton.focus({ preventScroll: true });
+        if (compact) closeButton.focus({ preventScroll: true });
     });
     closeButton.addEventListener('click', close);
     backdrop.addEventListener('click', close);
-    compact.addEventListener('change', () => updateLayout(embedded ? !panel.hidden : !compact.matches));
+    compactViewport.addEventListener('change', updateDisplayMode);
+    if (embedded) {
+        document.addEventListener('lesson-display-mode', updateDisplayMode);
+        document.addEventListener('fullscreenchange', updateDisplayMode);
+        document.addEventListener('webkitfullscreenchange', updateDisplayMode);
+    }
 
     window.addEventListener('keydown', event => {
-        if (!compact.matches || panel.hidden || document.querySelector('dialog[open]')) return;
+        if (!compact || panel.hidden || document.querySelector('dialog[open]')) return;
         if (event.key === 'Escape') {
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -146,11 +165,11 @@ const labControls = (() => {
         }, { passive: false });
     }
 
-    updateLayout(!embedded && !compact.matches);
+    updateDisplayMode();
     return {
-        compact,
+        get compact() { return compact; },
         close,
         get open() { return !panel.hidden; },
-        get drawerOpen() { return compact.matches && !panel.hidden; }
+        get drawerOpen() { return compact && !panel.hidden; }
     };
 })();

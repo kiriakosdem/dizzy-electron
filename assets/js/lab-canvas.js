@@ -103,6 +103,11 @@ function paintLabSelection(context, x, y, radius, haloRadius = 0) {
     context.restore();
 }
 
+function returnToLesson() {
+    const targetOrigin = location.protocol === 'file:' ? '*' : location.origin;
+    parent.postMessage({ type: 'lesson-return-reading' }, targetOrigin);
+}
+
 // Each lab supplies the frame it wants to export. Capture synchronously so a
 // WebGL renderer can copy its drawing buffer before the browser clears it.
 function setupLabCanvasTools(capture, filename) {
@@ -145,8 +150,11 @@ function setupLabCanvasTools(capture, filename) {
         }
     });
 
+    const lessonFullscreen = () => window.parent !== window &&
+        document.documentElement.hasAttribute('data-lesson-fullscreen');
+
     function isFullscreen() {
-        return Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+        return lessonFullscreen() || Boolean(document.fullscreenElement || document.webkitFullscreenElement);
     }
 
     function updateFullscreenButton() {
@@ -156,6 +164,10 @@ function setupLabCanvasTools(capture, filename) {
     }
 
     fullscreen.addEventListener('click', async () => {
+        if (lessonFullscreen()) {
+            returnToLesson();
+            return;
+        }
         const active = isFullscreen();
         const target = active ? document : document.documentElement;
         const toggle = active ? document.exitFullscreen || document.webkitExitFullscreen
@@ -169,6 +181,7 @@ function setupLabCanvasTools(capture, filename) {
     });
     document.addEventListener('fullscreenchange', updateFullscreenButton);
     document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+    document.addEventListener('lesson-display-mode', updateFullscreenButton);
     updateFullscreenButton();
 }
 
@@ -176,7 +189,8 @@ function setupLabCanvasTools(capture, filename) {
 // canvas/OrbitControls handlers, but keep the browser's native scroll chaining.
 (() => {
     if (window.parent === window) return;
-    document.documentElement.setAttribute('data-lab-embedded', '');
+    const root = document.documentElement;
+    root.setAttribute('data-lab-embedded', '');
     const fullscreen = () => {
         if (document.fullscreenElement || document.webkitFullscreenElement) return true;
         try {
@@ -188,8 +202,11 @@ function setupLabCanvasTools(capture, filename) {
         }
     };
     window.addEventListener('message', event => {
-        if (event.source !== parent || event.origin !== location.origin || event.data?.type !== 'lesson-display-mode') return;
-        document.documentElement.toggleAttribute('data-lesson-fullscreen', event.data.fullscreen === true);
+        if (event.source !== parent || event.origin !== window.origin || event.data?.type !== 'lesson-display-mode') return;
+        const active = event.data.fullscreen === true;
+        if (root.hasAttribute('data-lesson-fullscreen') === active) return;
+        root.toggleAttribute('data-lesson-fullscreen', active);
+        document.dispatchEvent(new Event('lesson-display-mode'));
     });
     window.addEventListener('wheel', event => {
         if (!fullscreen() && event.target instanceof Element && event.target.closest('canvas')) {
@@ -200,6 +217,6 @@ function setupLabCanvasTools(capture, filename) {
         if (event.key !== 'Escape' || document.querySelector('dialog[open]')) return;
         // Let an open controls drawer handle Escape first.
         if (document.querySelector('#controlsToggle[aria-expanded="true"]')) return;
-        parent.postMessage({ type: 'lesson-return-reading' }, location.origin);
+        returnToLesson();
     });
 })();

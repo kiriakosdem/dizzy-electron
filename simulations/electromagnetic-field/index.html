@@ -10,18 +10,18 @@
 <link rel="stylesheet" href="lab.css?v=desktop-embed">
 <link rel="stylesheet" href="sidebar.css?v=aligned-dropdowns">
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=simulation-playback-settings">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matched-control-height">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=aligned-dropdowns">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=animation-speed-readout">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=aligned-dropdowns">
-    <script src="../../assets/js/lab-canvas.js?v=adaptive-time-precision"></script>
-    <script src="../../assets/js/lab-scale.js"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=mobile-lab-layout">
+    <script src="../../assets/js/lab-canvas.js?v=local-fullscreen"></script>
+    <script src="../../assets/js/lab-scale.js?v=time-significant-digits"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
 </head>
@@ -97,38 +97,30 @@
     <div class="panel-backdrop" id="controlsBackdrop" aria-hidden="true" hidden></div>
     <aside class="panel" id="controlsPanel" aria-label="Simulation controls">
     <div class="drawer-heading">
-      <h2>Controls</h2>
+      <h2><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h4m4 0h6M9 3v4M3 10h8m4 0h2m-4-2v4M3 15h2m4 0h8M7 13v4"/></svg>Controls</h2>
       <button class="drawer-close" id="controlsClose" type="button" aria-label="Close controls">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
       </button>
     </div>
       <details open class="panel-section">
         <summary><h2>
-          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h3m5 0h8M2 14h9m5 0h2"/><circle cx="7.5" cy="6" r="2.5"/><circle cx="13.5" cy="14" r="2.5"/></svg>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11.5" r="6"/><path d="M8 2h4m-2 0v3.5m4.5 1.8 1.7-1.7M10 8v3.5l2 1.5"/></svg>
           Simulation
         </h2></summary>
-        <label class="select-row" for="speedSelect">
-            <span>Playback speed</span>
-            <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
-                <optgroup label="Playback speed">
-                    <option value="0.25">0.25× · 6 ns/s</option>
-                    <option value="0.5">0.5× · 12 ns/s</option>
-                    <option value="1" selected>1× · 24 ns/s</option>
-                    <option value="2">2× · 48 ns/s</option>
-                </optgroup>
-            </select>
-        </label>
-        <div class="simulation-reset" id="simulationReset"></div>
-        <h3 id="motionHeading">Source motion</h3>
+        <div class="control-label"><label for="simulationSpeed">Animation speed</label></div>
+        <div class="control-label time-rate-label"><span>1 real second</span><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">= 24.0 ns</output></div>
+        <input type="range" id="simulationSpeed" min="2" max="96" step="0.25" value="24" aria-label="Animation speed">
+        <div class="range-scale" aria-hidden="true"><span id="simulationSpeedMin">2 ns</span><span id="simulationSpeedMax">96 ns</span></div>
+      </details>
+      <details open class="panel-section">
+        <summary><h2 id="motionHeading">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10h2c2 0 2-5 4-5s2 10 4 10 2-5 4-5h2"/></svg>
+          Source motion
+        </h2></summary>
         <div class="panel-options" role="group" aria-labelledby="motionHeading">
           <button type="button" class="panel-button" data-motion="manual" aria-pressed="true"><span class="segment-label">Mouse</span></button>
           <button type="button" class="panel-button" data-motion="continuous" aria-pressed="false"><span class="segment-label">Wave</span></button>
           <button type="button" class="panel-button" data-motion="pulse" aria-pressed="false"><span class="segment-label">Pulse</span></button>
-        </div>
-        <div id="manualControls">
-          <label class="control-label" for="manualRate"><span class="icon-label">Mouse time rate</span> <output id="manualRateValue" for="manualRate">24 ns/s</output></label>
-          <input id="manualRate" type="range" min="8" max="48" step="4" value="24" title="Simulated nanoseconds per real second at 1× playback">
-          <div class="range-scale" aria-hidden="true"><span>8 ns/s</span><span>48 ns/s</span></div>
         </div>
         <div id="automaticControls" hidden>
           <label class="control-label" for="amplitude"><span class="icon-label">Amplitude</span> <output id="amplitudeValue" for="amplitude">0.210 m</output></label>
@@ -212,9 +204,9 @@
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=physics-notes"></script>
+    <script src="../../assets/js/lab-greek.js?v=animation-speed-readout"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
-    <script src="../../assets/js/lab-toggle.js?v=simulation-playback-settings"></script>
+    <script src="../../assets/js/lab-toggle.js?v=remember-drawer-sections"></script>
 <script id="physics-engine">
 "use strict";
 /** Retarded Lienard-Wiechert fields for a prescribed planar trajectory.
@@ -434,7 +426,7 @@ const ChargeFieldPhysics = (() => {
     return time.toFixed(digits) + " " + unit;
   }
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const state = { time: 0, playing: false, speed: 1, mode: "total", motion: "manual",
+  const state = { time: 0, playing: false, waveRate: 1, mode: "total", motion: "manual",
     amplitude: .70, frequency: .10, gain: 1.5, density: 38,
     showElectric: true, showSamplePoints: false, showMagnetic: true, showGuides: true, showRay: true,
     placed: false, tool: "charge", manualRate: 24,
@@ -511,19 +503,16 @@ const ChargeFieldPhysics = (() => {
   function localPointer(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
   function toast(message) { clearTimeout(toastTimeout); setLabCopy($("toast"), message); $("toast").classList.add("visible"); toastTimeout = setTimeout(() => $("toast").classList.remove("visible"), 3200); }
   function paintRange(input) { const v = (Number(input.value) - Number(input.min)) / (Number(input.max) - Number(input.min)); input.style.setProperty("--range-fill", (v * 100).toFixed(1) + "%"); }
-  function basePlaybackRate() { return state.motion === "manual" ? state.manualRate : 1; }
+  function playbackRate() { return state.motion === "manual" ? state.manualRate : state.waveRate; }
   function updatePlaybackSpeed() {
-    const select = $("speedSelect");
-    const formatRate = new Intl.NumberFormat(document.documentElement.lang, { maximumFractionDigits: 2 });
-    const baseNanoseconds = basePlaybackRate() * P.SI.secondsPerUnit * 1e9;
-    for (const option of select.options) {
-      const rate = formatRate.format(Number(option.value) * baseNanoseconds);
-      option.textContent = option.value + "× · " + rate + " ns/s";
-    }
-    setLabCopy(select.querySelector("optgroup"), "Playback speed", [], "label");
-    const activeRate = formatRate.format(state.speed * baseNanoseconds);
-    const rateDescription = activeRate === "1" ? "1 nanosecond per real second" : "{0} nanoseconds per real second";
-    setLabCopy(select, rateDescription, [activeRate], "title");
+    const input = $("simulationSpeed");
+    const manual = state.motion === "manual";
+    input.min = manual ? "2" : "0.25";
+    input.max = manual ? "96" : "2";
+    input.step = manual ? "0.25" : "0.05";
+    input.value = String(playbackRate());
+    updateLabTimeRate(input, $("simulationSpeedText"), $("simulationSpeedMin"), $("simulationSpeedMax"), 1e-9);
+    paintRange(input);
   }
   function updatePlayback() {
     $("playIcon").setAttribute("d", state.playing ? "M3 2h4v12H3zM9 2h4v12H9z" : "M4 2l9 6-9 6Z");
@@ -548,7 +537,6 @@ const ChargeFieldPhysics = (() => {
       b.setAttribute("aria-pressed", String(b.dataset.motion === state.motion));
       b.disabled = !state.placed && b.dataset.motion !== "manual";
     });
-    $('manualControls').hidden = !manual;
     $('automaticControls').hidden = manual;
     $("amplitude").value = state.amplitude; $("frequency").value = state.frequency;
     const amplitude = meters(state.amplitude).toFixed(3);
@@ -565,17 +553,9 @@ const ChargeFieldPhysics = (() => {
       ? formatTime(1 / state.frequency)
       : meters(P.C / state.frequency).toFixed(2) + " m";
     $("pulseButton").hidden = state.motion !== "pulse";
-    $("manualRate").value = state.manualRate;
-    updateManualRate();
+    updatePlaybackSpeed();
     paintRange($("amplitude")); paintRange($("frequency"));
     updateInteraction();
-  }
-  function updateManualRate() {
-    const rate = state.manualRate.toFixed(0);
-    $("manualRateValue").textContent = rate + " ns/s";
-    setLabCopy($("manualRate"), "{0} nanoseconds per real second", [rate], "aria-valuetext");
-    paintRange($("manualRate"));
-    updatePlaybackSpeed();
   }
   function enforceSpeed(edited) {
     if (P.peakSpeed(params()) <= P.MAX_BETA * P.C) return false;
@@ -880,7 +860,7 @@ const ChargeFieldPhysics = (() => {
     const dt = lastFrame ? Math.min((now - lastFrame) / 1000, .05) : 0;
     lastFrame = now;
     const canAnimate = simulationActive();
-    if (canAnimate) advanceTime(dt * state.speed * basePlaybackRate());
+    if (canAnimate) advanceTime(dt * playbackRate() / (P.SI.secondsPerUnit * 1e9));
     if (dirty) {
       draw();
       if (now - lastClockUpdate > 75 || !canAnimate) { updateClock(); lastClockUpdate = now; }
@@ -932,13 +912,12 @@ const ChargeFieldPhysics = (() => {
     advanceTime(state.motion === "manual" ? .20 : 1 / (120 * state.frequency));
   }
   document.querySelectorAll('button[data-tool]').forEach(b => b.addEventListener('click', () => setTool(b.dataset.tool)));
-  $('manualRate').addEventListener('input', e => {
-    state.manualRate = Number(e.target.value); updateManualRate();
-  });
   $("playButton").addEventListener("click", () => setPlaying(!state.playing));
   $("resetButton").addEventListener("click", () => { restart(); toast(state.motion === "manual" ? "Time reset at the current charge position." : "Time restarted at t = 0."); });
-  $("speedSelect").addEventListener("change", e => {
-    state.speed = Number(e.target.value);
+  $("simulationSpeed").addEventListener("input", e => {
+    const rate = Number(e.target.value);
+    if (state.motion === "manual") state.manualRate = rate;
+    else state.waveRate = rate;
     updatePlaybackSpeed();
   });
   document.querySelectorAll("[data-mode]").forEach(b => b.addEventListener("click", () => setMode(b.dataset.mode)));

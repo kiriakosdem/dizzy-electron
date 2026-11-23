@@ -239,16 +239,19 @@
             margin: 0;
         }
 
-        #lab .canvas-dock .time-bar > .playback-toggle {
+        .canvas-dock .zoom > button,
+        #lab .canvas-dock .time-bar > :is(.playback-toggle, .playback-reset) {
+            height: max(44px, var(--playback-control-height));
+        }
+
+        #lab .canvas-dock .time-bar > :is(.playback-toggle, .playback-reset) {
             display: grid;
             place-items: center;
             width: 44px;
-            height: var(--playback-control-height);
-            min-height: 0;
             padding: 0;
         }
 
-        #lab .canvas-dock .time-bar > .playback-toggle > svg {
+        #lab .canvas-dock .time-bar > :is(.playback-toggle, .playback-reset) > svg {
             width: 16px;
             height: 16px;
         }
@@ -278,6 +281,12 @@
 
         #lab .canvas-dock .trash-zone { grid-column: auto; }
         #lab .mode-msg { bottom: calc(var(--playback-reserve) + 72px); }
+    }
+}
+
+@media (max-width: 410px) {
+    :where(:root:not([data-lab-embedded])) .canvas-dock:has(.time-bar) > .hud {
+        bottom: calc(100% + var(--lab-overlay-inset) + max(44px, var(--playback-control-height)) + 12px);
     }
 }
 

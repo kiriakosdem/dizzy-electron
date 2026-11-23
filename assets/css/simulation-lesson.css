@@ -265,6 +265,7 @@
 .lesson-lab-bar {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: max(8px, env(safe-area-inset-top)) 12px 8px;
     background: var(--surface);
     border-bottom: 1px solid var(--color-border);

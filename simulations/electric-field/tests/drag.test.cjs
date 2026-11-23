@@ -118,14 +118,16 @@ test('playback time follows the fixed steps once for all test charges',()=>{
  api.placeTestCharge(0,100);
  const particle=api.state().testCharge;
  particle.vx=1e6;
- $('speedSelect').value='0.5';$('speedSelect').emit('change');
+ $('simulationSpeed').value='0.5';$('simulationSpeed').emit('input');
+ assert.equal($('simulationSpeedText').textContent,'= 500 µs');
  api.advanceTestCharge(.1);
  assert.equal(timeReadout($),'0.05 ms');
  assert.ok(Math.abs(particle.x-50)<1e-8);
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
  assert.equal(timeReadout($),'0.05 ms');
- $('speedSelect').value='2';$('speedSelect').emit('change');
+ $('simulationSpeed').value='2';$('simulationSpeed').emit('input');
+ assert.equal($('simulationSpeedText').textContent,'= 2.00 ms');
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
  assert.equal(timeReadout($),'0.25 ms');

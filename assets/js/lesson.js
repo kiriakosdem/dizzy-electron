@@ -249,9 +249,11 @@ document.querySelectorAll('iframe.simulation-frame').forEach(frame => {
     shell.append(bar, frame, preview);
     let savedY = 0;
     let oldOverflow = '';
+    // File documents can have opaque origins, which cannot be named as message targets.
+    const targetOrigin = location.protocol === 'file:' ? '*' : location.origin;
     const notifyLab = () => frame.contentWindow.postMessage({
         type: 'lesson-display-mode', fullscreen: shell.open
-    }, location.origin);
+    }, targetOrigin);
     const update = () => {
         const reading = compact.matches && !shell.open;
         shell.classList.toggle('is-preview', reading);
@@ -285,7 +287,7 @@ document.querySelectorAll('iframe.simulation-frame').forEach(frame => {
     compact.addEventListener('change', update);
     frame.addEventListener('load', notifyLab);
     window.addEventListener('message', event => {
-        if (event.origin === location.origin && event.source === frame.contentWindow &&
+        if (event.origin === window.origin && event.source === frame.contentWindow &&
             event.data?.type === 'lesson-return-reading') close();
     });
     update();

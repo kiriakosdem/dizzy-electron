@@ -117,18 +117,18 @@ button:disabled{cursor:default;opacity:.45}
 @media(pointer:coarse) and (min-width:893px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=simulation-playback-settings">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matched-control-height">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=aligned-dropdowns">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=animation-speed-readout">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=aligned-dropdowns">
-    <script src="../../assets/js/lab-canvas.js?v=adaptive-time-precision"></script>
-    <script src="../../assets/js/lab-scale.js"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=mobile-lab-layout">
+    <script src="../../assets/js/lab-canvas.js?v=local-fullscreen"></script>
+    <script src="../../assets/js/lab-scale.js?v=time-significant-digits"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
 </head>
@@ -206,11 +206,24 @@ button:disabled{cursor:default;opacity:.45}
     <div class="panel-backdrop" id="controlsBackdrop" aria-hidden="true" hidden></div>
   <aside class="panel" id="controlsPanel" aria-label="Field controls">
     <div class="drawer-heading">
-      <h2>Controls</h2>
+      <h2><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h4m4 0h6M9 3v4M3 10h8m4 0h2m-4-2v4M3 15h2m4 0h8M7 13v4"/></svg>Controls</h2>
       <button class="drawer-close" id="controlsClose" type="button" aria-label="Close controls">
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
       </button>
     </div>
+    <details open class="panel-section" id="massesConfiguration" aria-label="Examples" data-drawer-default-open>
+      <summary><h2>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M7.5 7.3a2.5 2.5 0 1 1 3.9 2c-1 .6-1.4 1.2-1.4 2.2m0 2.8h.01"/></svg>
+        Examples
+      </h2></summary>
+      <div class="preset-grid" role="group" aria-label="Load a mass configuration">
+        <button class="action-button preset-button" id="presetSingle" type="button" title="One 4 Earth-mass body drifting at a constant velocity. Starts a fresh scene.">Single</button>
+        <button class="action-button preset-button" id="presetPair" type="button" title="Two 4 Earth-mass bodies in a mutual circular orbit. Starts a fresh scene.">Pair</button>
+        <button class="action-button preset-button" id="presetRow" type="button" title="Five evenly spaced 3 Earth-mass bodies with rotational velocity. Starts a fresh scene.">Row</button>
+        <button class="action-button preset-button" id="presetRandom" type="button" title="Five scattered masses with random velocities and zero total momentum. Starts a fresh scene.">Random</button>
+        <button id="clear" class="action-button danger-button" type="button"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Clear all</span></button>
+      </div>
+    </details>
     <details class="panel-section" id="visualizationSettings" aria-label="Display settings">
     <summary><h2>
       <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
@@ -228,35 +241,15 @@ button:disabled{cursor:default;opacity:.45}
   </details>
     <details class="panel-section" id="simulationBlock" aria-label="Simulation settings">
       <summary><h2>
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h3m5 0h8M2 14h9m5 0h2"/><circle cx="7.5" cy="6" r="2.5"/><circle cx="13.5" cy="14" r="2.5"/></svg>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11.5" r="6"/><path d="M8 2h4m-2 0v3.5m4.5 1.8 1.7-1.7M10 8v3.5l2 1.5"/></svg>
         Simulation
       </h2></summary>
-      <label class="select-row" for="speedSelect">
-          <span>Playback speed</span>
-          <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
-              <option value="0.1">0.1×</option><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option>
-              <option id="sliderRate" value="custom" hidden disabled></option>
-          </select>
-      </label>
-      <div class="simulation-reset" id="simulationReset"></div>
-      <label class="control-label slider-label" for="simulationSpeed"><span class="toggle-label">Time speed</span><span class="control-value" id="simulationSpeedText">1,000,000×</span></label>
-      <input type="range" id="simulationSpeed" min="100000" max="1000000" step="5000" value="1000000" aria-label="Simulation time speed" aria-valuetext="1000000 simulated seconds per real second" aria-describedby="simulationSpeedHint" title="Applies to all source and test masses. 100,000 to 1,000,000 simulated seconds per real second."/>
-      <div class="range-scale" aria-hidden="true"><span>100,000</span><span>1,000,000</span></div>
+      <div class="control-label"><label for="simulationSpeed">Animation speed</label></div>
+      <div class="control-label time-rate-label"><span>1 real second</span><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">= 11.6 d</output></div>
+      <input type="range" id="simulationSpeed" min="100000" max="1000000" step="5000" value="1000000" aria-label="Animation speed" aria-describedby="simulationSpeedHint"/>
+      <div class="range-scale" aria-hidden="true"><span id="simulationSpeedMin">1.16 d</span><span id="simulationSpeedMax">11.57 d</span></div>
       <p class="sr-only" id="simulationSpeedHint">Time is accelerated for visible motion under weak gravity. This changes how quickly time passes, not the gravitational field or acceleration.</p>
       <p class="sr-only" id="testStatus" role="status"></p>
-    </details>
-    <details open class="panel-section" id="massesConfiguration" aria-label="Examples" data-drawer-default-open>
-      <summary><h2>
-        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M7.5 7.3a2.5 2.5 0 1 1 3.9 2c-1 .6-1.4 1.2-1.4 2.2m0 2.8h.01"/></svg>
-        Examples
-      </h2></summary>
-      <div class="preset-grid" role="group" aria-label="Load a mass configuration">
-        <button class="action-button preset-button" id="presetSingle" type="button" title="One 4 Earth-mass body drifting at a constant velocity. Starts a fresh scene.">Single</button>
-        <button class="action-button preset-button" id="presetPair" type="button" title="Two 4 Earth-mass bodies in a mutual circular orbit. Starts a fresh scene.">Pair</button>
-        <button class="action-button preset-button" id="presetRow" type="button" title="Five evenly spaced 3 Earth-mass bodies with rotational velocity. Starts a fresh scene.">Row</button>
-        <button class="action-button preset-button" id="presetRandom" type="button" title="Five scattered masses with random velocities and zero total momentum. Starts a fresh scene.">Random</button>
-        <button id="clear" class="action-button danger-button" type="button"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Clear all</span></button>
-      </div>
     </details>
     <details open class="panel-section" id="editBlock" hidden aria-label="Selected mass">
       <summary><h2>
@@ -324,14 +317,13 @@ button:disabled{cursor:default;opacity:.45}
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=keyboard-step"></script>
+    <script src="../../assets/js/lab-greek.js?v=animation-speed-readout"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
-    <script src="../../assets/js/lab-toggle.js?v=simulation-playback-settings"></script>
+    <script src="../../assets/js/lab-toggle.js?v=remember-drawer-sections"></script>
 <script>
 (()=>{'use strict';
 const lab=document.getElementById('lab'), canvas=document.getElementById('fieldCanvas'), ctx=canvas.getContext('2d',{alpha:false});
 const $=id=>document.getElementById(id);
-const compactLayout=labControls.compact;
 let massHover=null,touchEditorId=null;
 setupLabCanvasTools(() => canvas, () => 'gravitational-field.png');
 const SAMPLE=50, MINOR=25, MAJOR=100, SUPER_MAJOR=400, MIN_ZOOM=.30,MAX_ZOOM=2;
@@ -379,7 +371,7 @@ function loadMassConfiguration(kind,{initial=false}={}){
  assignPresetVelocities(layout,kind);
  cancelInteraction();placing=0;testSelected=false;simulationTime=0;removeAllTestMasses();nextId=1;
  masses=layout.map(c=>createSourceMass({id:nextId++,...c}));selectedId=masses[0].id;
- if(!initial&&compactLayout.matches)labControls.close();
+ if(!initial&&labControls.compact)labControls.close();
  fitMassesToView(kind==='pair');setMode();syncPanel();
  const count=masses.length, presetName=kind.charAt(0).toUpperCase()+kind.slice(1);
  setLabCopy($('actionStatus'), () => labText(count===1 ? '{0} configuration loaded. {1} mass.' : '{0} configuration loaded. {1} masses.', labText(presetName), count));
@@ -417,7 +409,7 @@ function fitMassesToView(orbit=false){
  const dock=$('canvasDock').getBoundingClientRect();
  const dockBelowCanvas=dock.top>=canvas.getBoundingClientRect().bottom;
  const dockHeight=vw<=500?Math.max(dock.height,208):Math.max($('massTray').getBoundingClientRect().height,150);
- const bottomPadding=dockBelowCanvas?topPadding:compactLayout.matches?Math.min(vh*.6,dockHeight+36):100;
+ const bottomPadding=dockBelowCanvas?topPadding:labControls.compact?Math.min(vh*.6,dockHeight+36):100;
  const zoom=clamp(Math.min(1,(vw-108)/Math.max(1,xmax-xmin),(vh-topPadding-bottomPadding)/Math.max(1,ymax-ymin)),minimumZoom(),MAX_ZOOM);
  camera={x:(xmin+xmax)/2,y:(ymin+ymax)/2+((topPadding+vh-bottomPadding)/2-vh/2)/zoom,zoom};
  constrainCamera();updateZoomControls();
@@ -438,7 +430,7 @@ function resize(){
  drawFrame();
 }
 function setMode(){canvas.classList.toggle('placing',placing!==0);$('addSource').classList.toggle('active',placing===4);$('addSource').setAttribute('aria-pressed',String(placing===4));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));setLabCopy($('modeMessageText'), placing==='test'?'Click or tap to release the test mass from rest. Press Enter to place near view center.':'Tap or click the grid to place your mass.');$('modeMessage').hidden=placing===0;positionMassPopover();}
-function startPlacing(sourceMass){placing=(placing===sourceMass?0:sourceMass);if(sourceMass==='test')selectTestMass();else if(testSelected){testSelected=false;syncPanel();}setMode();if(placing&&compactLayout.matches)labControls.close();if(placing==='test')canvas.focus({preventScroll:true});}
+function startPlacing(sourceMass){placing=(placing===sourceMass?0:sourceMass);if(sourceMass==='test')selectTestMass();else if(testSelected){testSelected=false;syncPanel();}setMode();if(placing&&labControls.compact)labControls.close();if(placing==='test')canvas.focus({preventScroll:true});}
 $('cancelPlacement').onclick=()=>{placing=0;setMode();};
 function createSourceMass(source){
  const {id,x,y,mass,vx=0,vy=0}=source;
@@ -476,14 +468,8 @@ function syncPanel(){
 }
 function syncSimulationSpeed(){
  const speed=simulationSpeed.toLocaleString('en-US');
- const rate=simulationSpeed/DEFAULT_SIMULATION_SPEED;
- const preset=[.1,.25,.5,1].includes(rate);
- const custom=$('sliderRate');
- custom.hidden=preset;
- custom.textContent=preset?'':rate+'×';
- $('speedSelect').value=preset?String(rate):'custom';
- $('simulationSpeed').value=String(simulationSpeed);$('simulationSpeedText').textContent=speed+'×';
- setLabCopy($('simulationSpeed'), '{0} simulated seconds per real second', [simulationSpeed], 'aria-valuetext');
+ $('simulationSpeed').value=String(simulationSpeed);
+ updateLabTimeRate($('simulationSpeed'), $('simulationSpeedText'), $('simulationSpeedMin'), $('simulationSpeedMax'), 1);
  setLabCopy($('timeScaleHint'), 'Time: {0} simulated seconds per real second.', [speed]);updateRangeFill($('simulationSpeed'));
 }
 function selectTestMass(id=selectedTestId){if(!testMasses.some(t=>t.id===id))id=testMasses.length?testMasses[testMasses.length-1].id:null;if(!testSelected||selectedId!==null||id!==selectedTestId){testSelected=true;selectedId=null;selectedTestId=id;syncPanel();}}
@@ -634,7 +620,7 @@ function setSimulationSpeed(value){
  simulationAccumulator=0;lastFrameTime=null;syncPanel();
 }
 $('simulationSpeed').oninput=e=>setSimulationSpeed(Number(e.target.value));
-$('speedSelect').onchange=e=>setSimulationSpeed(Number(e.target.value)*DEFAULT_SIMULATION_SPEED);
+window.siteLanguage?.onChange(syncSimulationSpeed);
 document.addEventListener('visibilitychange',()=>{lastFrameTime=null;simulationAccumulator=0;});
 function updateRangeFill(input){const progress=(Number(input.value)-Number(input.min))/(Number(input.max)-Number(input.min))*100;input.style.setProperty('--range-fill',clamp(progress,0,100)+'%');}
 function positionAU(value){return Number((value*AU_PER_GRID_UNIT).toFixed(6));}
@@ -734,7 +720,7 @@ window.addEventListener('pointermove',e=>{
 lab.addEventListener('pointerleave',()=>{massHover=null;positionMassPopover();});
 function positionMassPopover(){
  const editor=$('massPopover'),c=selected();
- if(!c||testSelected||placing||sourceDrag||activeDrag||(compactLayout.matches&&labControls.open)){editor.hidden=true;return;}
+ if(!c||testSelected||placing||sourceDrag||activeDrag||(labControls.compact&&labControls.open)){editor.hidden=true;return;}
  const p=toScreen(c.x,c.y);
  const width=editor.getBoundingClientRect().width||190,height=editor.getBoundingClientRect().height||80;
  const x=clamp(p.x-width/2,8,vw-width-8),y=Math.max(8,p.y-height-34);
@@ -860,7 +846,7 @@ function constrainCamera(){
  camera.y=clamp(camera.y,-PAN_Y+halfHeight,PAN_Y-halfHeight);
 }
 function zoomTo(newZoom,sx=vw/2,sy=vh/2){newZoom=clamp(Math.round(newZoom*10)/10,minimumZoom(),MAX_ZOOM);const before=toWorld(sx,sy);camera.zoom=newZoom;const after=toWorld(sx,sy);camera.x+=before.x-after.x;camera.y+=before.y-after.y;constrainCamera();updateZoomControls();}
-function resetCamera(){const fit=compactLayout.matches?Math.floor(Math.min((vw-80)/365,(vh-140)/230)*10)/10:1;camera={x:0,y:0,zoom:clamp(fit,minimumZoom(),1)};constrainCamera();updateZoomControls();}
+function resetCamera(){const fit=labControls.compact?Math.floor(Math.min((vw-80)/365,(vh-140)/230)*10)/10:1;camera={x:0,y:0,zoom:clamp(fit,minimumZoom(),1)};constrainCamera();updateZoomControls();}
 $('zoomIn').onclick=()=>zoomTo(camera.zoom+.1);$('zoomOut').onclick=()=>zoomTo(camera.zoom-.1);$('resetView').onclick=resetCamera;
 canvas.addEventListener('wheel',e=>{e.preventDefault();const p=pointerPos(e);if(e.deltaY)zoomTo(camera.zoom+(e.deltaY<0?.1:-.1),p.x,p.y);},{passive:false});
 function massAt(p){for(let i=masses.length-1;i>=0;i--){const c=masses[i],s=toScreen(c.x,c.y);if(Math.hypot(p.x-s.x,p.y-s.y)<26)return c;}return null;}

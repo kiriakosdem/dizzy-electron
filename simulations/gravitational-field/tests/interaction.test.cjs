@@ -192,7 +192,7 @@ test('time speed changes simulated elapsed time without changing the field or te
  const {$,api}=openLab(false);api.seedSources([]);api.placeTestMass(0,0);const p=api.state().testMass;p.vx=.001;
  advanceSeconds(api,1);closeTo(p.x,100,1e-8);
  $('simulationSpeed').value='500000';$('simulationSpeed').emit('input');advanceSeconds(api,1);closeTo(p.x,600,1e-8);
- assert.equal(p.mass,.005);assert.equal($('simulationSpeedText').textContent,'500,000×');assert.match($('timeScaleHint').textContent,/500,000/);
+ assert.equal(p.mass,.005);assert.equal($('simulationSpeedText').textContent,'= 5.79 d');assert.match($('timeScaleHint').textContent,/500,000/);
  for(const [input,expected] of [[-1,100000],[0,100000],[1e9,1000000]]){
   $('simulationSpeed').value=String(input);$('simulationSpeed').emit('input');assert.equal(api.simulationSpeed(),expected);
  }
@@ -200,17 +200,16 @@ test('time speed changes simulated elapsed time without changing the field or te
  seeded.$('simulationSpeed').value='200000';seeded.$('simulationSpeed').emit('input');assert.deepEqual(seeded.api.fieldAt(100,0),field);
 });
 
-test('playback clock and speed selector share the simulation slider rate',()=>{
+test('playback clock follows the simulation slider rate',()=>{
  const {$,api}=openLab(false,{empty:true});
  $('presetSingle').emit('click');
- $('speedSelect').value='1';$('speedSelect').emit('change');
+ $('simulationSpeed').value='1000000';$('simulationSpeed').emit('input');
  assert.equal($('simulationSpeed').value,'1000000');
  advanceSeconds(api,1);
  assert.equal(timeReadout($),'11.57 d');
  $('pauseTest').emit('click');
  $('simulationSpeed').value='170000';$('simulationSpeed').emit('input');
- assert.equal($('sliderRate').textContent,'0.17×');
- assert.equal($('speedSelect').value,'custom');
+ assert.equal($('simulationSpeedText').textContent,'= 1.97 d');
  advanceSeconds(api,1);
  assert.equal(timeReadout($),'11.57 d');
  $('pauseTest').emit('click');

@@ -356,8 +356,8 @@
         max-width var(--lab-transition-duration) var(--lab-transition-easing);
 }
 
-/* The lesson fullscreen view supplies its own persistent exit button. */
-[data-lesson-fullscreen] #fullscreenButton { display: none; }
+/* The compact fullscreen lab keeps its usual exit control alongside the lesson bar. */
+:root[data-lesson-fullscreen][data-lab-embedded] #fullscreenButton { display: none; }
 
 /* Segments share one track, with only the selected tile raised. */
 #lab .panel-options {
