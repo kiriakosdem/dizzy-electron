@@ -6,9 +6,10 @@ const vm=require('node:vm');
 const script=fs.readFileSync(path.join(__dirname, '../index.html'),'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
 
 // Run the page's real handlers with deterministic layout and pointer capture.
-function openLab(compact,{empty=false,random,startup=false}={}){
+function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}={}){
  const width=compact?390:1000,height=700,top=90;
  const elements=new Map(),windowListeners=new Map();
+ let onCanvasResize;
  function event(type,target,values={}){
   return {type,target,button:0,buttons:type==='pointerup'||type==='pointercancel'?0:1,pointerId:1,pointerType:'mouse',detail:1,
    defaultPrevented:false,preventDefault(){this.defaultPrevented=true;},
@@ -28,7 +29,13 @@ function openLab(compact,{empty=false,random,startup=false}={}){
   return {id,hidden:id==='controlsBackdrop',dataset:{},style:{setProperty(){}},clientHeight:0,
    rect:{left:0,top:0,right:0,bottom:0,width:0,height:0},
    classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle(c,on){if(on===undefined)on=!classes.has(c);on?classes.add(c):classes.delete(c);},contains:c=>classes.has(c)},
-   getBoundingClientRect(){return this.rect;},getClientRects(){return this.hidden?[]:[this.rect];},
+   getBoundingClientRect(){
+    if(measureSidebar&&id==='fieldCanvas'&&!compact&&!$('controlsPanel').hidden){
+     const sidebarWidth=$('controlsPanel').rect.width;
+     return {...this.rect,width:this.rect.width-sidebarWidth,right:this.rect.right-sidebarWidth};
+    }
+    return this.rect;
+   },getClientRects(){return this.hidden?[]:[this.rect];},
    getContext(){return context;},setAttribute(name,value){attributes.set(name,String(value));},getAttribute(name){return attributes.get(name)??null;},removeAttribute(){},focus(){},contains(){return false;},append(){},before(){},after(){},replaceChildren(){},
    querySelector(selector){if(selector==='.selected')return null;if(!children.has(selector))children.set(selector,element());return children.get(selector);},
    addEventListener(type,handler){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(handler);},
@@ -62,7 +69,7 @@ function openLab(compact,{empty=false,random,startup=false}={}){
  const document={hidden:false,addEventListener(){},getElementById:$,createElement:()=>element(),querySelector:selector=>selector==='.zoom'?$('zoom'):controlsLayout.get(selector)??null,querySelectorAll:()=>[],
   elementFromPoint(){throw Error('Drop validation must not depend on the preview being absent from hit testing');}};
  const sandbox={document,window:{matchMedia:()=>({matches:compact,addEventListener(){}}),devicePixelRatio:1,
-  addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{observe(){}},
+  addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{constructor(callback){onCanvasResize=callback;}observe(){}},
   requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
  // These interaction tests run the standalone lab, outside a lesson iframe.
  sandbox.window.parent=sandbox.window;
@@ -80,25 +87,29 @@ function openLab(compact,{empty=false,random,startup=false}={}){
   if(!empty)api.seedSources([{x:-155,y:-15,q:4.5},{x:155,y:-25,q:-4.5},{x:5,y:160,q:2.6}]);
  }
  const point=c=>{const p=api.toScreen(c.x,c.y);return {clientX:p.x,clientY:p.y+top};};
- return {$,api,point,document,top,width,height,emitWindow,escape(){emitWindow('keydown',{key:'Escape'});}};
+ return {$,api,point,document,top,width,height,emitWindow,resizeCanvas:onCanvasResize,escape(){emitWindow('keydown',{key:'Escape'});}};
+}
+
+function timeReadout($) {
+ const timer=$('timeReadout');
+ return timer.querySelector('.time-value').textContent+' '+timer.querySelector('.time-unit').textContent;
 }
 
 test('step pauses playback and advances all test charges by one display frame',()=>{
  const {$,api,emitWindow}=openLab(false,{empty:true});
- assert.equal($('stepButton').disabled,true);
+ assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,false);
  api.placeTestCharge(0,0);
  const first=api.state().testCharge;first.vx=1e6;
  api.placeTestCharge(0,100);
  const second=api.state().testCharge;second.vx=-1e6;
- assert.equal($('stepButton').disabled,false);
- $('stepButton').emit('click');
- assert.equal($('timeReadout').textContent,'0.02 ms');
+ assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
+ assert.equal(timeReadout($),'0.02 ms');
  assert.ok(first.x>0&&second.x<0);
  assert.equal(first.running,false);
  api.advanceTestCharge(.1);
- assert.equal($('timeReadout').textContent,'0.02 ms');
+ assert.equal(timeReadout($),'0.02 ms');
  assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
- assert.equal($('timeReadout').textContent,'0.03 ms');
+ assert.equal(timeReadout($),'0.03 ms');
 });
 
 test('playback time follows the fixed steps once for all test charges',()=>{
@@ -109,18 +120,18 @@ test('playback time follows the fixed steps once for all test charges',()=>{
  particle.vx=1e6;
  $('speedSelect').value='0.5';$('speedSelect').emit('change');
  api.advanceTestCharge(.1);
- assert.equal($('timeReadout').textContent,'0.05 ms');
+ assert.equal(timeReadout($),'0.05 ms');
  assert.ok(Math.abs(particle.x-50)<1e-8);
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
- assert.equal($('timeReadout').textContent,'0.05 ms');
+ assert.equal(timeReadout($),'0.05 ms');
  $('speedSelect').value='2';$('speedSelect').emit('change');
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
- assert.equal($('timeReadout').textContent,'0.25 ms');
+ assert.equal(timeReadout($),'0.25 ms');
  assert.ok(Math.abs(particle.x-250)<1e-8);
  $('resetTest').emit('click');
- assert.equal($('timeReadout').textContent,'0.00 ms');
+ assert.equal(timeReadout($),'0.00 ms');
  assert.equal(particle.x,0);
 });
 
@@ -791,9 +802,14 @@ test('random configurations scatter five separated charges without aligned rows 
 
 for(const compact of [false,true]){
  test(`${compact?'mobile':'desktop'}: loading presets fits every source into the visible canvas`,()=>{
-  const {$,api,point,top,width,height}=openLab(compact);
+  const {$,api,point,top,width,height,resizeCanvas}=openLab(compact,{measureSidebar:true});
   for(const id of ['presetSingle','presetDipole','presetRow','presetRandom']){
-   $('controlsToggle').emit('click');$(id).emit('click');
+   const {x,y,zoom}=api.state().camera;
+   $('controlsToggle').emit('click');resizeCanvas();
+   assert.equal(point({x,y}).clientX,$('fieldCanvas').getBoundingClientRect().width/2);
+   assert.equal(point({x,y}).clientY,top+height/2);
+   assert.equal(api.state().camera.zoom,zoom);
+   $(id).emit('click');
    const visibleWidth=width-($('controlsPanel').hidden?0:292);
    for(const source of api.state().charges){
     const p=point(source);assert.ok(p.clientX>=40&&p.clientX<=visibleWidth-40);
@@ -816,6 +832,26 @@ test('loading a preset clears moving particles, trails, placement and pointer ow
  assert.equal($('chargeGhost').hidden,true);assert.equal($('lab').classList.contains('test-active'),false);
  assert.equal($('editBlock').hidden,false);assert.equal($('testBlock').hidden,true);
  api.placeTestCharge(0,100);assert.equal(api.state().testCharge.mass,.25);closeTo(api.state().testCharge.q,5e-6,1e-15);
+});
+
+test('single-row desktop tray deletes both kinds of charge only on the Delete tile',()=>{
+ for(const kind of ['source','test']){
+  const {$,api,point}=openLab(false),canvas=$('fieldCanvas');
+  if(kind==='test')api.placeTestCharge(0,100);
+  const charge=kind==='test'?api.state().testCharge:api.state().charges[0];
+  $('chargeTray').rect={left:300,top:650,right:613,bottom:740,width:313,height:90};
+  for(const [id,left] of [['addPositive',309],['addNegative',384],['addTest',459],['trashZone',534]]){
+   $(id).rect={left,top:659,right:left+72,bottom:731,width:72,height:72};
+  }
+  canvas.emit('pointerdown',point(charge));
+  canvas.emit('pointermove',{clientX:495,clientY:695});
+  assert.equal($('trashZone').classList.contains('over'),false);
+  canvas.emit('pointermove',{clientX:570,clientY:695});
+  assert.equal($('trashZone').classList.contains('over'),true);
+  canvas.emit('pointerup',{clientX:570,clientY:695});
+  assert.equal(api.state().charges.length,kind==='source'?2:3);
+  assert.equal(api.state().testCharges.length,0);
+ }
 });
 
 function useWideBinTray($){

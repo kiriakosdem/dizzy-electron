@@ -37,6 +37,20 @@
     clip-path: inset(var(--lab-frame-inset) round var(--lab-frame-radius));
 }
 
+.canvas-frame::after {
+    content: "";
+    position: absolute;
+    inset: var(--lab-frame-inset);
+    border-radius: var(--lab-frame-radius);
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    mask-image: linear-gradient(to right, #000, transparent 10px),
+        linear-gradient(to left, #000, transparent 10px),
+        linear-gradient(to bottom, #000, transparent 10px),
+        linear-gradient(to top, #000, transparent 10px);
+}
+
 .field-frame { position: absolute; inset: 0; }
 .field-empty-message {
     position: absolute;
@@ -53,9 +67,38 @@
 
 .field-frame:has(canvas.placing) .field-empty-message { display: none; }
 
-@media (min-width: 751px) and (min-height: 501px), (min-width: 951px) {
-    #lab.controls-open { --lab-docked-sidebar-width: 292px; }
+@media (min-width: 893px) and (min-height: 501px), (min-width: 951px) {
+    #lab.controls-open { --lab-docked-sidebar-width: var(--lab-sidebar-width); }
     .controls-open .field-frame { right: var(--lab-docked-sidebar-width); }
+}
+
+:root[data-lab-embedded] {
+    --lab-sidebar-width: clamp(124px, 30vw, 292px);
+}
+:root[data-lab-embedded] #lab.controls-open {
+    --lab-docked-sidebar-width: var(--lab-sidebar-width);
+}
+:root[data-lab-embedded] .controls-open :is(.field-frame, #stage, #viewport) {
+    right: var(--lab-docked-sidebar-width);
+}
+
+@media (max-width: 700px) {
+    :where(:root[data-lab-embedded]) #lab:where(:not(.desktop-playback-layout)) {
+        --lab-overlay-inset: 10px;
+        --lab-bar-control-height: 27px;
+    }
+    :where(:root[data-lab-embedded]) #lab .panel {
+        padding-inline: 5px;
+    }
+    :where(:root[data-lab-embedded]) #lab .panel-section {
+        padding: 8px;
+    }
+    :where(:root[data-lab-embedded]) #lab:where(:not(.desktop-playback-layout)) .canvas-tools button {
+        width: 28px;
+        height: 28px;
+    }
+    :where(:root[data-lab-embedded]) #lab:where(:not(.desktop-playback-layout)) .zoom button { width: 24px; }
+    :where(:root[data-lab-embedded]) #lab:where(:not(.desktop-playback-layout)) .zoom output { width: 36px; font-size: 11px; }
 }
 
 #lab :is(.canvas-surface, .panel-section) {
@@ -105,19 +148,15 @@
     overflow-wrap: normal;
     word-break: normal;
 }
-#lab .canvas-surface .source-stack,
-#lab .canvas-surface.quantum-stepper button {
+#lab .canvas-surface .source-stack {
     background: var(--lab-glass-button-fill);
     border-color: transparent;
-    box-shadow: var(--lab-glass-button-shadow);
 }
-#lab .canvas-surface :is(.source-stack, .pointer-options button):enabled:hover:where(:not([aria-pressed="true"], .active)),
-#lab .canvas-surface.quantum-stepper button:enabled:hover {
+#lab .canvas-surface :is(.source-stack, .pointer-options button):enabled:hover:where(:not([aria-pressed="true"], .active)) {
     background-color: var(--lab-glass-button-hover);
 }
 #lab .canvas-surface .source-stack:is([aria-pressed="true"], .active) {
     background-color: var(--lab-glass-button-selected);
-    box-shadow: var(--lab-glass-button-selected-shadow);
     color: var(--text-primary);
 }
 #lab .canvas-surface #cancelPlacement {
@@ -156,7 +195,18 @@
     color: var(--lab-delete-ink);
 }
 #lab .danger-button .trash-icon { width: 16px; height: 16px; }
+#lab .tray-items .tray-tool-icon {
+    flex: none;
+    width: var(--playback-icon-size);
+    height: var(--playback-icon-size);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
 #lab .tray-items > .trash-zone > span { align-self: auto; }
+#lab .lab-dock button { box-shadow: none; }
 
 #lab .scale-readout { color: #e4edf7; }
 
@@ -215,7 +265,7 @@
 }
 
 #lab :is([role="timer"], output, .control-value, .range-scale, input[type="number"],
-         #speedSelect, .quantum-stepper > span, #stateName, .real-orbitals button,
+         .quantum-stepper > span, #stateName, .real-orbitals button,
          .state-details dd, .scale-readout, #canvasStrengthText, #canvasChargeName,
          #canvasMassName, .mass-art text, .charge-art text) {
     font-family: var(--lab-number-font);
@@ -226,71 +276,72 @@
     .canvas-tools button { width: 44px; height: 44px; }
 }
 
-@media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
-    #lab {
-        --dock-tile-width: clamp(54px, 13.8vw, 62px);
-        --dock-tile-height: 46px;
-        --dock-tile-gap: 3px;
-        --dock-section-gap: clamp(10px, 3vw, 15px);
-        --dock-divider: color-mix(in srgb, var(--text-secondary) 42%, transparent);
-    }
+@media (max-width: 892px), (max-height: 500px) and (max-width: 950px) {
+    :where(:root:not([data-lab-embedded])) {
+        #lab {
+            --dock-tile-width: clamp(54px, 13.8vw, 62px);
+            --dock-tile-height: 50px;
+            --dock-icon-size: 22px;
+            --dock-tile-gap: 3px;
+            --dock-section-gap: clamp(10px, 3vw, 15px);
+            --dock-divider: color-mix(in srgb, var(--text-secondary) 42%, transparent);
+        }
 
-    .lab-dock {
-        align-items: center;
-        gap: var(--dock-tile-gap) var(--dock-section-gap);
-        padding: 4px;
-        border-radius: 14px;
-        background: var(--glass-tint);
-        box-shadow: var(--lab-glass-surface-shadow);
-    }
+        .lab-dock {
+            align-items: center;
+            gap: var(--dock-tile-gap) var(--dock-section-gap);
+            padding: 4px;
+            border-radius: 14px;
+            background: var(--glass-tint);
+            box-shadow: var(--lab-glass-surface-shadow);
+        }
 
-    .lab-dock::after,
-    .canvas-dock::before {
-        content: "";
-        position: absolute;
-        inset-block: 6px;
-        inset-inline-start: calc((var(--dock-section-gap) + 1px) / -2);
-        width: 1px;
-        background: var(--dock-divider);
-        pointer-events: none;
-    }
-    .lab-dock::after { grid-area: settings; }
-    .canvas-dock::before { grid-area: playback; }
+        .lab-dock::after {
+            content: "";
+            position: absolute;
+            inset-block: 6px;
+            inset-inline-start: calc((var(--dock-section-gap) + 1px) / -2);
+            width: 1px;
+            background: var(--dock-divider);
+            pointer-events: none;
+            grid-area: settings;
+        }
 
-    #lab .lab-dock .dock-tile {
-        display: grid;
-        grid-template: 18px auto / minmax(0, 1fr);
-        align-content: center;
-        justify-items: center;
-        gap: 2px;
-        width: var(--dock-tile-width);
-        height: var(--dock-tile-height);
-        min-width: 0;
-        padding: 2px 0;
-        font: 650 clamp(10px, 2.4vw, 11px)/1.05 var(--lab-ui-font);
-        text-align: center;
-        white-space: normal;
-    }
+        #lab .lab-dock .dock-tile {
+            display: grid;
+            grid-template: var(--dock-icon-size) auto / minmax(0, 1fr);
+            align-content: center;
+            justify-items: center;
+            gap: 2px;
+            width: var(--dock-tile-width);
+            height: var(--dock-tile-height);
+            min-width: 0;
+            padding: 2px 0;
+            font: 650 clamp(10px, 2.4vw, 11px)/1.05 var(--lab-ui-font);
+            text-align: center;
+            white-space: normal;
+        }
 
-    #lab .lab-dock .dock-tile > svg {
-        align-self: center;
-        width: 18px;
-        height: 18px;
-    }
+        #lab .lab-dock .dock-tile > svg {
+            align-self: center;
+            width: var(--dock-icon-size);
+            height: var(--dock-icon-size);
+        }
 
-    #lab .lab-dock .dock-tile > span {
-        display: block;
-        align-self: start;
-        min-width: 0;
-        line-height: inherit;
-        white-space: normal;
-    }
-    #lab .lab-dock .tray-items > .test-source > span,
-    #lab .lab-dock [data-tool="probe"]:lang(el) > span {
-        font-size: clamp(8px, 2vw, 9px);
-    }
+        #lab .lab-dock .dock-tile > span {
+            display: block;
+            align-self: start;
+            min-width: 0;
+            line-height: inherit;
+            white-space: normal;
+        }
+        #lab .lab-dock .tray-items > .test-source > span,
+        #lab .lab-dock [data-tool="probe"]:lang(el) > span {
+            font-size: clamp(8px, 2vw, 9px);
+        }
 
-    #lab .lab-dock #controlsToggle { grid-area: settings; }
+        #lab .lab-dock #controlsToggle { grid-area: settings; }
+    }
 }
 
 @media (max-width: 440px) {
@@ -317,7 +368,7 @@
     padding: 3px;
     border: 1px solid var(--lab-button-edge);
     border-radius: 9px;
-    background: var(--glass-tint);
+    background: var(--lab-sidebar-background);
 }
 
 #lab .panel-options > .panel-button {

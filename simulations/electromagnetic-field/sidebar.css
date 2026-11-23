@@ -38,20 +38,7 @@
 #manualControls, #automaticControls { margin-top: 12px; }
 #automaticControls .state-details { margin-top: 6px; }
 .panel .toggle-row { min-height: 33px; cursor: pointer; }
-.panel select {
-  width: 100%;
-  min-height: 36px;
-  margin: 4px 0 0;
-  padding: 5px 8px;
-  border: 1px solid #45658b;
-  border-radius: 8px;
-  color: var(--text-primary);
-  background: #08162b;
-  font: inherit;
-  font-size: 12px;
-}
 @media (pointer: coarse) {
-  .panel-button, .panel select, .panel .toggle-row { min-height: 44px; }
+  .panel-button, .panel .toggle-row { min-height: 44px; }
   .panel .control-label, .panel .toggle-row, .panel-button { font-size: 12px; }
-  .panel select { font-size: 16px; }
 }

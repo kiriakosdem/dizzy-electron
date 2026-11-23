@@ -7,20 +7,20 @@
 <meta name="color-scheme" content="dark light">
 <meta name="description" content="An interactive, offline electromagnetic field laboratory with retarded Liénard–Wiechert fields, a moving point charge, and a movable field probe.">
 <title>Electromagnetic Field Laboratory</title>
-<link rel="stylesheet" href="lab.css?v=bottom-drawer">
-<link rel="stylesheet" href="sidebar.css?v=bottom-drawer">
+<link rel="stylesheet" href="lab.css?v=desktop-embed">
+<link rel="stylesheet" href="sidebar.css?v=aligned-dropdowns">
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=dock-spacing">
-    <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=simulation-playback-settings">
+    <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=time-layout">
-    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=aligned-dropdowns">
+    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-link">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=dock-spacing">
-    <script src="../../assets/js/lab-canvas.js?v=dark-canvas"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=aligned-dropdowns">
+    <script src="../../assets/js/lab-canvas.js?v=adaptive-time-precision"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
@@ -32,7 +32,7 @@
     </a>
     <div class="lab-title-group">
         <h1>The Electromagnetic Field</h1>
-        <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><span class="lab-help-icon" aria-hidden="true">?</span></button>
+        <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><svg class="lab-help-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></svg></button>
     </div>
     <div class="lab-language"></div>
     <button class="panel-toggle dock-tile" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
@@ -77,24 +77,10 @@
               <button class="playback-toggle dock-tile" id="playButton" type="button" aria-label="Play simulation" title="Play simulation">
                   <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
               </button>
-              <button class="playback-icon playback-step" id="stepButton" type="button" aria-label="Step simulation forward" title="Step forward (.)" aria-keyshortcuts=".">
-                  <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 3v10l7-5zM11 3h2v10h-2z"/></svg><span>Step</span>
-              </button>
               <button class="playback-icon playback-reset" id="resetButton" type="button" aria-label="Restart time (R)" title="Restart time (R)">
                   <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
               </button>
-              <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulated time in SI units">0.00 ns</span>
-              <div class="playback-speed">
-                  <span id="speedMultiplier" aria-hidden="true">1×</span>
-                  <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
-                      <optgroup label="Playback speed">
-                          <option value="0.25">0.25× · 6 ns/s</option>
-                          <option value="0.5">0.5× · 12 ns/s</option>
-                          <option value="1" selected>1× · 24 ns/s</option>
-                          <option value="2">2× · 48 ns/s</option>
-                      </optgroup>
-                  </select>
-              </div>
+              <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulated time in SI units"><span class="time-value">0.00</span> <span class="time-unit">ns</span></span>
           </div>
           <div class="hud">
             <div class="scale-readout"><span id="scaleLabel">1 m</span><div class="scale-rule" id="scaleRule"></div></div>
@@ -116,21 +102,23 @@
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
       </button>
     </div>
-    <details open class="panel-section drawer-playback" id="drawerPlayback">
-      <summary><h2>
-        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
-        Time
-      </h2></summary>
-      <div class="drawer-playback-fields">
-        <label for="speedSelect">Playback speed</label>
-        <div class="drawer-playback-actions" id="drawerPlaybackActions"></div>
-      </div>
-    </details>
       <details open class="panel-section">
         <summary><h2>
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h3m5 0h8M2 14h9m5 0h2"/><circle cx="7.5" cy="6" r="2.5"/><circle cx="13.5" cy="14" r="2.5"/></svg>
           Simulation
         </h2></summary>
+        <label class="select-row" for="speedSelect">
+            <span>Playback speed</span>
+            <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
+                <optgroup label="Playback speed">
+                    <option value="0.25">0.25× · 6 ns/s</option>
+                    <option value="0.5">0.5× · 12 ns/s</option>
+                    <option value="1" selected>1× · 24 ns/s</option>
+                    <option value="2">2× · 48 ns/s</option>
+                </optgroup>
+            </select>
+        </label>
+        <div class="simulation-reset" id="simulationReset"></div>
         <h3 id="motionHeading">Source motion</h3>
         <div class="panel-options" role="group" aria-labelledby="motionHeading">
           <button type="button" class="panel-button" data-motion="manual" aria-pressed="true"><span class="segment-label">Mouse</span></button>
@@ -186,48 +174,47 @@
     </aside>
 </main>
 <dialog id="physicsDialog" aria-labelledby="physicsTitle">
-  <div class="dialog-head"><h2 id="physicsTitle">The physics behind the field</h2><button class="icon-button" id="closePhysics" aria-label="Close physics notes"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+  <div class="dialog-head"><h2 id="physicsTitle">The Electromagnetic Field</h2><button class="icon-button" id="closePhysics" aria-label="Close physics notes"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
   <div class="dialog-body">
-    <p>This is a two-dimensional slice through the <strong>three-dimensional vacuum fields</strong> of one positive point charge. You can drag the charge in the plane or choose automatic motion along the vertical axis. This is not a two-dimensional version of Coulomb’s law, and it does not integrate the charge’s response to its own radiation.</p>
-    <h3>1. What does a distant point know?</h3>
-    <p>The fields use the charge’s position, velocity and acceleration at the <strong>retarded time</strong>, the earlier time at which its influence left the source. Every sample solves the implicit equation below. This is why a new pulse does not reach the whole screen at once.</p>
-    <div class="math-block"><div class="math-row">t<sub>r</sub> + R(t<sub>r</sub>)/c = t</div><div class="math-row">R(t<sub>r</sub>) = |<b>x</b> − <b>r</b><sub>q</sub>(t<sub>r</sub>)|</div><div class="math-row"><b>n</b> = [<b>x</b> − <b>r</b><sub>q</sub>(t<sub>r</sub>)] / R(t<sub>r</sub>)</div></div>
-    <p>Here <b>x</b> is the observation point, <b>r</b><sub>q</sub> is the source position, R is the retarded distance, c is the speed of light, and <b>n</b> is the unit direction from the retarded source to the observer. The numerical solver uses safeguarded Newton iterations with a bracket guaranteed by the source speed bound. If D is the distance from the current source and V is its maximum speed, the triangle inequality gives D/(c + V) ≤ t − t<sub>r</sub> ≤ D/(c − V). This remains valid for a freely moved charge. Its target equation residual is 10<sup>−10</sup> nanoseconds.</p>
-    <h3>2. Two contributions, one electric field</h3>
-    <p>The simulation evaluates the <strong>Liénard–Wiechert field formula</strong>, as given in Michael Fowler’s University of Virginia lecture, “The Lienard-Weichert Potentials and Fields.” It is used because it separates the velocity contribution from the acceleration contribution without a slow-motion approximation.</p>
-    <div class="math-block"><div class="math-row"><b>E</b> = <b>E</b><sub>v</sub> + <b>E</b><sub>r</sub></div><div class="math-row"><b>E</b><sub>v</sub> = K (1 − |<b>β</b>|²)(<b>n</b> − <b>β</b>) / [κ³ R²]</div><div class="math-row"><b>E</b><sub>r</sub> = K <b>n</b> × [(<b>n</b> − <b>β</b>) × <b>a</b>] / [c² κ³ R]</div><div class="math-row"><b>B</b> = <b>n</b> × <b>E</b> / c</div></div>
-    <dl class="definition-grid"><dt>K</dt><dd>q/(4πε₀), where q is charge and ε₀ is vacuum permittivity.</dd><dt><b>β</b></dt><dd><b>v</b>/c, the source velocity as a fraction of the speed of light.</dd><dt>κ</dt><dd>1 − <b>n</b> · <b>β</b>, the retarded directional factor.</dd><dt><b>a</b></dt><dd>The source acceleration, the derivative of its velocity.</dd><dt>Subscripts v, r</dt><dd>Velocity field and radiation field. Every source quantity in these expressions is evaluated at t<sub>r</sub>.</dd></dl>
-    <p>In this plane, <b>E</b> has x and y components. The cross product gives B<sub>z</sub> = (n<sub>x</sub>E<sub>y</sub> − n<sub>y</sub>E<sub>x</sub>)/c. A positive value points out of the screen (⊙), and a negative value points into it (⊗). This relationship is applied separately to each selectable contribution.</p>
-    <div class="note-box"><strong>Two important distinctions.</strong> The velocity term is Coulomb-like, but is not generally radial from the retarded source. Its direction is <b>n</b> − <b>β</b>. The acceleration term is already transverse at every distance, not only in the far field.</div>
-    <h3>3. Why does the far field look transverse?</h3>
-    <p>The cross product of a vector with <b>n</b> is perpendicular to <b>n</b>. With <b>u</b> = (<b>n</b> − <b>β</b>) × <b>a</b>, the formula therefore gives</p>
-    <div class="math-block"><div class="math-row"><b>n</b> · <b>E</b><sub>r</sub> = K [<b>n</b> · (<b>n</b> × <b>u</b>)] / [c² κ³ R] = 0.</div></div>
-    <p>For fixed emission conditions and direction, the velocity term decreases as 1/R² while radiation decreases as 1/R. Their magnitude ratio thus grows in proportion to R whenever the radiation coefficient is nonzero. The total field approaches a transverse field as the velocity term becomes negligible. It is not necessarily exactly transverse at any finite distance.</p>
-    <p>There are exceptions to radiation dominance. For the automatic vertical motion, the radiation field is zero on the vertical line through the motion center, and it is also zero at phases with zero acceleration. An angle is undefined for a zero field. The snapshot records an undefined angle there.</p>
-    <h3>4. Motion, units and honest visualization</h3>
-    <p><strong>Continuous wave.</strong> Around your chosen center (x₀, y₀), the source follows x(t) = x₀ and y(t) = y₀ + A sin(2πft), where A is amplitude and f is frequency. Its derivatives are v<sub>y</sub>(t) = 2πfA cos(2πft) and a<sub>y</sub>(t) = −(2πf)²A sin(2πft). This steady oscillation exists for all earlier times, including negative times. Changing source parameters restarts this steady-state experiment rather than simulating a causal change of the drive.</p>
-    <p><strong>Single pulse.</strong> The charge is stationary before t = 0 and after t = T, where T = 1/f. During the pulse, set u = πt/T and use x(t) = x₀ and y(t) = y₀ + A sin⁴u. Differentiation gives v<sub>y</sub> = 4A(π/T)sin³u cos u and a<sub>y</sub> = 4A(π/T)²(3sin²u cos²u − sin⁴u). Position, velocity and acceleration join continuously to the stationary portions. “Emit another pulse” restarts this experiment.</p>
-    <p>The readouts use SI units for a positive 1 nC point charge in vacuum. One internal time unit is 1 ns, and light travels 0.299792458 m in that time. The solver uses c = 1 and q/(4πε₀) = 1 internally. Source speed is limited to 0.65c. The excluded disk around the point charge has a radius of about 4.2 cm. At low zoom, the visual charge marker can cover nearby samples.</p>
-    <p><strong>Vector scale.</strong> Directions are unmodified. Let s = ln(1 + g|<b>E</b>|), where g is 250 times the visibility setting. The arrow length is L = L<sub>max</sub>s/(1 + s). This chosen display mapping is monotonic but is not proportional to physical field strength. Magnetic symbols similarly encode c|B<sub>z</sub>|. Snapshot readings use the unscaled numerical field.</p>
-    <p>Electric arrows and magnetic glyphs use interleaved grids, each evaluated at its own actual sample position. Propagation guides are circles of constant emission time centered on the source position at that time. They are not electric field lines or a claim of equal radiation in every direction. Dashed gray rays join the retarded source position to the probe. The probe’s angle uses the selected electric component and this retarded direction, not the direction from the current charge.</p>
-<p><strong>Mouse motion.</strong> There is no pre-placed charge. Your first click chooses a stationary initial condition: the charge is assumed to have existed at that location for all earlier times. This is not a charge suddenly created in empty space. Restarting in Mouse mode establishes a new stationary initial condition and clears the old history.</p>
-    <p>The cursor specifies a target, not an instantaneous teleport. The source follows it with bounded speed and acceleration. Very fast drags show an outlined target while the real charge catches up. At 1× playback, manual motion advances 24 simulated nanoseconds per real second by default. Wave and Pulse modes advance one simulated nanosecond per real second. The Mouse time rate control changes that display clock, not the speed of light in the field equations. Dragging a paused charge explicitly resumes playback.</p>
-    <p>The recorded path uses steps no longer than 0.05 nanoseconds. Let Δ = t<sub>k+1</sub> − t<sub>k</sub> and u = t − t<sub>k</sub> within one step. The implementation chooses bounded endpoint velocities and defines</p>
-    <div class="math-block"><div class="math-row"><b>a</b><sub>k</sub> = (<b>v</b><sub>k+1</sub> − <b>v</b><sub>k</sub>) / Δ</div><div class="math-row"><b>r</b>(t) = <b>r</b><sub>k</sub> + <b>v</b><sub>k</sub>u + ½<b>a</b><sub>k</sub>u²</div><div class="math-row">d<b>r</b>/dt = <b>v</b><sub>k</sub> + <b>a</b><sub>k</sub>u = <b>v</b>(t)</div><div class="math-row">d<b>v</b>/dt = <b>a</b><sub>k</sub></div></div>
-    <p>These expressions follow by integrating constant acceleration over a step. Position and velocity remain continuous. Acceleration is piecewise constant and may jump at step boundaries. Because velocity interpolates between two vectors whose magnitudes do not exceed 0.65c, the triangle inequality keeps every intermediate velocity below the same bound. The full stored trajectory is used for retarded fields, including after you release the mouse. Only decorative guide circles are limited in number.</p>
-    <p>Switching from an automatic trajectory to Mouse control preserves its earlier analytic history. Switching to an automatic motion starts a new experiment centered at the current charge position. The charge is prescribed externally, with no self-force, radiation reaction, or response to the noninteracting probe.</p>
-    <p>Arrow bases are spatial sample points. They do not represent particles moving through space.</p>
-    <h3 id="shortcutsHeading">Keyboard and pointer controls</h3>
-    <div class="shortcut-grid"><div><span>Charge / Probe / View tools</span><span class="keycap">Q / P / G</span></div><div><span>Play or pause</span><span class="keycap">SPACE</span></div><div><span>One time step</span><span class="keycap">.</span></div><div><span>Total / velocity / radiation</span><span class="keycap">1 / 2 / 3</span></div><div><span>Restart time</span><span class="keycap">R</span></div><div><span>Zoom in / out</span><span class="keycap">+ / −</span></div><div><span>Recenter overview</span><span class="keycap">H</span></div><div><span>Move focused canvas probe</span><span class="keycap">ARROWS</span></div><div><span>Close these notes</span><span class="keycap">ESC</span></div></div>
-    <p>Drag the charge or the probe directly. The Charge tool can also set a new target anywhere. The Probe tool places or drags the probe anywhere. Use the View tool, Shift-drag, or the middle mouse button to pan. Scroll or pinch to zoom. Q selects Charge, P selects Probe, and G selects View. Arrow keys move the probe when the canvas is focused. Hold Shift for a larger keyboard step. Use Reset view or H to recenter the camera on the charge. A snapshot exports the current canvas with its field mode, time and numerical probe readings. The standalone lab starts with a running wave. Drag the charge to switch to Mouse mode. In the article, the charge starts at rest in Mouse mode.</p>
-    <div class="source-reference"><strong>Formula references</strong><p><a href="https://galileoandeinstein.phys.virginia.edu/Elec_Mag/2022_Lectures/EM_67_Lienard_Weichert.html" target="_blank" rel="noopener noreferrer">Michael Fowler, University of Virginia. The Lienard-Weichert Potentials and Fields.</a><br>Electric-field decomposition, retarded geometry, and the transverse radiation field.</p><p><a href="https://www.feynmanlectures.caltech.edu/II_21.html" target="_blank" rel="noopener noreferrer">The Feynman Lectures on Physics, Volume II, Chapter 21. Solutions of Maxwell’s Equations with Currents and Charges.</a><br>Retarded potentials and fields of a moving point charge.</p><p>The analytic trajectory, visual mapping and numerical solver are implemented locally. There are no libraries, fonts, trackers or remote assets required to run this file.</p></div>
-    <p class="source-reference"><a href="../../lessons/physics/ti-einai-i-aktinovolia.html" target="_blank" rel="noopener">Read the lesson</a></p>
+    <p class="source-reference"><a href="../../lessons/physics/ti-einai-i-aktinovolia.html" target="_blank" rel="noopener">Lesson · What is radiation?</a></p>
+
+    <h3>Changes travel at the speed of light</h3>
+    <p>The canvas shows a slice through the electric and magnetic fields of one moving charge in vacuum. Light takes time to cross the distance R between the observation point and the charge’s earlier position. The fields at time t use the charge’s position, velocity, and acceleration at that earlier time, called the retarded time.</p>
+    <div class="math-block">
+      <math display="block">
+        <semantics>
+          <mrow><msub><mi>t</mi><mi>r</mi></msub><mo>+</mo><mfrac><mrow><mi>R</mi><mrow><mo>(</mo><msub><mi>t</mi><mi>r</mi></msub><mo>)</mo></mrow></mrow><mi>c</mi></mfrac><mo>=</mo><mi>t</mi></mrow>
+          <annotation encoding="application/x-tex">t_{\mathrm{r}}+\frac{R(t_{\mathrm{r}})}{c}=t</annotation>
+        </semantics>
+      </math>
+    </div>
+    <p>Here c is the speed of light. Watch a single pulse reach nearby points before distant ones.</p>
+    <h3>Velocity field and radiation</h3>
+    <p>The lab uses the Liénard–Wiechert fields. The electric field is the sum of a velocity term, which includes the static Coulomb field, and a radiation term, which comes from acceleration. For the same emission conditions and direction, the velocity term falls as 1/R² and the radiation term as 1/R. This lets radiation dominate far away in directions where it is emitted.</p>
+    <div class="math-block">
+      <math display="block">
+        <semantics>
+          <mtable>
+            <mtr><mtd><mrow><mi mathvariant="bold">E</mi><mo>=</mo><msub><mi mathvariant="bold">E</mi><mi mathvariant="normal">vel</mi></msub><mo>+</mo><msub><mi mathvariant="bold">E</mi><mi mathvariant="normal">rad</mi></msub></mrow></mtd></mtr>
+            <mtr><mtd><mrow><mi mathvariant="bold">B</mi><mo>=</mo><mfrac><mrow><mi mathvariant="bold">n</mi><mo>×</mo><mi mathvariant="bold">E</mi></mrow><mi>c</mi></mfrac></mrow></mtd></mtr>
+          </mtable>
+          <annotation encoding="application/x-tex">\begin{gathered}\mathbf{E}=\mathbf{E}_{\mathrm{vel}}+\mathbf{E}_{\mathrm{rad}}\\ \mathbf{B}=\frac{\mathbf{n}\times\mathbf{E}}{c}\end{gathered}</annotation>
+        </semantics>
+      </math>
+    </div>
+    <p>The vector n points from the charge’s position at emission toward the observer. The radiation electric field is perpendicular to n. Orange arrows show the electric field in the canvas plane. Blue symbols show the magnetic field perpendicular to that plane. ⊙ points out of the screen and ⊗ points into it.</p>
+    <h3>Controls and how to use them</h3>
+    <ul class="dialog-controls">
+      <li>Under Source motion, choose Wave for a continuous oscillation, Pulse for one burst, or Mouse to move the charge by hand. Dragging the charge switches to Mouse mode. For Wave and Pulse, adjust the amplitude and the frequency or pulse duration setting.</li>
+      <li>Try Pulse with Radiation selected under Field component. Use the Probe tool (P) to sample the field at different distances. Turn on Retarded source ray to see the direction from the emission position to the probe. Propagation guides show how far a disturbance from one emission time has traveled.</li>
+      <li>Play or pause with Space, step with the period key, and restart time with R. Use the View tool (G) or Shift-drag to pan, and scroll or pinch to zoom.</li>
+    </ul>
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=time-section"></script>
+    <script src="../../assets/js/lab-greek.js?v=physics-notes"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
-    <script src="../../assets/js/lab-toggle.js?v=stacked-dock"></script>
+    <script src="../../assets/js/lab-toggle.js?v=simulation-playback-settings"></script>
 <script id="physics-engine">
 "use strict";
 /** Retarded Lienard-Wiechert fields for a prescribed planar trajectory.
@@ -435,12 +422,16 @@ const ChargeFieldPhysics = (() => {
   const P = ChargeFieldPhysics;
   const meters = value => value * P.SI.metersPerUnit;
   const megahertz = value => value / P.SI.secondsPerUnit * 1e-6;
-  function formatTime(value, digits = 2) {
+  function timeInDisplayUnits(value) {
     const nanoseconds = value * P.SI.secondsPerUnit * 1e9;
-    if (nanoseconds >= 1e9) return (nanoseconds / 1e9).toFixed(digits) + " s";
-    if (nanoseconds >= 1e6) return (nanoseconds / 1e6).toFixed(digits) + " ms";
-    if (nanoseconds >= 1e3) return (nanoseconds / 1e3).toFixed(digits) + " µs";
-    return nanoseconds.toFixed(digits) + " ns";
+    if (nanoseconds >= 1e9) return [nanoseconds / 1e9, "s"];
+    if (nanoseconds >= 1e6) return [nanoseconds / 1e6, "ms"];
+    if (nanoseconds >= 1e3) return [nanoseconds / 1e3, "µs"];
+    return [nanoseconds, "ns"];
+  }
+  function formatTime(value, digits = 2) {
+    const [time, unit] = timeInDisplayUnits(value);
+    return time.toFixed(digits) + " " + unit;
   }
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const state = { time: 0, playing: false, speed: 1, mode: "total", motion: "manual",
@@ -529,7 +520,6 @@ const ChargeFieldPhysics = (() => {
       const rate = formatRate.format(Number(option.value) * baseNanoseconds);
       option.textContent = option.value + "× · " + rate + " ns/s";
     }
-    $("speedMultiplier").textContent = select.value + "×";
     setLabCopy(select.querySelector("optgroup"), "Playback speed", [], "label");
     const activeRate = formatRate.format(state.speed * baseNanoseconds);
     const rateDescription = activeRate === "1" ? "1 nanosecond per real second" : "{0} nanoseconds per real second";
@@ -537,10 +527,10 @@ const ChargeFieldPhysics = (() => {
   }
   function updatePlayback() {
     $("playIcon").setAttribute("d", state.playing ? "M3 2h4v12H3zM9 2h4v12H9z" : "M4 2l9 6-9 6Z");
+    $("playIcon").setAttribute("data-playing", String(state.playing));
     setLabCopy($("playLabel"), state.playing ? "Pause" : "Play");
     setLabLabel($("playButton"), state.playing ? "Pause simulation" : "Play simulation");
     $("playButton").disabled = !state.placed;
-    $("stepButton").disabled = !state.placed;
     $("resetButton").disabled = !state.placed;
     dirty = true;
   }
@@ -878,7 +868,7 @@ const ChargeFieldPhysics = (() => {
     return (value < 0 ? "−" : signed ? "+" : "") + num;
   }
   function updateClock() {
-    $("timeReadout").textContent = formatTime(state.time);
+    setLabTimeReadout($("timeReadout"), ...timeInDisplayUnits(state.time));
   }
   function draw() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.lineCap = "round"; ctx.lineJoin = "round";
@@ -946,7 +936,6 @@ const ChargeFieldPhysics = (() => {
     state.manualRate = Number(e.target.value); updateManualRate();
   });
   $("playButton").addEventListener("click", () => setPlaying(!state.playing));
-  $("stepButton").addEventListener("click", stepTime);
   $("resetButton").addEventListener("click", () => { restart(); toast(state.motion === "manual" ? "Time reset at the current charge position." : "Time restarted at t = 0."); });
   $("speedSelect").addEventListener("change", e => {
     state.speed = Number(e.target.value);

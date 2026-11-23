@@ -8,20 +8,32 @@ const labControls = (() => {
     const closeButton = $('controlsClose');
     const panel = $('controlsPanel');
     const backdrop = $('controlsBackdrop');
-    const compact = window.matchMedia('(max-width: 750px), (max-height: 500px) and (max-width: 950px)');
     const embedded = window.self !== window.top;
+    const compact = window.matchMedia(embedded ? 'not all' : '(max-width: 892px), (max-height: 500px) and (max-width: 950px)');
 
-    const playbackSettings = $('drawerPlayback');
     const playbackBar = document.querySelector('.time-bar');
-    const playbackActions = $('drawerPlaybackActions');
-    const step = playbackBar?.querySelector('.playback-step');
+    const simulationReset = $('simulationReset');
     const reset = playbackBar?.querySelector('.playback-reset');
     const timer = playbackBar?.querySelector('[role="timer"]');
-    const speed = playbackBar?.querySelector('.playback-speed, select');
+    let sidebarSections;
+
+    if (embedded && playbackBar) {
+        const canvasFrame = workspace.querySelector('.canvas-frame');
+        new ResizeObserver(([entry]) => {
+            // The sidebar takes space from the canvas in a lesson iframe.
+            lab.classList.toggle('desktop-playback-layout', entry.contentRect.width >= 600);
+        }).observe(canvasFrame);
+    }
 
     function setOpen(open) {
         const drawerOpen = open && compact.matches;
+        if (drawerOpen) {
+            const sections = [...document.querySelectorAll('#controlsPanel details.panel-section')];
+            sidebarSections ??= sections.map(section => [section, section.open]);
+            for (const section of sections) section.open = section.hasAttribute('data-drawer-default-open');
+        }
         panel.hidden = !open;
+        if (drawerOpen) panel.scrollTop = 0;
         panel.inert = !open;
         backdrop.hidden = !drawerOpen;
         header.inert = drawerOpen;
@@ -29,9 +41,9 @@ const labControls = (() => {
         lab.classList.toggle('controls-open', open);
         toggle.setAttribute('aria-expanded', String(open));
         setLabCopy(toggle, compact.matches ? 'Controls' : open ? 'Hide controls' : 'Show controls', [], 'aria-label');
-        $('controlsToggleIcon').setAttribute('d', compact.matches
-            ? 'M3 5h4m4 0h6M9 3v4M3 10h8m4 0h2m-4-2v4M3 15h2m4 0h8M7 13v4'
-            : open ? 'M5 5l10 10M15 5L5 15' : 'M3 5h14M3 10h14M3 15h14');
+        $('controlsToggleIcon').setAttribute('d', open && !compact.matches
+            ? 'M5 5l10 10M15 5L5 15'
+            : 'M3 5h4m4 0h6M9 3v4M3 10h8m4 0h2m-4-2v4M3 15h2m4 0h8M7 13v4');
     }
 
     function close() {
@@ -41,6 +53,7 @@ const labControls = (() => {
     }
 
     function updateLayout(open) {
+        if (!embedded && playbackBar) lab.classList.toggle('desktop-playback-layout', !compact.matches);
         const active = document.activeElement;
         const focusWasInPanel = panel.contains(active);
         if (compact.matches) {
@@ -48,19 +61,19 @@ const labControls = (() => {
             panel.setAttribute('role', 'dialog');
             panel.setAttribute('aria-modal', 'true');
             toggle.setAttribute('aria-haspopup', 'dialog');
-            if (speed) {
-                playbackSettings.querySelector('label').after(speed);
-                playbackActions.append(step, reset);
-            }
         } else {
+            if (sidebarSections) {
+                for (const [section, wasOpen] of sidebarSections) section.open = wasOpen;
+                sidebarSections = undefined;
+            }
             header.append(toggle);
             panel.removeAttribute('role');
             panel.removeAttribute('aria-modal');
             toggle.removeAttribute('aria-haspopup');
-            if (speed) {
-                timer.before(step, reset);
-                playbackBar.append(speed);
-            }
+        }
+        if (reset) {
+            if (compact.matches) simulationReset.append(reset);
+            else timer.before(reset);
         }
 
         setOpen(open);

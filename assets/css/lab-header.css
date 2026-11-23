@@ -85,7 +85,7 @@
 :root:has(#physicsDialog[open]) .lab-header #physicsButton {
     color: var(--lab-help-active-ink);
 }
-.lab-header .lab-help-icon { display: none; font-size: 1.15rem; line-height: 1; }
+.lab-header .lab-help-icon { display: none; width: 20px; height: 20px; }
 
 .lab-header #controlsToggle {
     width: var(--lab-header-control-size);
@@ -115,7 +115,7 @@
         padding: 0;
     }
     .lab-header .lab-help-text { display: none; }
-    .lab-header .lab-help-icon { display: inline; }
+    .lab-header .lab-help-icon { display: block; }
 }
 
 :root[data-lab-embedded] .lab-header {
@@ -156,12 +156,19 @@
 .dialog-body { padding: 0 18px 16px; overflow: auto; overscroll-behavior: contain; color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
 .dialog-body h3 { margin: 22px 0 6px; font-size: 15px; color: var(--text-primary); }
 .dialog-body a { color: var(--text-accent); }
-.math-block, .note-box { padding: 10px 12px; border: 1px solid var(--lab-panel-edge); border-radius: 8px; background: var(--lab-sidebar-background); }
-.math-block { overflow-x: auto; font-family: ui-monospace, monospace; }
-.math-row { width: max-content; padding: 2px 0; }
-.definition-grid { display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; }
-.definition-grid dt, .keycap { color: var(--text-primary); font-weight: 650; }
-.definition-grid dd { margin: 0; }
-.shortcut-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(225px, 100%), 1fr)); gap: 6px 20px; }
-.shortcut-grid > div { display: flex; justify-content: space-between; gap: 8px; }
-.source-reference { margin-top: 20px; border-top: 1px solid var(--lab-panel-edge); padding-top: 12px; }
+.source-reference { margin: 0; padding: 12px 0; border-bottom: 1px solid var(--lab-panel-edge); }
+.source-reference + h3 { margin-top: 14px; }
+.math-block {
+    overflow-x: auto;
+    padding: 10px 12px;
+    border: 1px solid var(--lab-panel-edge);
+    border-radius: 8px;
+    background: var(--lab-sidebar-background);
+    color: var(--text-primary);
+    font-size: 16px;
+    line-height: normal;
+}
+.math-block math { min-width: max-content; }
+.math-block mi[mathvariant="bold"] { font-weight: bold; }
+.dialog-controls { margin: 0; padding-inline-start: 1.4em; }
+.dialog-controls li + li { margin-top: 8px; }

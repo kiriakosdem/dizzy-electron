@@ -10,7 +10,7 @@
 *{box-sizing:border-box}
 body{margin:0;display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden}
 #lab{width:100%;flex:1;min-height:0;position:relative;overflow:hidden;isolation:isolate;user-select:none}
-canvas{display:block;width:var(--field-canvas-width, 100%);height:100%;touch-action:none;cursor:grab}
+canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 canvas.dragging{cursor:grabbing}
 canvas.placing{cursor:crosshair}
 canvas:focus,canvas:focus-visible{outline:none}
@@ -61,15 +61,13 @@ button{font:inherit;cursor:pointer}
 
 /* Read-only overlays must not block charge drops or canvas gestures. */
 .legend,.hud{pointer-events:none}
-.controls-open .legend{right:calc(292px + var(--lab-overlay-inset))}
-.controls-open .mode-msg{left:calc((100% - 292px)/2);max-width:calc(100% - 324px)}
+.controls-open .legend{right:calc(var(--lab-docked-sidebar-width, 0px) + var(--lab-overlay-inset))}
+.controls-open .mode-msg{left:calc((100% - var(--lab-docked-sidebar-width, 0px))/2);max-width:calc(100% - var(--lab-docked-sidebar-width, 0px) - 32px)}
 .charge-tray{position:absolute;left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));z-index:1;padding:12px}
 .tray-items{display:grid;grid-template-columns:repeat(3,64px);gap:8px;align-items:stretch}
 .tray-items>button{display:grid;grid-template-rows:minmax(0,1fr) auto;align-items:center;justify-items:center;row-gap:3px;line-height:12px}
 .tray-items>button>span{align-self:end;white-space:nowrap}
 .source-stack{position:relative;width:100%;height:72px;margin:0;padding:6px 3px;border:1px solid #7894b755;border-radius:10px;background:#8babc418;touch-action:none;cursor:grab;color:var(--text-secondary);font-size:10px}
-.source-stack .charge-art{width:36px;height:36px}
-.source-stack.test-source .charge-art{width:20px;height:20px}
 .source-stack:hover,.source-stack.active{background:#94b4d32b;border-color:#c4d7ed}
 .source-stack:active{cursor:grabbing}
 
@@ -80,21 +78,24 @@ button:disabled{cursor:default;opacity:.45}
 .negative .charge-art path{fill:#050a15;stroke-width:1.25}.negative .charge-art text{fill:#f3f8ff}
 .neutral .charge-art path{fill:#273b53;stroke:#8aabc9;stroke-width:1.25;stroke-dasharray:4 3}.neutral .charge-art text{fill:#e8f0ff}
 .trash-zone{grid-column:1 / -1;width:100%;min-width:0;max-width:none;height:44px;margin:0;padding:3px 6px;font-size:11px}
+#lab .tray-items > .trash-zone{border:1px dashed var(--lab-delete-ink)}
 .trash-zone.over{transform:scale(1.05)}
 .charge-ghost{position:absolute;top:0;left:0;z-index:5;pointer-events:none;width:48px;height:48px;filter:drop-shadow(0 2px 6px #0008)}
 .charge-ghost .charge-art{width:48px;height:48px}.charge-ghost.invalid{opacity:.45}
 .charge-ghost.test{display:grid;place-items:center}.charge-ghost.test .charge-art{width:20px;height:20px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-@media(max-width:750px),(max-height:500px) and (max-width:950px){
- .controls-open .legend{right:max(var(--lab-overlay-inset),env(safe-area-inset-right))}
- .controls-open .mode-msg{left:50%;max-width:calc(100% - 32px)}
- .action-button{min-height:44px}.control-label{font-size:12px}.action-button{font-size:12px}
- .control-label{margin:6px 0 5px}
+@media(max-width:892px),(max-height:500px) and (max-width:950px){
+    :where(:root:not([data-lab-embedded])) {
+     .controls-open .legend{right:max(var(--lab-overlay-inset),env(safe-area-inset-right))}
+     .controls-open .mode-msg{left:50%;max-width:calc(100% - 32px)}
+     .action-button{min-height:44px}.control-label{font-size:12px}.action-button{font-size:12px}
+     .control-label{margin:6px 0 5px}
 
- .charge-tray{left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));padding:10px}
+     .charge-tray{left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));padding:10px}
+    }
 }
 .canvas-dock{z-index:1}
-.controls-open .canvas-dock{right:calc(292px + max(var(--lab-overlay-inset),env(safe-area-inset-right)))}
+.controls-open .canvas-dock{right:calc(var(--lab-docked-sidebar-width, 0px) + max(var(--lab-overlay-inset),env(safe-area-inset-right)))}
 .canvas-dock .charge-tray{position:static;grid-area:1 / 1;justify-self:start;min-width:0;max-width:100%;pointer-events:auto}
 .canvas-dock .hud{position:static;min-width:0}
 .canvas-dock .tray-items{grid-template-columns:repeat(3,minmax(0,64px))}
@@ -102,27 +103,29 @@ button:disabled{cursor:default;opacity:.45}
  .canvas-dock .charge-tray{width:min(100%,152px);padding:5px}
  .canvas-dock .tray-items{gap:4px}
  .canvas-dock .source-stack{height:44px;min-height:44px;padding:2px;font-size:10px}
- .canvas-dock .source-stack .charge-art{width:23px;height:23px}
- .canvas-dock .test-source .charge-art{width:16px;height:16px}
 
 
 
 }
-@media(max-width:750px),(max-height:500px) and (max-width:950px){.controls-open .canvas-dock{right:max(var(--lab-overlay-inset),env(safe-area-inset-right))}}
-@media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
+@media(max-width:892px),(max-height:500px) and (max-width:950px){
+    :where(:root:not([data-lab-embedded])) {
+        .controls-open .canvas-dock{right:max(var(--lab-overlay-inset),env(safe-area-inset-right))}
+    }
+}
+@media(pointer:coarse) and (min-width:893px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=dock-spacing">
-    <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=simulation-playback-settings">
+    <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=time-layout">
-    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=aligned-dropdowns">
+    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-link">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=dock-spacing">
-    <script src="../../assets/js/lab-canvas.js?v=dark-canvas"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=aligned-dropdowns">
+    <script src="../../assets/js/lab-canvas.js?v=adaptive-time-precision"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
@@ -134,7 +137,7 @@ button:disabled{cursor:default;opacity:.45}
     </a>
     <div class="lab-title-group">
         <h1>The Electric Field</h1>
-        <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><span class="lab-help-icon" aria-hidden="true">?</span></button>
+        <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><svg class="lab-help-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></svg></button>
     </div>
     <div class="lab-language"></div>
     <button class="panel-toggle dock-tile" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
@@ -165,26 +168,20 @@ button:disabled{cursor:default;opacity:.45}
   <div class="canvas-dock lab-dock" id="canvasDock">
   <div class="charge-tray canvas-surface" id="chargeTray" role="group" aria-label="Charge tray">
     <div class="tray-items">
-      <button class="source-stack dock-tile" id="addPositive" type="button" aria-label="Positive charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a positive charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">+</text></svg><span>Positive</span></button>
-      <button class="source-stack negative dock-tile" id="addNegative" type="button" aria-label="Negative charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a negative charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">−</text></svg><span>Negative</span></button>
-      <button class="source-stack test-source dock-tile" id="addTest" type="button" aria-label="Drag a test charge onto the canvas, or click then place" aria-pressed="false" title="Add a test charge using the shared mass and charge"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/></svg><span>Test charge</span></button>
+      <button class="source-stack dock-tile" id="addPositive" type="button" aria-label="Positive charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a positive charge, or click then place"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 2 5 5-2-2 5 3 3-5 1-3 4-2-4-5 1 2-5-3-3 5-1zM8 10h4m-2-2v4"/></svg><span>Positive</span></button>
+      <button class="source-stack negative dock-tile" id="addNegative" type="button" aria-label="Negative charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a negative charge, or click then place"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 2 5 5-2-2 5 3 3-5 1-3 4-2-4-5 1 2-5-3-3 5-1zM8 10h4"/></svg><span>Negative</span></button>
+      <button class="source-stack test-source dock-tile" id="addTest" type="button" aria-label="Drag a test charge onto the canvas, or click then place" aria-pressed="false" title="Add a test charge using the shared mass and charge"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 2v3m0 10v3M2 10h3m10 0h3m-6 0h-4m2-2v4"/></svg><span>Test charge</span></button>
       <button class="trash-zone danger-button dock-tile" id="trashZone" type="button" aria-label="Delete selected charge, or drag a charge here" title="Drop a charge here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Delete</span></button>
     </div>
   </div>
-  <div class="time-bar canvas-surface" id="testPlayback" data-hide-when-idle role="group" aria-label="Playback for all test charges">
+  <div class="time-bar canvas-surface" id="testPlayback" role="group" aria-label="Playback for all test charges">
       <button class="playback-toggle dock-tile" id="pauseTest" type="button" disabled aria-label="Play all test charges" title="Play all test charges">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
-      </button>
-      <button class="playback-icon playback-step" id="stepButton" type="button" disabled aria-label="Step simulation forward" title="Step forward (.)" aria-keyshortcuts=".">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 3v10l7-5zM11 3h2v10h-2z"/></svg><span>Step</span>
       </button>
       <button class="playback-icon playback-reset" id="resetTest" type="button" disabled aria-label="Reset all test charges to their starting positions" title="Reset all test charges to their starting positions">
           <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
       </button>
-      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated milliseconds">0.00 ms</span>
-      <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
-          <option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option>
-      </select>
+      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated milliseconds"><span class="time-value">0.00</span> <span class="time-unit">ms</span></span>
   </div>
   <div class="hud" role="group" aria-label="Distance scale and zoom">
     <div class="scale-readout"><span id="distanceLabel"></span><div class="scale-rule" id="scaleRule"></div></div>
@@ -213,15 +210,18 @@ button:disabled{cursor:default;opacity:.45}
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
       </button>
     </div>
-    <details open class="panel-section drawer-playback" id="drawerPlayback">
+    <details class="panel-section" aria-label="Simulation settings">
       <summary><h2>
-        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
-        Time
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h3m5 0h8M2 14h9m5 0h2"/><circle cx="7.5" cy="6" r="2.5"/><circle cx="13.5" cy="14" r="2.5"/></svg>
+        Simulation
       </h2></summary>
-      <div class="drawer-playback-fields">
-        <label for="speedSelect">Playback speed</label>
-        <div class="drawer-playback-actions" id="drawerPlaybackActions"></div>
-      </div>
+      <label class="select-row" for="speedSelect">
+          <span>Playback speed</span>
+          <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
+              <option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option>
+          </select>
+      </label>
+      <div class="simulation-reset" id="simulationReset"></div>
     </details>
     <details class="panel-section" id="visualizationSettings" aria-label="Display settings">
     <summary><h2>
@@ -238,7 +238,7 @@ button:disabled{cursor:default;opacity:.45}
     <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field and potential color sensitivity"/>
     <div class="range-scale" aria-hidden="true"><span>0.3</span><span>4</span></div>
   </details>
-    <details open class="panel-section" id="chargesConfiguration" aria-label="Examples">
+    <details open class="panel-section" id="chargesConfiguration" aria-label="Examples" data-drawer-default-open>
       <summary><h2>
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M7.5 7.3a2.5 2.5 0 1 1 3.9 2c-1 .6-1.4 1.2-1.4 2.2m0 2.8h.01"/></svg>
         Examples
@@ -288,29 +288,52 @@ button:disabled{cursor:default;opacity:.45}
 <dialog id="physicsDialog" aria-labelledby="physicsTitle">
   <div class="dialog-head"><h2 id="physicsTitle">The Electric Field</h2><button id="closePhysics" type="button" aria-label="Close physics notes"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
   <div class="dialog-body">
-    <h3>How charges create a field</h3>
-    <p>A positive source charge creates an electric field that points away from it. A negative source draws the field inward. For a point charge of magnitude |Q|, the field strength at distance r is E = k|Q|/r². Doubling the distance reduces the strength to one quarter.</p>
-    <p>With several sources, their field vectors add. Between two equal positive charges, the fields cancel at the midpoint even though each charge produces a field there.</p>
-    <h3>What moves the test charge?</h3>
-    <p>A test charge q feels the force <b>F</b> = q<b>E</b>. Its acceleration is <b>F</b>/m. The lab holds the source charges fixed and follows the test charge as its velocity changes.</p>
-    <p>The potential display shows electric potential energy per unit charge. Each source contributes V = kQ/r. These contributions add with their signs.</p>
-    <h3>Canvas controls and scale</h3>
-    <p>Drag the background to pan. Scroll or pinch to zoom. One grid unit represents one centimetre.</p>
-    <p>Drag a charge to move it, or drop it on the trash button to remove it. Moving a test charge releases it from rest at its new position. At 1× playback, one real second represents one millisecond of simulated motion.</p>
-    <p class="source-reference"><a href="../../lessons/physics/pos-droun-oi-ilektrostatikes-dynameis.html" target="_blank" rel="noopener">Read the lesson</a></p>
+    <p class="source-reference"><a href="../../lessons/physics/pos-droun-oi-ilektrostatikes-dynameis.html" target="_blank" rel="noopener">Lesson · How do electrostatic forces work?</a></p>
+
+    <h3>Electric field and potential</h3>
+    <p>The electric field points away from a positive source and toward a negative one. Each source contributes a vector, and the arrows show their sum. The potential is a scalar. Add the contributions with their signs to get the potential energy per unit charge.</p>
+    <div class="math-block">
+      <math display="block">
+        <semantics>
+          <mtable>
+            <mtr><mtd><mrow><mi mathvariant="bold">E</mi><mo>=</mo><mi>k</mi><msub><mo>∑</mo><mi>i</mi></msub><mfrac><msub><mi>Q</mi><mi>i</mi></msub><msup><msub><mi>r</mi><mi>i</mi></msub><mn>2</mn></msup></mfrac><msub><mover accent="true"><mi mathvariant="bold">r</mi><mo>^</mo></mover><mi>i</mi></msub></mrow></mtd></mtr>
+            <mtr><mtd><mrow><mi>V</mi><mo>=</mo><mi>k</mi><msub><mo>∑</mo><mi>i</mi></msub><mfrac><msub><mi>Q</mi><mi>i</mi></msub><msub><mi>r</mi><mi>i</mi></msub></mfrac></mrow></mtd></mtr>
+          </mtable>
+          <annotation encoding="application/x-tex">\begin{gathered}\mathbf{E}=k\sum_i \frac{Q_i}{r_i^2}\hat{\mathbf{r}}_i\\ V=k\sum_i\frac{Q_i}{r_i}\end{gathered}</annotation>
+        </semantics>
+      </math>
+    </div>
+    <p>Here Qᵢ is each source charge, rᵢ is its distance from the point you’re sampling, and r̂ᵢ points from the source to that point. The constant k is Coulomb’s constant. Doubling the distance to one source cuts its field to a quarter. Two equal positive charges cancel each other’s field at their midpoint, where the potential is still positive.</p>
+    <h3>Motion of a test charge</h3>
+    <p>The lab keeps the sources fixed. A positive test charge q starts from rest and accelerates along the local field. For the same field, increasing its charge increases its acceleration, while increasing its mass m reduces it.</p>
+    <div class="math-block">
+      <math display="block">
+        <semantics>
+          <mrow><mi mathvariant="bold">F</mi><mo>=</mo><mi>q</mi><mi mathvariant="bold">E</mi><mo>,</mo><mspace width="1em"/><mi mathvariant="bold">a</mi><mo>=</mo><mfrac><mi>q</mi><mi>m</mi></mfrac><mi mathvariant="bold">E</mi></mrow>
+          <annotation encoding="application/x-tex">\mathbf{F}=q\mathbf{E},\qquad \mathbf{a}=\frac{q}{m}\mathbf{E}</annotation>
+        </semantics>
+      </math>
+    </div>
+    <h3>Controls and how to use them</h3>
+    <ul class="dialog-controls">
+      <li>Load Dipole under Examples, or drag Positive and Negative charges from the tray onto the canvas. You can also tap a tray item and then tap its destination. Select a source to edit its charge and position. Drag a charge onto Delete to remove it.</li>
+      <li>Use Display to switch between field strength and electric potential, or toggle field arrows and lines. Potential is measured relative to zero at infinity. Orange marks positive values and blue marks negative ones.</li>
+      <li>Place a Test charge and use Play or Reset to follow its motion. Press the period key to advance one step. The Test charges controls set the mass and charge shared by all test charges. Drag a test charge to release it from rest at a new point. At 1× playback, one real second represents one simulated millisecond.</li>
+      <li>Drag the background to pan, and scroll or pinch to zoom. One grid unit represents 1 cm.</li>
+    </ul>
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=time-section"></script>
+    <script src="../../assets/js/lab-greek.js?v=keyboard-step"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
-    <script src="../../assets/js/lab-toggle.js?v=stacked-dock"></script>
+    <script src="../../assets/js/lab-toggle.js?v=simulation-playback-settings"></script>
 <script>
 (()=>{'use strict';
 const lab=document.getElementById('lab'), canvas=document.getElementById('fieldCanvas'), ctx=canvas.getContext('2d',{alpha:false});
 const $=id=>document.getElementById(id);
 const compactLayout=labControls.compact;
 let chargeHover=null,touchEditorId=null;
-setupLabCanvasTools(() => visibleFieldSnapshot(canvas, $('controlsPanel')), () => 'electric-field.png');
+setupLabCanvasTools(() => canvas, () => 'electric-field.png');
 const SAMPLE=50, MINOR=25, MAJOR=100, SUPER_MAJOR=400, MIN_ZOOM=.30,MAX_ZOOM=2;
 const PAN_X=2000,PAN_Y=1500;
 let vw=0,vh=0,dpr=1, camera={x:0,y:0,zoom:1};
@@ -358,13 +381,13 @@ function loadChargeConfiguration(kind,{initial=false}={}){
 function fitChargesToView(){
  if(!charges.length)return;
  const xmin=Math.min(...charges.map(c=>c.x)),xmax=Math.max(...charges.map(c=>c.x)),ymin=Math.min(...charges.map(c=>c.y)),ymax=Math.max(...charges.map(c=>c.y));
- const visibleWidth=vw-(labControls.open&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),topPadding=Math.min(80,vh*.2);
+ const topPadding=Math.min(80,vh*.2);
  const dock=$('canvasDock').getBoundingClientRect();
  const dockBelowCanvas=dock.top>=canvas.getBoundingClientRect().bottom;
  const dockHeight=vw<=500?Math.max(dock.height,270):Math.max($('chargeTray').getBoundingClientRect().height,150);
  const bottomPadding=dockBelowCanvas?topPadding:compactLayout.matches?Math.min(vh*.6,dockHeight+36):100;
- const zoom=clamp(Math.min(1,(visibleWidth-108)/Math.max(1,xmax-xmin),(vh-topPadding-bottomPadding)/Math.max(1,ymax-ymin)),minimumZoom(),MAX_ZOOM);
- camera={x:(xmin+xmax)/2+(vw-visibleWidth)/(2*zoom),y:(ymin+ymax)/2+((topPadding+vh-bottomPadding)/2-vh/2)/zoom,zoom};
+ const zoom=clamp(Math.min(1,(vw-108)/Math.max(1,xmax-xmin),(vh-topPadding-bottomPadding)/Math.max(1,ymax-ymin)),minimumZoom(),MAX_ZOOM);
+ camera={x:(xmin+xmax)/2,y:(ymin+ymax)/2+((topPadding+vh-bottomPadding)/2-vh/2)/zoom,zoom};
  constrainCamera();updateZoomControls();
 }
 function toScreen(x,y){return {x:(x-camera.x)*camera.zoom+vw/2,y:(camera.y-y)*camera.zoom+vh/2};}
@@ -388,9 +411,7 @@ $('cancelPlacement').onclick=()=>{placing=0;setMode();};
 function addCharge(x,y,sign){const c={id:nextId++,x,y,q:sign*4};charges.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});setLabCopy($('actionStatus'), sign>0 ? 'Positive charge added. Charges in the field: {0}.' : 'Negative charge added. Charges in the field: {0}.', [charges.length]);}
 function removeCharge(id=selectedId){if(!charges.some(c=>c.id===id))return;charges=charges.filter(c=>c.id!==id);if(selectedId===id)selectedId=charges.length?charges[charges.length-1].id:null;syncPanel();setLabCopy($('actionStatus'), 'Charge removed. Charges in the field: {0}.', [charges.length]);}
 function updateTimeReadout(){
- const label=(simulationTime*1000).toFixed(2)+' ms';
- const readout=$('timeReadout');
- if(readout.textContent!==label)readout.textContent=label;
+ setLabTimeReadout($('timeReadout'),simulationTime*1000,'ms');
 }
 function syncTestControls(){
  $('testBlock').hidden=!testSelected;$('editBlock').hidden=testSelected||!selected();
@@ -401,11 +422,11 @@ function syncTestControls(){
  const playing=testCharges.length>0&&!testPaused;
  const playLabel=playing?'Pause':'Play';
  $('playIcon').setAttribute('d',playing?'M3 2h4v12H3zM9 2h4v12H9z':'M4 2l9 6-9 6Z');
+ $('playIcon').setAttribute('data-playing', String(playing));
  setLabCopy($('playLabel'), playLabel);
  setLabLabel($('pauseTest'), playing ? 'Pause all test charges' : 'Play all test charges');
  $('pauseTest').disabled=!testCharges.length;
  $('resetTest').disabled=!testCharges.length;
- $('stepButton').disabled=!testCharges.length;
  const status=!testCharges.length?'Place a test charge to watch its motion.':testPaused?'All test charges paused. Continue to resume motion.':'Test charges moving under the electric force.';
  setLabCopy($('testStatus'), status);
  setLabCopy($('testBlock'), () => labText('F = qE; a = F/m. Test charges move independently in the fixed source field. Drag one to release it from a new point. 1 grid unit = 1 cm. At 1× playback, 1 ms is simulated per real second.') + ' ' + labText(status), [], 'title');
@@ -430,9 +451,9 @@ function placeTestCharge(x,y){
 }
 function placeFromTool(x,y,kind){if(kind==='test')return placeTestCharge(x,y);addCharge(x,y,kind);return true;}
 function placeTestNearCenter(){
- const visibleWidth=vw-(labControls.open&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),rect=canvas.getBoundingClientRect();
+ const rect=canvas.getBoundingClientRect();
  for(let radius=0;radius<=160;radius+=40)for(let i=0;i<(radius?8:1);i++){
-  const x=visibleWidth/2+radius*Math.cos(i*Math.PI/4),y=vh/2+radius*Math.sin(i*Math.PI/4),world=toWorld(x,y);
+  const x=vw/2+radius*Math.cos(i*Math.PI/4),y=vh/2+radius*Math.sin(i*Math.PI/4),world=toWorld(x,y);
   if(canPlaceTestCharge(world.x,world.y)&&overWorkspace({clientX:rect.left+x,clientY:rect.top+y},8)){placeTestCharge(world.x,world.y);placing=0;setMode();return;}
  }
  setLabCopy($('modeMessageText'), 'No clear point near the center. Click or tap farther from a source to place the test charge.');
@@ -499,7 +520,6 @@ function stepTestCharges(){
  // Step one nominal display frame using the same fixed physics ticks as playback.
  advanceTestCharge(1/60,true);
 }
-$('stepButton').onclick=stepTestCharges;
 $('resetTest').onclick=resetTestCharges;
 $('speedSelect').onchange=e=>{
  playbackRate=Number(e.target.value);
@@ -521,9 +541,9 @@ function applyCoordinate(axis,input){
  const limit=axis==='x'?PAN_X:PAN_Y;
  c[axis]=clamp(Math.round(value),-limit,limit);syncCoordinateInputs(c);
  // Follow precise moves that would otherwise put the charge outside the visible grid.
- const p=toScreen(c.x,c.y),visibleWidth=vw-(labControls.open&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0);
- if(p.x<32||p.x>visibleWidth-32||p.y<32||p.y>vh-32){
-  camera.x=c.x+(vw-visibleWidth)/(2*camera.zoom);camera.y=c.y;constrainCamera();
+ const p=toScreen(c.x,c.y);
+ if(p.x<32||p.x>vw-32||p.y<32||p.y>vh-32){
+  camera.x=c.x;camera.y=c.y;constrainCamera();
  }
  const position=[Math.round(c.x), Math.round(c.y)];
  setLabCopy($('actionStatus'), Math.abs(value)>limit
@@ -546,10 +566,10 @@ lab.addEventListener('pointerleave',()=>{chargeHover=null;positionChargePopover(
 function positionChargePopover(){
  const editor=$('chargePopover'),c=selected();
  if(!c||testSelected||placing||sourceDrag||activeDrag||(compactLayout.matches&&labControls.open)){editor.hidden=true;return;}
- const p=toScreen(c.x,c.y),visibleWidth=vw-(labControls.open&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0);
+ const p=toScreen(c.x,c.y);
  const width=editor.getBoundingClientRect().width||190,height=editor.getBoundingClientRect().height||80;
- const x=clamp(p.x-width/2,8,visibleWidth-width-8),y=Math.max(8,p.y-height-34);
- if(p.x<0||p.x>visibleWidth||p.y<0||p.y>vh||visibleWidth<width+16){editor.hidden=true;return;}
+ const x=clamp(p.x-width/2,8,vw-width-8),y=Math.max(8,p.y-height-34);
+ if(p.x<0||p.x>vw||p.y<0||p.y>vh||vw<width+16){editor.hidden=true;return;}
  const h=chargeHover,inRing=h&&Math.hypot(h.x-p.x,h.y-p.y)<=27;
  // Preserve access while crossing the small gap between the ring and slider.
  const inEditor=h&&h.x>=x&&h.x<=x+width&&h.y>=y&&h.y<=y+height;
@@ -576,7 +596,9 @@ function overTrash(e,drag){
  const sourceBottom=Math.max(...['addPositive','addNegative','addTest'].map(id=>$(id).getBoundingClientRect()).filter(rect=>rect.width&&rect.height).map(rect=>rect.bottom));
  // Include bin padding in either layout, without accepting drops on source stacks.
  const vertical=bin.top>=sourceBottom;
- return [e,chargeDragPoint(e,drag)].some(p=>vertical
+ const points=[e,chargeDragPoint(e,drag)];
+ if(points.some(p=>insideElement($('trashZone'),p)))return true;
+ return points.some(p=>vertical
    ?p.clientX>=r.left&&p.clientX<=r.right&&p.clientY>sourceBottom&&p.clientY<=r.bottom
    :p.clientX>source.right&&p.clientX<=r.right&&p.clientY>=Math.max(r.top,testSource.bottom+4)&&p.clientY<=r.bottom);
 }
@@ -754,7 +776,7 @@ for(const type of ['click','dblclick'])window.addEventListener(type,e=>{
 },true);
 canvas.addEventListener('dblclick',e=>{if(placing||!overWorkspace(e,CHARGE_RADIUS))return;const p=pointerPos(e);if(!chargeAt(p)){const w=toWorld(p.x,p.y);addCharge(w.x,w.y,1);}});
 window.addEventListener('keydown',e=>{if(labControls.drawerOpen)return;if(e.key==='Escape'){if(!$('chargePopover').hidden){closeChargeEditor();canvas.focus({preventScroll:true});return;}cancelInteraction(true);placing=0;setMode();if(labControls.open)labControls.close();}
- if(e.key==='.'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target?.closest?.('input,select,textarea,[contenteditable]')&&!$('physicsDialog').open&&!$('stepButton').disabled){e.preventDefault();stepTestCharges();}
+ if(e.key==='.'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target?.closest?.('input,select,textarea,[contenteditable]')&&!$('physicsDialog').open&&testCharges.length){e.preventDefault();stepTestCharges();}
  if(e.key==='Enter'&&e.target===canvas&&placing==='test'){e.preventDefault();placeTestNearCenter();}
   if((e.key==='Delete'||e.key==='Backspace')&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)&&!e.target.isContentEditable){e.preventDefault();removeSelection();}
 });
@@ -1019,8 +1041,6 @@ function render(now){
  drawFrame();
  requestAnimationFrame(render);
 }
-setChargeArtwork($('addPositive').querySelector('svg'),1);setChargeArtwork($('addNegative').querySelector('svg'),2);
-setChargeArtwork($('addTest').querySelector('svg'),0);
 document.querySelectorAll('input[type=range]').forEach(input=>{updateRangeFill(input);input.addEventListener('input',()=>updateRangeFill(input));});
 const observer=new ResizeObserver(resize);observer.observe(canvas);resize();
 loadChargeConfiguration('dipole',{initial:true});

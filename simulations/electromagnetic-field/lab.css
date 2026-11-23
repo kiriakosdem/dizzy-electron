@@ -38,7 +38,7 @@ svg { display: block; }
 #lab { flex: 1; min-height: 0; position: relative; overflow: hidden; isolation: isolate; }
 #stage { position: absolute; inset: 0; overflow: hidden; }
 .playback-field-frame { position: absolute; inset: 0 0 var(--playback-reserve, 0px); }
-.controls-open #stage { right: 292px; }
+.controls-open #stage { right: var(--lab-docked-sidebar-width, 0px); }
 .field-canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
 .field-canvas[data-tool="pan"] { cursor: grab; }
 .field-canvas.dragging { cursor: grabbing; }
@@ -89,10 +89,12 @@ svg { display: block; }
 }
 .pointer-options button {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 0 8px;
+    gap: 2px;
+    min-height: var(--playback-control-height);
+    padding: 2px 8px;
     background: transparent;
     font-size: 12px;
     font-weight: 600;
@@ -100,14 +102,16 @@ svg { display: block; }
 }
 .pointer-options svg {
     flex: none;
-    width: 16px;
-    height: 16px;
+    width: var(--playback-icon-size);
+    height: var(--playback-icon-size);
     fill: none;
     stroke: currentColor;
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+#lab:has(.pointer-tools) { --dock-tile-height: max(44px, var(--playback-control-height)); }
+
 @container (max-width: 500px) {
     .pointer-options { grid-auto-columns: minmax(0, auto); }
     .pointer-options button {
@@ -127,7 +131,9 @@ svg { display: block; }
     .icon-button { min-height: 44px; }
     .icon-button { width: 44px; }
 }
-@media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
-    .controls-open #stage { right: 0; }
-    .toast { top: 92px; }
+@media (max-width: 892px), (max-height: 500px) and (max-width: 950px) {
+    :where(:root:not([data-lab-embedded])) {
+        .controls-open #stage { right: 0; }
+        .toast { top: 92px; }
+    }
 }

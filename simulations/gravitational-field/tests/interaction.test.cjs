@@ -8,9 +8,10 @@ const pageIds=new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g),m=>m[1]));
 const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
 
 // Run the page's real handlers with deterministic layout and pointer capture.
-function openLab(compact,{empty=false,random,startup=false}={}){
+function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}={}){
  const width=compact?390:1000,height=700,top=90;
  const elements=new Map(),windowListeners=new Map();
+ let onCanvasResize;
  function event(type,target,values={}){
   return {type,target,button:0,buttons:type==='pointerup'||type==='pointercancel'?0:1,pointerId:1,pointerType:'mouse',detail:1,
    defaultPrevented:false,preventDefault(){this.defaultPrevented=true;},
@@ -30,7 +31,13 @@ function openLab(compact,{empty=false,random,startup=false}={}){
   return {id,hidden:id==='controlsBackdrop',dataset:{},style:{setProperty(){}},clientHeight:0,
    rect:{left:0,top:0,right:0,bottom:0,width:0,height:0},
    classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle(c,on){if(on===undefined)on=!classes.has(c);on?classes.add(c):classes.delete(c);},contains:c=>classes.has(c)},
-   getBoundingClientRect(){return this.rect;},getClientRects(){return this.hidden?[]:[this.rect];},
+   getBoundingClientRect(){
+    if(measureSidebar&&id==='fieldCanvas'&&!compact&&!$('controlsPanel').hidden){
+     const sidebarWidth=$('controlsPanel').rect.width;
+     return {...this.rect,width:this.rect.width-sidebarWidth,right:this.rect.right-sidebarWidth};
+    }
+    return this.rect;
+   },getClientRects(){return this.hidden?[]:[this.rect];},
    getContext(){return context;},setAttribute(){},removeAttribute(){},focus(){},contains(){return false;},append(){},before(){},after(){},replaceChildren(){},
    querySelector(selector){if(selector==='.selected')return null;if(!children.has(selector))children.set(selector,element());return children.get(selector);},
    addEventListener(type,handler){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(handler);},
@@ -62,7 +69,7 @@ function openLab(compact,{empty=false,random,startup=false}={}){
  const document={hidden:false,addEventListener(){},getElementById:$,createElement:()=>element(),querySelector:selector=>selector==='.zoom'?$('zoom'):controlsLayout.get(selector)??null,querySelectorAll:()=>[],
   elementFromPoint(){throw Error('Drop validation must not depend on the preview being absent from hit testing');}};
  const sandbox={document,window:{matchMedia:()=>({matches:compact,addEventListener(){}}),devicePixelRatio:1,
-  addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{observe(){}},
+  addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{constructor(callback){onCanvasResize=callback;}observe(){}},
   performance:{now:()=>0},requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
  // These interaction tests run the standalone lab, outside a lesson iframe.
  sandbox.window.parent=sandbox.window;
@@ -81,7 +88,7 @@ function openLab(compact,{empty=false,random,startup=false}={}){
   if(!empty)api.seedSources([{x:-155,y:-15,mass:4.5},{x:155,y:-25,mass:4.5},{x:5,y:160,mass:2.6}]);
  }
  const point=c=>{const p=api.toScreen(c.x,c.y);return {clientX:p.x,clientY:p.y+top};};
- return {$,api,point,document,top,width,height,emitWindow,escape(){emitWindow('keydown',{key:'Escape'});}};
+ return {$,api,point,document,top,width,height,emitWindow,resizeCanvas:onCanvasResize,escape(){emitWindow('keydown',{key:'Escape'});}};
 }
 
 // Gravitational physics, units, and the controls that differ from the electric lab.
@@ -91,6 +98,31 @@ const potentialAt100=-earthGM/(100*metersPerUnit);
 function closeTo(actual,expected,tolerance=1e-18){assert.ok(Math.abs(actual-expected)<=tolerance,`${actual} differs from ${expected}`);}
 function singleSourceLab(){const lab=openLab(false);lab.api.seedSources([{x:0,y:0,mass:4}]);return lab;}
 function advanceSeconds(api,seconds,fps=60){for(let i=0;i<Math.round(seconds*fps);i++)api.advanceSimulation(1/fps);}
+
+function timeReadout($) {
+ const timer=$('timeReadout');
+ return timer.querySelector('.time-value').textContent+' '+timer.querySelector('.time-unit').textContent;
+}
+
+test('single-row desktop tray deletes both kinds of mass on the Delete tile',()=>{
+ for(const kind of ['source','test']){
+  const {$,api,point}=openLab(false),canvas=$('fieldCanvas');
+  if(kind==='test')api.placeTestMass(0,230);
+  const body=kind==='test'?api.state().testMass:api.state().masses[0];
+  $('massTray').rect={left:300,top:650,right:537,bottom:740,width:237,height:90};
+  for(const [id,left] of [['addSource',309],['addTest',384],['trashZone',459]]){
+   $(id).rect={left,top:659,right:left+72,bottom:731,width:72,height:72};
+  }
+  canvas.emit('pointerdown',point(body));
+  canvas.emit('pointermove',{clientX:420,clientY:695});
+  assert.equal($('trashZone').classList.contains('over'),false);
+  canvas.emit('pointermove',{clientX:495,clientY:695});
+  assert.equal($('trashZone').classList.contains('over'),true);
+  canvas.emit('pointerup',{clientX:495,clientY:695});
+  assert.equal(api.state().masses.length,kind==='source'?2:3);
+  assert.equal(api.state().testMasses.length,0);
+ }
+});
 
 test('field uses attractive Newtonian superposition, Earth masses, and metre distances',()=>{
  const {api}=singleSourceLab();
@@ -174,18 +206,18 @@ test('playback clock and speed selector share the simulation slider rate',()=>{
  $('speedSelect').value='1';$('speedSelect').emit('change');
  assert.equal($('simulationSpeed').value,'1000000');
  advanceSeconds(api,1);
- assert.equal($('timeReadout').textContent,'11.57 d');
+ assert.equal(timeReadout($),'11.57 d');
  $('pauseTest').emit('click');
  $('simulationSpeed').value='170000';$('simulationSpeed').emit('input');
  assert.equal($('sliderRate').textContent,'0.17×');
  assert.equal($('speedSelect').value,'custom');
  advanceSeconds(api,1);
- assert.equal($('timeReadout').textContent,'11.57 d');
+ assert.equal(timeReadout($),'11.57 d');
  $('pauseTest').emit('click');
  advanceSeconds(api,1);
- assert.equal($('timeReadout').textContent,'13.54 d');
+ assert.equal(timeReadout($),'13.54 d');
  $('resetTest').emit('click');
- assert.equal($('timeReadout').textContent,'0.00 d');
+ assert.equal(timeReadout($),'0.00 d');
 });
 
 test('trajectories are independent of frame rate and display sensitivity',()=>{
@@ -261,22 +293,21 @@ test('step pauses the orbital pair and advances the sources and test masses toge
  const source=api.state().masses[0],sourceY=source.y;
  api.placeTestMass(0,230);
  const probe=api.state().testMass;
- assert.equal($('stepButton').disabled,false);
- $('stepButton').emit('click');
+ assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
  assert.equal(api.state().simulationPaused,true);
  assert.notEqual(source.y,sourceY);
  assert.ok(probe.y<230);
  assert.equal(probe.running,false);
- assert.equal($('timeReadout').textContent,'0.02 d');
+ assert.equal(timeReadout($),'0.02 d');
  api.advanceSimulation(.1);
- assert.equal($('timeReadout').textContent,'0.02 d');
+ assert.equal(timeReadout($),'0.02 d');
  assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
- assert.equal($('timeReadout').textContent,'0.04 d');
+ assert.equal(timeReadout($),'0.04 d');
 });
 
 for(const compact of [false,true]){
  test(`${compact?'mobile':'desktop'}: the running orbital pair and all presets fit the canvas`,()=>{
-  const {$,api,point,top,width,height}=openLab(compact,{startup:true});
+  const {$,api,point,top,width,height,resizeCanvas}=openLab(compact,{startup:true,measureSidebar:true});
   assert.deepEqual(Array.from(api.state().masses,c=>c.mass),[4,4]);
   assert.equal(api.state().simulationPaused,false);
   const initialVisibleWidth=width-($('controlsPanel').hidden?0:292);
@@ -285,7 +316,12 @@ for(const compact of [false,true]){
   }
   api.render();
   for(const id of ['presetSingle','presetPair','presetRow','presetRandom']){
-   $('controlsToggle').emit('click');$(id).emit('click');
+   const {x,y,zoom}=api.state().camera;
+   $('controlsToggle').emit('click');resizeCanvas();
+   assert.equal(point({x,y}).clientX,$('fieldCanvas').getBoundingClientRect().width/2);
+   assert.equal(point({x,y}).clientY,top+height/2);
+   assert.equal(api.state().camera.zoom,zoom);
+   $(id).emit('click');
    const visibleWidth=width-($('controlsPanel').hidden?0:292);
    for(const c of api.state().masses){const p=point(c);assert.ok(p.clientX>=40&&p.clientX<=visibleWidth-40);assert.ok(p.clientY-top>=40&&p.clientY-top<=height-40);}
    if(compact)assert.equal($('controlsPanel').hidden,true);

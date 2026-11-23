@@ -4,7 +4,7 @@
     const S = window.HydrogenSurface, RS = window.HydrogenRealSurface;
     const paletteStyle = getComputedStyle(document.documentElement);
     let phasePalette;
-    let basis = 'sin';
+    let basis = 'cos';
     const $ = id => document.getElementById(id);
     const viewport = $('viewport');
     const quantumSteppers = document.querySelectorAll('.quantum-stepper');
@@ -16,7 +16,7 @@
     // One world unit is 25 Bohr radii for every state and display mode.
     const WORLD_SCALE = 0.04, VIEW_RADIUS = 3.8;
     const MAX_POINTS = Number(density.max);
-    let state = { n: 5, l: 2, m: 1 }, drawCount = Number(density.value);
+    let state = { n: 5, l: 2, m: 0 }, drawCount = Number(density.value);
     let renderer, scene, camera, orbit, cloud, axes, rebuildFrame, detection, detectionMatrix;
     let homeDistance, nodes, nodeMaterial, nodeShape;
     let fuzzy, fuzzyState, fuzzyRadius99;
@@ -131,12 +131,15 @@
             if (select.value !== 'real') setValue(Number(select.value));
         });
         for (const button of stepper.querySelectorAll('button')) {
-            button.addEventListener('click', () => setValue(state[key] + Number(button.dataset.step)));
+            button.addEventListener('click', () => {
+                const delta = Number(button.dataset.step);
+                if (canStep(key, delta)) setValue(state[key] + delta);
+            });
         }
     }
     function setDensity() {
         drawCount = Number(density.value);
-        setLabCopy($('densityValue'), '{0} spheres', [drawCount.toLocaleString('en-US')]);
+        setLabCopy($('densityValue'), () => drawCount.toLocaleString(document.documentElement.lang));
         density.style.setProperty('--range-fill', `${100 * (drawCount - Number(density.min)) / (MAX_POINTS - Number(density.min))}%`);
         if (cloud) {
             cloud.count = drawCount;
@@ -269,16 +272,11 @@
     function makeAxes() {
         const group = new THREE.Group();
         const colors = [0xd799aa, 0x81b7b1, 0x8ab9ff];
-        ['x', 'y', 'z'].forEach((name, i) => {
+        colors.forEach((color, i) => {
             const from = new THREE.Vector3(), to = new THREE.Vector3();
             from.setComponent(i, -3.2); to.setComponent(i, 3.2);
-            const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([from, to]), new THREE.LineBasicMaterial({color:colors[i],transparent:true,opacity:0.35}));
+            const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([from, to]), new THREE.LineBasicMaterial({color,transparent:true,opacity:0.35}));
             group.add(line);
-            const canvas = document.createElement('canvas'); canvas.width = canvas.height = 64;
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#' + colors[i].toString(16); ctx.font = '32px system-ui'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(name,32,32);
-            const sprite = new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(canvas),depthTest:false}));
-            sprite.position.copy(to).multiplyScalar(1.08); sprite.scale.set(.4,.4,1); group.add(sprite);
         });
         return group;
     }

@@ -37,6 +37,25 @@ function setLabLabel(element, source) {
     setLabCopy(element, source, [], 'aria-label');
 }
 
+function setLabTimeReadout(timer, time, unit) {
+    const number = timer.querySelector('.time-value');
+    const suffix = timer.querySelector('.time-unit');
+    if (suffix.textContent !== unit) suffix.textContent = unit;
+
+    function fits(value) {
+        if (number.textContent !== value) number.textContent = value;
+        return !number.clientWidth || number.scrollWidth <= number.clientWidth;
+    }
+
+    // Keep as much precision as the readout can show beside the unit.
+    for (let decimals = 2; decimals >= 0; decimals--) {
+        if (fits(time.toFixed(decimals))) return;
+    }
+    for (let decimals = 2; decimals >= 0; decimals--) {
+        if (fits(time.toExponential(decimals).replace('e+', 'e'))) return;
+    }
+}
+
 const labCanvasStyle = document.documentElement && getComputedStyle(document.documentElement);
 const labCanvasTheme = {
     background: labCanvasStyle?.getPropertyValue('--lab-scene-base').trim() || '#08182b',
@@ -151,20 +170,6 @@ function setupLabCanvasTools(capture, filename) {
     document.addEventListener('fullscreenchange', updateFullscreenButton);
     document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
     updateFullscreenButton();
-}
-
-// The electric and gravitational canvases extend behind the desktop drawer.
-function visibleFieldSnapshot(canvas, panel) {
-    if (panel.hidden) return canvas;
-    const bounds = canvas.getBoundingClientRect();
-    const width = Math.round(canvas.width * (panel.getBoundingClientRect().left - bounds.left) / bounds.width);
-    if (width <= 0) return null;
-    if (width >= canvas.width) return canvas;
-    const frame = document.createElement('canvas');
-    frame.width = width;
-    frame.height = canvas.height;
-    frame.getContext('2d').drawImage(canvas, 0, 0);
-    return frame;
 }
 
 // In a lesson, wheel gestures belong to the reading page. Capture before the

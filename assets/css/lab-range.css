@@ -64,7 +64,7 @@ input[type="range"] + .range-scale {
     margin-top: calc(-5px + (var(--sidebar-slider-height) - var(--slider-height, var(--sidebar-slider-height))) / 2);
 }
 
-@media (pointer: coarse), (max-width: 750px) {
+@media (pointer: coarse), (max-width: 892px) {
     :root { --sidebar-slider-height: 32px; }
     input[type="range"] { --thumb-size: 22px; }
 }

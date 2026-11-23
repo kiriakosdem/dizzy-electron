@@ -1,8 +1,29 @@
-:is(.panel, .time-bar) select {
+.panel .select-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: var(--control-text);
+    line-height: 1.35;
+}
+.panel .select-row > span { overflow-wrap: anywhere; }
+
+.panel select {
     appearance: none;
-    padding-right: 30px;
+    width: 100%;
+    min-width: 0;
+    justify-self: end;
+    padding: 4px 24px 4px 8px;
+    border: 1px solid var(--lab-button-edge);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: var(--lab-ui-font);
+    font-variant-numeric: tabular-nums;
+    text-overflow: ellipsis;
+    cursor: pointer;
     background-image: var(--lab-select-chevron, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='m2 2 4 4 4-4' fill='none' stroke='%23b9d4f2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"));
-    background-position: right 10px center;
+    background-position: right 7px center;
     background-size: 12px 8px;
     background-repeat: no-repeat;
 }
@@ -11,12 +32,16 @@
     --lab-select-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='m2 2 4 4 4-4' fill='none' stroke='%23294762' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
-.time-bar select {
-    padding-inline: 5px 18px;
-    background-position: right 5px center;
-    background-size: 9px auto;
+@media (max-width: 560px) {
+    :where(:root[data-lab-embedded]) .panel .select-row { gap: 4px; }
+    :where(:root[data-lab-embedded]) .panel .select-row > select {
+        padding-inline: 3px 12px;
+        background-position: right 2px center;
+        background-size: 8px auto;
+        font-size: 11px;
+    }
 }
 
 @media (forced-colors: active) {
-    :is(.panel, .time-bar) select { appearance: auto; background-image: none; }
+    .panel select { appearance: auto; background-image: none; }
 }
