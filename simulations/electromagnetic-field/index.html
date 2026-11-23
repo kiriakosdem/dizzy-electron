@@ -7,19 +7,19 @@
 <meta name="color-scheme" content="dark light">
 <meta name="description" content="An interactive, offline electromagnetic field laboratory with retarded Liénard–Wiechert fields, a moving point charge, and a movable field probe.">
 <title>Electromagnetic Field Laboratory</title>
-<link rel="stylesheet" href="lab.css?v=segment-spacing">
+<link rel="stylesheet" href="lab.css?v=larger-tool-buttons">
 <link rel="stylesheet" href="sidebar.css?v=named-readouts">
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=canvas-palette">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=play-button-width">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=tray-button-spacing">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=dark-canvas">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=solid-selections">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=site-type">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-link">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=dark-canvas">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=solid-selections">
     <script src="../../assets/js/lab-canvas.js?v=dark-canvas"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -42,7 +42,7 @@
 <main id="lab" class="controls-open">
       <section class="stage" id="stage" aria-label="Interactive electromagnetic field visualization">
         <div class="canvas-frame playback-field-frame" id="canvasFrame">
-            <canvas id="fieldCanvas" class="field-canvas" tabindex="0" aria-label="Electric and magnetic fields. Choose a position for the charge, then drag it. Drag the probe to inspect the field. Shift-drag or choose View to move the view. Scroll to zoom. Arrow keys move the probe.">This simulation needs a browser with HTML canvas support.</canvas>
+            <canvas id="fieldCanvas" class="field-canvas" tabindex="0" aria-label="Electric and magnetic fields. Drag the charge to move it. Drag the probe to inspect the field. Shift-drag or choose View to move the view. Scroll to zoom. Arrow keys move the probe.">This simulation needs a browser with HTML canvas support.</canvas>
         </div>
         <div class="canvas-tools canvas-surface" id="canvasTools" role="group" aria-label="Canvas tools">
           <button type="button" id="fullscreenButton" title="Full screen" aria-label="Full screen" aria-pressed="false">
@@ -55,14 +55,20 @@
         </div>
         <div class="canvas-legend canvas-surface"><div class="legend-item" id="electricLegend"><span class="electric key-symbol">↗</span> Electric field</div><div class="legend-item" id="magneticLegend"><span class="magnetic key-symbol">⊙ ⊗</span> Magnetic field</div></div>
         <div id="toast" class="toast canvas-surface" role="status" aria-live="polite"></div>
-        <div class="placement-message canvas-surface" id="placementMessage">Tap or click to place a charge.</div>
+        <div class="placement-message canvas-surface" id="placementMessage">Tap, click, or press Enter on the grid to place a charge.</div>
         <div class="canvas-empty canvas-surface" id="emptyMessage" hidden>Enable a field layer to show the field.</div>
         <div class="canvas-dock">
           <div class="pointer-tools canvas-surface" role="group" aria-label="Pointer tool">
             <div class="pointer-options">
-              <button type="button" data-tool="charge" aria-pressed="true">Charge</button>
-              <button type="button" data-tool="probe" aria-pressed="false">Probe</button>
-              <button type="button" data-tool="pan" aria-pressed="false">View</button>
+              <button type="button" data-tool="charge" aria-pressed="true">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 2 5 5-2-2 5 3 3-5 1-3 4-2-4-5 1 2-5-3-3 5-1zM8 10h4m-2-2v4"/></svg><span>Charge</span>
+              </button>
+              <button type="button" data-tool="probe" aria-pressed="false">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 2v3m0 10v3M2 10h3m10 0h3m-6 0h-4m2-2v4"/></svg><span>Probe</span>
+              </button>
+              <button type="button" data-tool="pan" aria-pressed="false">
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v16M2 10h16M7 5l3-3 3 3m-6 10 3 3 3-3M5 7l-3 3 3 3m10-6 3 3-3 3"/></svg><span>View</span>
+              </button>
             </div>
           </div>
           <div class="time-bar canvas-surface" role="group" aria-label="Playback">
@@ -72,8 +78,8 @@
               <button class="playback-icon playback-step" id="stepButton" type="button" aria-label="Step simulation forward" title="Step forward (.)" aria-keyshortcuts=".">
                   <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 3v10l7-5zM11 3h2v10h-2z"/></svg><span>Step</span>
               </button>
-              <button class="playback-icon" id="resetButton" type="button" aria-label="Restart time (R)" title="Restart time (R)">
-                  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg>
+              <button class="playback-icon playback-reset" id="resetButton" type="button" aria-label="Restart time (R)" title="Restart time (R)">
+                  <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
               </button>
               <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulated time in SI units">0.00 ns</span>
               <div class="playback-speed">
@@ -194,13 +200,13 @@
     <p>Arrow bases are spatial sample points. They do not represent particles moving through space.</p>
     <h3 id="shortcutsHeading">Keyboard and pointer controls</h3>
     <div class="shortcut-grid"><div><span>Charge / Probe / View tools</span><span class="keycap">Q / P / G</span></div><div><span>Play or pause</span><span class="keycap">SPACE</span></div><div><span>One time step</span><span class="keycap">.</span></div><div><span>Total / velocity / radiation</span><span class="keycap">1 / 2 / 3</span></div><div><span>Restart time</span><span class="keycap">R</span></div><div><span>Zoom in / out</span><span class="keycap">+ / −</span></div><div><span>Recenter overview</span><span class="keycap">H</span></div><div><span>Move focused canvas probe</span><span class="keycap">ARROWS</span></div><div><span>Close these notes</span><span class="keycap">ESC</span></div></div>
-    <p>Click or tap to place your first charge. Drag the charge or the probe directly. The Charge tool can also set a new target anywhere. The Probe tool places or drags the probe anywhere. Use the View tool, Shift-drag, or the middle mouse button to pan. Scroll or pinch to zoom. Q selects Charge, P selects Probe, and G selects View. Arrow keys move the probe when the canvas is focused. Hold Shift for a larger keyboard step. Use Reset view or H to recenter the camera on the charge. A snapshot exports the current canvas with its field mode, time and numerical probe readings. The page starts paused with no charge. Placing or dragging the charge is an explicit action that starts playback.</p>
+    <p>Drag the charge or the probe directly. The Charge tool can also set a new target anywhere. The Probe tool places or drags the probe anywhere. Use the View tool, Shift-drag, or the middle mouse button to pan. Scroll or pinch to zoom. Q selects Charge, P selects Probe, and G selects View. Arrow keys move the probe when the canvas is focused. Hold Shift for a larger keyboard step. Use Reset view or H to recenter the camera on the charge. A snapshot exports the current canvas with its field mode, time and numerical probe readings. The standalone lab starts with a running wave. Drag the charge to switch to Mouse mode. In the article, the charge starts at rest in Mouse mode.</p>
     <div class="source-reference"><strong>Formula references</strong><p><a href="https://galileoandeinstein.phys.virginia.edu/Elec_Mag/2022_Lectures/EM_67_Lienard_Weichert.html" target="_blank" rel="noopener noreferrer">Michael Fowler, University of Virginia. The Lienard-Weichert Potentials and Fields.</a><br>Electric-field decomposition, retarded geometry, and the transverse radiation field.</p><p><a href="https://www.feynmanlectures.caltech.edu/II_21.html" target="_blank" rel="noopener noreferrer">The Feynman Lectures on Physics, Volume II, Chapter 21. Solutions of Maxwell’s Equations with Currents and Charges.</a><br>Retarded potentials and fields of a moving point charge.</p><p>The analytic trajectory, visual mapping and numerical solver are implemented locally. There are no libraries, fonts, trackers or remote assets required to run this file.</p></div>
     <p class="source-reference"><a href="../../lessons/physics/ti-einai-i-aktinovolia.html" target="_blank" rel="noopener">Read the lesson</a></p>
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=lab-themes"></script>
+    <script src="../../assets/js/lab-greek.js?v=dock-playback-labels"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
 <script id="physics-engine">
 "use strict";
@@ -804,7 +810,7 @@ const ChargeFieldPhysics = (() => {
       ctx.strokeStyle = "#e5c675"; ctx.beginPath(); ctx.arc(t.x,t.y,7,0,2*Math.PI); ctx.stroke();
       label("Target", t.x + 13, t.y - 12, "#aa9968");
     }
-    if (drag?.kind === "charge") paintLabSelection(ctx, center.x, center.y, 24);
+    if (state.tool === "charge") paintLabSelection(ctx, center.x, center.y, 24);
     drawChargeMarker(center);
     const right = center.x > W - 115;
     label("Charge", center.x + (right ? -16 : 16), center.y - 18, "#e8f0ff", right ? "right" : "left");
@@ -825,6 +831,7 @@ const ChargeFieldPhysics = (() => {
       const currentSource = P.trajectory(state.time, p);
       if (Math.hypot(f.sourceX - currentSource.x, f.sourceY - currentSource.y) * scale() > 21) label("Retarded", source.x - 14, source.y + 3, "#8291a6", "right");
     }
+    if (state.tool === "probe") paintLabSelection(ctx, point.x, point.y, 24);
     ctx.strokeStyle = "#8edac0"; ctx.fillStyle = "#102018d0"; ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.arc(point.x, point.y, 11, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
     ctx.globalAlpha = .8;
@@ -1051,6 +1058,11 @@ const ChargeFieldPhysics = (() => {
     const tag = document.activeElement?.tagName;
     if (["INPUT", "SELECT", "TEXTAREA"].includes(tag)) return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (document.activeElement === canvas && e.key === "Enter" && !state.placed) {
+      e.preventDefault();
+      placeCharge(state.cameraX, state.cameraY);
+      return;
+    }
     // Focused buttons keep native Enter/Space activation for keyboard accessibility.
     if (e.code === "Space" && tag !== "BUTTON" && tag !== "SUMMARY") { e.preventDefault(); setPlaying(!state.playing); }
     else if (e.key === "1") setMode("total"); else if (e.key === "2") setMode("velocity"); else if (e.key === "3") setMode("radiation");
@@ -1077,8 +1089,11 @@ const ChargeFieldPhysics = (() => {
   document.fonts?.addEventListener("loadingdone", () => { dirty = true; });
   const observer = new ResizeObserver(resize); observer.observe(stage);
   document.querySelectorAll("input[type=range]").forEach(paintRange);
-  updatePlayback(); updateSourceControls(); resize();
-  if (W < 500) { state.probeX = 12; state.probeY = 3.1; }
+  placeCharge(0, 0);
+  // The article asks learners to move a stationary charge by hand.
+  if (window.parent === window) setMotion("continuous");
+  resize();
+  if (W < 500) { state.probeX = 12; state.probeY = 9; }
   requestAnimationFrame(frame);
   // Inspection and automation helpers for reproducible numerical and interface checks.
   window.FieldLab = Object.freeze({

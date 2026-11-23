@@ -30,9 +30,14 @@
     stroke-linejoin: round;
 }
 
+.zoom button {
+    width: 34px;
+    height: calc(var(--lab-bar-control-height) + 4px);
+}
+.zoom svg { width: 18px; height: 18px; }
 .zoom output {
-    width: 52px;
-    font: 14px/1 ui-monospace, monospace;
+    width: 54px;
+    font: 15px/1 ui-monospace, monospace;
     font-variant-numeric: tabular-nums;
     text-align: center;
 }
@@ -45,7 +50,8 @@
 @media (max-width: 500px) {
     :root { --lab-bar-control-height: 36px; }
     :is(.zoom, .quantum-stepper) button { width: 28px; }
-    .zoom output { width: 48px; }
+    .zoom button { width: 32px; }
+    .zoom output { width: 50px; }
 }
 
 .scale-readout { justify-self: center; align-self: center; pointer-events: none; color: var(--text-muted); font-size: 12px; text-align: center; }

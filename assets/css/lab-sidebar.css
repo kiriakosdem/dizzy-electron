@@ -6,6 +6,11 @@
     --lab-panel-edge: color-mix(in srgb, var(--text-primary) 12%, transparent);
     --lab-glass-color: #2c4056;
     --lab-glass-button-color: #738ea7;
+    --lab-glass-button-fill: color-mix(in srgb, var(--lab-glass-button-color) 24%, transparent);
+    --lab-glass-button-hover: color-mix(in srgb, var(--lab-glass-button-color) 38%, transparent);
+    --lab-glass-button-selected: color-mix(in srgb, var(--lab-button-selected) 85%, transparent);
+    --lab-glass-button-shadow: inset 0 1px 0 rgb(246 243 237 / 18%), 0 2px 5px rgb(2 9 20 / 24%);
+    --lab-glass-button-selected-shadow: inset 0 1px 0 rgb(213 250 255 / 32%), 0 2px 5px rgb(2 9 20 / 24%);
     --text-primary: var(--color-paper, #f6f3ed);
     --text-secondary: #b8c7d6;
     --text-muted: #9fafbf;
@@ -15,14 +20,10 @@
     --lab-button-hover: color-mix(in srgb, var(--lab-accent) 16%, var(--lab-button-fill));
     --lab-button-selected: color-mix(in srgb, var(--lab-accent) 30%, var(--lab-button-fill));
     --lab-delete-fill: #382832;
-    --lab-delete-edge: #78515b;
     --lab-delete-hover: #4d333d;
-    --lab-delete-hover-edge: #a77780;
     --lab-delete-ink: #eac3c9;
     --row-height: 36px;
     --lab-frame-inset: 8px;
-    /* Keep frame edges the same color over both the canvas and the sidebar cards. */
-    --lab-frame-border: 1px solid color-mix(in srgb, var(--text-primary) 12%, var(--lab-panel-background));
     --lab-frame-radius: 12px;
 }
 
@@ -35,22 +36,13 @@
     flex-direction: column;
     gap: var(--lab-frame-inset);
     background: var(--lab-sidebar-background);
-    padding: var(--lab-frame-inset) max(var(--lab-frame-inset), env(safe-area-inset-right)) max(var(--lab-frame-inset), env(safe-area-inset-bottom)) 0;
-}
-
-/* The compact drawer overlays the canvas and uses the page surface behind its cards. */
-@media (max-width: 750px), (max-height: 500px) and (max-width: 950px) {
-    .panel {
-        padding-inline-start: var(--lab-frame-inset);
-    }
+    /* Leave room for the card shadows inside the scrolling drawer. */
+    padding: var(--lab-frame-inset) max(var(--lab-frame-inset), env(safe-area-inset-right)) max(var(--lab-frame-inset), env(safe-area-inset-bottom)) 12px;
 }
 
 .panel-section {
     flex: none;
     padding: 12px;
-    border: var(--lab-frame-border);
-    border-radius: var(--lab-frame-radius);
-    background: var(--lab-panel-background);
 }
 
 .panel-section > :last-child { margin-bottom: 0; }
@@ -175,7 +167,7 @@
 }
 .panel select { margin: 0; }
 .panel :is(select, .coordinate-field) {
-    background: var(--lab-sidebar-background);
+    background-color: var(--lab-sidebar-background);
     border-color: var(--lab-button-edge);
 }
 #controlsPanel :is(.action-button, .panel-button, .display-mode label) {
@@ -185,10 +177,10 @@
     gap: 6px;
     height: auto;
     padding: 4px 5px;
-    border: 1px solid var(--lab-button-edge);
+    border: 0;
     border-radius: 8px;
-    background: var(--lab-button-fill);
-    box-shadow: none;
+    background: var(--lab-glass-button-fill);
+    box-shadow: var(--lab-glass-button-shadow);
     color: var(--text-secondary);
     font-weight: 650;
     line-height: 1.2;
@@ -201,27 +193,15 @@
 }
 #controlsPanel .display-mode input { accent-color: var(--lab-accent); }
 #controlsPanel .display-mode label + label { margin-top: 4px; }
-#controlsPanel :is(.action-button, .panel-button, .display-mode label):hover:not(:disabled) {
-    background: var(--lab-button-hover);
-    border-color: var(--lab-accent);
+#controlsPanel :is(.action-button, .panel-button, .display-mode label):hover:not(:disabled):where(:not([aria-pressed="true"], :has(input:checked))) {
+    background: var(--lab-glass-button-hover);
 }
 #controlsPanel :is(.action-button, .panel-button, .display-mode label):is([aria-pressed="true"], :has(input:checked)) {
     background: var(--lab-button-selected);
-    border-color: var(--lab-accent);
+    box-shadow: none;
     color: var(--text-primary);
 }
 #controlsPanel .density-options input:is(:hover, :checked) { background: transparent; }
-#controlsPanel button.danger-button {
-    background: var(--lab-delete-fill);
-    border-color: var(--lab-delete-edge);
-    color: var(--lab-delete-ink);
-}
-#controlsPanel .danger-button .trash-icon { width: 16px; height: 16px; }
-#controlsPanel button.danger-button:hover:not(:disabled) {
-    background: var(--lab-delete-hover);
-    border-color: var(--lab-delete-hover-edge);
-    color: var(--lab-delete-ink);
-}
 .panel .preset-grid { grid-auto-rows: var(--row-height); }
 .panel .coordinate-fields { margin-top: 0; }
 .panel .coordinate-field {
@@ -287,7 +267,6 @@
     --text-secondary: #294762;
     --text-muted: #526a81;
     --lab-delete-fill: #fae9ed;
-    --lab-delete-edge: #e1aab8;
     --lab-delete-hover: #f4d5dd;
     --lab-delete-ink: #862c45;
     --text-destructive: var(--lab-delete-ink);
@@ -329,7 +308,15 @@
         opacity var(--lab-transition-duration) var(--lab-transition-easing),
         content-visibility var(--lab-transition-duration) allow-discrete;
 }
-.panel-section[open]::details-content { block-size: auto; opacity: 1; }
+.panel-section[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    /* Leave room for button shadows and focus rings inside the disclosure. */
+    overflow-clip-margin: 8px;
+}
+@supports not (overflow-clip-margin: 8px) {
+    .panel-section[open]::details-content { overflow: visible; }
+}
 .panel-section > summary {
     transition: margin-bottom var(--lab-transition-duration) var(--lab-transition-easing);
 }

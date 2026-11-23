@@ -17,7 +17,6 @@
 :root[data-theme="light"] .lab-header {
     --lab-header-ink: var(--lab-paper);
     --lab-header-hover: rgb(246 243 237 / 12%);
-    --lab-header-accent: var(--color-logo-cyan, #00bed0);
 }
 
 .lab-title-group {
@@ -49,7 +48,7 @@
 
 .lab-language {
     --language-trigger-ink: var(--lab-header-ink, var(--text-primary));
-    --language-accent: var(--lab-header-accent, var(--text-accent));
+    --language-accent: var(--color-logo-orange, #ff984f);
     --language-surface: var(--lab-panel-background);
     --language-selected: var(--lab-button-fill);
     --language-ink: var(--text-primary);
@@ -64,6 +63,8 @@
 }
 
 .lab-header #physicsButton {
+    --lab-help-ink: var(--color-logo-cyan, #00bed0);
+    --lab-help-active-ink: var(--color-logo-orange, #ff984f);
     display: inline-flex;
     flex: none;
     align-items: center;
@@ -71,14 +72,18 @@
     gap: 6px;
     min-height: var(--lab-header-control-size);
     padding: 0 10px;
-    color: var(--lab-header-ink, var(--text-primary));
+    color: var(--lab-help-ink);
     font-size: .85rem;
     font-weight: 600;
     cursor: pointer;
 }
-.lab-header #physicsButton > span {
+.lab-header .lab-help-text {
     text-decoration: underline;
     text-underline-offset: .2em;
+}
+.lab-header #physicsButton:is(:focus-visible, :active),
+:root:has(#physicsDialog[open]) .lab-header #physicsButton {
+    color: var(--lab-help-active-ink);
 }
 .lab-header .lab-help-icon { display: none; font-size: 1.15rem; line-height: 1; }
 
@@ -90,7 +95,10 @@
 }
 
 @media (hover: hover) {
-    .lab-header :is(#physicsButton, #controlsToggle):hover {
+    .lab-language .language-toggle:hover { color: var(--language-accent); }
+    .lab-header #physicsButton:hover { color: var(--lab-help-active-ink); }
+
+    .lab-header #controlsToggle:hover {
         background: var(--lab-header-hover, var(--lab-panel-background));
     }
 }
@@ -101,6 +109,8 @@
         padding-inline-start: max(16px, env(safe-area-inset-left));
     }
     .lab-header #physicsButton {
+        --lab-help-ink: var(--color-white, #fff);
+        --lab-help-active-ink: var(--lab-help-ink);
         width: var(--lab-header-control-size);
         padding: 0;
     }

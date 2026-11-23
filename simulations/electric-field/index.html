@@ -82,10 +82,6 @@ button:disabled{cursor:default;opacity:.45}
 .negative .charge-art path{fill:#050a15;stroke-width:1.25}.negative .charge-art text{fill:#f3f8ff}
 .neutral .charge-art path{fill:#273b53;stroke:#8aabc9;stroke-width:1.25;stroke-dasharray:4 3}.neutral .charge-art text{fill:#e8f0ff}
 .trash-zone{grid-column:1 / -1;width:100%;min-width:0;max-width:none;height:44px;margin:0;padding:3px 6px;font-size:11px}
-/* All delete actions share the same opaque surface, outline and interaction colors. */
-.danger-button{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #754354;border-radius:8px;background:#3b2235;color:var(--text-destructive);opacity:1;font-weight:650;box-shadow:none;transition:background .15s,border-color .15s,transform .15s}
-.danger-button:hover,.danger-button.over{border-color:#bf788d;background:#563044;color:var(--text-destructive)}
-.danger-button:active{border-color:#bf788d;background:#2c1828;color:var(--text-destructive)}
 .trash-zone.over{transform:scale(1.05)}
 .charge-ghost{position:absolute;top:0;left:0;z-index:5;pointer-events:none;width:48px;height:48px;filter:drop-shadow(0 2px 6px #0008)}
 .charge-ghost .charge-art{width:48px;height:48px}.charge-ghost.invalid{opacity:.45}
@@ -108,12 +104,11 @@ button:disabled{cursor:default;opacity:.45}
 .canvas-dock .hud{position:static;min-width:0}
 .canvas-dock .tray-items{grid-template-columns:repeat(3,minmax(0,64px))}
 @container(max-width:740px){
- .canvas-dock .charge-tray{width:min(100%,150px);padding:5px}
- .canvas-dock .tray-items{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
- .canvas-dock .source-stack,.canvas-dock .trash-zone{height:44px;min-height:44px;padding:2px;font-size:10px}
+ .canvas-dock .charge-tray{width:min(100%,152px);padding:5px}
+ .canvas-dock .tray-items{gap:4px}
+ .canvas-dock .source-stack{height:44px;min-height:44px;padding:2px;font-size:10px}
  .canvas-dock .source-stack .charge-art{width:23px;height:23px}
  .canvas-dock .test-source .charge-art{width:16px;height:16px}
- .canvas-dock .trash-zone{grid-column:auto}
 
 
 
@@ -121,17 +116,17 @@ button:disabled{cursor:default;opacity:.45}
 @media(max-width:750px),(max-height:500px) and (max-width:950px){.controls-open .canvas-dock{right:max(var(--lab-overlay-inset),env(safe-area-inset-right))}}
 @media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=canvas-palette">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=play-button-width">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=tray-button-spacing">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=dark-canvas">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=solid-selections">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=site-type">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-link">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=dark-canvas">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=solid-selections">
     <script src="../../assets/js/lab-canvas.js?v=dark-canvas"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -177,7 +172,7 @@ button:disabled{cursor:default;opacity:.45}
     <div class="toggle-row"><span class="toggle-label">Field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric field arrows"></button></div>
     <div class="toggle-row"><span class="toggle-label">Field strength</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric field strength"></button></div>
     <div class="toggle-row"><span class="toggle-label">Field lines</span><button id="fieldLinesToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle field lines"></button></div>
-    <div class="toggle-row"><span class="toggle-label">Electric potential</span><button id="potentialToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric potential heatmap" title="Potential V = k Σ(q/r), relative to zero at infinity. Orange is positive; blue is negative."></button></div>
+    <div class="toggle-row"><span class="toggle-label">Electric potential</span><button id="potentialToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric potential heatmap" title="Potential V = k Σ(q/r), relative to zero at infinity. Orange is positive; blue is negative."></button></div>
     <div class="control-label slider-label"><span class="toggle-label">Display sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
     <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field and potential color sensitivity"/>
     <div class="range-scale" aria-hidden="true"><span>0.3</span><span>4</span></div>
@@ -246,8 +241,11 @@ button:disabled{cursor:default;opacity:.45}
       <button class="playback-toggle" id="pauseTest" type="button" disabled aria-label="Play all test charges" title="Play all test charges">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
       </button>
-      <button class="playback-icon" id="resetTest" type="button" disabled aria-label="Reset all test charges to their starting positions" title="Reset all test charges to their starting positions">
-          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg>
+      <button class="playback-icon playback-step" id="stepButton" type="button" disabled aria-label="Step simulation forward" title="Step forward (.)" aria-keyshortcuts=".">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 3v10l7-5zM11 3h2v10h-2z"/></svg><span>Step</span>
+      </button>
+      <button class="playback-icon playback-reset" id="resetTest" type="button" disabled aria-label="Reset all test charges to their starting positions" title="Reset all test charges to their starting positions">
+          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
       </button>
       <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated milliseconds">0.00 ms</span>
       <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
@@ -269,7 +267,7 @@ button:disabled{cursor:default;opacity:.45}
   <div class="legend canvas-surface" id="fieldLegend" aria-label="Visualization legend">
     <div class="legend-item" id="electricFieldLegend"><span class="legend-vector" role="img" aria-label="Vector">↗</span><span>Electric field</span></div>
     <div class="legend-item" id="strengthLegend" hidden><span class="gradient" role="img" aria-label="Weak to strong"></span><span>Field strength</span></div>
-    <div class="legend-item" id="potentialLegend" hidden title="V = k Σ(q/r), zero at infinity. Symmetric logarithmic color intensity; adjusted by Display sensitivity."><span class="gradient potential-gradient" role="img" aria-label="Negative through zero to positive"></span><span>Electric potential</span></div>
+    <div class="legend-item" id="potentialLegend" title="V = k Σ(q/r), zero at infinity. Symmetric logarithmic color intensity; adjusted by Display sensitivity."><span class="gradient potential-gradient" role="img" aria-label="Negative through zero to positive"></span><span>Electric potential</span></div>
   </div>
   <div class="mode-msg canvas-surface" id="modeMessage" role="status" hidden><span id="modeMessageText">Tap or click the grid to place your charge.</span><button id="cancelPlacement" type="button">Cancel</button></div>
 </div>
@@ -289,7 +287,7 @@ button:disabled{cursor:default;opacity:.45}
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=lab-themes"></script>
+    <script src="../../assets/js/lab-greek.js?v=dock-playback-labels"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
 <script>
 (()=>{'use strict';
@@ -330,8 +328,7 @@ const heatmapCanvas=document.createElement('canvas'),heatmapContext=heatmapCanva
 let heatmapKey='';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const selected=()=>charges.find(c=>c.id===selectedId);
-function initializeEmptyScene(){nextId=1;charges=[];selectedId=null;testSelected=false;placing=0;removeAllTestCharges();setMode();syncPanel();}
-function loadChargeConfiguration(kind){
+function loadChargeConfiguration(kind,{initial=false}={}){
  let layout;
  if(kind==='single')layout=[{x:0,y:0,q:4}];
  else if(kind==='dipole')layout=[{x:-120,y:0,q:4},{x:120,y:0,q:-4}];
@@ -350,7 +347,7 @@ function loadChargeConfiguration(kind){
  }else return;
  cancelInteraction();placing=0;testSelected=false;removeAllTestCharges();nextId=1;
  charges=layout.map(c=>({id:nextId++,...c}));selectedId=charges[0].id;
- if(compactLayout.matches)setControlsOpen(false,{returnFocus:true});
+ if(!initial&&compactLayout.matches)setControlsOpen(false,{returnFocus:true});
  fitChargesToView();setMode();syncPanel();
  const count=charges.length, presetName=kind.charAt(0).toUpperCase()+kind.slice(1);
  setLabCopy($('actionStatus'), () => labText(count===1 ? '{0} configuration loaded. {1} static charge.' : '{0} configuration loaded. {1} static charges.', labText(presetName), count));
@@ -359,8 +356,10 @@ function fitChargesToView(){
  if(!charges.length)return;
  const xmin=Math.min(...charges.map(c=>c.x)),xmax=Math.max(...charges.map(c=>c.x)),ymin=Math.min(...charges.map(c=>c.y)),ymax=Math.max(...charges.map(c=>c.y));
  const visibleWidth=vw-(controlsOpen&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),topPadding=Math.min(80,vh*.2);
- const dockHeight=vw<=500?Math.max($('canvasDock').getBoundingClientRect().height,270):Math.max($('chargeTray').getBoundingClientRect().height,150);
- const bottomPadding=compactLayout.matches?Math.min(vh*.6,dockHeight+36):100;
+ const dock=$('canvasDock').getBoundingClientRect();
+ const dockBelowCanvas=dock.top>=canvas.getBoundingClientRect().bottom;
+ const dockHeight=vw<=500?Math.max(dock.height,270):Math.max($('chargeTray').getBoundingClientRect().height,150);
+ const bottomPadding=dockBelowCanvas?topPadding:compactLayout.matches?Math.min(vh*.6,dockHeight+36):100;
  const zoom=clamp(Math.min(1,(visibleWidth-108)/Math.max(1,xmax-xmin),(vh-topPadding-bottomPadding)/Math.max(1,ymax-ymin)),minimumZoom(),MAX_ZOOM);
  camera={x:(xmin+xmax)/2+(vw-visibleWidth)/(2*zoom),y:(ymin+ymax)/2+((topPadding+vh-bottomPadding)/2-vh/2)/zoom,zoom};
  constrainCamera();updateZoomControls();
@@ -403,6 +402,7 @@ function syncTestControls(){
  setLabLabel($('pauseTest'), playing ? 'Pause all test charges' : 'Play all test charges');
  $('pauseTest').disabled=!testCharges.length;
  $('resetTest').disabled=!testCharges.length;
+ $('stepButton').disabled=!testCharges.length;
  const status=!testCharges.length?'Place a test charge to watch its motion.':testPaused?'All test charges paused. Continue to resume motion.':'Test charges moving under the electric force.';
  setLabCopy($('testStatus'), status);
  setLabCopy($('testBlock'), () => labText('F = qE; a = F/m. Test charges move independently in the fixed source field. Drag one to release it from a new point. 1 grid unit = 1 cm. At 1× playback, 1 ms is simulated per real second.') + ' ' + labText(status), [], 'title');
@@ -462,17 +462,18 @@ function testStopAlongSegment(x,y,nx,ny){
 function stopTestCharge(hit,id){
  removeTestCharge(id);setLabCopy($('actionStatus'), hit.reason==='source'?'Test charge and trail removed on contact with a source.':'Test charge and trail removed at the lab edge.');
 }
-function advanceTestCharge(elapsed){
- if(testPaused||!testCharges.some(t=>t.running)||document.hidden||(activeDrag&&activeDrag.kind!=='test')||(sourceDrag&&sourceDrag.sign!=='test')){testAccumulator=0;return;}
+function advanceTestCharge(elapsed,manualStep=false){
+ const canAdvance=t=>manualStep||t.running;
+ if((testPaused&&!manualStep)||!testCharges.some(canAdvance)||document.hidden||(activeDrag&&activeDrag.kind!=='test')||(sourceDrag&&sourceDrag.sign!=='test')){testAccumulator=0;return;}
  if(!Number.isFinite(elapsed)||elapsed<=0)return;
  // Playback rate changes how many fixed physics steps run per frame.
- testAccumulator+=Math.min(elapsed,.1)*playbackRate;
- while(testAccumulator+1e-12>=TEST_STEP&&testCharges.some(t=>t.running)){
+ testAccumulator+=Math.min(elapsed,.1)*(manualStep?1:playbackRate);
+ while(testAccumulator+1e-12>=TEST_STEP&&testCharges.some(canAdvance)){
   testAccumulator=Math.max(0,testAccumulator-TEST_STEP);
   const dt=TEST_STEP*SIM_SECONDS_PER_REAL_SECOND;
   simulationTime+=dt;
   for(const t of [...testCharges]){
-  if(!t.running)continue;
+  if(!canAdvance(t))continue;
   const contact=testStopAlongSegment(t.x,t.y,t.x,t.y);
   if(contact){stopTestCharge(contact,t.id);continue;}
   // Velocity Verlet integrates acceleration, preserving inertia without artificial drag.
@@ -487,7 +488,15 @@ function advanceTestCharge(elapsed){
  }
  updateTimeReadout();
 }
-$('pauseTest').onclick=()=>{if(!testCharges.length)return;selectTestCharge();testPaused=!testPaused;for(const t of testCharges)t.running=!testPaused&&!(activeDrag?.kind==='test'&&activeDrag.id===t.id);testAccumulator=0;lastFrameTime=null;syncTestControls();};
+function setTestPaused(paused){testPaused=paused;for(const t of testCharges)t.running=!paused&&!(activeDrag?.kind==='test'&&activeDrag.id===t.id);testAccumulator=0;lastFrameTime=null;syncTestControls();}
+$('pauseTest').onclick=()=>{if(!testCharges.length)return;selectTestCharge();setTestPaused(!testPaused);};
+function stepTestCharges(){
+ if(!testCharges.length||activeDrag||sourceDrag)return;
+ setTestPaused(true);
+ // Step one nominal display frame using the same fixed physics ticks as playback.
+ advanceTestCharge(1/60,true);
+}
+$('stepButton').onclick=stepTestCharges;
 $('resetTest').onclick=resetTestCharges;
 $('speedSelect').onchange=e=>{
  playbackRate=Number(e.target.value);
@@ -742,6 +751,7 @@ for(const type of ['click','dblclick'])window.addEventListener(type,e=>{
 },true);
 canvas.addEventListener('dblclick',e=>{if(placing||!overWorkspace(e,CHARGE_RADIUS))return;const p=pointerPos(e);if(!chargeAt(p)){const w=toWorld(p.x,p.y);addCharge(w.x,w.y,1);}});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('chargePopover').hidden){closeChargeEditor();canvas.focus({preventScroll:true});return;}cancelInteraction(true);placing=0;setMode();if(controlsOpen)setControlsOpen(false,{returnFocus:true});}
+ if(e.key==='.'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target?.closest?.('input,select,textarea,[contenteditable]')&&!$('physicsDialog').open&&!$('stepButton').disabled){e.preventDefault();stepTestCharges();}
  if(e.key==='Enter'&&e.target===canvas&&placing==='test'){e.preventDefault();placeTestNearCenter();}
   if((e.key==='Delete'||e.key==='Backspace')&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)&&!e.target.isContentEditable){e.preventDefault();removeSelection();}
 });
@@ -1010,7 +1020,9 @@ setChargeArtwork($('addPositive').querySelector('svg'),1);setChargeArtwork($('ad
 setChargeArtwork($('addTest').querySelector('svg'),0);
 document.querySelectorAll('input[type=range]').forEach(input=>{updateRangeFill(input);input.addEventListener('input',()=>updateRangeFill(input));});
 const observer=new ResizeObserver(resize);observer.observe(canvas);resize();
-resetCamera();initializeEmptyScene();requestAnimationFrame(render);
+loadChargeConfiguration('dipole',{initial:true});
+showPotential=true;syncHeatmapControls();
+requestAnimationFrame(render);
 })();
 </script>
 <script src="../../assets/js/lab-toggle.js"></script>

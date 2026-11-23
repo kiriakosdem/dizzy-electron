@@ -6,7 +6,7 @@ Open `index.html` in a modern browser. The application needs no installation, ex
 
 ## Start and interact
 
-The canvas starts without a charge. Click or tap anywhere to choose its initial position. The positive charge appears there with its stationary Coulomb field. Drag the white starburst charge in either direction to move it, then release it at your target. The source follows a smoothed, speed-limited path. A fast drag leaves an outlined target and a faint connecting line until the charge catches up.
+The standalone lab opens with a running wave driven by an oscillating positive charge. Drag the charge to switch to Mouse mode. The article embed starts in Mouse mode with a stationary charge for its first activity. Drag the white starburst charge in either direction to move it, then release it at your target. The source follows a smoothed, speed-limited path. A fast drag leaves an outlined target and a faint connecting line until the charge catches up.
 
 The Charge tool also lets you click or drag anywhere to specify a new target for an existing source. This moves the charge through intervening positions rather than teleporting it. Dragging resumes playback when paused, allowing the field to respond.
 

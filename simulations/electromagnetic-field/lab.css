@@ -81,7 +81,6 @@ svg { display: block; }
     padding: 3px;
     pointer-events: auto;
 }
-#lab .pointer-tools.canvas-surface { background: var(--lab-sidebar-background); }
 .pointer-options {
     display: grid;
     grid-auto-flow: column;
@@ -89,11 +88,25 @@ svg { display: block; }
     gap: 2px;
 }
 .pointer-options button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
     padding: 0 8px;
     background: transparent;
     font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
+}
+.pointer-options svg {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 @container (max-width: 500px) {
     .pointer-options { grid-auto-columns: minmax(0, auto); }
@@ -105,13 +118,28 @@ svg { display: block; }
         overflow-wrap: anywhere;
     }
 }
-@container (max-width: 335px) {
-    .canvas-dock > .pointer-tools {
-        grid-column: 1 / -1;
-        max-width: calc(100% - 124px);
+@media (max-width: 750px), (pointer: coarse) and (max-height: 500px) and (max-width: 950px) {
+    .pointer-tools { padding: 5px 1px; }
+    .pointer-options {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-auto-flow: row;
+        gap: var(--dock-row-gap) var(--dock-button-gap);
     }
-    .canvas-dock .zoom button { width: 24px; }
-    .canvas-dock .zoom output { width: 36px; }
+    .pointer-options button {
+        min-width: 0;
+        min-height: var(--dock-tile-height);
+        padding-inline: 2px;
+        font-size: var(--dock-label-size);
+        flex-direction: column;
+        gap: 4px;
+        white-space: normal;
+        overflow-wrap: normal;
+    }
+    .pointer-options svg { width: 20px; height: 20px; }
+}
+@media (max-width: 639px) {
+    .pointer-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .pointer-options button:last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 440px) {
     :is(.placement-message, .canvas-empty):lang(el) { top: 42%; }

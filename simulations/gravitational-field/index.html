@@ -84,10 +84,6 @@ button:disabled{cursor:default;opacity:.45}
 .mass-art text{fill:#0b1730;font:800 16px ui-sans-serif,system-ui;text-anchor:middle;dominant-baseline:central}
 
 .trash-zone{grid-column:1 / -1;width:100%;min-width:0;max-width:none;height:44px;margin:0;padding:3px 6px;font-size:11px}
-/* All delete actions share the same opaque surface, outline and interaction colors. */
-.danger-button{display:flex;align-items:center;justify-content:center;gap:6px;border:1px solid #754354;border-radius:8px;background:#3b2235;color:var(--text-destructive);opacity:1;font-weight:650;box-shadow:none;transition:background .15s,border-color .15s,transform .15s}
-.danger-button:hover,.danger-button.over{border-color:#bf788d;background:#563044;color:var(--text-destructive)}
-.danger-button:active{border-color:#bf788d;background:#2c1828;color:var(--text-destructive)}
 .trash-zone.over{transform:scale(1.05)}
 .mass-ghost{position:absolute;top:0;left:0;z-index:5;pointer-events:none;width:48px;height:48px;filter:drop-shadow(0 2px 6px #0008)}
 .mass-ghost .mass-art{width:48px;height:48px}.mass-ghost.invalid{opacity:.45}
@@ -112,7 +108,7 @@ button:disabled{cursor:default;opacity:.45}
 @container(max-width:740px){
  .canvas-dock .mass-tray{width:min(100%,150px);padding:5px}
  .canvas-dock .tray-items{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
- .canvas-dock .source-stack,.canvas-dock .trash-zone{height:44px;min-height:44px;padding:2px;font-size:10px}
+ .canvas-dock .source-stack{height:44px;min-height:44px;padding:2px;font-size:10px}
  .canvas-dock .source-stack .mass-art{width:23px;height:23px}
  .canvas-dock .test-source .mass-art{width:16px;height:16px}
 
@@ -122,17 +118,17 @@ button:disabled{cursor:default;opacity:.45}
 @media(max-width:750px),(max-height:500px) and (max-width:950px){.controls-open .canvas-dock{right:max(var(--lab-overlay-inset),env(safe-area-inset-right))}}
 @media(pointer:coarse) and (min-width:751px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=canvas-palette">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=play-button-width">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=tray-button-spacing">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=canvas-time-bar">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=dark-canvas">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=solid-selections">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=site-type">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-link">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=dark-canvas">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=solid-selections">
     <script src="../../assets/js/lab-canvas.js?v=dark-canvas"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -250,8 +246,11 @@ button:disabled{cursor:default;opacity:.45}
       <button class="playback-toggle" id="pauseTest" type="button" disabled aria-label="Play all masses" title="Play all masses">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path id="playIcon" d="M4 2l9 6-9 6Z"/></svg><span id="playLabel">Play</span>
       </button>
-      <button class="playback-icon" id="resetTest" type="button" disabled aria-label="Reset all masses to their starting positions and velocities" title="Reset all masses to their starting positions and velocities">
-          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg>
+      <button class="playback-icon playback-step" id="stepButton" type="button" disabled aria-label="Step simulation forward" title="Step forward (.)" aria-keyshortcuts=".">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M3 3v10l7-5zM11 3h2v10h-2z"/></svg><span>Step</span>
+      </button>
+      <button class="playback-icon playback-reset" id="resetTest" type="button" disabled aria-label="Reset all masses to their starting positions and velocities" title="Reset all masses to their starting positions and velocities">
+          <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
       </button>
       <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated days">0.00 d</span>
       <select id="speedSelect" aria-label="Playback speed" title="Playback speed">
@@ -295,7 +294,7 @@ button:disabled{cursor:default;opacity:.45}
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=lab-themes"></script>
+    <script src="../../assets/js/lab-greek.js?v=dock-playback-labels"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
 <script>
 (()=>{'use strict';
@@ -342,8 +341,7 @@ const heatmapCanvas=document.createElement('canvas'),heatmapContext=heatmapCanva
 let heatmapKey='';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const selected=()=>masses.find(c=>c.id===selectedId);
-function initializeEmptyScene(){nextId=1;masses=[];selectedId=null;testSelected=false;placing=0;removeAllTestMasses();setMode();syncPanel();}
-function loadMassConfiguration(kind){
+function loadMassConfiguration(kind,{initial=false}={}){
  let layout;
  if(kind==='single')layout=[{x:0,y:0,mass:4}];
  else if(kind==='pair')layout=[{x:-120,y:0,mass:4},{x:120,y:0,mass:4}];
@@ -362,7 +360,7 @@ function loadMassConfiguration(kind){
  assignPresetVelocities(layout,kind);
  cancelInteraction();placing=0;testSelected=false;simulationTime=0;removeAllTestMasses();nextId=1;
  masses=layout.map(c=>createSourceMass({id:nextId++,...c}));selectedId=masses[0].id;
- if(compactLayout.matches)setControlsOpen(false,{returnFocus:true});
+ if(!initial&&compactLayout.matches)setControlsOpen(false,{returnFocus:true});
  fitMassesToView(kind==='pair');setMode();syncPanel();
  const count=masses.length, presetName=kind.charAt(0).toUpperCase()+kind.slice(1);
  setLabCopy($('actionStatus'), () => labText(count===1 ? '{0} configuration loaded. {1} mass.' : '{0} configuration loaded. {1} masses.', labText(presetName), count));
@@ -397,8 +395,10 @@ function fitMassesToView(orbit=false){
  let xmin=Math.min(...masses.map(c=>c.x)),xmax=Math.max(...masses.map(c=>c.x)),ymin=Math.min(...masses.map(c=>c.y)),ymax=Math.max(...masses.map(c=>c.y));
  if(orbit){const radius=Math.hypot(xmax-xmin,ymax-ymin)/2,centerX=(xmin+xmax)/2,centerY=(ymin+ymax)/2;xmin=centerX-radius;xmax=centerX+radius;ymin=centerY-radius;ymax=centerY+radius;}
  const visibleWidth=vw-(controlsOpen&&!compactLayout.matches?$('controlsPanel').getBoundingClientRect().width:0),topPadding=Math.min(80,vh*.2);
- const dockHeight=vw<=500?Math.max($('canvasDock').getBoundingClientRect().height,208):Math.max($('massTray').getBoundingClientRect().height,150);
- const bottomPadding=compactLayout.matches?Math.min(vh*.6,dockHeight+36):100;
+ const dock=$('canvasDock').getBoundingClientRect();
+ const dockBelowCanvas=dock.top>=canvas.getBoundingClientRect().bottom;
+ const dockHeight=vw<=500?Math.max(dock.height,208):Math.max($('massTray').getBoundingClientRect().height,150);
+ const bottomPadding=dockBelowCanvas?topPadding:compactLayout.matches?Math.min(vh*.6,dockHeight+36):100;
  const zoom=clamp(Math.min(1,(visibleWidth-108)/Math.max(1,xmax-xmin),(vh-topPadding-bottomPadding)/Math.max(1,ymax-ymin)),minimumZoom(),MAX_ZOOM);
  camera={x:(xmin+xmax)/2+(vw-visibleWidth)/(2*zoom),y:(ymin+ymax)/2+((topPadding+vh-bottomPadding)/2-vh/2)/zoom,zoom};
  constrainCamera();updateZoomControls();
@@ -453,6 +453,7 @@ function syncPanel(){
  setLabLabel($('pauseTest'), playing ? 'Pause all masses' : 'Play all masses');
  $('pauseTest').disabled=!hasBodies;
  $('resetTest').disabled=!hasBodies;
+ $('stepButton').disabled=!hasBodies;
  setLabCopy($('testStatus'), !testMasses.length?'Place a test mass to watch its motion.':simulationPaused?'All masses paused. Continue to resume motion.':'Test masses moving under gravity; all have the same acceleration at a given point.');
  positionMassPopover();
 }
@@ -559,20 +560,21 @@ function sampleTrail(body){
  trail.push({x:body.x,y:body.y});
  if(trail.length>240)trail.shift();
 }
-function advanceSimulation(elapsed){
- if(simulationPaused||(!masses.length&&!testMasses.some(t=>t.running))||document.hidden||(activeDrag&&activeDrag.kind!=='test')||(sourceDrag&&sourceDrag.sourceMass!=='test')||(placing&&placing!=='test')){simulationAccumulator=0;return;}
+function advanceSimulation(elapsed,manualStep=false){
+ const canAdvance=t=>manualStep||t.running;
+ if((simulationPaused&&!manualStep)||(!masses.length&&!testMasses.some(canAdvance))||document.hidden||(activeDrag&&activeDrag.kind!=='test')||(sourceDrag&&sourceDrag.sourceMass!=='test')||(placing&&placing!=='test')){simulationAccumulator=0;return;}
  if(!Number.isFinite(elapsed)||elapsed<=0)return;
  // Synchronous kick-drift-kick (velocity Verlet): every body sees the same source positions.
  // Test particles never enter the source force calculation or a source's momentum.
  simulationAccumulator+=Math.min(elapsed,.1);
- while(simulationAccumulator+1e-12>=SIMULATION_STEP&&(masses.length||testMasses.some(t=>t.running))){
+ while(simulationAccumulator+1e-12>=SIMULATION_STEP&&(masses.length||testMasses.some(canAdvance))){
   simulationAccumulator=Math.max(0,simulationAccumulator-SIMULATION_STEP);
   const dt=SIMULATION_STEP*simulationSpeed;
   simulationTime+=dt;
   mergeContactingSources();
   const previous=new Map(masses.map(c=>[c.id,{x:c.x,y:c.y}])),before=sourceAccelerations();
   const probes=testMasses.filter(t=>{
-   if(!t.running)return false;
+   if(!canAdvance(t))return false;
    const contact=testStopAlongSegment(t.x,t.y,t.x,t.y);
    if(contact){stopTestMass(contact,t.id);return false;}return true;
   }).map(t=>{
@@ -602,6 +604,13 @@ function advanceSimulation(elapsed){
 }
 function setSimulationPaused(paused){simulationPaused=paused;for(const t of testMasses)t.running=!paused&&!(activeDrag?.kind==='test'&&activeDrag.id===t.id);simulationAccumulator=0;lastFrameTime=null;syncPanel();}
 $('pauseTest').onclick=()=>{if(masses.length||testMasses.length)setSimulationPaused(!simulationPaused);};
+function stepMasses(){
+ if((!masses.length&&!testMasses.length)||activeDrag||sourceDrag||placing)return;
+ setSimulationPaused(true);
+ // Step one nominal display frame using the same fixed physics ticks as playback.
+ advanceSimulation(1/60,true);
+}
+$('stepButton').onclick=stepMasses;
 $('resetTest').onclick=resetSimulation;
 function setSimulationSpeed(value){
  if(!Number.isFinite(value))return;
@@ -931,6 +940,7 @@ for(const type of ['click','dblclick'])window.addEventListener(type,e=>{
 },true);
 canvas.addEventListener('dblclick',e=>{if(placing||!overWorkspace(e,MASS_RADIUS))return;const p=pointerPos(e);if(!massAt(p)){const w=toWorld(p.x,p.y);addMass(w.x,w.y,4);}});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('massPopover').hidden){closeMassEditor();canvas.focus({preventScroll:true});return;}cancelInteraction(true);placing=0;setMode();if(controlsOpen)setControlsOpen(false,{returnFocus:true});}
+ if(e.key==='.'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target?.closest?.('input,select,textarea,[contenteditable]')&&!$('physicsDialog').open&&!$('stepButton').disabled){e.preventDefault();stepMasses();}
  if(e.key==='Enter'&&e.target===canvas&&placing==='test'){e.preventDefault();placeTestNearCenter();}
   if((e.key==='Delete'||e.key==='Backspace')&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)&&!e.target.isContentEditable){e.preventDefault();removeSelection();}
 });
@@ -1222,7 +1232,8 @@ setMassArtwork($('addSource').querySelector('svg'));
 setMassArtwork($('addTest').querySelector('svg'));
 document.querySelectorAll('input[type=range]').forEach(input=>{updateRangeFill(input);input.addEventListener('input',()=>updateRangeFill(input));});
 const observer=new ResizeObserver(resize);observer.observe(canvas);resize();
-resetCamera();initializeEmptyScene();requestAnimationFrame(render);
+loadMassConfiguration('pair',{initial:true});
+requestAnimationFrame(render);
 })();
 </script>
 <script src="../../assets/js/lab-toggle.js"></script>

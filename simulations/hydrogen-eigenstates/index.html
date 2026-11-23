@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>The Hydrogen Atom Laboratory</title>
-    <link rel="stylesheet" href="lab.css?v=compact-overlay">
+    <link rel="stylesheet" href="lab.css?v=full-width-dock">
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script defer src="physics.js?v=nodal-surfaces"></script>
@@ -13,17 +13,17 @@
     <script defer src="real-surface.js"></script>
     <script defer src="orbital-colors.js?v=fuzziness-1"></script>
     <script defer src="fuzzy-cloud.js?v=fuzziness-1"></script>
-    <script defer src="lab.js?v=redraw-on-resize"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=canvas-palette">
-    <link rel="stylesheet" href="../../assets/css/lab-select.css">
+    <script defer src="lab.js?v=orbital-subscripts"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
+    <link rel="stylesheet" href="../../assets/css/lab-select.css?v=quantum-chevron">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=dark-canvas">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=solid-selections">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=aligned-endpoints">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=site-type">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=help-link">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=dark-canvas">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=solid-selections">
     <script src="../../assets/js/lab-canvas.js?v=dark-canvas"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -69,26 +69,6 @@
                 <span>arg(ψ) - wavefunction phase</span>
             </div>
         </div>
-        <div class="orbital-controls">
-            <span id="stateName" class="scale-readout">1s</span>
-            <div class="quantum-controls" role="group" aria-label="Quantum numbers">
-                <div class="quantum-stepper canvas-surface" data-number="n">
-                    <button type="button" data-step="-1" aria-label="Decrease n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
-                    <span>n = <span class="quantum-value">1</span></span>
-                    <button type="button" data-step="1" aria-label="Increase n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
-                </div>
-                <div class="quantum-stepper canvas-surface" data-number="l">
-                    <button type="button" data-step="-1" aria-label="Decrease ℓ"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
-                    <span>ℓ = <span class="quantum-value">0</span></span>
-                    <button type="button" data-step="1" aria-label="Increase ℓ"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
-                </div>
-                <div class="quantum-stepper canvas-surface" data-number="m">
-                    <button type="button" data-step="-1" aria-label="Decrease m"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
-                    <span>m = <span class="quantum-value">0</span></span>
-                    <button type="button" data-step="1" aria-label="Increase m"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
-                </div>
-            </div>
-        </div>
         <div class="zoom-hud">
             <div class="scale-readout" title="Distance at the nucleus, in Bohr radii"><span id="distanceLabel"></span><div class="scale-rule" id="scaleRule"></div></div>
             <div class="zoom canvas-surface" role="group" aria-label="View controls">
@@ -100,6 +80,26 @@
         </div>
         <div id="renderStatus" class="render-status canvas-surface" role="status">Preparing the probability cloud…</div>
     </div>
+    <div class="orbital-controls">
+        <span id="stateName" class="scale-readout">5d<sub>yz</sub></span>
+        <div class="quantum-controls" role="group" aria-label="Quantum numbers">
+            <div class="quantum-stepper canvas-surface" data-number="n">
+                <button type="button" data-step="-1" aria-label="Decrease n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
+                <span>n = <span class="quantum-value">5</span></span>
+                <button type="button" data-step="1" aria-label="Increase n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
+            </div>
+            <div class="quantum-stepper canvas-surface" data-number="l">
+                <button type="button" data-step="-1" aria-label="Decrease ℓ"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
+                <span>ℓ = <span class="quantum-value">2</span></span>
+                <button type="button" data-step="1" aria-label="Increase ℓ"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
+            </div>
+            <div class="quantum-stepper canvas-surface" data-number="m">
+                <button type="button" data-step="-1" aria-label="Decrease m"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10"/></svg></button>
+                <span>m = <span class="quantum-value">±1</span></span>
+                <button type="button" data-step="1" aria-label="Increase m"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8 3v10"/></svg></button>
+            </div>
+        </div>
+    </div>
     <button class="panel-backdrop" id="controlsBackdrop" aria-label="Close controls" tabindex="-1" hidden></button>
     <aside class="panel" id="controlsPanel" aria-label="Orbital controls">
         <details open class="panel-section">
@@ -109,19 +109,19 @@
             </h2></summary>
             <div class="quantum-rows">
                 <label for="nSelect">
-                    <var>n</var><span>Principal</span>
+                    <span>Principal (n)</span>
                     <select id="nSelect" aria-label="Principal quantum number n"></select>
                 </label>
                 <label for="lSelect">
-                    <var>ℓ</var><span>Orbital</span>
+                    <span>Orbital (ℓ)</span>
                     <select id="lSelect" aria-label="Orbital quantum number l"></select>
                 </label>
                 <label for="mSelect">
-                    <var>m</var><span>Magnetic</span>
+                    <span>Magnetic (m)</span>
                     <select id="mSelect" aria-label="Magnetic quantum number m"></select>
                 </label>
             </div>
-            <div id="orbitalPresetsLabel" class="control-label"><span class="icon-label">Suggested real orbitals</span></div>
+            <div id="orbitalPresetsLabel" class="control-label"><span class="icon-label">Real orbitals</span></div>
 
             <div class="real-orbitals" id="realOrbitals" role="group" aria-labelledby="orbitalPresetsLabel"></div>
         </details>
@@ -191,7 +191,7 @@
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=lab-themes"></script>
+    <script src="../../assets/js/lab-greek.js?v=quantum-labels"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
 <script src="controls.js?v=compact-header"></script>
 <script src="../../assets/js/lab-toggle.js"></script>

@@ -8,7 +8,7 @@ const pageIds=new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g),m=>m[1]));
 const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
 
 // Run the page's real handlers with deterministic layout and pointer capture.
-function openLab(compact,{empty=false,random}={}){
+function openLab(compact,{empty=false,random,startup=false}={}){
  const width=compact?390:1000,height=700,top=90;
  const elements=new Map(),windowListeners=new Map();
  function event(type,target,values={}){
@@ -70,9 +70,11 @@ function openLab(compact,{empty=false,random}={}){
  const api=sandbox.labTest;
  // Run trajectory fixtures at a fixed rate independent of the startup preset.
  $('simulationSpeed').value='100000';$('simulationSpeed').emit('input');
- // Keep gesture tests on an explicit, deterministic fixture. Real empty startup
- // is exercised separately with {empty:true}.
- if(!empty)api.seedSources([{x:-155,y:-15,mass:4.5},{x:155,y:-25,mass:4.5},{x:5,y:160,mass:2.6}]);
+ // Use a clean workspace for gesture fixtures that don't exercise startup.
+ if(!startup){
+  $('clear').emit('click');$('resetView').emit('click');
+  if(!empty)api.seedSources([{x:-155,y:-15,mass:4.5},{x:155,y:-25,mass:4.5},{x:5,y:160,mass:2.6}]);
+ }
  const point=c=>{const p=api.toScreen(c.x,c.y);return {clientX:p.x,clientY:p.y+top};};
  return {$,api,point,document,top,width,height,emitWindow,escape(){emitWindow('keydown',{key:'Escape'});}};
 }
@@ -249,9 +251,34 @@ test('random presets always produce five separated positive masses',()=>{
  }
 });
 
+test('step pauses the orbital pair and advances the sources and test masses together',()=>{
+ const {$,api,emitWindow}=openLab(false,{startup:true});
+ const source=api.state().masses[0],sourceY=source.y;
+ api.placeTestMass(0,230);
+ const probe=api.state().testMass;
+ assert.equal($('stepButton').disabled,false);
+ $('stepButton').emit('click');
+ assert.equal(api.state().simulationPaused,true);
+ assert.notEqual(source.y,sourceY);
+ assert.ok(probe.y<230);
+ assert.equal(probe.running,false);
+ assert.equal($('timeReadout').textContent,'0.02 d');
+ api.advanceSimulation(.1);
+ assert.equal($('timeReadout').textContent,'0.02 d');
+ assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
+ assert.equal($('timeReadout').textContent,'0.04 d');
+});
+
 for(const compact of [false,true]){
- test(`${compact?'mobile':'desktop'}: empty startup and presets preserve camera fitting and clear particles`,()=>{
-  const {$,api,point,top,width,height}=openLab(compact,{empty:true});assert.equal(api.state().masses.length,0);assert.equal(api.state().selectedId,null);assert.equal($('editBlock').hidden,true);api.render();
+ test(`${compact?'mobile':'desktop'}: the running orbital pair and all presets fit the canvas`,()=>{
+  const {$,api,point,top,width,height}=openLab(compact,{startup:true});
+  assert.deepEqual(Array.from(api.state().masses,c=>c.mass),[4,4]);
+  assert.equal(api.state().simulationPaused,false);
+  const initialVisibleWidth=width-($('controlsPanel').hidden?0:292);
+  for(const mass of api.state().masses){
+   const p=point(mass);assert.ok(p.clientX>=40&&p.clientX<=initialVisibleWidth-40);assert.ok(p.clientY-top>=40&&p.clientY-top<=height-40);
+  }
+  api.render();
   for(const id of ['presetSingle','presetPair','presetRow','presetRandom']){
    $('controlsToggle').emit('click');$(id).emit('click');
    const visibleWidth=width-($('controlsPanel').hidden?0:292);

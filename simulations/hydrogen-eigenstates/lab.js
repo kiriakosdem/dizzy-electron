@@ -4,7 +4,7 @@
     const S = window.HydrogenSurface, RS = window.HydrogenRealSurface;
     const paletteStyle = getComputedStyle(document.documentElement);
     let phasePalette;
-    let basis = 'complex';
+    let basis = 'sin';
     const $ = id => document.getElementById(id);
     const viewport = $('viewport');
     const quantumSteppers = document.querySelectorAll('.quantum-stepper');
@@ -16,7 +16,7 @@
     // One world unit is 25 Bohr radii for every state and display mode.
     const WORLD_SCALE = 0.04, VIEW_RADIUS = 3.8;
     const MAX_POINTS = Number(density.max);
-    let state = { n: 1, l: 0, m: 0 }, drawCount = Number(density.value);
+    let state = { n: 5, l: 2, m: 1 }, drawCount = Number(density.value);
     let renderer, scene, camera, orbit, cloud, axes, rebuildFrame, detection, detectionMatrix;
     let homeDistance, nodes, nodeMaterial, nodeShape;
     let fuzzy, fuzzyState, fuzzyRadius99;
@@ -76,13 +76,13 @@
         const selected = orbitals.find(o => o.m === state.m && o.basis === basis);
         const realName = state.m === 0 ? orbitals.find(o => o.m === 0) : selected;
         const shell = `${state.n}${labels[state.l]}`;
+        const suffix = realName ? realName.suffix : `(m=${state.m})`;
         const name = $('stateName');
-        if (realName && /[xyz]/.test(realName.suffix)) {
+        name.textContent = shell;
+        if (suffix) {
             const subscript = document.createElement('sub');
-            subscript.textContent = realName.suffix;
-            name.replaceChildren(shell, subscript);
-        } else {
-            name.textContent = realName ? realName.label : `${shell} (m=${state.m})`;
+            subscript.textContent = suffix;
+            name.appendChild(subscript);
         }
         $('energy').textContent = `−${(13.6057 / (state.n * state.n)).toFixed(2)} eV`;
         nodeShape = P.nodalSurfaces(state.n, state.l, state.m, basis);

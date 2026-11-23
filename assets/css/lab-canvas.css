@@ -12,25 +12,29 @@
     --lab-scene-base: #08182b;
     --lab-scene-glow: rgb(29 51 74 / 48%);
     --glass-tint: color-mix(in srgb, var(--lab-glass-color) 82%, transparent);
+    --lab-glass-surface-shadow: inset 0 1px 0 rgb(246 243 237 / 15%), 0 4px 14px rgb(2 9 20 / 30%);
     font-family: var(--lab-ui-font);
 }
 
 #lab { background: var(--lab-sidebar-background); }
 
-/* Clip the scene and draw its inset border in the same coordinate space.
-   Pointer and camera coordinates stay relative to the full-size canvas. */
-.canvas-frame {
-    background: var(--lab-scene-base);
-    clip-path: inset(var(--lab-frame-inset) round var(--lab-frame-radius));
-}
-.canvas-frame::after {
+/* Paint the shadow outside the scene's clipping path. */
+#lab::before {
     content: "";
     position: absolute;
     inset: var(--lab-frame-inset);
-    border: var(--lab-frame-border);
+    right: calc(var(--lab-frame-inset) + var(--lab-docked-sidebar-width, 0px));
+    bottom: calc(var(--lab-frame-inset) + var(--playback-reserve, 0px));
     border-radius: var(--lab-frame-radius);
+    box-shadow: 0 2px 6px rgb(2 9 20 / 20%), 0 3px 12px -3px rgb(2 9 20 / 35%);
     pointer-events: none;
-    z-index: 2;
+    transition: right var(--lab-transition-duration) var(--lab-transition-easing);
+}
+
+/* Keep pointer and camera coordinates relative to the full-size canvas. */
+.canvas-frame {
+    background: var(--lab-scene-base);
+    clip-path: inset(var(--lab-frame-inset) round var(--lab-frame-radius));
 }
 
 .field-frame { position: absolute; inset: 0; }
@@ -50,21 +54,29 @@
 .field-frame:has(canvas.placing) .field-empty-message { display: none; }
 
 @media (min-width: 751px) and (min-height: 501px), (min-width: 951px) {
-    .controls-open .field-frame { right: 292px; }
+    #lab.controls-open { --lab-docked-sidebar-width: 292px; }
+    .controls-open .field-frame { right: var(--lab-docked-sidebar-width); }
 }
 
-#lab .canvas-surface {
+#lab :is(.canvas-surface, .panel-section) {
     background: var(--glass-tint);
     border: 1px solid transparent;
     border-radius: 14px;
-    box-shadow: inset 0 1px 0 rgb(246 243 237 / 15%), 0 4px 14px rgb(2 9 20 / 30%);
+    box-shadow: var(--lab-glass-surface-shadow);
+}
+
+#lab .canvas-surface {
     color: var(--text-secondary);
     font-family: var(--lab-ui-font);
 }
 
+#lab .panel-section {
+    box-shadow: inset 0 1px 0 rgb(246 243 237 / 15%), 0 4px 10px -3px rgb(2 9 20 / 30%);
+}
+
 @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
-    #lab .canvas-surface {
-        --glass-tint: color-mix(in srgb, var(--lab-glass-color) 65%, transparent);
+    :root { --glass-tint: color-mix(in srgb, var(--lab-glass-color) 65%, transparent); }
+    #lab :is(.canvas-surface, .panel-section) {
         -webkit-backdrop-filter: blur(14px) saturate(125%);
         backdrop-filter: blur(14px) saturate(125%);
     }
@@ -93,19 +105,19 @@
     overflow-wrap: normal;
     word-break: normal;
 }
-#lab .canvas-surface :is(.source-stack, .pointer-options button[aria-pressed="true"], .trash-zone),
+#lab .canvas-surface .source-stack,
 #lab .canvas-surface.quantum-stepper button {
-    background: color-mix(in srgb, var(--lab-glass-button-color) 24%, transparent);
+    background: var(--lab-glass-button-fill);
     border-color: transparent;
-    box-shadow: inset 0 1px 0 rgb(246 243 237 / 18%), 0 2px 5px rgb(2 9 20 / 24%);
+    box-shadow: var(--lab-glass-button-shadow);
 }
-#lab .canvas-surface :is(.source-stack, .pointer-options button):enabled:hover,
+#lab .canvas-surface :is(.source-stack, .pointer-options button):enabled:hover:where(:not([aria-pressed="true"], .active)),
 #lab .canvas-surface.quantum-stepper button:enabled:hover {
-    background-color: color-mix(in srgb, var(--lab-glass-button-color) 38%, transparent);
+    background-color: var(--lab-glass-button-hover);
 }
-#lab .canvas-surface :is(.source-stack, .pointer-options button):is([aria-pressed="true"], .active) {
-    background-color: color-mix(in srgb, var(--lab-button-selected) 85%, transparent);
-    box-shadow: inset 0 1px 0 rgb(213 250 255 / 32%), 0 2px 5px rgb(2 9 20 / 24%);
+#lab .canvas-surface .source-stack:is([aria-pressed="true"], .active) {
+    background-color: var(--lab-glass-button-selected);
+    box-shadow: var(--lab-glass-button-selected-shadow);
     color: var(--text-primary);
 }
 #lab .canvas-surface #cancelPlacement {
@@ -115,23 +127,38 @@
     background: var(--lab-button-selected);
     border-color: var(--lab-accent);
 }
-#lab .canvas-surface .playback-toggle {
+#lab .canvas-surface .playback-toggle,
+#lab .canvas-surface .pointer-options button[aria-pressed="true"] {
     background: var(--lab-button-selected);
+    box-shadow: none;
     color: var(--text-primary);
 }
 #lab .canvas-surface .playback-toggle:enabled:hover {
     background: color-mix(in srgb, var(--lab-accent) 38%, var(--lab-button-fill));
 }
-#lab .canvas-surface .tray-items .trash-zone {
-    background-color: color-mix(in srgb, var(--lab-delete-fill) 90%, transparent);
+#lab button.danger-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 0;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--lab-delete-fill) 90%, transparent);
+    box-shadow: var(--lab-glass-button-shadow);
     color: var(--lab-delete-ink);
+    font-size: var(--control-text, 12px);
+    font-weight: 650;
+    line-height: 1.2;
+    transition: background-color .15s, transform .15s;
 }
-#lab .canvas-surface .tray-items .trash-zone:hover,
-#lab .canvas-surface .tray-items .trash-zone.over {
+#lab button.danger-button:is(:enabled:hover, :enabled:active, .over) {
     background-color: color-mix(in srgb, var(--lab-delete-hover) 90%, transparent);
     color: var(--lab-delete-ink);
 }
-#lab .scale-readout { color: var(--text-secondary); }
+#lab .danger-button .trash-icon { width: 16px; height: 16px; }
+#lab .tray-items > .trash-zone > span { align-self: auto; }
+
+#lab .scale-readout { color: #e4edf7; }
 
 #lab :is(.legend, .canvas-legend, .orbital-legend) {
     padding: 8px 12px;
@@ -226,7 +253,7 @@
     padding: 3px;
     border: 1px solid var(--lab-button-edge);
     border-radius: 9px;
-    background: var(--lab-sidebar-background);
+    background: var(--glass-tint);
 }
 
 #lab .panel-options > .panel-button {
@@ -246,13 +273,8 @@
     text-align: center;
 }
 
-#lab .panel-options > .panel-button:hover:not(:disabled) {
-    background: var(--lab-button-hover);
-}
-#lab .panel-options > .panel-button:is([aria-pressed="true"], :has(input:checked)) {
-    background: var(--lab-button-selected);
-    color: var(--text-primary);
-    box-shadow: inset 0 0 0 1px var(--lab-accent);
+#lab .panel-options > .panel-button:hover:not(:disabled):where(:not([aria-pressed="true"], :has(input:checked))) {
+    background: var(--lab-glass-button-hover);
 }
 .segment-label { flex: none; }
 .segment-wrap .segment-label { flex: 0 1 auto; min-width: 0; white-space: normal; overflow-wrap: anywhere; }

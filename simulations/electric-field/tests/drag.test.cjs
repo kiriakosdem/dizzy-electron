@@ -6,7 +6,7 @@ const vm=require('node:vm');
 const script=fs.readFileSync(path.join(__dirname, '../index.html'),'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
 
 // Run the page's real handlers with deterministic layout and pointer capture.
-function openLab(compact,{empty=false,random}={}){
+function openLab(compact,{empty=false,random,startup=false}={}){
  const width=compact?390:1000,height=700,top=90;
  const elements=new Map(),windowListeners=new Map();
  function event(type,target,values={}){
@@ -24,12 +24,12 @@ function openLab(compact,{empty=false,random}={}){
   const e=event(type,null,values);runWindow(e,true);if(!e.stopped)runWindow(e,false);return e;
  }
  function element(id=''){
-  const classes=new Set(),listeners=new Map(),children=new Map(),capture=new Set();
+  const classes=new Set(),listeners=new Map(),children=new Map(),attributes=new Map(),capture=new Set();
   return {id,hidden:id==='controlsBackdrop',dataset:{},style:{setProperty(){}},clientHeight:0,
    rect:{left:0,top:0,right:0,bottom:0,width:0,height:0},
    classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle(c,on){if(on===undefined)on=!classes.has(c);on?classes.add(c):classes.delete(c);},contains:c=>classes.has(c)},
    getBoundingClientRect(){return this.rect;},getClientRects(){return this.hidden?[]:[this.rect];},
-   getContext(){return context;},setAttribute(){},focus(){},contains(){return false;},append(){},replaceChildren(){},
+   getContext(){return context;},setAttribute(name,value){attributes.set(name,String(value));},getAttribute(name){return attributes.get(name)??null;},focus(){},contains(){return false;},append(){},replaceChildren(){},
    querySelector(selector){if(selector==='.selected')return null;if(!children.has(selector))children.set(selector,element());return children.get(selector);},
    addEventListener(type,handler){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(handler);},
    emit(type,values={}){
@@ -42,7 +42,12 @@ function openLab(compact,{empty=false,random}={}){
    releasePointerCapture(id){capture.delete(id);this.emit('lostpointercapture',{pointerId:id});}
   };
  }
- const context=new Proxy({}, {get:(_,key)=>key==='createRadialGradient'||key==='createLinearGradient'?()=>({addColorStop(){}}):()=>{}});
+ const context=new Proxy({
+  createImageData(width,height){return {data:new Uint8ClampedArray(width*height*4)};}
+ },{get(target,key){
+  if(key==='createRadialGradient'||key==='createLinearGradient')return ()=>({addColorStop(){}});
+  return target[key]??(()=>{});
+ }});
  function $(id){if(!elements.has(id))elements.set(id,element(id));return elements.get(id);}
  function rect(id,left,y,w,h){$(id).rect={left,top:y,right:left+w,bottom:y+h,width:w,height:h};}
  rect('lab',0,top,width,height);rect('fieldCanvas',0,top,width,height);
@@ -63,12 +68,33 @@ function openLab(compact,{empty=false,random}={}){
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-canvas.js"), "utf8"), sandbox);
  vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({charges,selectedId,activeDrag,sourceDrag,camera,testCharge:selectedTest()||null,testCharges,selectedTestId,placing}),seedSources:sources=>{charges=sources.map((c,i)=>({id:i+1,...c}));nextId=charges.length+1;selectedId=charges[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestCharge,advanceTestCharge,fieldAt,potentialAt,potentialColor};})();`),sandbox);
  const api=sandbox.labTest;
- // Keep gesture tests on an explicit, deterministic fixture. Real empty startup
- // is exercised separately with {empty:true}.
- if(!empty)api.seedSources([{x:-155,y:-15,q:4.5},{x:155,y:-25,q:-4.5},{x:5,y:160,q:2.6}]);
+ // Use a clean workspace for gesture fixtures that don't exercise startup.
+ if(!startup){
+  $('potentialToggle').emit('click');
+  $('clear').emit('click');$('resetView').emit('click');
+  if(!empty)api.seedSources([{x:-155,y:-15,q:4.5},{x:155,y:-25,q:-4.5},{x:5,y:160,q:2.6}]);
+ }
  const point=c=>{const p=api.toScreen(c.x,c.y);return {clientX:p.x,clientY:p.y+top};};
  return {$,api,point,document,top,width,height,emitWindow,escape(){emitWindow('keydown',{key:'Escape'});}};
 }
+
+test('step pauses playback and advances all test charges by one display frame',()=>{
+ const {$,api,emitWindow}=openLab(false,{empty:true});
+ assert.equal($('stepButton').disabled,true);
+ api.placeTestCharge(0,0);
+ const first=api.state().testCharge;first.vx=1e6;
+ api.placeTestCharge(0,100);
+ const second=api.state().testCharge;second.vx=-1e6;
+ assert.equal($('stepButton').disabled,false);
+ $('stepButton').emit('click');
+ assert.equal($('timeReadout').textContent,'0.02 ms');
+ assert.ok(first.x>0&&second.x<0);
+ assert.equal(first.running,false);
+ api.advanceTestCharge(.1);
+ assert.equal($('timeReadout').textContent,'0.02 ms');
+ assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
+ assert.equal($('timeReadout').textContent,'0.03 ms');
+});
 
 test('playback time follows the fixed steps once for all test charges',()=>{
  const {$,api}=openLab(false,{empty:true});
@@ -817,8 +843,14 @@ test('all three creation buttons are protected from deleting a dragged source ch
 });
 
 for(const compact of [false,true]){
- test(`${compact?'mobile':'desktop'}: the real page starts with an empty canvas and no selected charge`,()=>{
-  const {$,api}=openLab(compact,{empty:true});
+ test(`${compact?'mobile':'desktop'}: the page opens with a visible dipole and can still be cleared`,()=>{
+  const {$,api,point,width}=openLab(compact,{startup:true});
+  assert.deepEqual(Array.from(api.state().charges,c=>c.q),[4,-4]);
+  const visibleWidth=width-($('controlsPanel').hidden?0:292);
+  for(const charge of api.state().charges){
+   assert.ok(point(charge).clientX>=40&&point(charge).clientX<=visibleWidth-40);
+  }
+  $('clear').emit('click');
   assert.equal(api.state().charges.length,0);assert.equal(api.state().testCharges.length,0);assert.equal(api.state().selectedId,null);
   assert.equal($('editBlock').hidden,true);assert.equal($('testBlock').hidden,true);assert.equal($('chargePopover').hidden,true);assert.equal($('lab').classList.contains('test-active'),false);
   closeTo(api.fieldAt(100,100).mag,0);api.render();
@@ -858,8 +890,8 @@ test('potential colors use complementary endpoints with symmetric intensity and 
 });
 
 test('legend shows each visible quantity, including field and potential together',()=>{
- const {$}=openLab(false);
- $('potentialToggle').emit('click');
+ const {$}=openLab(false,{startup:true});
+ assert.equal($('potentialToggle').getAttribute('aria-checked'),'true');
  assert.equal($('electricFieldLegend').hidden,false);assert.equal($('potentialLegend').hidden,false);
  $('fieldArrowsToggle').emit('click');
  assert.equal($('electricFieldLegend').hidden,true);assert.equal($('potentialLegend').hidden,false);
