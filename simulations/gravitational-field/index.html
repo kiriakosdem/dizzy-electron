@@ -80,7 +80,6 @@ button:disabled{cursor:default;opacity:.45}
 .mass-art text{fill:#0b1730;font:800 16px ui-sans-serif,system-ui;text-anchor:middle;dominant-baseline:central}
 
 .trash-zone{grid-column:1 / -1;width:100%;min-width:0;max-width:none;height:44px;margin:0;padding:3px 6px;font-size:11px}
-#lab .tray-items > .trash-zone{border:1px dashed var(--lab-delete-ink)}
 .trash-zone.over{transform:scale(1.05)}
 .mass-ghost{position:absolute;top:0;left:0;z-index:5;pointer-events:none;width:48px;height:48px;filter:drop-shadow(0 2px 6px #0008)}
 .mass-ghost .mass-art{width:48px;height:48px}.mass-ghost.invalid{opacity:.45}
@@ -116,19 +115,19 @@ button:disabled{cursor:default;opacity:.45}
 }
 @media(pointer:coarse) and (min-width:893px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matched-control-height">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=matching-hud-text">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matching-hud-text">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=animation-speed-readout">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=inline-animation-speed">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=mobile-lab-layout">
-    <script src="../../assets/js/lab-canvas.js?v=local-fullscreen"></script>
-    <script src="../../assets/js/lab-scale.js?v=time-significant-digits"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=matching-hud-text">
+    <script src="../../assets/js/lab-canvas.js?v=precise-clock"></script>
+    <script src="../../assets/js/lab-scale.js?v=earth-mass-scale"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
 </head>
@@ -163,14 +162,14 @@ button:disabled{cursor:default;opacity:.45}
     <span class="canvas-tools-message canvas-surface" id="canvasToolsMessage" role="status" hidden></span>
   </div>
   <div class="mass-popover canvas-surface" id="massPopover" role="group" aria-label="Selected mass slider" hidden>
-    <label class="control-label" for="canvasMassStrength"><span id="canvasMassName">Mass</span><span><span id="canvasStrengthText">4.0</span> <i>M</i><sub>⊕</sub></span></label>
-    <input type="range" id="canvasMassStrength" min="0.1" max="10" step="0.1" value="4" aria-label="Selected mass in Earth masses"/>
-    <div class="range-scale" aria-hidden="true"><span>0.1</span><span id="massScaleMiddle">5</span><span id="massScaleMax">10</span></div>
+    <label class="control-label" for="canvasMassStrength"><span id="canvasMassName">Mass</span><span><span id="canvasStrengthText">0.40</span> <i>M</i><sub>⊕</sub></span></label>
+    <input type="range" id="canvasMassStrength" min="0.01" max="1" step="0.01" value="0.4" aria-label="Selected mass in Earth masses"/>
+    <div class="range-scale" aria-hidden="true"><span>0.01</span><span>0.5</span><span>1</span></div>
   </div>
   <div class="canvas-dock lab-dock" id="canvasDock">
   <div class="mass-tray canvas-surface" id="massTray" role="group" aria-label="Mass tray">
     <div class="tray-items">
-      <button class="source-stack dock-tile" id="addSource" type="button" aria-label="Mass: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a 4 Earth-mass source, or click then place"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m3 7 4-4 6-1 5 5-1 7-5 4-7-2-3-5 1-4Z"/><circle cx="8" cy="8" r="1.5"/><path d="m12 13 2-1"/></svg><span>Mass</span></button>
+      <button class="source-stack dock-tile" id="addSource" type="button" aria-label="Mass: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a 0.4 Earth-mass source, or click then place"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m3 7 4-4 6-1 5 5-1 7-5 4-7-2-3-5 1-4Z"/><circle cx="8" cy="8" r="1.5"/><path d="m12 13 2-1"/></svg><span>Mass</span></button>
       <button class="source-stack test-source dock-tile" id="addTest" type="button" aria-label="Drag a test mass onto the canvas, or click then place" aria-pressed="false" title="Add a test mass at rest"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 2v3m0 10v3M2 10h3m10 0h3m-6 0h-4m2-2v4"/></svg><span>Test mass</span></button>
       <button class="trash-zone danger-button dock-tile" id="trashZone" type="button" aria-label="Delete selected mass, or drag a mass here" title="Drop a mass here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Delete</span></button>
     </div>
@@ -182,7 +181,7 @@ button:disabled{cursor:default;opacity:.45}
       <button class="playback-icon playback-reset" id="resetTest" type="button" disabled aria-label="Reset all masses to their starting positions and velocities" title="Reset all masses to their starting positions and velocities">
           <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
       </button>
-      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated days"><span class="time-value">0.00</span> <span class="time-unit">d</span></span>
+      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulation time"><span class="time-value">0.00</span> <span class="time-unit">yr</span></span>
   </div>
   <div class="hud" role="group" aria-label="Distance scale and zoom">
     <div class="scale-readout"><span id="distanceLabel"></span><div class="scale-rule" id="scaleRule"></div></div>
@@ -217,9 +216,9 @@ button:disabled{cursor:default;opacity:.45}
         Examples
       </h2></summary>
       <div class="preset-grid" role="group" aria-label="Load a mass configuration">
-        <button class="action-button preset-button" id="presetSingle" type="button" title="One 4 Earth-mass body drifting at a constant velocity. Starts a fresh scene.">Single</button>
-        <button class="action-button preset-button" id="presetPair" type="button" title="Two 4 Earth-mass bodies in a mutual circular orbit. Starts a fresh scene.">Pair</button>
-        <button class="action-button preset-button" id="presetRow" type="button" title="Five evenly spaced 3 Earth-mass bodies with rotational velocity. Starts a fresh scene.">Row</button>
+        <button class="action-button preset-button" id="presetSingle" type="button" title="One 0.4 Earth-mass body drifting at a constant velocity. Starts a fresh scene.">Single</button>
+        <button class="action-button preset-button" id="presetPair" type="button" title="Two 0.4 Earth-mass bodies in a mutual circular orbit. Starts a fresh scene.">Pair</button>
+        <button class="action-button preset-button" id="presetRow" type="button" title="Five evenly spaced 0.3 Earth-mass bodies with rotational velocity. Starts a fresh scene.">Row</button>
         <button class="action-button preset-button" id="presetRandom" type="button" title="Five scattered masses with random velocities and zero total momentum. Starts a fresh scene.">Random</button>
         <button id="clear" class="action-button danger-button" type="button"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Clear all</span></button>
       </div>
@@ -244,10 +243,9 @@ button:disabled{cursor:default;opacity:.45}
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11.5" r="6"/><path d="M8 2h4m-2 0v3.5m4.5 1.8 1.7-1.7M10 8v3.5l2 1.5"/></svg>
         Simulation
       </h2></summary>
-      <div class="control-label"><label for="simulationSpeed">Animation speed</label></div>
-      <div class="control-label time-rate-label"><span>1 real second</span><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">= 11.6 d</output></div>
-      <input type="range" id="simulationSpeed" min="100000" max="1000000" step="5000" value="1000000" aria-label="Animation speed" aria-describedby="simulationSpeedHint"/>
-      <div class="range-scale" aria-hidden="true"><span id="simulationSpeedMin">1.16 d</span><span id="simulationSpeedMax">11.57 d</span></div>
+      <div class="control-label time-rate-label"><label for="simulationSpeed">Animation speed</label><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">1s = 1.60 kyr</output></div>
+      <input type="range" id="simulationSpeed" min="125" max="1600" step="25" value="1600" aria-label="Animation speed" aria-describedby="simulationSpeedHint"/>
+      <div class="range-scale" aria-hidden="true"><span id="simulationSpeedMin">125 yr</span><span id="simulationSpeedMax">1.6 kyr</span></div>
       <p class="sr-only" id="simulationSpeedHint">Time is accelerated for visible motion under weak gravity. This changes how quickly time passes, not the gravitational field or acceleration.</p>
       <p class="sr-only" id="testStatus" role="status"></p>
     </details>
@@ -257,9 +255,9 @@ button:disabled{cursor:default;opacity:.45}
         Selected mass
       </h2></summary>
       <div class="mass-controls">
-        <label class="control-label slider-label" for="massStrength"><span class="toggle-label">Mass</span><span class="control-value"><span id="strengthText">4.0</span> <i>M</i><sub>⊕</sub></span></label>
-        <input type="range" id="massStrength" min="0.1" max="10" step="0.1" value="4" aria-label="Selected mass in Earth masses"/>
-        <div class="range-scale" aria-hidden="true"><span id="sidebarMassScaleMin">0.1</span><span id="sidebarMassScaleMax">10</span></div>
+        <label class="control-label slider-label" for="massStrength"><span class="toggle-label">Mass</span><span class="control-value"><span id="strengthText">0.40</span> <i>M</i><sub>⊕</sub></span></label>
+        <input type="range" id="massStrength" min="0.01" max="1" step="0.01" value="0.4" aria-label="Selected mass in Earth masses"/>
+        <div class="range-scale" aria-hidden="true"><span>0.01</span><span>1</span></div>
       </div>
       <div class="control-label"><span class="toggle-label">Position</span></div>
       <div class="coordinate-fields" role="group" aria-label="Selected mass position in astronomical units">
@@ -310,14 +308,14 @@ button:disabled{cursor:default;opacity:.45}
     <h3>Controls and how to use them</h3>
     <ul class="dialog-controls">
       <li>Load Pair under Examples to watch two sources orbit. To build your own setup, drag Mass or Test mass onto the canvas, or tap a tray item and then tap the canvas. New test masses start at rest.</li>
-      <li>Select a body to edit its position and velocity. Drag to move it while keeping its velocity, or drop it onto Delete to remove it. Positions are in astronomical units (AU) and velocities are in km/s.</li>
+      <li>Select a body to edit its position and velocity. Drag to move it while keeping its velocity, or drop it onto Delete to remove it. The smallest grid square is 1 AU wide. Positions are in AU and velocities are in km/s.</li>
       <li>Use Play and Reset to compare trajectories from the same starting setup. Press the period key to advance one step. Change Time speed to slow down or speed up the motion. Under Display, toggle arrows, field lines, strength, or potential. Drag the background to pan, and scroll or pinch to zoom.</li>
     </ul>
-    <p id="timeScaleHint">Time: 1,000,000 simulated seconds per real second.</p>
+    <p id="timeScaleHint">Time: 1,600 simulated years per real second.</p>
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=animation-speed-readout"></script>
+    <script src="../../assets/js/lab-greek.js?v=earth-mass-scale"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
     <script src="../../assets/js/lab-toggle.js?v=remember-drawer-sections"></script>
 <script>
@@ -336,10 +334,11 @@ let sourceDrag=null,suppressDragClick=false;
 // Sources mutually attract; test particles feel sources but never contribute to the field.
 // JPL DE440 Earth GM (m³/s²) and the IAU astronomical unit.
 const EARTH_GM=3.98600435507e14, METERS_PER_AU=149597870700;
-const METERS_PER_GRID_UNIT=1e7, AU_PER_GRID_UNIT=METERS_PER_GRID_UNIT/METERS_PER_AU;
+const AU_PER_GRID_UNIT=1/MINOR, METERS_PER_GRID_UNIT=METERS_PER_AU*AU_PER_GRID_UNIT;
+const MIN_MASS=.01,MAX_MASS=1,DEFAULT_SOURCE_MASS=.4,DEFAULT_TEST_MASS=.05;
 const SIMULATION_STEP=1/240,TEST_CONTACT=24,SOURCE_CONTACT=36;
 const GRID_UNITS_PER_KM=1000/METERS_PER_GRID_UNIT,MAX_SPEED_KM_S=1000;
-const DEFAULT_SIMULATION_SPEED=1000000;
+const SECONDS_PER_YEAR=31557600,DEFAULT_SIMULATION_SPEED=1600*SECONDS_PER_YEAR;
 let simulationSpeed=DEFAULT_SIMULATION_SPEED,velocityEditorKey='';
 let testMasses=[],nextTestId=1,selectedTestId=null,testSelected=false,simulationPaused=false,simulationAccumulator=0,lastFrameTime=null;
 let simulationTime=0;
@@ -354,9 +353,9 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const selected=()=>masses.find(c=>c.id===selectedId);
 function loadMassConfiguration(kind,{initial=false}={}){
  let layout;
- if(kind==='single')layout=[{x:0,y:0,mass:4}];
- else if(kind==='pair')layout=[{x:-120,y:0,mass:4},{x:120,y:0,mass:4}];
- else if(kind==='row')layout=Array.from({length:5},(_,i)=>({x:(i-2)*120,y:0,mass:3}));
+ if(kind==='single')layout=[{x:0,y:0,mass:DEFAULT_SOURCE_MASS}];
+ else if(kind==='pair')layout=[{x:-120,y:0,mass:DEFAULT_SOURCE_MASS},{x:120,y:0,mass:DEFAULT_SOURCE_MASS}];
+ else if(kind==='row')layout=Array.from({length:5},(_,i)=>({x:(i-2)*120,y:0,mass:.3}));
  else if(kind==='random'){
   let points=[];
   // Scatter freely, avoiding overlaps and accidental rows/columns. Bound attempts
@@ -366,7 +365,7 @@ function loadMassConfiguration(kind,{initial=false}={}){
    if(points.every(c=>Math.hypot(p.x-c.x,p.y-c.y)>=110&&Math.abs(p.x-c.x)>=20&&Math.abs(p.y-c.y)>=20))points.push(p);
   }
   if(points.length<5)points=[{x:-190,y:112},{x:-60,y:-125},{x:70,y:147},{x:210,y:-37},{x:-122,y:-12}];
-  layout=points.map((p,i)=>({...p,mass:Math.round((1.5+Math.random()*3.5)*10)/10}));
+  layout=points.map((p,i)=>({...p,mass:Math.round((.15+Math.random()*.35)*100)/100}));
  }else return;
  assignPresetVelocities(layout,kind);
  cancelInteraction();placing=0;testSelected=false;simulationTime=0;removeAllTestMasses();nextId=1;
@@ -379,7 +378,7 @@ function loadMassConfiguration(kind,{initial=false}={}){
 // Speeds use grid units per simulated second. Pair motion is an exact two-body circular
 // initial condition; the other multi-body scenes start gravitationally bound.
 function assignPresetVelocities(layout,kind){
- if(kind==='single'){layout[0].vx=3*GRID_UNITS_PER_KM;layout[0].vy=1.5*GRID_UNITS_PER_KM;return;}
+ if(kind==='single'){layout[0].vx=.04*GRID_UNITS_PER_KM;layout[0].vy=.02*GRID_UNITS_PER_KM;return;}
  const total=layout.reduce((sum,c)=>sum+c.mass,0),cx=layout.reduce((sum,c)=>sum+c.mass*c.x,0)/total,cy=layout.reduce((sum,c)=>sum+c.mass*c.y,0)/total;
  const gravity=EARTH_GM/METERS_PER_GRID_UNIT**3;
  if(kind==='pair'){
@@ -429,7 +428,7 @@ function resize(){
  // Resizing clears the drawing buffer. Repaint before this frame is presented.
  drawFrame();
 }
-function setMode(){canvas.classList.toggle('placing',placing!==0);$('addSource').classList.toggle('active',placing===4);$('addSource').setAttribute('aria-pressed',String(placing===4));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));setLabCopy($('modeMessageText'), placing==='test'?'Click or tap to release the test mass from rest. Press Enter to place near view center.':'Tap or click the grid to place your mass.');$('modeMessage').hidden=placing===0;positionMassPopover();}
+function setMode(){canvas.classList.toggle('placing',placing!==0);$('addSource').classList.toggle('active',placing===DEFAULT_SOURCE_MASS);$('addSource').setAttribute('aria-pressed',String(placing===DEFAULT_SOURCE_MASS));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));setLabCopy($('modeMessageText'), placing==='test'?'Click or tap to release the test mass from rest. Press Enter to place near view center.':'Tap or click the grid to place your mass.');$('modeMessage').hidden=placing===0;positionMassPopover();}
 function startPlacing(sourceMass){placing=(placing===sourceMass?0:sourceMass);if(sourceMass==='test')selectTestMass();else if(testSelected){testSelected=false;syncPanel();}setMode();if(placing&&labControls.compact)labControls.close();if(placing==='test')canvas.focus({preventScroll:true});}
 $('cancelPlacement').onclick=()=>{placing=0;setMode();};
 function createSourceMass(source){
@@ -440,10 +439,10 @@ function releaseSourceMass(c){
  c.trail=[{x:c.x,y:c.y}];c.trailClock=0;
  c.resetMembers=[{id:c.id,x:c.x,y:c.y,mass:c.mass,vx:c.vx,vy:c.vy}];
 }
-function addMass(x,y,sourceMass){const c=createSourceMass({id:nextId++,x,y,mass:sourceMass});masses.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});setLabCopy($('actionStatus'), '{0} Earth masses added. Masses in the field: {1}.', [sourceMass.toFixed(1), masses.length]);}
+function addMass(x,y,sourceMass){const c=createSourceMass({id:nextId++,x,y,mass:sourceMass});masses.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});setLabCopy($('actionStatus'), '{0} Earth masses added. Masses in the field: {1}.', [sourceMass.toFixed(2), masses.length]);}
 function removeMass(id=selectedId){if(!masses.some(c=>c.id===id))return;masses=masses.filter(c=>c.id!==id);if(selectedId===id)selectedId=masses.length?masses[masses.length-1].id:null;syncPanel();setLabCopy($('actionStatus'), 'Mass removed. Masses in the field: {0}.', [masses.length]);}
 function updateTimeReadout(){
- setLabTimeReadout($('timeReadout'),simulationTime/86400,'d');
+ setLabTimeReadout($('timeReadout'),simulationTime,'yr');
 }
 function syncPanel(){
  $('emptyMessage').hidden = masses.length > 0 || testMasses.length > 0;
@@ -467,10 +466,10 @@ function syncPanel(){
  positionMassPopover();
 }
 function syncSimulationSpeed(){
- const speed=simulationSpeed.toLocaleString('en-US');
- $('simulationSpeed').value=String(simulationSpeed);
- updateLabTimeRate($('simulationSpeed'), $('simulationSpeedText'), $('simulationSpeedMin'), $('simulationSpeedMax'), 1);
- setLabCopy($('timeScaleHint'), 'Time: {0} simulated seconds per real second.', [speed]);updateRangeFill($('simulationSpeed'));
+ const years=simulationSpeed/SECONDS_PER_YEAR;
+ $('simulationSpeed').value=String(years);
+ updateLabTimeRate($('simulationSpeed'), $('simulationSpeedText'), $('simulationSpeedMin'), $('simulationSpeedMax'), SECONDS_PER_YEAR);
+ setLabCopy($('timeScaleHint'), 'Time: {0} simulated years per real second.', [years.toLocaleString('en-US')]);updateRangeFill($('simulationSpeed'));
 }
 function selectTestMass(id=selectedTestId){if(!testMasses.some(t=>t.id===id))id=testMasses.length?testMasses[testMasses.length-1].id:null;if(!testSelected||selectedId!==null||id!==selectedTestId){testSelected=true;selectedId=null;selectedTestId=id;syncPanel();}}
 function removeSelection(){if(testSelected)removeTestMass();else removeMass();}
@@ -480,9 +479,9 @@ function canPlaceTestMass(x,y){return Math.abs(x)<PAN_X&&Math.abs(y)<PAN_Y&&!mas
 function placeTestMass(x,y){
  selectTestMass();
  if(!canPlaceTestMass(x,y)){
-  placing='test';setMode();setLabCopy($('modeMessageText'), 'Choose a point inside the grid, at least 0.001605 AU from each source.');return false;
+  placing='test';setMode();setLabCopy($('modeMessageText'), 'Choose a point inside the grid, at least {0} AU from each source.', [positionAU(TEST_CONTACT)]);return false;
  }
- const particle={id:nextTestId++,x,y,vx:0,vy:0,mass:.005,startX:x,startY:y,startVx:0,startVy:0,running:!simulationPaused,trail:[{x,y}],trailClock:0};
+ const particle={id:nextTestId++,x,y,vx:0,vy:0,mass:DEFAULT_TEST_MASS,startX:x,startY:y,startVx:0,startVy:0,running:!simulationPaused,trail:[{x,y}],trailClock:0};
  testMasses.push(particle);selectedTestId=particle.id;
  if(!masses.length&&testMasses.length===1){simulationAccumulator=0;lastFrameTime=null;}syncPanel();canvas.focus({preventScroll:true});
  setLabCopy($('actionStatus'), 'Test mass released from rest.');return true;
@@ -616,7 +615,8 @@ function stepMasses(){
 $('resetTest').onclick=resetSimulation;
 function setSimulationSpeed(value){
  if(!Number.isFinite(value))return;
- simulationSpeed=Math.round(clamp(value,100000,1000000)/5000)*5000;
+ const years=Math.round(clamp(value,125,1600)/25)*25;
+ simulationSpeed=years*SECONDS_PER_YEAR;
  simulationAccumulator=0;lastFrameTime=null;syncPanel();
 }
 $('simulationSpeed').oninput=e=>setSimulationSpeed(Number(e.target.value));
@@ -655,21 +655,18 @@ function applyCoordinate(axis,input){
  setLabCopy($('actionStatus'), 'Mass position: X {0} AU, Y {1} AU.', [positionAU(c.x), positionAU(c.y)]);
 }
 function syncSelectedProperties(c){
- const min=testSelected ? .001 : .1,max=testSelected ? .01 : Math.max(10,Math.ceil(c.mass));
- const value=testSelected?String(c.mass):c.mass.toFixed(1);
+ const value=c.mass.toFixed(2);
  const slider=$('massStrength');
- slider.min=String(min);slider.max=String(max);slider.step=String(min);slider.value=String(c.mass);
+ slider.value=String(Math.min(c.mass,MAX_MASS));
  setLabCopy(slider, '{0} Earth masses', [value], 'aria-valuetext');updateRangeFill(slider);
- $('sidebarMassScaleMin').textContent=String(min);$('sidebarMassScaleMax').textContent=String(max);
  $('strengthText').textContent=value;
  syncCoordinateInputs(c);
  if(!testSelected){
   const popover=$('canvasMassStrength');
-  popover.max=String(max);popover.value=String(c.mass);
+  popover.value=String(Math.min(c.mass,MAX_MASS));
   setLabCopy(popover, '{0} Earth masses', [value], 'aria-valuetext');updateRangeFill(popover);
   $('canvasStrengthText').textContent=value;
   setLabCopy($('canvasMassName'), 'Mass {0}', [String(c.id).padStart(2,'0')]);
-  $('massScaleMiddle').textContent=String(max/2);$('massScaleMax').textContent=String(max);
  }
 }
 function selectedBody(){return testSelected?selectedTest():selected();}
@@ -735,7 +732,7 @@ function positionMassPopover(){
 }
 function adjustSourceMass(input){
  const c=selected(),value=Number(input.value);if(!c||!Number.isFinite(value))return;
- const mass=Math.round(clamp(value,.1,Math.max(10,Math.ceil(c.mass)))*10)/10,ratio=mass/c.mass;
+ const mass=Math.round(clamp(value,MIN_MASS,MAX_MASS)*100)/100,ratio=mass/c.mass;
  for(const initial of c.resetMembers)initial.mass*=ratio;c.mass=mass;syncPanel();
 }
 const MASS_RADIUS=18;
@@ -793,7 +790,7 @@ function setupSource(button,sourceMass){
  });
  button.addEventListener('click',e=>{if(e.detail===0)startPlacing(sourceMass);});
 }
-setupSource($('addSource'),4);setupSource($('addTest'),'test');
+setupSource($('addSource'),DEFAULT_SOURCE_MASS);setupSource($('addTest'),'test');
 // Pointer capture owns these gestures; native image/text dragging must not take over.
 canvas.addEventListener('dragstart',e=>e.preventDefault());
 $('massTray').addEventListener('dragstart',e=>e.preventDefault());
@@ -809,7 +806,7 @@ for(const [axis,id] of [['x','massX'],['y','massY']]){
 $('massStrength').oninput=e=>{
  if(!testSelected){adjustSourceMass(e.target);return;}
  const body=selectedTest();
- if(body){body.mass=clamp(Number(e.target.value),.001,.01);syncSelectedProperties(body);}
+ if(body){body.mass=Math.round(clamp(Number(e.target.value),MIN_MASS,MAX_MASS)*100)/100;syncSelectedProperties(body);}
 };
 $('canvasMassStrength').oninput=e=>adjustSourceMass(e.target);
 $('sensitivity').oninput=e=>{sensitivity=Number(e.target.value);$('sensitivityText').textContent=sensitivity.toFixed(1)+'×';};
@@ -942,7 +939,7 @@ window.addEventListener('blur',()=>cancelInteraction());
 for(const type of ['click','dblclick'])window.addEventListener(type,e=>{
  if(suppressDragClick&&e.detail!==0){e.preventDefault();e.stopImmediatePropagation();}
 },true);
-canvas.addEventListener('dblclick',e=>{if(placing||!overWorkspace(e,MASS_RADIUS))return;const p=pointerPos(e);if(!massAt(p)){const w=toWorld(p.x,p.y);addMass(w.x,w.y,4);}});
+canvas.addEventListener('dblclick',e=>{if(placing||!overWorkspace(e,MASS_RADIUS))return;const p=pointerPos(e);if(!massAt(p)){const w=toWorld(p.x,p.y);addMass(w.x,w.y,DEFAULT_SOURCE_MASS);}});
 window.addEventListener('keydown',e=>{if(labControls.drawerOpen)return;if(e.key==='Escape'){if(!$('massPopover').hidden){closeMassEditor();canvas.focus({preventScroll:true});return;}cancelInteraction(true);placing=0;setMode();if(labControls.open)labControls.close();}
  if(e.key==='.'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target?.closest?.('input,select,textarea,[contenteditable]')&&!$('physicsDialog').open&&(masses.length||testMasses.length)){e.preventDefault();stepMasses();}
  if(e.key==='Enter'&&e.target===canvas&&placing==='test'){e.preventDefault();placeTestNearCenter();}

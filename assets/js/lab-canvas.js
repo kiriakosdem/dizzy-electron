@@ -37,23 +37,35 @@ function setLabLabel(element, source) {
     setLabCopy(element, source, [], 'aria-label');
 }
 
-function setLabTimeReadout(timer, time, unit) {
+const labClockNumber = new Intl.NumberFormat('en', {
+    minimumSignificantDigits: 3, maximumSignificantDigits: 3, useGrouping: false
+});
+const labClockUnits = [
+    [1e-12, 'ps'], [1e-9, 'ns'], [1e-6, 'µs'], [1e-3, 'ms'], [1, 's'],
+    [60, 'min'], [3600, 'h'], [86400, 'd'], [31557600, 'yr'],
+    [31557600e3, 'kyr'], [31557600e6, 'Myr']
+];
+
+function setLabTimeReadout(timer, seconds, zeroUnit) {
+    let value = '0.00';
+    let unit = zeroUnit;
+    if (seconds > 0) {
+        let index = labClockUnits.length - 1;
+        while (index > 0 && seconds < labClockUnits[index][0]) index--;
+        const [scale, label] = labClockUnits[index];
+        unit = label;
+        value = labClockNumber.format(seconds / scale);
+        // Promote a rounded boundary value so the readout never shows 1000 of a smaller unit.
+        const next = labClockUnits[index + 1];
+        if (next && Number(value) >= Number((next[0] / scale).toPrecision(12))) {
+            unit = next[1];
+            value = labClockNumber.format(1);
+        }
+    }
     const number = timer.querySelector('.time-value');
     const suffix = timer.querySelector('.time-unit');
+    if (number.textContent !== value) number.textContent = value;
     if (suffix.textContent !== unit) suffix.textContent = unit;
-
-    function fits(value) {
-        if (number.textContent !== value) number.textContent = value;
-        return !number.clientWidth || number.scrollWidth <= number.clientWidth;
-    }
-
-    // Keep as much precision as the readout can show beside the unit.
-    for (let decimals = 2; decimals >= 0; decimals--) {
-        if (fits(time.toFixed(decimals))) return;
-    }
-    for (let decimals = 2; decimals >= 0; decimals--) {
-        if (fits(time.toExponential(decimals).replace('e+', 'e'))) return;
-    }
 }
 
 const labCanvasStyle = document.documentElement && getComputedStyle(document.documentElement);

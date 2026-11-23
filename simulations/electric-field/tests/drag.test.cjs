@@ -103,13 +103,13 @@ test('step pauses playback and advances all test charges by one display frame',(
  api.placeTestCharge(0,100);
  const second=api.state().testCharge;second.vx=-1e6;
  assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
- assert.equal(timeReadout($),'0.02 ms');
+ assert.equal(timeReadout($),'16.7 µs');
  assert.ok(first.x>0&&second.x<0);
  assert.equal(first.running,false);
  api.advanceTestCharge(.1);
- assert.equal(timeReadout($),'0.02 ms');
+ assert.equal(timeReadout($),'16.7 µs');
  assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
- assert.equal(timeReadout($),'0.03 ms');
+ assert.equal(timeReadout($),'33.3 µs');
 });
 
 test('playback time follows the fixed steps once for all test charges',()=>{
@@ -119,18 +119,18 @@ test('playback time follows the fixed steps once for all test charges',()=>{
  const particle=api.state().testCharge;
  particle.vx=1e6;
  $('simulationSpeed').value='0.5';$('simulationSpeed').emit('input');
- assert.equal($('simulationSpeedText').textContent,'= 500 µs');
+ assert.equal($('simulationSpeedText').textContent,'1s = 500 µs');
  api.advanceTestCharge(.1);
- assert.equal(timeReadout($),'0.05 ms');
+ assert.equal(timeReadout($),'50.0 µs');
  assert.ok(Math.abs(particle.x-50)<1e-8);
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
- assert.equal(timeReadout($),'0.05 ms');
+ assert.equal(timeReadout($),'50.0 µs');
  $('simulationSpeed').value='2';$('simulationSpeed').emit('input');
- assert.equal($('simulationSpeedText').textContent,'= 2.00 ms');
+ assert.equal($('simulationSpeedText').textContent,'1s = 2.00 ms');
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
- assert.equal(timeReadout($),'0.25 ms');
+ assert.equal(timeReadout($),'250 µs');
  assert.ok(Math.abs(particle.x-250)<1e-8);
  $('resetTest').emit('click');
  assert.equal(timeReadout($),'0.00 ms');

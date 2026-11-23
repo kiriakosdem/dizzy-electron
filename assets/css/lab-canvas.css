@@ -98,7 +98,7 @@
         height: 28px;
     }
     :where(:root[data-lab-embedded]) #lab:where(:not(.desktop-playback-layout)) .zoom button { width: 24px; }
-    :where(:root[data-lab-embedded]) #lab:where(:not(.desktop-playback-layout)) .zoom output { width: 36px; font-size: 11px; }
+    :where(:root[data-lab-embedded]) #lab:where(:not(.desktop-playback-layout)) .zoom output { width: 36px; }
 }
 
 #lab :is(.canvas-surface, .panel-section) {

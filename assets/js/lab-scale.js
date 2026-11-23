@@ -13,6 +13,8 @@ function updateLabScale(label, rule, pixelsPerUnit, unit) {
 
 function updateLabTimeRate(input, output, minimum, maximum, secondsPerUnit) {
     const units = [
+        [31557600e3, 'kyr', '{0} simulated millennia per real second'],
+        [31557600, 'yr', '{0} simulated years per real second'],
         [86400, 'd', '{0} simulated days per real second'],
         [3600, 'h', '{0} simulated hours per real second'],
         [60, 'min', '{0} simulated minutes per real second'],
@@ -36,7 +38,7 @@ function updateLabTimeRate(input, output, minimum, maximum, secondsPerUnit) {
     };
 
     const current = format(input.value, readout);
-    output.textContent = '= ' + current.text;
+    output.textContent = '1s = ' + current.text;
     minimum.textContent = format(input.min, endpoints).text;
     maximum.textContent = format(input.max, endpoints).text;
     setLabCopy(input, current.description, [current.number], 'aria-valuetext');

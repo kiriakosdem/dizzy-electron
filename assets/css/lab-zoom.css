@@ -35,10 +35,13 @@
     height: calc(var(--lab-bar-control-height) + 4px);
 }
 .zoom svg { width: 18px; height: 18px; }
+#lab :is(.zoom output, .time-bar [role="timer"]) {
+    color: var(--text-primary);
+    font: 600 13px/1 var(--lab-number-font);
+    font-variant-numeric: tabular-nums;
+}
 .zoom output {
     width: 54px;
-    font: 15px/1 ui-monospace, monospace;
-    font-variant-numeric: tabular-nums;
     text-align: center;
 }
 

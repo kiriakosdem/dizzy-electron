@@ -140,10 +140,14 @@
 }
 .panel .control-label { margin: var(--group-gap) 0 var(--caption-gap); }
 .panel .control-label:has(+ input[type="range"]) { margin-bottom: 0; }
-.panel .time-rate-label { flex-wrap: wrap; margin-top: 0; }
+.time-rate-label > label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .panel .time-rate-value {
     box-sizing: border-box;
-    inline-size: 7.5em;
+    inline-size: 9em;
 }
 .panel summary + :is(h3, .control-label), .panel summary + div > .control-label:first-child { margin-top: 0; }
 .panel .toggle-row { min-height: var(--row-height); margin: 0; }
@@ -315,8 +319,8 @@
 
 /* Keep drawer movement and the adjoining canvas resize in step. */
 :root {
-    --lab-transition-duration: 240ms;
-    --lab-transition-easing: cubic-bezier(.2, .7, .2, 1);
+    --lab-transition-duration: 340ms;
+    --lab-transition-easing: cubic-bezier(.32, 0, .22, 1);
 }
 #controlsPanel, #controlsBackdrop {
     opacity: 1;
@@ -324,10 +328,10 @@
         transform var(--lab-transition-duration) var(--lab-transition-easing),
         display var(--lab-transition-duration) allow-discrete;
 }
-#controlsPanel[hidden] { opacity: 0; transform: var(--lab-panel-closed-transform, translateX(100%)); }
+#controlsPanel[hidden] { transform: var(--lab-panel-closed-transform, translateX(100%)); }
 #controlsBackdrop[hidden] { opacity: 0; }
 @starting-style {
-    #controlsPanel { opacity: 0; transform: var(--lab-panel-closed-transform, translateX(100%)); }
+    #controlsPanel { transform: var(--lab-panel-closed-transform, translateX(100%)); }
     #controlsBackdrop { opacity: 0; }
 }
 .panel-backdrop[hidden] { pointer-events: none; }

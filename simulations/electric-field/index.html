@@ -78,7 +78,6 @@ button:disabled{cursor:default;opacity:.45}
 .negative .charge-art path{fill:#050a15;stroke-width:1.25}.negative .charge-art text{fill:#f3f8ff}
 .neutral .charge-art path{fill:#273b53;stroke:#8aabc9;stroke-width:1.25;stroke-dasharray:4 3}.neutral .charge-art text{fill:#e8f0ff}
 .trash-zone{grid-column:1 / -1;width:100%;min-width:0;max-width:none;height:44px;margin:0;padding:3px 6px;font-size:11px}
-#lab .tray-items > .trash-zone{border:1px dashed var(--lab-delete-ink)}
 .trash-zone.over{transform:scale(1.05)}
 .charge-ghost{position:absolute;top:0;left:0;z-index:5;pointer-events:none;width:48px;height:48px;filter:drop-shadow(0 2px 6px #0008)}
 .charge-ghost .charge-art{width:48px;height:48px}.charge-ghost.invalid{opacity:.45}
@@ -114,19 +113,19 @@ button:disabled{cursor:default;opacity:.45}
 }
 @media(pointer:coarse) and (min-width:893px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matched-control-height">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=matching-hud-text">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matching-hud-text">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=animation-speed-readout">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=inline-animation-speed">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=mobile-lab-layout">
-    <script src="../../assets/js/lab-canvas.js?v=local-fullscreen"></script>
-    <script src="../../assets/js/lab-scale.js?v=time-significant-digits"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=matching-hud-text">
+    <script src="../../assets/js/lab-canvas.js?v=precise-clock"></script>
+    <script src="../../assets/js/lab-scale.js?v=inline-animation-speed"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
 </head>
@@ -181,7 +180,7 @@ button:disabled{cursor:default;opacity:.45}
       <button class="playback-icon playback-reset" id="resetTest" type="button" disabled aria-label="Reset all test charges to their starting positions" title="Reset all test charges to their starting positions">
           <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
       </button>
-      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed time in simulated milliseconds"><span class="time-value">0.00</span> <span class="time-unit">ms</span></span>
+      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulation time"><span class="time-value">0.00</span> <span class="time-unit">ms</span></span>
   </div>
   <div class="hud" role="group" aria-label="Distance scale and zoom">
     <div class="scale-readout"><span id="distanceLabel"></span><div class="scale-rule" id="scaleRule"></div></div>
@@ -228,8 +227,7 @@ button:disabled{cursor:default;opacity:.45}
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11.5" r="6"/><path d="M8 2h4m-2 0v3.5m4.5 1.8 1.7-1.7M10 8v3.5l2 1.5"/></svg>
         Simulation
       </h2></summary>
-      <div class="control-label"><label for="simulationSpeed">Animation speed</label></div>
-      <div class="control-label time-rate-label"><span>1 real second</span><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">= 1.00 ms</output></div>
+      <div class="control-label time-rate-label"><label for="simulationSpeed">Animation speed</label><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">1s = 1.00 ms</output></div>
       <input type="range" id="simulationSpeed" min="0.25" max="2" step="0.05" value="1" aria-label="Animation speed">
       <div class="range-scale" aria-hidden="true"><span id="simulationSpeedMin">250 µs</span><span id="simulationSpeedMax">2 ms</span></div>
     </details>
@@ -407,7 +405,7 @@ $('cancelPlacement').onclick=()=>{placing=0;setMode();};
 function addCharge(x,y,sign){const c={id:nextId++,x,y,q:sign*4};charges.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});setLabCopy($('actionStatus'), sign>0 ? 'Positive charge added. Charges in the field: {0}.' : 'Negative charge added. Charges in the field: {0}.', [charges.length]);}
 function removeCharge(id=selectedId){if(!charges.some(c=>c.id===id))return;charges=charges.filter(c=>c.id!==id);if(selectedId===id)selectedId=charges.length?charges[charges.length-1].id:null;syncPanel();setLabCopy($('actionStatus'), 'Charge removed. Charges in the field: {0}.', [charges.length]);}
 function updateTimeReadout(){
- setLabTimeReadout($('timeReadout'),simulationTime*1000,'ms');
+ setLabTimeReadout($('timeReadout'),simulationTime,'ms');
 }
 function syncTestControls(){
  $('testBlock').hidden=!testSelected;$('editBlock').hidden=testSelected||!selected();

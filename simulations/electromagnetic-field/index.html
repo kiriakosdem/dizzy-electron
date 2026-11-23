@@ -9,19 +9,19 @@
 <title>Electromagnetic Field Laboratory</title>
 <link rel="stylesheet" href="lab.css?v=desktop-embed">
 <link rel="stylesheet" href="sidebar.css?v=aligned-dropdowns">
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=larger-zoom">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matched-control-height">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=matching-hud-text">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matching-hud-text">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=animation-speed-readout">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=inline-animation-speed">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
     <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=mobile-lab-layout">
-    <script src="../../assets/js/lab-canvas.js?v=local-fullscreen"></script>
-    <script src="../../assets/js/lab-scale.js?v=time-significant-digits"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=matching-hud-text">
+    <script src="../../assets/js/lab-canvas.js?v=precise-clock"></script>
+    <script src="../../assets/js/lab-scale.js?v=inline-animation-speed"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
 </head>
@@ -80,7 +80,7 @@
               <button class="playback-icon playback-reset" id="resetButton" type="button" aria-label="Restart time (R)" title="Restart time (R)">
                   <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
               </button>
-              <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulated time in SI units"><span class="time-value">0.00</span> <span class="time-unit">ns</span></span>
+              <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulation time"><span class="time-value">0.00</span> <span class="time-unit">ns</span></span>
           </div>
           <div class="hud">
             <div class="scale-readout"><span id="scaleLabel">1 m</span><div class="scale-rule" id="scaleRule"></div></div>
@@ -107,8 +107,7 @@
           <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11.5" r="6"/><path d="M8 2h4m-2 0v3.5m4.5 1.8 1.7-1.7M10 8v3.5l2 1.5"/></svg>
           Simulation
         </h2></summary>
-        <div class="control-label"><label for="simulationSpeed">Animation speed</label></div>
-        <div class="control-label time-rate-label"><span>1 real second</span><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">= 24.0 ns</output></div>
+        <div class="control-label time-rate-label"><label for="simulationSpeed">Animation speed</label><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">1s = 24.0 ns</output></div>
         <input type="range" id="simulationSpeed" min="2" max="96" step="0.25" value="24" aria-label="Animation speed">
         <div class="range-scale" aria-hidden="true"><span id="simulationSpeedMin">2 ns</span><span id="simulationSpeedMax">96 ns</span></div>
       </details>
@@ -810,11 +809,33 @@ const ChargeFieldPhysics = (() => {
     drawChargeMarker(hover, true);
     label("Place charge", hover.x + 16, hover.y - 18, "#b9d4f2");
   }
+  function drawSourceTrail(p, retardedTime, start) {
+    const duration = state.time - retardedTime;
+    if (duration <= 0) return;
+    const segments = 64;
+    let previous = start;
+    ctx.save();
+    ctx.strokeStyle = labCanvasTheme.point;
+    ctx.lineWidth = 1.2;
+    for (let i = 1; i <= segments; i++) {
+      const progress = i / segments;
+      const time = i === segments ? state.time : retardedTime + duration * progress;
+      const position = P.trajectory(time, p);
+      const next = worldToScreen(position.x, position.y);
+      if (next.x !== previous.x || next.y !== previous.y) {
+        ctx.globalAlpha = .02 + .48 * progress ** 1.6;
+        ctx.beginPath(); ctx.moveTo(previous.x, previous.y); ctx.lineTo(next.x, next.y); ctx.stroke();
+      }
+      previous = next;
+    }
+    ctx.restore();
+  }
   function drawProbe(p) {
     const point = worldToScreen(state.probeX, state.probeY);
     const f = P.sample(state.probeX, state.probeY, state.time, p);
     if (f.valid && state.showRay) {
       const source = worldToScreen(f.sourceX, f.sourceY);
+      drawSourceTrail(p, f.tr, source);
       ctx.strokeStyle = "#9faebf"; ctx.globalAlpha = .30; ctx.lineWidth = 1; ctx.setLineDash([3, 6]);
       ctx.beginPath(); ctx.moveTo(source.x, source.y); ctx.lineTo(point.x, point.y); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
       ctx.strokeStyle = "#a4b0c3"; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(source.x, source.y, 5, 0, 2 * Math.PI); ctx.stroke();
@@ -848,7 +869,7 @@ const ChargeFieldPhysics = (() => {
     return (value < 0 ? "−" : signed ? "+" : "") + num;
   }
   function updateClock() {
-    setLabTimeReadout($("timeReadout"), ...timeInDisplayUnits(state.time));
+    setLabTimeReadout($("timeReadout"), state.time * P.SI.secondsPerUnit, "ns");
   }
   function draw() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.lineCap = "round"; ctx.lineJoin = "round";

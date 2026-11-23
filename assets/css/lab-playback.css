@@ -78,8 +78,6 @@
     box-sizing: content-box;
     width: var(--playback-timer-width, 7.5ch);
     padding: 0 3px;
-    color: var(--text-primary);
-    font: 600 13px/1 var(--lab-number-font);
     display: flex;
     justify-content: center;
     gap: .35em;
@@ -146,10 +144,6 @@
     height: 24px;
 }
 
-#lab:where(.desktop-playback-layout) .canvas-dock .tray-items > .source-stack {
-    border: 1px dashed var(--text-muted);
-}
-
 #lab:where(.desktop-playback-layout) .canvas-dock .tray-items > .source-stack[aria-pressed="true"] {
     border-color: var(--lab-accent);
 }
@@ -176,7 +170,7 @@
 }
 
 @container (max-width: 740px) {
-    #lab:where(.desktop-playback-layout) .canvas-dock .time-bar [role="timer"] {
+    #lab:where(.desktop-playback-layout) .canvas-dock :is(.zoom output, .time-bar [role="timer"]) {
         font-size: 10px;
     }
     :where(#lab.desktop-playback-layout) .canvas-dock > .pointer-tools {
@@ -390,6 +384,8 @@
     }
     :root[data-lab-embedded] #lab:where(:not(.desktop-playback-layout)) .canvas-dock .time-bar [role="timer"] {
         width: 8ch;
+    }
+    :root[data-lab-embedded] #lab:where(:not(.desktop-playback-layout)) .canvas-dock :is(.zoom output, .time-bar [role="timer"]) {
         font-size: 10px;
     }
 }
@@ -408,6 +404,8 @@
     :root[data-lab-embedded] #lab:where(:not(.desktop-playback-layout)) .canvas-dock .time-bar [role="timer"] {
         width: 8ch;
         padding-inline: 0;
+    }
+    :root[data-lab-embedded] #lab:where(:not(.desktop-playback-layout)) .canvas-dock :is(.zoom output, .time-bar [role="timer"]) {
         font-size: 9px;
     }
 }
