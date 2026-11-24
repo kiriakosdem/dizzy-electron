@@ -123,6 +123,18 @@
     }
 }
 
+:root[data-theme="light"] .lab-workspace {
+    --glass-tint: var(--lab-glass-color);
+    --lab-glass-button-fill: color-mix(in srgb, var(--lab-glass-button-color) 24%, var(--lab-glass-color));
+    --lab-glass-button-hover: color-mix(in srgb, var(--lab-glass-button-color) 38%, var(--lab-glass-color));
+    --lab-glass-button-selected: color-mix(in srgb, var(--lab-button-selected) 85%, var(--lab-glass-color));
+}
+
+:root[data-theme="light"] #lab .canvas-surface {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
 #lab .canvas-surface :is(button, select) {
     border: 1px solid transparent;
     border-radius: 8px;
@@ -135,6 +147,12 @@
     background-color: var(--lab-button-selected);
 }
 #lab .canvas-surface button:disabled { opacity: .45; cursor: default; }
+:root[data-theme="light"] #lab .canvas-surface button:disabled,
+:root[data-theme="light"] #lab .canvas-legend .legend-hidden {
+    opacity: 1;
+    color: var(--text-muted);
+}
+:root[data-theme="light"] #lab .canvas-legend .legend-hidden .key-symbol { color: inherit; }
 
 #lab .tray-items > button > span {
     white-space: normal;
