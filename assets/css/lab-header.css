@@ -159,16 +159,24 @@
 .source-reference { margin: 0; padding: 12px 0; border-bottom: 1px solid var(--lab-panel-edge); }
 .source-reference + h3 { margin-top: 14px; }
 .math-block {
+    display: grid;
+    justify-items: safe center;
+    gap: .55rem;
     overflow-x: auto;
-    padding: 10px 12px;
-    border: 1px solid var(--lab-panel-edge);
-    border-radius: 8px;
-    background: var(--lab-sidebar-background);
+    margin-block: 1em;
     color: var(--text-primary);
-    font-size: 16px;
+    font-size: .9rem;
+}
+.math-block > math {
+    inline-size: max-content;
+    font-family: math;
+    font-size: inherit;
+    math-style: normal;
     line-height: normal;
 }
-.math-block math { min-width: max-content; }
-.math-block mi[mathvariant="bold"] { font-weight: bold; }
+.math-block > .MJXc-display {
+    inline-size: max-content;
+    margin: 0;
+}
 .dialog-controls { margin: 0; padding-inline-start: 1.4em; }
 .dialog-controls li + li { margin-top: 8px; }

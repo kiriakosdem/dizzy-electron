@@ -14,16 +14,17 @@
     <script defer src="orbital-colors.js?v=fuzziness-1"></script>
     <script defer src="fuzzy-cloud.js?v=fuzziness-1"></script>
     <script defer src="lab.js?v=default-z-squared"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=matching-hud-text">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=shared-hud-type">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=smooth-settings">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=stable-drawer-icons">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=example-lesson-math">
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=matching-hud-text">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=live-edge-feather">
     <script src="../../assets/js/lab-canvas.js?v=local-fullscreen"></script>
     <script src="../../assets/js/lab-scale.js"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -183,24 +184,27 @@
 <dialog id="physicsDialog" aria-labelledby="physicsTitle">
   <div class="dialog-head"><h2 id="physicsTitle">The Hydrogen Atom</h2><button id="closePhysics" type="button" aria-label="Close physics notes"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
   <div class="dialog-body">
-    <p class="source-reference"><a href="../../lessons/physics/me-ti-moiazei-telika-ena-atomo.html" target="_blank" rel="noopener">Lesson · What does an atom actually look like?</a></p>
+    <p class="source-reference">Suggested article: <a href="../../lessons/physics/me-ti-moiazei-telika-ena-atomo.html" target="_blank" rel="noopener">What does an atom actually look like?</a></p>
 
     <h3>Where can the electron be detected?</h3>
-    <p>A hydrogen orbital is described by a wavefunction ψ. Its squared magnitude gives the probability density ρ. Of two small regions with the same volume, the one with higher density is where you’re more likely to detect the electron. The lab shows stationary states, so the probability density stays the same over time.</p>
+    <p>A hydrogen orbital is described by a wavefunction <math><mi>ψ</mi></math>. Its squared magnitude gives the probability density <math><mi>ρ</mi></math>. Of two small regions with the same volume, the one with higher density is where you’re more likely to detect the electron. The lab shows stationary states, so the probability density stays the same over time.</p>
     <div class="math-block">
       <math display="block">
         <semantics>
-          <mtable>
-            <mtr><mtd><mrow><mi>ρ</mi><mrow><mo>(</mo><mi mathvariant="bold">r</mi><mo>)</mo></mrow><mo>=</mo><msup><mrow><mo>|</mo><mi>ψ</mi><mrow><mo>(</mo><mi mathvariant="bold">r</mi><mo>)</mo></mrow><mo>|</mo></mrow><mn>2</mn></msup></mrow></mtd></mtr>
-            <mtr><mtd><mrow><mi>P</mi><mrow><mo>(</mo><mi>Ω</mi><mo>)</mo></mrow><mo>=</mo><msub><mo>∫</mo><mi>Ω</mi></msub><mi>ρ</mi><mrow><mo>(</mo><mi mathvariant="bold">r</mi><mo>)</mo></mrow><mspace width="0.15em"/><msup><mi mathvariant="normal">d</mi><mn>3</mn></msup><mi>r</mi></mrow></mtd></mtr>
-          </mtable>
-          <annotation encoding="application/x-tex">\begin{gathered}\rho(\mathbf{r})=\left|\psi(\mathbf{r})\right|^2\\ P(\Omega)=\int_\Omega \rho(\mathbf{r})\,\mathrm{d}^3r\end{gathered}</annotation>
+          <mrow><mi>ρ</mi><mrow><mo>(</mo><mi>𝐫</mi><mo>)</mo></mrow><mo>=</mo><msup><mrow><mo>|</mo><mi>ψ</mi><mrow><mo>(</mo><mi>𝐫</mi><mo>)</mo></mrow><mo>|</mo></mrow><mn>2</mn></msup></mrow>
+          <annotation encoding="application/x-tex">\rho(\mathbf{r})=\left|\psi(\mathbf{r})\right|^2</annotation>
+        </semantics>
+      </math>
+      <math display="block">
+        <semantics>
+          <mrow><mi>P</mi><mrow><mo>(</mo><mi>Ω</mi><mo>)</mo></mrow><mo>=</mo><msub><mo>∫</mo><mi>Ω</mi></msub><mi>ρ</mi><mrow><mo>(</mo><mi>𝐫</mi><mo>)</mo></mrow><mspace width="0.15em"/><msup><mi mathvariant="normal">d</mi><mn>3</mn></msup><mi>r</mi></mrow>
+          <annotation encoding="application/x-tex">P(\Omega)=\int_\Omega \rho(\mathbf{r})\,\mathrm{d}^3r</annotation>
         </semantics>
       </math>
     </div>
-    <p>The probability of finding the electron in a region Ω is the integral of the density over that region. A node is a place where the density vanishes.</p>
+    <p>The probability of finding the electron in a region <math><mi>Ω</mi></math> is the integral of the density over that region. A node is a place where the density vanishes.</p>
     <h3>What sets the shape and color?</h3>
-    <p>The principal quantum number n sets the energy and influences the size. The quantum numbers ℓ and m set the angular part of the wavefunction. In the equation below, R gives the radial part and Y gives the angular part. Real orbitals such as pₓ and pᵧ are combinations of complex states with opposite m. Surface and fuzzy cloud colors show phase. Orange corresponds to phase 0 and light blue to phase π.</p>
+    <p>The principal quantum number <math><mi>n</mi></math> sets the energy and influences the size. The quantum numbers <math><mi>ℓ</mi></math> and <math><mi>m</mi></math> set the angular part of the wavefunction. In the equation below, <math><mi>R</mi></math> gives the radial part and <math><mi>Y</mi></math> gives the angular part. Real orbitals such as <math><msub><mi>p</mi><mi>x</mi></msub></math> and <math><msub><mi>p</mi><mi>y</mi></msub></math> are combinations of complex states with opposite <math><mi>m</mi></math>. Surface and fuzzy cloud colors show phase. Orange corresponds to phase <math><mn>0</mn></math> and light blue to phase <math><mi>π</mi></math>.</p>
     <div class="math-block">
       <math display="block">
         <semantics>
@@ -211,14 +215,14 @@
     </div>
     <h3>Controls and how to use them</h3>
     <ul class="dialog-controls">
-      <li>Use the + and − buttons on the canvas or the menus in Controls to choose n, ℓ, and m. Pick a suggested real orbital to compare shapes, or select a numerical m to return to a complex state.</li>
+      <li>Use the <math><mo>+</mo></math> and <math><mo>−</mo></math> buttons on the canvas or the menus in Controls to choose <math><mi>n</mi></math>, <math><mi>ℓ</mi></math>, and <math><mi>m</mi></math>. Pick a suggested real orbital to compare shapes, or select a numerical <math><mi>m</mi></math> to return to a complex state.</li>
       <li>Switch between Point cloud, Fuzzy cloud, and Phase-colored surface. Use Point number, Fuzziness, or Enclosed probability to tune the active view. Turn on Nodal surfaces to see where the density vanishes. Detection highlights show one possible detection at a time, each from a separately prepared atom.</li>
       <li>Drag to rotate, scroll or pinch to zoom, and use Reset view to return to the original angle and scale. Turn off Rotate view to hold the orbital still while you inspect it.</li>
     </ul>
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=physics-notes"></script>
+    <script src="../../assets/js/lab-greek.js?v=inline-math"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
     <script src="../../assets/js/lab-toggle.js?v=remember-drawer-sections"></script>
 <script src="../../assets/js/lab-physics.js"></script>

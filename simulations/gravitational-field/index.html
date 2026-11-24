@@ -54,7 +54,6 @@ button{font:inherit;cursor:pointer}
 .potential-gradient{background:linear-gradient(90deg,#0085e5,rgba(0,133,229,0))}
 .hud{position:absolute;bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));right: max(var(--lab-overlay-inset), env(safe-area-inset-right));width:max-content;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:var(--lab-frame-inset)}
 .mass-popover{position:absolute;z-index:2;width:190px;padding:10px 12px}
-.mass-popover .control-label{margin:0 0 2px;font-size:11px;color:var(--text-secondary)}
 .mode-msg{position:absolute;z-index:2;bottom:174px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;width:max-content;max-width:calc(100% - 32px);padding:8px 12px;font-size:12px}
 .mode-msg button{flex-shrink:0;min-height:44px;padding:0 10px;font-size:12px}
 .mode-msg[hidden]{display:none}
@@ -115,17 +114,18 @@ button:disabled{cursor:default;opacity:.45}
 }
 @media(pointer:coarse) and (min-width:893px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=matching-hud-text">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matching-hud-text">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=shared-hud-type">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=aligned-canvas-controls">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=inline-animation-speed">
-    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=shared-strength-sliders">
+    <link rel="stylesheet" href="../../assets/css/lab-range.css?v=shared-strength-sliders">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=example-lesson-math">
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=matching-hud-text">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=live-edge-feather">
     <script src="../../assets/js/lab-canvas.js?v=precise-clock"></script>
     <script src="../../assets/js/lab-scale.js?v=earth-mass-scale"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -161,10 +161,10 @@ button:disabled{cursor:default;opacity:.45}
     </button>
     <span class="canvas-tools-message canvas-surface" id="canvasToolsMessage" role="status" hidden></span>
   </div>
-  <div class="mass-popover canvas-surface" id="massPopover" role="group" aria-label="Selected mass slider" hidden>
-    <label class="control-label" for="canvasMassStrength"><span id="canvasMassName">Mass</span><span><span id="canvasStrengthText">0.40</span> <i>M</i><sub>⊕</sub></span></label>
+  <div class="mass-popover source-strength-popover canvas-surface" id="massPopover" role="group" aria-label="Selected mass slider" hidden>
+    <label class="control-label slider-label" for="canvasMassStrength"><span class="toggle-label" id="canvasMassName">Mass</span><span class="control-value"><span id="canvasStrengthText">0.40</span> <i>M</i><sub>⊕</sub></span></label>
     <input type="range" id="canvasMassStrength" min="0.01" max="1" step="0.01" value="0.4" aria-label="Selected mass in Earth masses"/>
-    <div class="range-scale" aria-hidden="true"><span>0.01</span><span>0.5</span><span>1</span></div>
+    <div class="range-scale" aria-hidden="true"><span>0.01</span><span>1</span></div>
   </div>
   <div class="canvas-dock lab-dock" id="canvasDock">
   <div class="mass-tray canvas-surface" id="massTray" role="group" aria-label="Mass tray">
@@ -279,28 +279,31 @@ button:disabled{cursor:default;opacity:.45}
 <dialog id="physicsDialog" aria-labelledby="physicsTitle">
   <div class="dialog-head"><h2 id="physicsTitle">The Gravitational Field</h2><button id="closePhysics" type="button" aria-label="Close physics notes"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
   <div class="dialog-body">
-    <p class="source-reference"><a href="../../lessons/physics/giati-i-selini-menei-se-trochia.html" target="_blank" rel="noopener">Lesson · Why does the Moon stay in orbit?</a></p>
+    <p class="source-reference">Suggested article: <a href="../../lessons/physics/giati-i-selini-menei-se-trochia.html" target="_blank" rel="noopener">Why does the Moon stay in orbit?</a></p>
 
     <h3>Gravitational field and potential</h3>
-    <p>A source mass Mᵢ creates a field that points toward it. At twice the distance rᵢ, its contribution is one quarter as strong. Add the field vectors to find the total field, and add the scalar potentials to find the potential energy per unit mass.</p>
+    <p>A source mass <math><msub><mi>M</mi><mi>i</mi></msub></math> creates a field that points toward it. At twice the distance <math><msub><mi>r</mi><mi>i</mi></msub></math>, its contribution is one quarter as strong. Add the field vectors to find the total field, and add the scalar potentials to find the potential energy per unit mass.</p>
     <div class="math-block">
       <math display="block">
         <semantics>
-          <mtable>
-            <mtr><mtd><mrow><mi mathvariant="bold">g</mi><mo>=</mo><mo>−</mo><mi>G</mi><msub><mo>∑</mo><mi>i</mi></msub><mfrac><msub><mi>M</mi><mi>i</mi></msub><msup><msub><mi>r</mi><mi>i</mi></msub><mn>2</mn></msup></mfrac><msub><mover accent="true"><mi mathvariant="bold">r</mi><mo>^</mo></mover><mi>i</mi></msub></mrow></mtd></mtr>
-            <mtr><mtd><mrow><mi>Φ</mi><mo>=</mo><mo>−</mo><mi>G</mi><msub><mo>∑</mo><mi>i</mi></msub><mfrac><msub><mi>M</mi><mi>i</mi></msub><msub><mi>r</mi><mi>i</mi></msub></mfrac></mrow></mtd></mtr>
-          </mtable>
-          <annotation encoding="application/x-tex">\begin{gathered}\mathbf{g}=-G\sum_i\frac{M_i}{r_i^2}\hat{\mathbf{r}}_i\\ \Phi=-G\sum_i\frac{M_i}{r_i}\end{gathered}</annotation>
+          <mrow><mi>𝐠</mi><mo>=</mo><mo>−</mo><mi>G</mi><munder><mo>∑</mo><mi>i</mi></munder><mspace width="0.15em"/><mfrac><msub><mi>M</mi><mi>i</mi></msub><msup><msub><mi>r</mi><mi>i</mi></msub><mn>2</mn></msup></mfrac><mspace width="0.15em"/><msub><mover accent="true"><mi>𝐫</mi><mo>ˆ</mo></mover><mi>i</mi></msub></mrow>
+          <annotation encoding="application/x-tex">\mathbf{g}=-G\sum_i\frac{M_i}{r_i^2}\hat{\mathbf{r}}_i</annotation>
+        </semantics>
+      </math>
+      <math display="block">
+        <semantics>
+          <mrow><mi>Φ</mi><mo>=</mo><mo>−</mo><mi>G</mi><munder><mo>∑</mo><mi>i</mi></munder><mspace width="0.15em"/><mfrac><msub><mi>M</mi><mi>i</mi></msub><msub><mi>r</mi><mi>i</mi></msub></mfrac></mrow>
+          <annotation encoding="application/x-tex">\Phi=-G\sum_i\frac{M_i}{r_i}</annotation>
         </semantics>
       </math>
     </div>
-    <p>G is the gravitational constant, and r̂ᵢ points from each source toward the point you’re sampling. The minus sign in the field equation points the acceleration back toward the source. The potential is measured from zero at infinity.</p>
+    <p><math><mi>G</mi></math> is the gravitational constant, and <math><msub><mover accent="true"><mi>𝐫</mi><mo>ˆ</mo></mover><mi>i</mi></msub></math> points from each source toward the point you’re sampling. The minus sign in the field equation points the acceleration back toward the source. The potential is measured from zero at infinity.</p>
     <h3>Free fall and orbits</h3>
     <p>At a given point, every test mass has the same acceleration. Test masses follow the field created by the sources. The sources accelerate toward one another and merge on contact, conserving total mass and momentum. With enough sideways speed, an object can keep falling around a source in an orbit.</p>
     <div class="math-block">
       <math display="block">
         <semantics>
-          <mrow><mi mathvariant="bold">F</mi><mo>=</mo><mi>m</mi><mi mathvariant="bold">g</mi><mo>,</mo><mspace width="1em"/><mi mathvariant="bold">a</mi><mo>=</mo><mfrac><mi mathvariant="bold">F</mi><mi>m</mi></mfrac><mo>=</mo><mi mathvariant="bold">g</mi></mrow>
+          <mrow><mi>𝐅</mi><mo>=</mo><mi>m</mi><mi>𝐠</mi><mo>,</mo><mspace width="1em"/><mi>𝐚</mi><mo>=</mo><mfrac><mi>𝐅</mi><mi>m</mi></mfrac><mo>=</mo><mi>𝐠</mi></mrow>
           <annotation encoding="application/x-tex">\mathbf{F}=m\mathbf{g},\qquad \mathbf{a}=\frac{\mathbf{F}}{m}=\mathbf{g}</annotation>
         </semantics>
       </math>
@@ -315,7 +318,7 @@ button:disabled{cursor:default;opacity:.45}
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=earth-mass-scale"></script>
+    <script src="../../assets/js/lab-greek.js?v=inline-math"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
     <script src="../../assets/js/lab-toggle.js?v=remember-drawer-sections"></script>
 <script>

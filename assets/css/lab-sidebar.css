@@ -34,8 +34,11 @@
     isolation: isolate;
 }
 
-.panel {
+:is(.panel, .source-strength-popover) {
     --control-text: 12px;
+}
+
+.panel {
     --group-heading-size: 13px;
     --caption-gap: 6px;
     --group-gap: 12px;
@@ -123,13 +126,13 @@
 .panel h3 { margin: var(--group-gap) 0 var(--caption-gap); }
 .panel h3:has(+ .panel-options) { font-size: var(--control-text); }
 .panel legend { margin: 0 0 var(--caption-gap); padding: 0; }
-.panel :is(.icon-label, .toggle-label, h3) {
+:is(.panel, .source-strength-popover) :is(.icon-label, .toggle-label, h3) {
     display: inline-flex;
     align-items: center;
     gap: 8px;
 }
 
-.panel :is(.control-label, .toggle-row) {
+:is(.panel, .source-strength-popover) :is(.control-label, .toggle-row) {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -140,6 +143,7 @@
 }
 .panel .control-label { margin: var(--group-gap) 0 var(--caption-gap); }
 .panel .control-label:has(+ input[type="range"]) { margin-bottom: 0; }
+.source-strength-popover .control-label { margin: 0; }
 .time-rate-label > label {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -151,7 +155,8 @@
 }
 .panel summary + :is(h3, .control-label), .panel summary + div > .control-label:first-child { margin-top: 0; }
 .panel .toggle-row { min-height: var(--row-height); margin: 0; }
-.panel :is(output, .control-value, .state-details dd) {
+.panel :is(output, .control-value, .state-details dd),
+.source-strength-popover .control-value {
     flex: none;
     padding: 3px 7px;
     border: 1px solid #45658b;
@@ -184,7 +189,7 @@
     line-height: 1.5;
     color: var(--text-muted);
 }
-.panel .range-scale { font-size: 11px; }
+:is(.panel, .source-strength-popover) .range-scale { font-size: 11px; }
 .panel .muted:last-child { margin-bottom: 0; }
 
 .panel :is(.action-button, .panel-button, .display-mode label, select) {
@@ -401,7 +406,6 @@
             font: 650 12px/1 var(--lab-ui-font);
             pointer-events: auto;
         }
-        :is(.drawer-close, #lab .panel-toggle):is(:hover, :focus-visible) { color: var(--lab-accent); }
         .drawer-close svg {
             width: 18px;
             height: 18px;

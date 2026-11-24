@@ -9,17 +9,18 @@
 <title>Electromagnetic Field Laboratory</title>
 <link rel="stylesheet" href="lab.css?v=desktop-embed">
 <link rel="stylesheet" href="sidebar.css?v=aligned-dropdowns">
-    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=matching-hud-text">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=matching-hud-text">
+    <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=shared-hud-type">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=aligned-canvas-controls">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=inline-animation-speed">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=stable-drawer-icons">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=physics-notes">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=example-lesson-math">
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=matching-hud-text">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=live-edge-feather">
     <script src="../../assets/js/lab-canvas.js?v=precise-clock"></script>
     <script src="../../assets/js/lab-scale.js?v=inline-animation-speed"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -167,33 +168,36 @@
 <dialog id="physicsDialog" aria-labelledby="physicsTitle">
   <div class="dialog-head"><h2 id="physicsTitle">The Electromagnetic Field</h2><button class="icon-button" id="closePhysics" aria-label="Close physics notes"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
   <div class="dialog-body">
-    <p class="source-reference"><a href="../../lessons/physics/ti-einai-i-aktinovolia.html" target="_blank" rel="noopener">Lesson · What is radiation?</a></p>
+    <p class="source-reference">Suggested article: <a href="../../lessons/physics/ti-einai-i-aktinovolia.html" target="_blank" rel="noopener">What is radiation?</a></p>
 
     <h3>Changes travel at the speed of light</h3>
-    <p>The canvas shows a slice through the electric and magnetic fields of one moving charge in vacuum. Light takes time to cross the distance R between the observation point and the charge’s earlier position. The fields at time t use the charge’s position, velocity, and acceleration at that earlier time, called the retarded time.</p>
+    <p>The canvas shows a slice through the electric and magnetic fields of one moving charge in vacuum. Light takes time to cross the distance <math><mi>R</mi></math> between the observation point and the charge’s earlier position. The fields at time <math><mi>t</mi></math> use the charge’s position, velocity, and acceleration at that earlier time, called the retarded time.</p>
     <div class="math-block">
       <math display="block">
         <semantics>
-          <mrow><msub><mi>t</mi><mi>r</mi></msub><mo>+</mo><mfrac><mrow><mi>R</mi><mrow><mo>(</mo><msub><mi>t</mi><mi>r</mi></msub><mo>)</mo></mrow></mrow><mi>c</mi></mfrac><mo>=</mo><mi>t</mi></mrow>
-          <annotation encoding="application/x-tex">t_{\mathrm{r}}+\frac{R(t_{\mathrm{r}})}{c}=t</annotation>
+          <mrow><mi>t</mi><mo>=</mo><msub><mi>t</mi><mi>r</mi></msub><mo>+</mo><mfrac><mrow><mi>R</mi><mrow><mo>(</mo><msub><mi>t</mi><mi>r</mi></msub><mo>)</mo></mrow></mrow><mi>c</mi></mfrac></mrow>
+          <annotation encoding="application/x-tex">t=t_r+\frac{R(t_r)}{c}</annotation>
         </semantics>
       </math>
     </div>
-    <p>Here c is the speed of light. Watch a single pulse reach nearby points before distant ones.</p>
+    <p>Here <math><mi>c</mi></math> is the speed of light. Watch a single pulse reach nearby points before distant ones.</p>
     <h3>Velocity field and radiation</h3>
-    <p>The lab uses the Liénard–Wiechert fields. The electric field is the sum of a velocity term, which includes the static Coulomb field, and a radiation term, which comes from acceleration. For the same emission conditions and direction, the velocity term falls as 1/R² and the radiation term as 1/R. This lets radiation dominate far away in directions where it is emitted.</p>
+    <p>The lab uses the Liénard–Wiechert fields. The electric field is the sum of a velocity term, which includes the static Coulomb field, and a radiation term, which comes from acceleration. For the same emission conditions and direction, the velocity term falls as <math><mfrac><mn>1</mn><msup><mi>R</mi><mn>2</mn></msup></mfrac></math> and the radiation term as <math><mfrac><mn>1</mn><mi>R</mi></mfrac></math>. This lets radiation dominate far away in directions where it is emitted.</p>
     <div class="math-block">
       <math display="block">
         <semantics>
-          <mtable>
-            <mtr><mtd><mrow><mi mathvariant="bold">E</mi><mo>=</mo><msub><mi mathvariant="bold">E</mi><mi mathvariant="normal">vel</mi></msub><mo>+</mo><msub><mi mathvariant="bold">E</mi><mi mathvariant="normal">rad</mi></msub></mrow></mtd></mtr>
-            <mtr><mtd><mrow><mi mathvariant="bold">B</mi><mo>=</mo><mfrac><mrow><mi mathvariant="bold">n</mi><mo>×</mo><mi mathvariant="bold">E</mi></mrow><mi>c</mi></mfrac></mrow></mtd></mtr>
-          </mtable>
-          <annotation encoding="application/x-tex">\begin{gathered}\mathbf{E}=\mathbf{E}_{\mathrm{vel}}+\mathbf{E}_{\mathrm{rad}}\\ \mathbf{B}=\frac{\mathbf{n}\times\mathbf{E}}{c}\end{gathered}</annotation>
+          <mrow><mi>𝐄</mi><mo>=</mo><msub><mi>𝐄</mi><mtext>vel</mtext></msub><mo>+</mo><msub><mi>𝐄</mi><mtext>rad</mtext></msub></mrow>
+          <annotation encoding="application/x-tex">\mathbf{E}=\mathbf{E}_{\mathrm{vel}}+\mathbf{E}_{\mathrm{rad}}</annotation>
+        </semantics>
+      </math>
+      <math display="block">
+        <semantics>
+          <mrow><mi>𝐁</mi><mo>=</mo><mfrac><mrow><mi>𝐧</mi><mo>×</mo><mi>𝐄</mi></mrow><mi>c</mi></mfrac></mrow>
+          <annotation encoding="application/x-tex">\mathbf{B}=\frac{\mathbf{n}\times\mathbf{E}}{c}</annotation>
         </semantics>
       </math>
     </div>
-    <p>The vector n points from the charge’s position at emission toward the observer. The radiation electric field is perpendicular to n. Orange arrows show the electric field in the canvas plane. Blue symbols show the magnetic field perpendicular to that plane. ⊙ points out of the screen and ⊗ points into it.</p>
+    <p>The vector <math><mi>𝐧</mi></math> points from the charge’s position at emission toward the observer. The radiation electric field is perpendicular to <math><mi>𝐧</mi></math>. Orange arrows show the electric field in the canvas plane. Blue symbols show the magnetic field perpendicular to that plane. <math><mo>⊙</mo></math> points out of the screen and <math><mo>⊗</mo></math> points into it.</p>
     <h3>Controls and how to use them</h3>
     <ul class="dialog-controls">
       <li>Under Source motion, choose Wave for a continuous oscillation, Pulse for one burst, or Mouse to move the charge by hand. Dragging the charge switches to Mouse mode. For Wave and Pulse, adjust the amplitude and the frequency or pulse duration setting.</li>
@@ -203,7 +207,7 @@
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=animation-speed-readout"></script>
+    <script src="../../assets/js/lab-greek.js?v=inline-math"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
     <script src="../../assets/js/lab-toggle.js?v=remember-drawer-sections"></script>
 <script id="physics-engine">

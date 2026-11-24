@@ -36,14 +36,21 @@
 }
 .zoom svg { width: 18px; height: 18px; }
 #lab :is(.zoom output, .time-bar [role="timer"]) {
-    color: var(--text-primary);
-    font: 600 13px/1 var(--lab-number-font);
+    font-family: var(--lab-number-font);
+    line-height: 1;
     font-variant-numeric: tabular-nums;
 }
 .zoom output {
-    width: 54px;
+    flex: none;
+    box-sizing: content-box;
+    inline-size: 4ch;
+    padding-inline: 2px;
     text-align: center;
+    white-space: nowrap;
 }
+
+/* Hydrogen can exceed 999% at the closest orbital view. */
+#viewport .zoom output { inline-size: 5ch; }
 
 @media (pointer: coarse) {
     :root { --lab-bar-control-height: 44px; }
@@ -54,7 +61,6 @@
     :root { --lab-bar-control-height: 36px; }
     :is(.zoom, .quantum-stepper) button { width: 28px; }
     .zoom button { width: 32px; }
-    .zoom output { width: 50px; }
 }
 
 .scale-readout { justify-self: center; align-self: center; pointer-events: none; color: var(--text-muted); font-size: 12px; text-align: center; }

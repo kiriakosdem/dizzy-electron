@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Εξερεύνησε τη Φυσική με κείμενα και διαδραστικά εργαστήρια, στον δικό σου ρυθμό.">
     <title>Dizzy Electron | Φυσική στην πράξη</title>
-    <script src="assets/js/english.js?v=hero-actions" defer></script>
+    <script src="assets/js/english.js?v=featured-lab-cards" defer></script>
     <script src="assets/js/language.js?v=shared-language" defer></script>
-    <script src="assets/js/navbar-scroll.js" defer></script>
+    <script src="assets/js/navbar-scroll.js?v=masthead-shadow" defer></script>
     <script src="assets/js/theme.js?v=nav-motion"></script>
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/common.css?v=footer-current-orange">
+    <link rel="stylesheet" href="assets/css/common.css?v=footer-link-states">
     <link rel="stylesheet" href="assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="assets/css/cards.css?v=orange-card-hover">
-    <link rel="stylesheet" href="assets/css/home.css?v=hero-link-underline">
+    <link rel="stylesheet" href="assets/css/cards.css?v=compact-lab-reveal">
+    <link rel="stylesheet" href="assets/css/home.css?v=compact-shadows">
     <script src="assets/js/lesson.js?v=nav-motion" defer></script>
     <script src="assets/js/home-film.js?v=video-label" defer></script>
     <script src="assets/js/home-carousel.js?v=site-language" defer></script>
@@ -81,13 +81,57 @@
                 </figure>
             </div>
         </header>
-        <section class="home-band home-band--shaded home-featured" id="Courses" aria-labelledby="featured-title">
+        <div class="home-band home-band--shaded home-featured" id="Courses">
             <svg class="home-hero-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" focusable="false">
                 <path d="M0 0H1440V24C1260 66 1140 58 960 30S660 0 480 28S180 66 0 30Z"/>
             </svg>
-            <div class="home-shell">
-                <h2 id="featured-title">Προτεινόμενα Κείμενα</h2>
-                <div class="catalog-grid">
+            <div class="home-shell home-featured-sections">
+                <section aria-labelledby="featured-labs-title">
+                    <div class="home-featured-heading">
+                        <h2 id="featured-labs-title">Προτεινόμενα Εργαστήρια</h2>
+                        <a class="home-text-link" href="labs/index.html" aria-label="Δες τα όλα (Εργαστήρια)">Δες τα όλα</a>
+                    </div>
+                    <div class="catalog-grid">
+                        <a class="catalog-card catalog-card--lab" href="simulations/hydrogen-eigenstates/index.html" target="_blank" rel="noopener" aria-labelledby="lab-4-title" aria-describedby="lab-4-description">
+                            <img class="lab-card-preview" src="assets/images/labs/hydrogen-eigenstates.jpg?v=5dz2-lab-snapshot" width="480" height="270" alt="" loading="lazy" decoding="async">
+                            <div class="lab-card-body">
+                                <h3 id="lab-4-title">Το Άτομο του Υδρογόνου</h3>
+                                <p id="lab-4-description">Εξερεύνησε τα τροχιακά του υδρογόνου σε 3D.</p>
+                                <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                            </div>
+                        </a>
+                        <a class="catalog-card catalog-card--lab" href="simulations/gravitational-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-1-title" aria-describedby="lab-1-description">
+                            <img class="lab-card-preview" src="assets/images/labs/gravitational-field.jpg" width="640" height="360" alt="" loading="lazy" decoding="async">
+                            <div class="lab-card-body">
+                                <h3 id="lab-1-title">Το Βαρυτικό Πεδίο</h3>
+                                <p id="lab-1-description">Δες πώς οι μάζες έλκονται μεταξύ τους.</p>
+                                <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                            </div>
+                        </a>
+                        <a class="catalog-card catalog-card--lab" href="simulations/electric-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-2-title" aria-describedby="lab-2-description">
+                            <img class="lab-card-preview" src="assets/images/labs/electric-field.jpg?v=dipole-lab-snapshot" width="640" height="360" alt="" loading="lazy" decoding="async">
+                            <div class="lab-card-body">
+                                <h3 id="lab-2-title">Το Ηλεκτρικό Πεδίο</h3>
+                                <p id="lab-2-description">Τοποθέτησε φορτία και δες πώς αλλάζει το πεδίο.</p>
+                                <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                            </div>
+                        </a>
+                        <a class="catalog-card catalog-card--lab" href="simulations/electromagnetic-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-3-title" aria-describedby="lab-3-description">
+                            <img class="lab-card-preview" src="assets/images/labs/electromagnetic-field.jpg" width="800" height="450" alt="" loading="lazy" decoding="async">
+                            <div class="lab-card-body">
+                                <h3 id="lab-3-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
+                                <p id="lab-3-description">Δες πώς ένα κινούμενο φορτίο εκπέμπει ακτινοβολία.</p>
+                                <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+                <section aria-labelledby="featured-title">
+                    <div class="home-featured-heading">
+                        <h2 id="featured-title">Προτεινόμενα Κείμενα</h2>
+                        <a class="home-text-link" href="articles/index.html" aria-label="Δες τα όλα (Κείμενα)">Δες τα όλα</a>
+                    </div>
+                    <div class="catalog-grid">
                         <a class="catalog-card" href="lessons/physics/me-ti-moiazei-telika-ena-atomo.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
                             <h3 id="lesson-4-title">
                                 <span class="catalog-icon catalog-icon--atom"><img src="assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
@@ -120,10 +164,10 @@
                             <p id="lesson-3-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
                             <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
                         </a>
-                </div>
-                <p class="home-more"><a class="primary-action" href="articles/index.html">Δες όλα τα κείμενα <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a></p>
+                    </div>
+                </section>
             </div>
-        </section>
+        </div>
         <section class="section-divider" aria-label="Αποφθέγματα επιστημόνων" aria-roledescription="carousel">
             <div class="quote-carousel home-shell">
                 <div class="quote-track">

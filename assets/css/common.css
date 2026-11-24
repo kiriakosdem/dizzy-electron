@@ -25,6 +25,7 @@ MAIN BODY AND TEXT
     --title-size: clamp(1.6rem, 3.2vw, 2.6rem);
     --section-title-size: clamp(1.4rem, 2.2vw, 1.6rem);
     --card-title-size: 1.12rem;
+    --navbar-shadow: 0 3px 6px rgb(0 15 30 / 42%);
     --page-title-gap: 24px;
     --section-heading-gap: 16px;
     --color-logo-cyan: #00bed0;
@@ -344,6 +345,13 @@ footer .footer-brand {
     padding-inline: var(--masthead-gutter);
     background: var(--color-navy);
     color: var(--color-paper);
+    box-shadow: var(--navbar-shadow);
+}
+
+@media (min-width: 992px) {
+    .home-page #NavigationBar:not(.has-page-underlay) .site-masthead {
+        box-shadow: none;
+    }
 }
 
 .masthead-brand {
@@ -437,8 +445,10 @@ footer .footer-brand {
         gap: 0 20px;
         padding: 6px var(--masthead-gutter) 16px;
         background: var(--color-navy);
-        box-shadow: 0 12px 22px rgb(0 13 30 / 24%);
+        box-shadow: var(--navbar-shadow);
     }
+
+    .site-masthead:has(.masthead-links.show) { box-shadow: none; }
 
     .masthead-links.show {
         visibility: visible;
@@ -789,14 +799,19 @@ footer .footer-inner {
 footer .footer-inner .footer-brand { margin: 0; padding: 0; }
 footer .footer-navigation ul { list-style: none; margin: 0; padding: 0; }
 footer .footer-navigation li + li { margin-top: 10px; }
-footer .footer-navigation a { display: inline-block; padding: 2px 0; font-size: .95rem; }
-footer .footer-navigation a:hover { color: var(--color-logo-cyan); }
+footer .footer-navigation a {
+    --focus-ring: var(--color-logo-orange);
+    display: inline-block;
+    padding: 2px 0;
+    font-size: .95rem;
+}
+footer .footer-navigation a:is(:hover, :active, :focus-visible) { color: var(--color-logo-orange); }
 footer .footer-navigation a[aria-current="page"] {
     color: var(--color-logo-orange);
     text-decoration: underline;
     text-underline-offset: 6px;
 }
-footer .footer-navigation a:focus-visible { outline: 3px solid var(--color-logo-cyan); outline-offset: 4px; }
+footer .footer-navigation a:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 4px; }
 footer .footer-copyright {
     margin: 0;
     padding: 0 20px 20px;

@@ -3,6 +3,7 @@
 
     const navbar = document.getElementById('NavigationBar');
     const menuToggle = navbar.querySelector('.navbar-toggler');
+    const homeHeading = document.querySelector('.home-heading');
     const page = document.scrollingElement;
     const getScrollY = () => Math.max(0, Math.min(window.scrollY, page.scrollHeight - page.clientHeight));
     let directionEdge = getScrollY();
@@ -21,6 +22,11 @@
         const hide = scrollY > 6 && scrollingDown && !menuOpen && !navbar.querySelector(':focus-visible');
         navbar.classList.toggle('is-offscreen', hide);
         navbar.inert = hide;
+
+        if (homeHeading) {
+            const pastHero = homeHeading.getBoundingClientRect().bottom <= navbar.offsetHeight;
+            navbar.classList.toggle('has-page-underlay', pastHero);
+        }
     }
 
     function scheduleUpdate() {
@@ -28,10 +34,12 @@
     }
 
     navbar.classList.add('site-nav-scroll');
-    new ResizeObserver(() => {
+    const navResizeObserver = new ResizeObserver(() => {
         document.documentElement.style.setProperty('--site-navbar-height', navbar.offsetHeight + 'px');
         scheduleUpdate();
-    }).observe(navbar);
+    });
+    navResizeObserver.observe(navbar);
+    if (homeHeading) navResizeObserver.observe(homeHeading);
     navbar.addEventListener('focusout', scheduleUpdate);
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', scheduleUpdate);

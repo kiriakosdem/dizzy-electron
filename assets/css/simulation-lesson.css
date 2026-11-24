@@ -30,6 +30,7 @@
     inset-inline: 0;
     background: var(--color-navy);
     color: var(--color-white);
+    box-shadow: var(--navbar-shadow);
     --focus-ring: var(--color-logo-cyan);
 }
 

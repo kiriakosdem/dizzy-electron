@@ -37,18 +37,17 @@
     clip-path: inset(var(--lab-frame-inset) round var(--lab-frame-radius));
 }
 
-.canvas-frame::after {
-    content: "";
-    position: absolute;
-    inset: var(--lab-frame-inset);
-    border-radius: var(--lab-frame-radius);
-    pointer-events: none;
-    -webkit-backdrop-filter: blur(3px);
-    backdrop-filter: blur(3px);
-    mask-image: linear-gradient(to right, #000, transparent 10px),
-        linear-gradient(to left, #000, transparent 10px),
-        linear-gradient(to bottom, #000, transparent 10px),
-        linear-gradient(to top, #000, transparent 10px);
+/* Feather the live canvas itself so the edge updates with every frame. */
+.canvas-frame canvas {
+    --lab-feather-end: calc(var(--lab-frame-inset) + 10px);
+    mask-image:
+        linear-gradient(to right, transparent var(--lab-frame-inset),
+            #000 var(--lab-feather-end), #000 calc(100% - var(--lab-feather-end)),
+            transparent calc(100% - var(--lab-frame-inset))),
+        linear-gradient(to bottom, transparent var(--lab-frame-inset),
+            #000 var(--lab-feather-end), #000 calc(100% - var(--lab-feather-end)),
+            transparent calc(100% - var(--lab-frame-inset)));
+    mask-composite: intersect;
 }
 
 .field-frame { position: absolute; inset: 0; }
@@ -98,7 +97,6 @@
         height: 28px;
     }
     :where(:root[data-lab-embedded]) #lab:where(:not(.desktop-playback-layout)) .zoom button { width: 24px; }
-    :where(:root[data-lab-embedded]) #lab:where(:not(.desktop-playback-layout)) .zoom output { width: 36px; }
 }
 
 #lab :is(.canvas-surface, .panel-section) {
@@ -210,10 +208,16 @@
 
 #lab .scale-readout { color: #e4edf7; }
 
+#lab :is(.legend, .canvas-legend, .orbital-legend, .zoom output, .time-bar [role="timer"]) {
+    color: var(--text-primary);
+    font-size: var(--lab-hud-text-size, 13px);
+    font-weight: 600;
+}
+
 #lab :is(.legend, .canvas-legend, .orbital-legend) {
     padding: 8px 12px;
-    font-size: 11px;
     line-height: 1.4;
+    overflow-wrap: anywhere;
 }
 #lab :is(.placement-message, .canvas-empty, .toast, .mode-msg, .render-status, .canvas-tools-message) {
     font-size: 12px;
