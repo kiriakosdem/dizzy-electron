@@ -52,14 +52,16 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
   };
  }
  let now=0;
- const drawnMoons=[];
+ const drawnSprites=[],heatmapFrames=[];
  const context=new Proxy({}, {get:(_,key)=>{
   if(key==='createRadialGradient'||key==='createLinearGradient')return ()=>({addColorStop(){}});
-  if(key==='drawImage')return (sprite,x,y,width)=>{if(sprite.id==='sourceMoon'||sprite.id==='testMoon')drawnMoons.push({id:sprite.id,width});};
+  if(key==='createImageData')return (width,height)=>({data:new Uint8ClampedArray(width*height*4)});
+  if(key==='putImageData')return imageData=>heatmapFrames.push({imageData,pixels:imageData.data.slice()});
+  if(key==='drawImage')return (sprite,x,y,width)=>{if(sprite.id==='sourceMoon'||sprite.id==='testAsteroid')drawnSprites.push({id:sprite.id,width});};
   return ()=>{};
  }});
  function $(id){assert.ok(pageIds.has(id)||id==='zoom','Unknown DOM id: '+id);if(!elements.has(id))elements.set(id,element(id));return elements.get(id);}
- for(const id of ['sourceMoon','testMoon'])Object.assign($(id),{complete:true,naturalWidth:256});
+ for(const id of ['sourceMoon','testAsteroid'])Object.assign($(id),{complete:true,naturalWidth:256});
  function rect(id,left,y,w,h){$(id).rect={left,top:y,right:left+w,bottom:y+h,width:w,height:h};}
  rect('lab',0,top,width,height);rect('fieldCanvas',0,top,width,height);
  rect('controlsPanel',width-292,top,292,height);rect('controlsBackdrop',0,top,width,height);
@@ -77,7 +79,8 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
   elementFromPoint(){throw Error('Drop validation must not depend on the preview being absent from hit testing');}};
  const sandbox={document,window:{matchMedia:query=>({matches:!query.includes('prefers-reduced-motion')&&compact,addEventListener(){}}),devicePixelRatio:1,
   addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{constructor(callback){onCanvasResize=callback;}observe(){}},
-  performance:{now:()=>now},requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
+  performance:{now:()=>now},requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{},
+  Path2D:class{moveTo(){}lineTo(){}arc(){}}};
  // These interaction tests run the standalone lab, outside a lesson iframe.
  sandbox.window.parent=sandbox.window;
  if(random){sandbox.Math=Object.create(Math);sandbox.Math.random=random;}
@@ -95,8 +98,8 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
   if(!empty)api.seedSources([{x:-155,y:-15,mass:4.5},{x:155,y:-25,mass:4.5},{x:5,y:160,mass:2.6}]);
  }
  const point=c=>{const p=api.toScreen(c.x,c.y);return {clientX:p.x,clientY:p.y+top};};
- return {$,api,point,document,top,width,height,emitWindow,resizeCanvas:onCanvasResize,drawAt(time){
-  now=time;drawnMoons.length=0;api.render();return [...drawnMoons];
+ return {$,api,point,document,top,width,height,heatmapFrames,emitWindow,resizeCanvas:onCanvasResize,drawAt(time){
+  now=time;drawnSprites.length=0;api.render();return [...drawnSprites];
  },escape(){emitWindow('keydown',{key:'Escape'});}};
 }
 
@@ -278,7 +281,7 @@ test('mass sliders synchronize, enforce positive masses and only strengthen attr
  }
 });
 
-test('source and test masses draw different moons that resize with their sliders',()=>{
+test('the source moon and test asteroid resize with their mass sliders',()=>{
  const {$,api,drawAt}=openLab(false,{empty:true});
  api.seedSources([{x:0,y:0,mass:.01}]);
  const [smallSource]=drawAt(0);
@@ -292,7 +295,7 @@ test('source and test masses draw different moons that resize with their sliders
  const [,smallTest]=drawAt(0);
  $('massStrength').value='1';$('massStrength').emit('input');
  const [,largeTest]=drawAt(0);
- assert.equal(smallTest.id,'testMoon');
+ assert.equal(smallTest.id,'testAsteroid');
  assert.equal(largeTest.id,smallTest.id);
  assert.ok(smallTest.width>0&&largeTest.width>smallTest.width*2&&largeTest.width<largeSource.width);
 });
@@ -391,6 +394,23 @@ test('legend follows independent arrow and line toggles and exclusive heatmap mo
  $('heatmapToggle').emit('click');
  assert.equal($('strengthLegend').hidden,true);
  assert.equal($('fieldLegend').hidden,true);
+});
+
+test('mobile: the heatmap follows a moving mass and reuses the same pixel buffer',()=>{
+ const {$,api,drawAt,heatmapFrames}=openLab(true,{empty:true});
+ api.seedSources([{x:0,y:0,mass:.4,vx:.001}]);
+ $('heatmapToggle').emit('click');
+ drawAt(0);
+ drawAt(16);
+ assert.equal(heatmapFrames.length,1);
+
+ api.advanceSimulation(.1);
+ assert.ok(api.state().masses[0].x>0);
+ drawAt(100);
+ assert.equal(heatmapFrames.length,2);
+ const [before,after]=heatmapFrames;
+ assert.equal(after.imageData,before.imageData);
+ assert.notDeepEqual(after.pixels,before.pixels);
 });
 
 function center(element){const r=element.getBoundingClientRect();return {clientX:r.left+r.width/2,clientY:r.top+r.height/2};}

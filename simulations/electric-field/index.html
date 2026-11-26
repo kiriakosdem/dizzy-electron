@@ -58,14 +58,12 @@ button{font:inherit;cursor:pointer}
 .controls-open .mode-msg{left:calc((100% - var(--lab-docked-sidebar-width, 0px))/2);max-width:calc(100% - var(--lab-docked-sidebar-width, 0px) - 32px)}
 .charge-tray{position:absolute;left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));z-index:1;padding:12px}
 .tray-items{display:grid;grid-template-columns:repeat(3,64px);gap:8px;align-items:stretch}
-.tray-items>button{display:grid;grid-template-rows:minmax(0,1fr) auto;align-items:center;justify-items:center;row-gap:3px;line-height:12px}
-.tray-items>button>span{align-self:end;white-space:nowrap}
 .source-stack{position:relative;width:100%;height:72px;margin:0;padding:6px 3px;border:1px solid #7894b755;border-radius:10px;background:#8babc418;touch-action:none;cursor:grab;color:var(--text-secondary);font-size:10px}
 .source-stack:hover,.source-stack.active{background:#94b4d32b;border-color:#c4d7ed}
 .source-stack:active{cursor:grabbing}
 
 button:disabled{cursor:default;opacity:.45}
-.charge-art{display:block;flex-shrink:0;width:44px;height:44px;overflow:visible}
+.charge-art{display:block;flex-shrink:0;overflow:visible}
 .charge-art path{fill:#f4f8ff;stroke:#f5f8ff;stroke-width:2;stroke-linejoin:round}
 .charge-art text{fill:#0b1730;font:800 16px ui-sans-serif,system-ui;text-anchor:middle;dominant-baseline:central}
 .negative .charge-art path{fill:#050a15;stroke-width:1.25}.negative .charge-art text{fill:#f3f8ff}
@@ -73,8 +71,8 @@ button:disabled{cursor:default;opacity:.45}
 .trash-zone{grid-column:1 / -1;width:100%;min-width:0;max-width:none;height:44px;margin:0;padding:3px 6px;font-size:11px}
 .trash-zone.over{transform:scale(1.05)}
 .charge-ghost{position:absolute;top:0;left:0;z-index:5;pointer-events:none;width:48px;height:48px;filter:drop-shadow(0 2px 6px #0008)}
-.charge-ghost .charge-art{width:48px;height:48px}.charge-ghost.invalid{opacity:.45}
-.charge-ghost.test{display:grid;place-items:center}.charge-ghost.test .charge-art{width:20px;height:20px}
+.charge-ghost .charge-art{width:48px;height:48px;transform-origin:center}.charge-ghost.invalid{opacity:.45}
+:is(.charge-ghost.test,.test-source) .charge-art path{fill:#fff;stroke:#fff}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media(max-width:892px),(max-height:500px) and (max-width:950px){
     :where(:root:not([data-lab-embedded])) {
@@ -107,18 +105,18 @@ button:disabled{cursor:default;opacity:.45}
 @media(pointer:coarse) and (min-width:893px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=shared-hud-type">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=aligned-canvas-controls">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=aligned-tray-rows">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=example-labels">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=heading-icons">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=shared-strength-sliders">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=controls-label">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=orange-hover">
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=radio-options">
-    <script src="../../assets/js/lab-canvas.js?v=precise-clock"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=single-line-tray-labels">
+    <script src="../../assets/js/lab-canvas.js?v=field-rendering"></script>
     <script src="../../assets/js/lab-scale.js?v=inline-animation-speed"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
@@ -130,7 +128,10 @@ button:disabled{cursor:default;opacity:.45}
     </a>
     <div class="lab-title-group">
         <h1>The Electric Field</h1>
-        <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><svg class="lab-help-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></svg></button>
+        <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?">
+            <svg class="lab-help-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></svg>
+            <span>How does it work?</span>
+        </button>
     </div>
     <div class="lab-language"></div>
     <button class="panel-toggle dock-tile" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
@@ -161,9 +162,9 @@ button:disabled{cursor:default;opacity:.45}
   <div class="canvas-dock lab-dock" id="canvasDock">
   <div class="charge-tray canvas-surface" id="chargeTray" role="group" aria-label="Charge tray">
     <div class="tray-items">
-      <button class="source-stack dock-tile" id="addPositive" type="button" aria-label="Positive charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a positive charge, or click then place"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 2 5 5-2-2 5 3 3-5 1-3 4-2-4-5 1 2-5-3-3 5-1zM8 10h4m-2-2v4"/></svg><span>Positive</span></button>
-      <button class="source-stack negative dock-tile" id="addNegative" type="button" aria-label="Negative charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a negative charge, or click then place"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 2 5 5-2-2 5 3 3-5 1-3 4-2-4-5 1 2-5-3-3 5-1zM8 10h4"/></svg><span>Negative</span></button>
-      <button class="source-stack test-source dock-tile" id="addTest" type="button" aria-label="Drag a test charge onto the canvas, or click then place" aria-pressed="false" title="Add a test charge using the shared mass and charge"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 2v3m0 10v3M2 10h3m10 0h3m-6 0h-4m2-2v4"/></svg><span>Test charge</span></button>
+      <button class="source-stack dock-tile" id="addPositive" type="button" aria-label="Positive charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a positive charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">+</text></svg><span>Positive</span></button>
+      <button class="source-stack negative dock-tile" id="addNegative" type="button" aria-label="Negative charge: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a negative charge, or click then place"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/><text y=".2">−</text></svg><span>Negative</span></button>
+      <button class="source-stack test-source dock-tile" id="addTest" type="button" aria-label="Drag a test charge onto the canvas, or click then place" aria-pressed="false" title="Add a test charge using the shared mass and charge"><svg class="charge-art" viewBox="-24 -24 48 48" aria-hidden="true"><path/></svg><span>Test charge</span></button>
       <button class="trash-zone danger-button dock-tile" id="trashZone" type="button" aria-label="Delete selected charge, or drag a charge here" title="Drop a charge here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Delete</span></button>
     </div>
   </div>
@@ -174,7 +175,7 @@ button:disabled{cursor:default;opacity:.45}
       <button class="playback-icon playback-reset" id="resetTest" type="button" disabled aria-label="Reset all test charges to their starting positions" title="Reset all test charges to their starting positions">
           <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a6 6 0 1 1 1.4 5.6M3 3v5h5"/></svg><span>Reset</span>
       </button>
-      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulation time"><span class="time-value">0.00</span> <span class="time-unit">ms</span></span>
+      <span id="timeReadout" role="timer" aria-label="Elapsed simulation time" title="Elapsed simulation time"><span class="time-value">0.00</span> <span class="time-unit">µs</span></span>
   </div>
   <div class="hud" role="group" aria-label="Distance scale and zoom">
     <div class="scale-readout"><span id="distanceLabel"></span><div class="scale-rule" id="scaleRule"></div></div>
@@ -188,6 +189,7 @@ button:disabled{cursor:default;opacity:.45}
   </div>
   <div class="charge-ghost" id="chargeGhost" hidden aria-hidden="true"><svg class="charge-art" viewBox="-24 -24 48 48"><path/><text y=".2">+</text></svg></div>
   <div class="sr-only" id="actionStatus" role="status" aria-live="polite"></div>
+  <p class="sr-only" id="testStatus" role="status">Place a test charge to watch its motion.</p>
   <div class="legend canvas-surface" id="fieldLegend" aria-label="Visualization legend">
     <div class="legend-item" id="electricFieldLegend"><span class="legend-vector" role="img" aria-label="Vector">↗</span><span>Electric field</span></div>
     <div class="legend-item" id="strengthLegend" hidden><span class="gradient" role="img" aria-label="Weak to strong"></span><span>Field strength</span></div>
@@ -221,9 +223,21 @@ button:disabled{cursor:default;opacity:.45}
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11.5" r="6"/><path d="M8 2h4m-2 0v3.5m4.5 1.8 1.7-1.7M10 8v3.5l2 1.5"/></svg>
         Simulation
       </h2></summary>
-      <div class="control-label time-rate-label"><label for="simulationSpeed">Animation speed</label><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">1s = 1.00 ms</output></div>
-      <input type="range" id="simulationSpeed" min="0.25" max="2" step="0.05" value="1" aria-label="Animation speed">
-      <div class="range-scale" aria-hidden="true"><span id="simulationSpeedMin">250 µs</span><span id="simulationSpeedMax">2 ms</span></div>
+      <div class="panel-group">
+        <div class="control-label time-rate-label"><label for="simulationSpeed">Animation speed</label><output class="control-value time-rate-value" id="simulationSpeedText" for="simulationSpeed">1s = 20.0 µs</output></div>
+        <input type="range" id="simulationSpeed" min="5" max="40" step="1" value="20" aria-label="Animation speed">
+        <div class="range-scale" aria-hidden="true"><span id="simulationSpeedMin">5 µs</span><span id="simulationSpeedMax">40 µs</span></div>
+      </div>
+      <div class="panel-group">
+        <label class="control-label slider-label" for="testMass"><span class="toggle-label">Test charge mass</span><span class="control-value" id="testMassText">40 mg</span></label>
+        <input type="range" id="testMass" min="1" max="1000" step="1" value="40" aria-label="Mass of all test charges" aria-valuetext="40 milligrams" aria-describedby="testMassHint" title="Applies to all existing and new test charges. Mass: 1–1,000 mg. More mass means slower acceleration."/>
+        <div class="range-scale" aria-hidden="true"><span>1 mg</span><span>1,000 mg</span></div>
+        <p class="sr-only" id="testMassHint">All test charges share this mass, from 1 to 1,000 milligrams. More mass means slower acceleration. The test charge and trail disappear on contact with a source or at the lab edge.</p>
+        <label class="control-label slider-label" for="testChargeStrength"><span class="toggle-label">Test charge strength</span><span class="control-value" id="testChargeText">+10.0 μC</span></label>
+        <input type="range" id="testChargeStrength" min="0.1" max="20" step="0.1" value="10" aria-label="Positive charge of all test charges" aria-valuetext="10 microcoulombs" aria-describedby="testChargeHint" title="Applies to all existing and new test charges. Positive charge only: +0.1 to +20 μC."/>
+        <div class="range-scale" aria-hidden="true"><span>+0.1</span><span>+20</span></div>
+        <p class="sr-only" id="testChargeHint">All test charges share a strictly positive charge, from 0.1 to 20 microcoulombs. Larger values increase the electric force.</p>
+      </div>
     </details>
     <details class="panel-section display-section" id="visualizationSettings" aria-label="Display settings">
       <summary><h2>
@@ -248,24 +262,6 @@ button:disabled{cursor:default;opacity:.45}
         <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field and potential color sensitivity"/>
         <div class="range-scale" aria-hidden="true"><span>0.3</span><span>4</span></div>
       </div>
-    </details>
-    <details open class="panel-section" id="testBlock" aria-label="Test charge" aria-describedby="testModelHint" hidden>
-      <summary><h2>
-        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="14" r="4"/><path d="M4.5 14h3M6 12.5v3m3-6 8-8m-5 0h5v5"/></svg>
-        Test charges
-      </h2></summary>
-      <p class="sr-only" id="testModelHint">F = qE · a = F/m. Starts at rest; source charges stay fixed. One grid unit is 1 cm. At 1× playback, 1 millisecond is simulated per real second.</p>
-      <div class="panel-group">
-        <label class="control-label slider-label" for="testMass"><span class="toggle-label">Mass</span><span class="control-value" id="testMassText">100 g</span></label>
-        <input type="range" id="testMass" min="1" max="1000" step="1" value="100" aria-label="Mass of all test charges" aria-valuetext="100 grams" aria-describedby="testMassHint" title="Applies to all existing and new test charges. Mass: 1 g–1 kg. More mass means slower acceleration."/>
-        <div class="range-scale" aria-hidden="true"><span>1</span><span>1,000</span></div>
-        <p class="sr-only" id="testMassHint">All test charges share this mass, from 1 gram to 1 kilogram. More mass means slower acceleration. The test charge and trail disappear on contact with a source or at the lab edge.</p>
-        <label class="control-label slider-label" for="testChargeStrength"><span class="toggle-label">Charge</span><span class="control-value" id="testChargeText">+10.0 μC</span></label>
-        <input type="range" id="testChargeStrength" min="0.1" max="20" step="0.1" value="10" aria-label="Positive charge of all test charges" aria-valuetext="10 microcoulombs" aria-describedby="testChargeHint" title="Applies to all existing and new test charges. Positive charge only: +0.1 to +20 μC."/>
-        <div class="range-scale" aria-hidden="true"><span>+0.1</span><span>+20</span></div>
-        <p class="sr-only" id="testChargeHint">All test charges share a strictly positive charge, from 0.1 to 20 microcoulombs. Larger values increase the electric force.</p>
-      </div>
-      <p class="sr-only" id="testStatus" role="status">Place a test charge to watch its motion.</p>
     </details>
     <details open class="panel-section" id="editBlock" hidden aria-label="Selected charge">
       <summary><h2>
@@ -323,13 +319,13 @@ button:disabled{cursor:default;opacity:.45}
     <ul class="dialog-controls">
       <li>Load Dipole under Examples, or drag Positive and Negative charges from the tray onto the canvas. You can also tap a tray item and then tap its destination. Select a source to edit its charge and position. Drag a charge onto Delete to remove it.</li>
       <li>Use Display to switch between field strength and electric potential, or toggle field arrows and lines. Potential is measured relative to zero at infinity. Orange marks positive values and blue marks negative ones.</li>
-      <li>Place a Test charge and use Play or Reset to follow its motion. Press the period key to advance one step. The Test charges controls set the mass and charge shared by all test charges. Drag a test charge to release it from rest at a new point. At 1× playback, one real second represents one simulated millisecond.</li>
+      <li>Place a Test charge and use Play or Reset to follow its motion. Press the period key to advance one step. Use Simulation to set the mass and charge shared by all test charges. Drag a test charge to release it from rest at a new point. At 1× playback, one real second represents 20 simulated microseconds.</li>
       <li>Drag the background to pan, and scroll or pinch to zoom. One grid unit represents 1 cm.</li>
     </ul>
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=grid-controls"></script>
+    <script src="../../assets/js/lab-greek.js?v=short-tray-labels"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
     <script src="../../assets/js/lab-toggle.js?v=edge-aligned-shadows"></script>
 <script>
@@ -346,22 +342,39 @@ let sourceDrag=null,suppressDragClick=false;
 // Source q values are coulombs; positions/velocities use cm and cm per simulated second.
 // fieldAt omits k and uses cm distances; dynamics converts its result into cm/s².
 // See https://openstax.org/books/physics/pages/18-3-electric-field .
-const COULOMB_K=8.9875517923e9,METERS_PER_GRID_UNIT=.01,SIM_SECONDS_PER_REAL_SECOND=.001,TEST_STEP=1/240,TEST_CONTACT=24;
-let testCharges=[],nextTestId=1,selectedTestId=null,testSelected=false,testMass=.1,testQ=10e-6,testPaused=false,testAccumulator=0,lastFrameTime=null;
+const COULOMB_K=8.9875517923e9,METERS_PER_GRID_UNIT=.01,TEST_STEP=1/240;
+const SECONDS_PER_MICROSECOND=1e-6,DEFAULT_SIMULATION_SPEED=20;
+const SIM_SECONDS_PER_REAL_SECOND=DEFAULT_SIMULATION_SPEED*SECONDS_PER_MICROSECOND;
+const MILLIGRAMS_PER_KILOGRAM=1e6,MIN_TEST_MASS_MG=1,MAX_TEST_MASS_MG=1000,DEFAULT_TEST_MASS_MG=40;
+const DEFAULT_SOURCE_CHARGE=4,MAX_SOURCE_CHARGE=10,MIN_TEST_MICROCOULOMBS=.1,MAX_TEST_MICROCOULOMBS=20;
+const CHARGE_ART_RADIUS=21;
+const ABSORPTION_PULL_MS=220,ABSORPTION_DURATION_MS=560;
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+let chargeAbsorptions=[];
+let testCharges=[],nextTestId=1,selectedTestId=null,testSelected=false,testMass=DEFAULT_TEST_MASS_MG/MILLIGRAMS_PER_KILOGRAM,testQ=10e-6,testPaused=false,testAccumulator=0,lastFrameTime=null;
 let simulationTime=0,playbackRate=1;
 const selectedTest=()=>testCharges.find(t=>t.id===selectedTestId);
 
 // Screen-space separation controls the clarity of the 2D streamline drawing.
 const LINE_MIN_SPACING=20,LINE_MAX_SPACING=54;
-let fieldLineCache={key:'',groups:[],arrows:[]};
+let fieldLineCache={key:'',bounds:null,updatedAt:-Infinity,revision:0,groups:[],arrows:[]};
 const heatmapCanvas=document.createElement('canvas'),heatmapContext=heatmapCanvas.getContext('2d');
+const paintFieldLayer=createLabCanvasLayer();
 let heatmapKey='';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const selected=()=>charges.find(c=>c.id===selectedId);
+// Map each charge slider's range to world-space radii, with a visible minimum.
+function sourceRadius(q){return 10+16*Math.sqrt(clamp(Math.abs(q)/MAX_SOURCE_CHARGE,0,1));}
+function testRadius(q){
+ const fraction=(q*1e6-MIN_TEST_MICROCOULOMBS)/(MAX_TEST_MICROCOULOMBS-MIN_TEST_MICROCOULOMBS);
+ return 3+6*Math.sqrt(clamp(fraction,0,1));
+}
+function screenChargeRadius(q,isTest=false){return (isTest?testRadius(q):sourceRadius(q))*camera.zoom;}
+function sourceSelectionRadius(radius){return Math.max(18,radius+9);}
 function loadChargeConfiguration(kind,{initial=false}={}){
  let layout;
- if(kind==='single')layout=[{x:0,y:0,q:4}];
- else if(kind==='dipole')layout=[{x:-120,y:0,q:4},{x:120,y:0,q:-4}];
+ if(kind==='single')layout=[{x:0,y:0,q:DEFAULT_SOURCE_CHARGE}];
+ else if(kind==='dipole')layout=[{x:-120,y:0,q:DEFAULT_SOURCE_CHARGE},{x:120,y:0,q:-DEFAULT_SOURCE_CHARGE}];
  else if(kind==='row')layout=Array.from({length:5},(_,i)=>({x:(i-2)*120,y:0,q:3}));
  else if(kind==='random'){
   const signs=[1,1,-1,-1,Math.random()<.5?1:-1];for(let i=signs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[signs[i],signs[j]]=[signs[j],signs[i]];}
@@ -412,13 +425,12 @@ function resize(){
 function setMode(){canvas.classList.toggle('placing',placing!==0);$('addPositive').classList.toggle('active',placing===1);$('addNegative').classList.toggle('active',placing===-1);$('addPositive').setAttribute('aria-pressed',String(placing===1));$('addNegative').setAttribute('aria-pressed',String(placing===-1));$('addTest').classList.toggle('active',placing==='test');$('addTest').setAttribute('aria-pressed',String(placing==='test'));setLabCopy($('modeMessageText'), placing==='test'?'Click or tap to release the test charge from rest. Press Enter to place near view center.':'Tap or click the grid to place your charge.');$('modeMessage').hidden=placing===0;positionChargePopover();}
 function startPlacing(sign){placing=(placing===sign?0:sign);if(sign==='test')selectTestCharge();else if(testSelected){testSelected=false;syncPanel();}setMode();if(placing&&labControls.compact)labControls.close();if(placing==='test')canvas.focus({preventScroll:true});}
 $('cancelPlacement').onclick=()=>{placing=0;setMode();};
-function addCharge(x,y,sign){const c={id:nextId++,x,y,q:sign*4};charges.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});setLabCopy($('actionStatus'), sign>0 ? 'Positive charge added. Charges in the field: {0}.' : 'Negative charge added. Charges in the field: {0}.', [charges.length]);}
+function addCharge(x,y,sign){const c={id:nextId++,x,y,q:sign*DEFAULT_SOURCE_CHARGE};charges.push(c);testSelected=false;selectedId=c.id;syncPanel();canvas.focus({preventScroll:true});setLabCopy($('actionStatus'), sign>0 ? 'Positive charge added. Charges in the field: {0}.' : 'Negative charge added. Charges in the field: {0}.', [charges.length]);}
 function removeCharge(id=selectedId){if(!charges.some(c=>c.id===id))return;charges=charges.filter(c=>c.id!==id);if(selectedId===id)selectedId=charges.length?charges[charges.length-1].id:null;syncPanel();setLabCopy($('actionStatus'), 'Charge removed. Charges in the field: {0}.', [charges.length]);}
 function updateTimeReadout(){
- setLabTimeReadout($('timeReadout'),simulationTime,'ms');
+ setLabTimeReadout($('timeReadout'),simulationTime,'µs');
 }
 function syncTestControls(){
- $('testBlock').hidden=!testSelected;$('editBlock').hidden=testSelected||!selected();
  lab.classList.toggle('test-active',testCharges.length>0);
  if(!testCharges.length)simulationTime=0;
  updateTimeReadout();
@@ -433,20 +445,28 @@ function syncTestControls(){
  $('resetTest').disabled=!testCharges.length;
  const status=!testCharges.length?'Place a test charge to watch its motion.':testPaused?'All test charges paused. Continue to resume motion.':'Test charges moving under the electric force.';
  setLabCopy($('testStatus'), status);
- setLabCopy($('testBlock'), () => labText('F = qE; a = F/m. Test charges move independently in the fixed source field. Drag one to release it from a new point. 1 grid unit = 1 cm. At 1× playback, 1 ms is simulated per real second.') + ' ' + labText(status), [], 'title');
  positionChargePopover();
 }
-function syncTestMass(){const grams=Math.round(testMass*1000);$('testMass').value=String(grams);$('testMassText').textContent=grams.toLocaleString('en-US')+' g';setLabCopy($('testMass'), grams===1 ? '{0} gram' : '{0} grams', [grams], 'aria-valuetext');updateRangeFill($('testMass'));}
+function syncTestMass(){
+ const massSlider=$('testMass'),milligrams=Math.round(testMass*MILLIGRAMS_PER_KILOGRAM);
+ massSlider.value=String(milligrams);
+ $('testMassText').textContent=milligrams.toLocaleString('en-US')+' mg';
+ setLabCopy(massSlider, milligrams===1 ? '{0} milligram' : '{0} milligrams', [milligrams], 'aria-valuetext');
+ updateRangeFill(massSlider);
+}
 function syncTestChargeStrength(){const microcoulombs=Math.round(testQ*1e7)/10;$('testChargeStrength').value=String(microcoulombs);$('testChargeText').textContent=(microcoulombs>0?'+':'')+microcoulombs.toFixed(1)+' μC';setLabCopy($('testChargeStrength'), '{0} microcoulombs', [microcoulombs], 'aria-valuetext');updateRangeFill($('testChargeStrength'));}
 function selectTestCharge(id=selectedTestId){if(!testCharges.some(t=>t.id===id))id=testCharges.length?testCharges[testCharges.length-1].id:null;if(!testSelected||selectedId!==null||id!==selectedTestId){testSelected=true;selectedId=null;selectedTestId=id;syncPanel();}}
 function removeSelection(){if(testSelected)removeTestCharge();else removeCharge();}
 function removeTestCharge(id=selectedTestId){const t=testCharges.find(t=>t.id===id);if(t)t.trail.length=0;testCharges=testCharges.filter(t=>t.id!==id);if(selectedTestId===id)selectedTestId=testCharges.length?testCharges[testCharges.length-1].id:null;if(!testCharges.length){testAccumulator=0;lastFrameTime=null;}syncTestControls();}
-function removeAllTestCharges(){for(const t of testCharges)t.trail.length=0;testCharges=[];selectedTestId=null;nextTestId=1;testPaused=false;testAccumulator=0;lastFrameTime=null;syncTestControls();}
-function canPlaceTestCharge(x,y){return Math.abs(x)<PAN_X&&Math.abs(y)<PAN_Y&&!charges.some(c=>Math.hypot(x-c.x,y-c.y)<=TEST_CONTACT);}
+function removeAllTestCharges(){for(const t of testCharges)t.trail.length=0;testCharges=[];chargeAbsorptions=[];selectedTestId=null;nextTestId=1;testPaused=false;testAccumulator=0;lastFrameTime=null;syncTestControls();}
+function canPlaceTestCharge(x,y,q=testQ){
+ const radius=testRadius(q);
+ return Math.abs(x)<PAN_X&&Math.abs(y)<PAN_Y&&!charges.some(c=>Math.hypot(x-c.x,y-c.y)<=sourceRadius(c.q)+radius);
+}
 function placeTestCharge(x,y){
  selectTestCharge();
  if(!canPlaceTestCharge(x,y)){
-  placing='test';setMode();setLabCopy($('modeMessageText'), 'Choose a point inside the grid, at least 24 cm from each source.');return false;
+  placing='test';setMode();setLabCopy($('modeMessageText'), 'Choose a point inside the grid with room for the test charge.');return false;
  }
  const testCharge={id:nextTestId++,x,y,vx:0,vy:0,q:testQ,mass:testMass,startX:x,startY:y,running:!testPaused,trail:[{x,y}],trailClock:0};
  testCharges.push(testCharge);selectedTestId=testCharge.id;
@@ -458,12 +478,13 @@ function placeTestNearCenter(){
  const rect=canvas.getBoundingClientRect();
  for(let radius=0;radius<=160;radius+=40)for(let i=0;i<(radius?8:1);i++){
   const x=vw/2+radius*Math.cos(i*Math.PI/4),y=vh/2+radius*Math.sin(i*Math.PI/4),world=toWorld(x,y);
-  if(canPlaceTestCharge(world.x,world.y)&&overWorkspace({clientX:rect.left+x,clientY:rect.top+y},8)){placeTestCharge(world.x,world.y);placing=0;setMode();return;}
+  if(canPlaceTestCharge(world.x,world.y)&&overWorkspace({clientX:rect.left+x,clientY:rect.top+y},screenChargeRadius(testQ,true))){placeTestCharge(world.x,world.y);placing=0;setMode();return;}
  }
  setLabCopy($('modeMessageText'), 'No clear point near the center. Click or tap farther from a source to place the test charge.');
 }
 function resetTestCharges(){
  if(!testCharges.length)return;
+ chargeAbsorptions=[];
  selectTestCharge();
  // Finish any pickup first, then reset every particle to its release point.
  if(activeDrag?.kind==='test')cancelInteraction();
@@ -473,22 +494,24 @@ function resetTestCharges(){
 }
 function testAcceleration(x,y,mass=testMass){const field=fieldAt(x,y),factor=COULOMB_K*testQ/(mass*METERS_PER_GRID_UNIT**3);return{x:field.x*factor,y:field.y*factor};}
 // Locate the first contact along a step so a fast particle cannot cross a source.
-function testStopAlongSegment(x,y,nx,ny){
+function testStopAlongSegment(test,nx,ny){
+ const {x,y,q}=test,radius=testRadius(q);
  const dx=nx-x,dy=ny-y,a=dx*dx+dy*dy;let hit=null;
- const consider=(t,reason)=>{if(t>=0&&t<=1&&(!hit||t<hit.t))hit={t,reason};};
+ const consider=(t,source=null)=>{if(t>=0&&t<=1&&(!hit||t<hit.t))hit={t,source,x:x+dx*t,y:y+dy*t};};
  for(const c of charges){
-  const ox=x-c.x,oy=y-c.y,d=ox*ox+oy*oy-TEST_CONTACT*TEST_CONTACT;
-  if(d<=0){consider(0,'source');continue;}if(!a)continue;
+  const ox=x-c.x,oy=y-c.y,contact=sourceRadius(c.q)+radius,d=ox*ox+oy*oy-contact*contact;
+  if(d<=0){consider(0,c);continue;}if(!a)continue;
   const b=2*(ox*dx+oy*dy),discriminant=b*b-4*a*d;
-  if(discriminant>=0)consider((-b-Math.sqrt(discriminant))/(2*a),'source');
+  if(discriminant>=0)consider((-b-Math.sqrt(discriminant))/(2*a),c);
  }
- if(Math.abs(x)>PAN_X||Math.abs(y)>PAN_Y)consider(0,'boundary');
- if(nx>PAN_X)consider((PAN_X-x)/dx,'boundary');else if(nx<-PAN_X)consider((-PAN_X-x)/dx,'boundary');
- if(ny>PAN_Y)consider((PAN_Y-y)/dy,'boundary');else if(ny<-PAN_Y)consider((-PAN_Y-y)/dy,'boundary');
+ if(Math.abs(x)>PAN_X||Math.abs(y)>PAN_Y)consider(0);
+ if(nx>PAN_X)consider((PAN_X-x)/dx);else if(nx<-PAN_X)consider((-PAN_X-x)/dx);
+ if(ny>PAN_Y)consider((PAN_Y-y)/dy);else if(ny<-PAN_Y)consider((-PAN_Y-y)/dy);
  return hit;
 }
-function stopTestCharge(hit,id){
- removeTestCharge(id);setLabCopy($('actionStatus'), hit.reason==='source'?'Test charge and trail removed on contact with a source.':'Test charge and trail removed at the lab edge.');
+function stopTestCharge(hit,test){
+ if(hit.source)chargeAbsorptions.push({x:hit.x,y:hit.y,source:hit.source,q:test.q,startedAt:performance.now()});
+ removeTestCharge(test.id);setLabCopy($('actionStatus'), hit.source?'Test charge and trail removed on contact with a source.':'Test charge and trail removed at the lab edge.');
 }
 function advanceTestCharge(elapsed,manualStep=false){
  const canAdvance=t=>manualStep||t.running;
@@ -502,12 +525,12 @@ function advanceTestCharge(elapsed,manualStep=false){
   simulationTime+=dt;
   for(const t of [...testCharges]){
   if(!canAdvance(t))continue;
-  const contact=testStopAlongSegment(t.x,t.y,t.x,t.y);
-  if(contact){stopTestCharge(contact,t.id);continue;}
+  const contact=testStopAlongSegment(t,t.x,t.y);
+  if(contact){stopTestCharge(contact,t);continue;}
   // Velocity Verlet integrates acceleration, preserving inertia without artificial drag.
    const a=testAcceleration(t.x,t.y),nx=t.x+t.vx*dt+.5*a.x*dt*dt,ny=t.y+t.vy*dt+.5*a.y*dt*dt;
-  const hit=testStopAlongSegment(t.x,t.y,nx,ny);
-  if(hit){stopTestCharge(hit,t.id);continue;}
+  const hit=testStopAlongSegment(t,nx,ny);
+  if(hit){stopTestCharge(hit,t);continue;}
    const next=testAcceleration(nx,ny);
    t.vx+=(a.x+next.x)*dt/2;t.vy+=(a.y+next.y)*dt/2;t.x=nx;t.y=ny;
   t.trailClock+=TEST_STEP;
@@ -526,17 +549,24 @@ function stepTestCharges(){
 }
 $('resetTest').onclick=resetTestCharges;
 function syncSimulationSpeed(){
- updateLabTimeRate($('simulationSpeed'), $('simulationSpeedText'), $('simulationSpeedMin'), $('simulationSpeedMax'), 1e-3);
+ updateLabTimeRate($('simulationSpeed'), $('simulationSpeedText'), $('simulationSpeedMin'), $('simulationSpeedMax'), SECONDS_PER_MICROSECOND);
 }
 $('simulationSpeed').oninput=e=>{
- playbackRate=Number(e.target.value)/(SIM_SECONDS_PER_REAL_SECOND*1000);
+ playbackRate=Number(e.target.value)/DEFAULT_SIMULATION_SPEED;
  lastFrameTime=null;
  syncSimulationSpeed();
 };
 syncSimulationSpeed();
 window.siteLanguage?.onChange(syncSimulationSpeed);
-$('testMass').oninput=e=>{const grams=clamp(Math.round(Number(e.target.value)||100),1,1000);selectTestCharge();testMass=grams/1000;for(const t of testCharges)t.mass=testMass;syncTestMass();};
-$('testChargeStrength').oninput=e=>{const value=Number(e.target.value);if(!Number.isFinite(value))return;selectTestCharge();testQ=Math.round(clamp(value,.1,20)*10)/10*1e-6;for(const t of testCharges)t.q=testQ;syncTestChargeStrength();};
+$('testMass').oninput=e=>{
+ const value=Number(e.target.value);
+ if(!Number.isFinite(value))return;
+ const milligrams=clamp(Math.round(value),MIN_TEST_MASS_MG,MAX_TEST_MASS_MG);
+ testMass=milligrams/MILLIGRAMS_PER_KILOGRAM;
+ for(const t of testCharges)t.mass=testMass;
+ syncTestMass();
+};
+$('testChargeStrength').oninput=e=>{const value=Number(e.target.value);if(!Number.isFinite(value))return;testQ=Math.round(clamp(value,MIN_TEST_MICROCOULOMBS,MAX_TEST_MICROCOULOMBS)*10)/10*1e-6;for(const t of testCharges)t.q=testQ;syncTestChargeStrength();};
 document.addEventListener('visibilitychange',()=>{lastFrameTime=null;testAccumulator=0;});
 function updateRangeFill(input){const progress=(Number(input.value)-Number(input.min))/(Number(input.max)-Number(input.min))*100;input.style.setProperty('--range-fill',clamp(progress,0,100)+'%');}
 function syncCoordinateInputs(c){
@@ -551,8 +581,8 @@ function applyCoordinate(axis,input){
  const limit=axis==='x'?PAN_X:PAN_Y;
  c[axis]=clamp(Math.round(value),-limit,limit);syncCoordinateInputs(c);
  // Follow precise moves that would otherwise put the charge outside the visible grid.
- const p=toScreen(c.x,c.y);
- if(p.x<32||p.x>vw-32||p.y<32||p.y>vh-32){
+ const p=toScreen(c.x,c.y),margin=Math.max(32,sourceSelectionRadius(screenChargeRadius(c.q)));
+ if(p.x<margin||p.x>vw-margin||p.y<margin||p.y>vh-margin){
   camera.x=c.x;camera.y=c.y;constrainCamera();
  }
  const position=[Math.round(c.x), Math.round(c.y)];
@@ -576,20 +606,24 @@ lab.addEventListener('pointerleave',()=>{chargeHover=null;positionChargePopover(
 function positionChargePopover(){
  const editor=$('chargePopover'),c=selected();
  if(!c||testSelected||placing||sourceDrag||activeDrag||(labControls.compact&&labControls.open)){editor.hidden=true;return;}
- const p=toScreen(c.x,c.y);
- const width=editor.getBoundingClientRect().width||190,height=editor.getBoundingClientRect().height||80;
- const x=clamp(p.x-width/2,8,vw-width-8),y=Math.max(8,p.y-height-34);
+ const p=toScreen(c.x,c.y),ring=sourceSelectionRadius(screenChargeRadius(c.q));
+ const h=chargeHover,inRing=h&&Math.hypot(h.x-p.x,h.y-p.y)<=ring;
+ const touchOpen=touchEditorId===c.id;
+ if(editor.hidden&&!inRing&&!touchOpen)return;
+ const {width:measuredWidth,height:measuredHeight}=editor.getBoundingClientRect();
+ const width=measuredWidth||190,height=measuredHeight||80;
+ const x=clamp(p.x-width/2,8,vw-width-8),y=Math.max(8,p.y-height-ring-7);
  if(p.x<0||p.x>vw||p.y<0||p.y>vh||vw<width+16){editor.hidden=true;return;}
- const h=chargeHover,inRing=h&&Math.hypot(h.x-p.x,h.y-p.y)<=27;
  // Preserve access while crossing the small gap between the ring and slider.
  const inEditor=h&&h.x>=x&&h.x<=x+width&&h.y>=y&&h.y<=y+height;
- const inBridge=h&&Math.abs(h.x-p.x)<=27&&h.y>=y+height&&h.y<=p.y;
+ const inBridge=h&&Math.abs(h.x-p.x)<=ring&&h.y>=y+height&&h.y<=p.y;
  const keepOpen=!editor.hidden&&(inEditor||inBridge||editor.contains(document.activeElement));
- editor.hidden=!(inRing||keepOpen||touchEditorId===c.id);
- editor.style.left=x+'px';editor.style.top=y+'px';
+ editor.hidden=!(inRing||keepOpen||touchOpen);
+ if(editor.hidden)return;
+ if(editor.style.left!==x+'px')editor.style.left=x+'px';
+ if(editor.style.top!==y+'px')editor.style.top=y+'px';
 }
-function adjustStaticCharge(input){const c=selected(),value=Number(input.value);if(!c||!Number.isFinite(value))return;c.q=Math.round(clamp(value,-10,10)*10)/10;syncPanel();}
-const CHARGE_RADIUS=18;
+function adjustStaticCharge(input){const c=selected(),value=Number(input.value);if(!c||!Number.isFinite(value))return;c.q=Math.round(clamp(value,-MAX_SOURCE_CHARGE,MAX_SOURCE_CHARGE)*10)/10;syncPanel();}
 function insideElement(element,e,padding=0){
  const r=element.getBoundingClientRect();
  return e.clientX>=r.left-padding&&e.clientX<=r.right+padding&&e.clientY>=r.top-padding&&e.clientY<=r.bottom+padding;
@@ -613,19 +647,33 @@ function overTrash(e,drag){
    :p.clientX>source.right&&p.clientX<=r.right&&p.clientY>=Math.max(r.top,testSource.bottom+4)&&p.clientY<=r.bottom);
 }
 function updateTrash(armed=false,over=false){$('trashZone').classList.toggle('armed',armed);$('trashZone').classList.toggle('over',over);}
-function showChargeGhost(sign,id,p,invalid=false){const ghost=$('chargeGhost');ghost.hidden=false;ghost.classList.toggle('negative',sign<0);ghost.classList.toggle('neutral',sign===0);ghost.classList.toggle('test',sign==='test');ghost.classList.toggle('invalid',invalid);ghost.style.transform=`translate(${p.x-24}px,${p.y-24}px)`;const artId=sign==='test'?0:id,artKey=String(artId)+(sign===0?'-neutral':'');if(ghost.dataset.chargeId!==artKey){setChargeArtwork(ghost.querySelector('svg'),artId,sign===0);ghost.dataset.chargeId=artKey;}ghost.querySelector('text').textContent=sign==='test'?'':sign>0?'+':sign<0?'−':'0';}
+function showChargeGhost(q,id,p,isTest=false,invalid=false){
+ const ghost=$('chargeGhost'),art=ghost.querySelector('svg'),neutral=q===0;
+ ghost.hidden=false;ghost.classList.toggle('negative',q<0);ghost.classList.toggle('neutral',neutral);
+ ghost.classList.toggle('test',isTest);ghost.classList.toggle('invalid',invalid);
+ ghost.style.transform=`translate(${p.x-24}px,${p.y-24}px)`;
+ art.style.transform=`scale(${screenChargeRadius(q,isTest)/CHARGE_ART_RADIUS})`;
+ const artId=isTest?0:id,artKey=String(artId)+(neutral?'-neutral':'');
+ if(ghost.dataset.chargeId!==artKey){setChargeArtwork(art,artId,neutral);ghost.dataset.chargeId=artKey;}
+ ghost.querySelector('text').textContent=isTest?'':q>0?'+':q<0?'−':'0';
+}
 function finishSourceDrag(){const drag=sourceDrag;sourceDrag=null;$('chargeGhost').hidden=true;updateTrash();if(drag&&drag.button.hasPointerCapture(drag.pointerId))drag.button.releasePointerCapture(drag.pointerId);}
 function moveSourceDrag(e){
  const drag=sourceDrag;
  drag.lastPoint={clientX:e.clientX,clientY:e.clientY,pointerId:e.pointerId};
  drag.moved=drag.moved||Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>6;
- if(drag.moved)showChargeGhost(drag.sign,nextId,pointerPos(e),!overWorkspace(e,CHARGE_RADIUS));
+ const isTest=drag.sign==='test',q=isTest?testQ:drag.sign*DEFAULT_SOURCE_CHARGE;
+ const p=pointerPos(e),valid=overWorkspace(e,screenChargeRadius(q,isTest));
+ if(drag.moved){
+  const world=toWorld(p.x,p.y);
+  showChargeGhost(q,nextId,p,isTest,!valid||(isTest&&!canPlaceTestCharge(world.x,world.y)));
+ }
+ return valid;
 }
 function endSourceDrag(e,cancelled=false){
  const drag=sourceDrag;if(!drag||drag.pointerId!==e.pointerId)return;
- if(!cancelled)moveSourceDrag(e);
+ const valid=!cancelled&&moveSourceDrag(e),p=pointerPos(e);
  suppressDragClick=drag.moved;
- const valid=!cancelled&&overWorkspace(e,CHARGE_RADIUS),p=pointerPos(e);
  finishSourceDrag();
  if(cancelled)return;
  if(drag.moved){if(valid){const w=toWorld(p.x,p.y);placeFromTool(w.x,w.y,drag.sign);}}
@@ -692,8 +740,8 @@ function zoomTo(newZoom,sx=vw/2,sy=vh/2){newZoom=clamp(Math.round(newZoom*10)/10
 function resetCamera(){const fit=labControls.compact?Math.floor(Math.min((vw-80)/365,(vh-140)/230)*10)/10:1;camera={x:0,y:0,zoom:clamp(fit,minimumZoom(),1)};constrainCamera();updateZoomControls();}
 $('zoomIn').onclick=()=>zoomTo(camera.zoom+.1);$('zoomOut').onclick=()=>zoomTo(camera.zoom-.1);$('resetView').onclick=resetCamera;
 canvas.addEventListener('wheel',e=>{e.preventDefault();const p=pointerPos(e);if(e.deltaY)zoomTo(camera.zoom+(e.deltaY<0?.1:-.1),p.x,p.y);},{passive:false});
-function chargeAt(p){for(let i=charges.length-1;i>=0;i--){const c=charges[i],s=toScreen(c.x,c.y);if(Math.hypot(p.x-s.x,p.y-s.y)<26)return c;}return null;}
-function testChargeAt(p){for(let i=testCharges.length-1;i>=0;i--){const t=testCharges[i],s=toScreen(t.x,t.y);if(Math.hypot(p.x-s.x,p.y-s.y)<14)return t;}return null;}
+function chargeAt(p){for(let i=charges.length-1;i>=0;i--){const c=charges[i],s=toScreen(c.x,c.y);if(Math.hypot(p.x-s.x,p.y-s.y)<Math.max(14,screenChargeRadius(c.q)+8))return c;}return null;}
+function testChargeAt(p){for(let i=testCharges.length-1;i>=0;i--){const t=testCharges[i],s=toScreen(t.x,t.y);if(Math.hypot(p.x-s.x,p.y-s.y)<Math.max(14,screenChargeRadius(t.q,true)+5))return t;}return null;}
 function beginTestDrag(t,p){
  const world=toWorld(p.x,p.y);
  selectTestCharge(t.id);t.running=false;
@@ -730,11 +778,11 @@ function moveCanvasPointer(e){const p=pointerPos(e),w=toWorld(p.x,p.y);
   const moved=activeDrag.moved||Math.hypot(p.x-activeDrag.px,p.y-activeDrag.py)>6;
   if(moved&&!activeDrag.moved)t.trail=[];activeDrag.moved=moved;if(!moved)return;
   t.x=w.x+activeDrag.ox;t.y=w.y+activeDrag.oy;
-  activeDrag.valid=overWorkspace(chargeDragPoint(e,activeDrag),7)&&canPlaceTestCharge(t.x,t.y);
+  activeDrag.valid=overWorkspace(chargeDragPoint(e,activeDrag),screenChargeRadius(t.q,true))&&canPlaceTestCharge(t.x,t.y,t.q);
   if(activeDrag.valid){activeDrag.lastX=t.x;activeDrag.lastY=t.y;}
   updateTrash(true,overTrash(e,activeDrag));
  }
- else{const c=charges.find(c=>c.id===activeDrag.id);if(c){activeDrag.moved=activeDrag.moved||Math.hypot(p.x-activeDrag.px,p.y-activeDrag.py)>6;c.x=w.x+activeDrag.ox;c.y=w.y+activeDrag.oy;if(overWorkspace(chargeDragPoint(e,activeDrag),CHARGE_RADIUS)){activeDrag.lastX=c.x;activeDrag.lastY=c.y;}syncCoordinateInputs(c);updateTrash(true,overTrash(e,activeDrag));}}
+ else{const c=charges.find(c=>c.id===activeDrag.id);if(c){activeDrag.moved=activeDrag.moved||Math.hypot(p.x-activeDrag.px,p.y-activeDrag.py)>6;c.x=w.x+activeDrag.ox;c.y=w.y+activeDrag.oy;if(overWorkspace(chargeDragPoint(e,activeDrag),screenChargeRadius(c.q))){activeDrag.lastX=c.x;activeDrag.lastY=c.y;}syncCoordinateInputs(c);updateTrash(true,overTrash(e,activeDrag));}}
 }
 function endDrag(e){if(!pointers.has(e.pointerId))return;
  if(e.type==='pointerup')moveCanvasPointer(e);
@@ -745,7 +793,7 @@ function endDrag(e){if(!pointers.has(e.pointerId))return;
   const c=charges.find(c=>c.id===drag.id);
   if(e.type==='pointerup'&&drag.moved&&overTrash(e,drag))removeCharge(drag.id);
   // Interrupted gestures and drops over controls retain the last valid position.
-  else if(c){if(e.type==='pointerup'&&overWorkspace(chargeDragPoint(e,drag),CHARGE_RADIUS)){const p=pointerPos(e),w=toWorld(p.x,p.y);c.x=w.x+drag.ox;c.y=w.y+drag.oy;}else{c.x=drag.lastX;c.y=drag.lastY;}syncPanel();}
+  else if(c){if(e.type==='pointerup'&&overWorkspace(chargeDragPoint(e,drag),screenChargeRadius(c.q))){const p=pointerPos(e),w=toWorld(p.x,p.y);c.x=w.x+drag.ox;c.y=w.y+drag.oy;}else{c.x=drag.lastX;c.y=drag.lastY;}syncPanel();}
  }
  pointers.delete(e.pointerId);activeDrag=null;$('chargeGhost').hidden=true;updateTrash();canvas.classList.remove('dragging');try{if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);}catch(_){}
  if(pointers.size>=2){const gesture=pinchPoints();activeDrag={kind:'pinch',distance:gesture.distance,zoom:camera.zoom,anchor:toWorld(gesture.x,gesture.y)};}
@@ -785,7 +833,7 @@ window.addEventListener('blur',()=>cancelInteraction());
 for(const type of ['click','dblclick'])window.addEventListener(type,e=>{
  if(suppressDragClick&&e.detail!==0){e.preventDefault();e.stopImmediatePropagation();}
 },true);
-canvas.addEventListener('dblclick',e=>{if(placing||!overWorkspace(e,CHARGE_RADIUS))return;const p=pointerPos(e);if(!chargeAt(p)){const w=toWorld(p.x,p.y);addCharge(w.x,w.y,1);}});
+canvas.addEventListener('dblclick',e=>{if(placing||!overWorkspace(e,screenChargeRadius(DEFAULT_SOURCE_CHARGE)))return;const p=pointerPos(e);if(!chargeAt(p)){const w=toWorld(p.x,p.y);addCharge(w.x,w.y,1);}});
 window.addEventListener('keydown',e=>{if(labControls.drawerOpen)return;if(e.key==='Escape'){if(!$('chargePopover').hidden){closeChargeEditor();canvas.focus({preventScroll:true});return;}cancelInteraction(true);placing=0;setMode();if(labControls.open)labControls.close();}
  if(e.key==='.'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target?.closest?.('input,select,textarea,[contenteditable]')&&!$('physicsDialog').open&&testCharges.length){e.preventDefault();stepTestCharges();}
  if(e.key==='Enter'&&e.target===canvas&&placing==='test'){e.preventDefault();placeTestNearCenter();}
@@ -801,17 +849,30 @@ function potentialColor(v){
 }
 function strength(m){return clamp(Math.log1p(m*50000*sensitivity)/Math.log1p(100),0,1);}
 function worldBounds(){return {xmin:camera.x-vw/(2*camera.zoom),xmax:camera.x+vw/(2*camera.zoom),ymin:camera.y-vh/(2*camera.zoom),ymax:camera.y+vh/(2*camera.zoom)};}
-function grid(){const b=worldBounds();for(const spacing of [MINOR,MAJOR,SUPER_MAJOR]){
+function grid(ctx){const b=worldBounds();for(const spacing of [MINOR,MAJOR,SUPER_MAJOR]){
  ctx.beginPath();const startX=Math.ceil(b.xmin/spacing),endX=Math.floor(b.xmax/spacing);
  for(let n=startX;n<=endX;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const x=toScreen(n*spacing,0).x;ctx.moveTo(Math.round(x)+.5,0);ctx.lineTo(Math.round(x)+.5,vh);}
  const startY=Math.ceil(b.ymin/spacing),endY=Math.floor(b.ymax/spacing);
  for(let n=startY;n<=endY;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const y=toScreen(0,n*spacing).y;ctx.moveTo(0,Math.round(y)+.5);ctx.lineTo(vw,Math.round(y)+.5);}
  ctx.strokeStyle=labCanvasTheme.grid[spacing===MINOR?0:spacing===MAJOR?1:2];ctx.lineWidth=1;ctx.stroke();}
 }
-function background(){paintLabBackdrop(ctx,vw,vh);if(showHeatmap||showPotential)drawHeatmap();if(showGridLines)grid();}
+function drawFieldLayer(){
+ if(showFieldLines)updateFieldLines();
+ const key=JSON.stringify([vw,vh,dpr,camera.x,camera.y,camera.zoom,sensitivity,
+  showHeatmap,showPotential,showGridLines,showFieldArrows,showSamplePoints,
+  showFieldLines?fieldLineCache.revision:0,charges.map(c=>[c.x,c.y,c.q])]);
+ // Only source charges affect the field. Reuse it as test charges move.
+ paintFieldLayer(ctx,vw,vh,dpr,key,layer=>{
+  paintLabBackdrop(layer,vw,vh);
+  if(showHeatmap||showPotential)drawHeatmap(layer);
+  if(showGridLines)grid(layer);
+  if(showFieldLines)drawFieldLines(layer);
+  if(showFieldArrows||showSamplePoints)drawFieldSamples(layer);
+ });
+}
 // Sample the resultant field, including cancellation between charges. Cache the
 // screen-space raster until the camera, sources, viewport, or sensitivity changes.
-function drawHeatmap(){
+function drawHeatmap(ctx){
  const key=JSON.stringify([showPotential,vw,vh,camera.x,camera.y,camera.zoom,sensitivity,charges.map(c=>[c.x,c.y,c.q])]);
  if(key!==heatmapKey){
   const width=Math.max(1,Math.ceil(vw/4)),height=Math.max(1,Math.ceil(vh/4));
@@ -831,7 +892,7 @@ function drawHeatmap(){
  ctx.save();ctx.imageSmoothingEnabled=true;
  ctx.drawImage(heatmapCanvas,0,0,vw,vh);ctx.restore();
 }
-function drawFieldSamples(){const b=worldBounds(),i0=Math.ceil(b.xmin/SAMPLE),i1=Math.floor(b.xmax/SAMPLE),j0=Math.ceil(b.ymin/SAMPLE),j1=Math.floor(b.ymax/SAMPLE);
+function drawFieldSamples(ctx){const b=worldBounds(),i0=Math.ceil(b.xmin/SAMPLE),i1=Math.floor(b.xmax/SAMPLE),j0=Math.ceil(b.ymin/SAMPLE),j1=Math.floor(b.ymax/SAMPLE);
  for(let i=i0;i<=i1;i++)for(let j=j0;j<=j1;j++){
  const x=i*SAMPLE,y=j*SAMPLE,p=toScreen(x,y);const f=fieldAt(x,y),t=strength(f.mag);
  const alpha=.19+.78*t;
@@ -849,16 +910,18 @@ function drawFieldSamples(){const b=worldBounds(),i0=Math.ceil(b.xmin/SAMPLE),i1
  }
 }
 function fieldLineSample(x,y){
- let ex=0,ey=0,totalMagnitude=0,nearest=Infinity,charge=null;
+ let ex=0,ey=0,totalMagnitude=0,nearest=Infinity,clearance=Infinity,charge=null;
  for(const c of charges){
   const dx=x-c.x,dy=y-c.y,r2=Math.max(dx*dx+dy*dy,1e-12),r=Math.sqrt(r2),weight=c.q/(r2*r);
   ex+=dx*weight;ey+=dy*weight;totalMagnitude+=Math.abs(c.q)/r2;
-  if(r<nearest){nearest=r;charge=c;}
+  nearest=Math.min(nearest,r);
+  const gap=(r-sourceRadius(c.q))*camera.zoom;
+  if(gap<clearance){clearance=gap;charge=c;}
  }
  const mag=Math.hypot(ex,ey),t=strength(mag),cancellation=totalMagnitude?mag/totalMagnitude:0;
- return {x,y,mag,t,ux:mag?ex/mag:0,uy:mag?ey/mag:0,nearest,cancellation,
-  charge:nearest*camera.zoom<19?charge:null,
-  valid:mag>1e-16&&cancellation>1e-6&&nearest*camera.zoom>=19,
+ return {x,y,mag,t,ux:mag?ex/mag:0,uy:mag?ey/mag:0,nearest,clearance,cancellation,
+  charge:clearance<1?charge:null,
+  valid:mag>1e-16&&cancellation>1e-6&&clearance>=1,
   spacing:(LINE_MIN_SPACING+(LINE_MAX_SPACING-LINE_MIN_SPACING)*Math.pow(1-t,1.15))/camera.zoom};
 }
 function fieldLineFlow(x,y,direction){const f=fieldAt(x,y);return f.mag>1e-18?{x:direction*f.x/f.mag,y:direction*f.y/f.mag}:null;}
@@ -914,20 +977,17 @@ function traceFieldLineHalf(seed,direction,index,bounds){
  }
  return {points,reason:'length'};
 }
-function buildFieldLines(){
+function buildFieldLines(bounds){
  if(!charges.some(c=>c.q!==0))return [];
- // Cache a world-anchored layout over the full navigable area. Panning
- // only translates these paths; padding carries curves beyond visible edges.
- const padding=64/camera.zoom,center={x:0,y:0};
- const bounds={xmin:-PAN_X-padding,xmax:PAN_X+padding,ymin:-PAN_Y-padding,ymax:PAN_Y+padding};
  const inside=p=>p.x>=bounds.xmin&&p.x<=bounds.xmax&&p.y>=bounds.ymin&&p.y<=bounds.ymax;
  const index=createFieldLineIndex(),queue=[],grid=[],lines=[];
  // Start around both signs, then expand into uncovered space normal to each curve.
  for(let i=0;i<12;i++)for(const c of charges){
-  const a=(i+.5)*2*Math.PI/12,p={x:c.x+26/camera.zoom*Math.cos(a),y:c.y+26/camera.zoom*Math.sin(a)};
+  const a=(i+.5)*2*Math.PI/12,radius=sourceRadius(c.q)+8/camera.zoom;
+  const p={x:c.x+radius*Math.cos(a),y:c.y+radius*Math.sin(a)};
   if(inside(p))queue.push(p);
  }
- queue.push(center);
+ queue.push({x:camera.x,y:camera.y});
  const gridStep=42/camera.zoom;
  for(let ix=Math.ceil(bounds.xmin/gridStep);ix<=Math.floor(bounds.xmax/gridStep);ix++)
   for(let iy=Math.ceil(bounds.ymin/gridStep);iy<=Math.floor(bounds.ymax/gridStep);iy++)
@@ -981,7 +1041,7 @@ function makeFieldLineDrawing(lines){
    }
    if(b.arc>=nextArrow){
     const arrowArc=nextArrow;nextArrow+=180/camera.zoom;
-    if(line.length*camera.zoom<120||fieldLineFade(line,arrowArc)<.7||b.nearest*camera.zoom<27)continue;
+    if(line.length*camera.zoom<120||fieldLineFade(line,arrowArc)<.7||b.clearance<8)continue;
     const fraction=clamp((arrowArc-a.arc)/(b.arc-a.arc),0,1),x=sa.x+(sb.x-sa.x)*fraction,y=sa.y+(sb.y-sa.y)*fraction,dx=sb.x-sa.x,dy=sb.y-sa.y,len=Math.hypot(dx,dy);
     if(!len)continue;
     if(!arrows.has(band))arrows.set(band,{path:new Path2D(),color:color(band),alpha:.08+.72*Math.pow((band+.5)/10,1.3)});
@@ -992,54 +1052,118 @@ function makeFieldLineDrawing(lines){
  }
  return {groups:[...groups.values()],arrows:[...arrows.values()]};
 }
-function drawFieldLines(){
+function updateFieldLines(){
  const key=JSON.stringify([camera.zoom,sensitivity,charges.map(c=>[c.x,c.y,c.q])]);
- if(key!==fieldLineCache.key)fieldLineCache={key,...makeFieldLineDrawing(buildFieldLines())};
+ const view=worldBounds(),cached=fieldLineCache.bounds;
+ if(cached&&key===fieldLineCache.key&&view.xmin>=cached.xmin&&view.xmax<=cached.xmax&&view.ymin>=cached.ymin&&view.ymax<=cached.ymax)return;
+ const manipulating=activeDrag?.kind==='pinch'||activeDrag?.kind==='pan'||activeDrag?.kind==='charge';
+ const now=performance.now();
+ if(manipulating&&now-fieldLineCache.updatedAt<80)return;
+ // Trace only near the visible area. The padding lets small pans reuse these paths.
+ const padding=64/camera.zoom;
+ const bounds={xmin:view.xmin-padding,xmax:view.xmax+padding,ymin:view.ymin-padding,ymax:view.ymax+padding};
+ fieldLineCache={key,bounds,updatedAt:now,revision:fieldLineCache.revision+1,...makeFieldLineDrawing(buildFieldLines(bounds))};
+}
+function drawFieldLines(ctx){
  ctx.save();ctx.translate(vw/2-camera.x*camera.zoom,vh/2+camera.y*camera.zoom);ctx.scale(camera.zoom,camera.zoom);
  ctx.lineCap='round';ctx.lineJoin='round';ctx.lineWidth=.95/camera.zoom;
  for(const group of fieldLineCache.groups){ctx.globalAlpha=group.alpha;ctx.strokeStyle=group.color;ctx.stroke(group.path);}
  for(const arrow of fieldLineCache.arrows){ctx.globalAlpha=arrow.alpha;ctx.strokeStyle=arrow.color;ctx.stroke(arrow.path);}
  ctx.restore();
 }
-function starburstPoints(id,r=18){const spikes=11,points=[];for(let i=0;i<spikes*2;i++){const outer=i%2===0,k=Math.floor(i/2),fluct=[1.07,.83,1.21,.91,1.13,.75,1.04,.87,1.18,.93,1.0][(k+id*3)%11],radius=outer?r*fluct:r*(.48+.035*((k+id)%3)),a=-Math.PI/2+i*Math.PI/spikes+.035*Math.sin(i*3+id);points.push({x:Math.cos(a)*radius,y:Math.sin(a)*radius});}return points;}
-function setChargeArtwork(svg,id,neutral=false){svg.querySelector('path').setAttribute('d',neutral?'M17.5 0 A17.5 17.5 0 1 1 -17.5 0 A17.5 17.5 0 1 1 17.5 0 Z':starburstPoints(id,17.5).map((p,i)=>(i?'L':'M')+p.x+','+p.y).join(' ')+' Z');}
-function starburst(x,y,id,r=18){ctx.beginPath();starburstPoints(id,r).forEach((p,i)=>{if(i===0)ctx.moveTo(x+p.x,y+p.y);else ctx.lineTo(x+p.x,y+p.y);});ctx.closePath();}
-function drawCharges(){for(const c of charges){const s=toScreen(c.x,c.y);if(s.x<-50||s.x>vw+50||s.y<-50||s.y>vh+50)continue;
- if(activeDrag?.kind==='charge'&&activeDrag.moved&&activeDrag.id===c.id)continue;
- const isSelected=c.id===selectedId;
- if(isSelected)paintLabSelection(ctx,s.x,s.y,27,39);
- ctx.save();if(c.q===0){ctx.beginPath();ctx.arc(s.x,s.y,17.5,0,Math.PI*2);ctx.setLineDash([4,3]);}else starburst(s.x,s.y,c.id,17.5);ctx.fillStyle=c.q>0?'#f4f8ff':c.q<0?'#050a15':'#273b53';ctx.fill();ctx.lineWidth=c.q>0?2:1.25;ctx.strokeStyle=c.q===0?'#8aabc9':'#f5f8ff';ctx.stroke();ctx.restore();
- ctx.save();ctx.font='800 16px ui-monospace,monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=c.q>0?'#0b1730':'#f3f8ff';ctx.fillText(c.q>0?'+':c.q<0?'−':'0',s.x,s.y+.2);ctx.restore();
- }}
+const starburstTips=[1.07,.83,1.21,.91,1.13,.75,1.04,.87,1.18,.93,1];
+const longestStarburstTip=Math.max(...starburstTips);
+function starburstPoints(id,radius){
+ const spikes=starburstTips.length,points=[];
+ for(let i=0;i<spikes*2;i++){
+  const k=Math.floor(i/2),tip=starburstTips[(k+id*3)%spikes];
+  const length=radius*(i%2===0?tip:.48+.035*((k+id)%3))/longestStarburstTip;
+  const angle=-Math.PI/2+i*Math.PI/spikes+.035*Math.sin(i*3+id);
+  points.push({x:Math.cos(angle)*length,y:Math.sin(angle)*length});
+ }
+ return points;
+}
+function setChargeArtwork(svg,id,neutral){
+ const r=CHARGE_ART_RADIUS;
+ const path=neutral?`M${r} 0 A${r} ${r} 0 1 1 ${-r} 0 A${r} ${r} 0 1 1 ${r} 0 Z`:starburstPoints(id,r).map((p,i)=>(i?'L':'M')+p.x+','+p.y).join(' ')+' Z';
+ svg.querySelector('path').setAttribute('d',path);
+}
+function starburst(x,y,id,radius){ctx.beginPath();starburstPoints(id,radius).forEach((p,i)=>{if(i===0)ctx.moveTo(x+p.x,y+p.y);else ctx.lineTo(x+p.x,y+p.y);});ctx.closePath();}
+function drawCharges(){
+ for(const c of charges){
+  if(activeDrag?.kind==='charge'&&activeDrag.moved&&activeDrag.id===c.id)continue;
+  const s=toScreen(c.x,c.y),radius=screenChargeRadius(c.q),margin=radius+22;
+  if(s.x<-margin||s.x>vw+margin||s.y<-margin||s.y>vh+margin)continue;
+  if(c.id===selectedId){
+   const ring=sourceSelectionRadius(radius);
+   paintLabSelection(ctx,s.x,s.y,ring,ring+12);
+  }
+  const scale=radius/CHARGE_ART_RADIUS;
+  ctx.save();
+  if(c.q===0){ctx.beginPath();ctx.arc(s.x,s.y,radius,0,Math.PI*2);ctx.setLineDash([4*scale,3*scale]);}
+  else starburst(s.x,s.y,c.id,radius);
+  ctx.fillStyle=c.q>0?'#f4f8ff':c.q<0?'#050a15':'#273b53';ctx.fill();
+  ctx.lineWidth=(c.q>0?2:1.25)*scale;ctx.strokeStyle=c.q===0?'#8aabc9':'#f5f8ff';ctx.stroke();ctx.restore();
+  ctx.save();ctx.font=`800 ${16*scale}px ui-monospace,monospace`;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle=c.q>0?'#0b1730':'#f3f8ff';ctx.fillText(c.q>0?'+':c.q<0?'−':'0',s.x,s.y+.2);ctx.restore();
+ }
+}
+function drawTestChargeStar(x,y,radius){
+ ctx.save();
+ starburst(x,y,0,radius);
+ ctx.fillStyle=labCanvasTheme.point;ctx.strokeStyle=labCanvasTheme.point;
+ ctx.lineWidth=.12*radius;ctx.shadowColor=labCanvasTheme.point;ctx.shadowBlur=.75*radius;
+ ctx.fill();ctx.stroke();ctx.restore();
+}
 function drawTestCharge(){
  for(const testCharge of testCharges){
  if(activeDrag?.kind==='test'&&activeDrag.id===testCharge.id&&activeDrag.moved)continue;
- ctx.save();ctx.strokeStyle=labCanvasTheme.point;ctx.lineWidth=1.2;
- const trail=testCharge.trail;
- for(let i=1;i<trail.length;i++){
-  const a=toScreen(trail[i-1].x,trail[i-1].y),b=toScreen(trail[i].x,trail[i].y);
-  ctx.globalAlpha=.02+.48*Math.pow(i/(trail.length-1),1.6);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+ paintLabTrail(ctx,testCharge.trail,testCharge,toScreen);
+ const s=toScreen(testCharge.x,testCharge.y),radius=screenChargeRadius(testCharge.q,true);
+ if(testSelected&&testCharge.id===selectedTestId)paintLabSelection(ctx,s.x,s.y,Math.max(11,radius+4));
+ drawTestChargeStar(s.x,s.y,radius);
  }
- if(trail.length){const a=toScreen(trail[trail.length-1].x,trail[trail.length-1].y),b=toScreen(testCharge.x,testCharge.y);ctx.globalAlpha=.5;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
- ctx.globalAlpha=1;
- const s=toScreen(testCharge.x,testCharge.y);
- if(testSelected&&testCharge.id===selectedTestId)paintLabSelection(ctx,s.x,s.y,12);
- starburst(s.x,s.y,0,6.5);ctx.fillStyle=labCanvasTheme.point;ctx.strokeStyle=labCanvasTheme.point;ctx.lineWidth=.8;ctx.shadowColor=labCanvasTheme.point;ctx.shadowBlur=5;ctx.fill();ctx.stroke();ctx.restore();
+}
+function drawChargeAbsorptions(){
+ if(!chargeAbsorptions.length)return;
+ const now=performance.now(),reduceMotion=reducedMotion.matches;
+ chargeAbsorptions=chargeAbsorptions.filter(({source,startedAt})=>charges.includes(source)&&now-startedAt<ABSORPTION_DURATION_MS);
+ for(const {x,y,source,q,startedAt} of chargeAbsorptions){
+  if(activeDrag?.kind==='charge'&&activeDrag.moved&&activeDrag.id===source.id)continue;
+  const elapsed=now-startedAt,remaining=1-elapsed/ABSORPTION_DURATION_MS;
+  const pull=Math.min(elapsed/ABSORPTION_PULL_MS,1);
+  const center=toScreen(source.x,source.y);
+  ctx.save();
+  ctx.globalAlpha=reduceMotion?remaining:Math.min(pull**2,1.5*remaining);
+  const sourceSize=screenChargeRadius(source.q),radius=sourceSize+14;
+  const glow=ctx.createRadialGradient(center.x,center.y,0,center.x,center.y,radius);
+  glow.addColorStop(Math.max(0,sourceSize-7)/radius,'#ffab5100');
+  glow.addColorStop(sourceSize/radius,'#ffbc69');
+  glow.addColorStop(1,'#ffab5100');
+  ctx.fillStyle=glow;
+  ctx.beginPath();
+  ctx.arc(center.x,center.y,radius,0,Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+  if(!reduceMotion&&pull<1){
+   const contact=toScreen(x,y),progress=pull**2;
+   const testSize=screenChargeRadius(q,true)*(1-pull);
+   drawTestChargeStar(contact.x+(center.x-contact.x)*progress,contact.y+(center.y-contact.y)*progress,testSize);
+  }
  }
 }
 function drawFrame(){
  positionChargePopover();
  if(!vw||!vh)return;
  ctx.setTransform(dpr,0,0,dpr,0,0);
- background();
- if(showFieldLines)drawFieldLines();
- if(showFieldArrows||showSamplePoints)drawFieldSamples();
+ drawFieldLayer();
  drawCharges();
  drawTestCharge();
+ drawChargeAbsorptions();
  if(!sourceDrag){
   const drag=activeDrag?.moved?activeDrag:null;
   const object=drag?.kind==='charge'?charges.find(c=>c.id===drag.id):drag?.kind==='test'?testCharges.find(t=>t.id===drag.id):null;
-  if(object)showChargeGhost(drag.kind==='test'?'test':object.q,object.id,toScreen(object.x,object.y),drag.kind==='test'&&!drag.valid);
+  if(object)showChargeGhost(object.q,object.id,toScreen(object.x,object.y),drag.kind==='test',drag.valid===false);
   else $('chargeGhost').hidden=true;
  }
 }
@@ -1053,6 +1177,7 @@ function render(now){
  requestAnimationFrame(render);
 }
 document.querySelectorAll('input[type=range]').forEach(input=>{updateRangeFill(input);input.addEventListener('input',()=>updateRangeFill(input));});
+for(const [button,id] of [['addPositive',1],['addNegative',2],['addTest',0]])setChargeArtwork($(button).querySelector('svg'),id);
 const observer=new ResizeObserver(resize);observer.observe(canvas);resize();
 loadChargeConfiguration('dipole',{initial:true});
 showPotential=true;syncHeatmapControls();

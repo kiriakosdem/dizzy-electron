@@ -13,18 +13,19 @@
     function updateNavbar() {
         frame = 0;
         const scrollY = getScrollY();
+        const navbarHeight = navbar.offsetHeight;
         // Ignore small reversals from trackpads and touch scrolling.
         if (scrollY > directionEdge + 6) scrollingDown = true;
         if (scrollY < directionEdge - 6) scrollingDown = false;
         directionEdge = scrollingDown ? Math.max(directionEdge, scrollY) : Math.min(directionEdge, scrollY);
 
         const menuOpen = menuToggle.offsetWidth > 0 && menuToggle.getAttribute('aria-expanded') === 'true';
-        const hide = scrollY > 6 && scrollingDown && !menuOpen && !navbar.querySelector(':focus-visible');
+        const hide = scrollY >= navbarHeight && scrollingDown && !menuOpen && !navbar.querySelector(':focus-visible');
         navbar.classList.toggle('is-offscreen', hide);
         navbar.inert = hide;
 
         if (homeHeading) {
-            const pastHero = homeHeading.getBoundingClientRect().bottom <= navbar.offsetHeight;
+            const pastHero = homeHeading.getBoundingClientRect().bottom <= navbarHeight;
             navbar.classList.toggle('has-page-underlay', pastHero);
         }
     }

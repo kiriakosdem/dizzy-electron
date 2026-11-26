@@ -59,8 +59,7 @@ button{font:inherit;cursor:pointer}
 .controls-open .mode-msg{left:calc((100% - var(--lab-docked-sidebar-width, 0px))/2);max-width:calc(100% - var(--lab-docked-sidebar-width, 0px) - 32px)}
 .mass-tray{position:absolute;left: max(var(--lab-overlay-inset), env(safe-area-inset-left));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom));z-index:1;padding:12px}
 .tray-items{display:grid;grid-template-columns:repeat(2,64px);gap:8px;align-items:stretch}
-.tray-items>button{display:grid;grid-template-rows:minmax(0,1fr) auto;align-items:center;justify-items:center;row-gap:3px;line-height:12px}
-.tray-items>button>span{align-self:end;white-space:nowrap}
+.tray-mass-icon{display:block;object-fit:contain;pointer-events:none}
 .source-stack{position:relative;width:100%;height:72px;margin:0;padding:6px 3px;border:1px solid #7894b755;border-radius:10px;background:#8babc418;touch-action:none;cursor:grab;color:var(--text-secondary);font-size:10px}
 .source-stack:hover,.source-stack.active{background:#94b4d32b;border-color:#c4d7ed}
 .source-stack:active{cursor:grabbing}
@@ -103,18 +102,18 @@ button:disabled{cursor:default;opacity:.45}
 @media(pointer:coarse) and (min-width:893px) and (min-height:501px),(pointer:coarse) and (min-width:951px){.action-button{min-height:44px}}
 </style>
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=shared-hud-type">
-    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=aligned-canvas-controls">
+    <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=aligned-tray-rows">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=example-labels">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=heading-icons">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=shared-strength-sliders">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=controls-label">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=orange-hover">
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=radio-options">
-    <script src="../../assets/js/lab-canvas.js?v=precise-clock"></script>
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=single-line-tray-labels">
+    <script src="../../assets/js/lab-canvas.js?v=field-rendering"></script>
     <script src="../../assets/js/lab-scale.js?v=earth-mass-scale"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
@@ -126,7 +125,10 @@ button:disabled{cursor:default;opacity:.45}
     </a>
     <div class="lab-title-group">
         <h1>The Gravitational Field</h1>
-        <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?"><span class="lab-help-text">How does it work?</span><svg class="lab-help-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></svg></button>
+        <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?">
+            <svg class="lab-help-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></svg>
+            <span>How does it work?</span>
+        </button>
     </div>
     <div class="lab-language"></div>
     <button class="panel-toggle dock-tile" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls">
@@ -157,8 +159,14 @@ button:disabled{cursor:default;opacity:.45}
   <div class="canvas-dock lab-dock" id="canvasDock">
   <div class="mass-tray canvas-surface" id="massTray" role="group" aria-label="Mass tray">
     <div class="tray-items">
-      <button class="source-stack dock-tile" id="addSource" type="button" aria-label="Mass: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a 0.4 Earth-mass source, or click then place"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m3 7 4-4 6-1 5 5-1 7-5 4-7-2-3-5 1-4Z"/><circle cx="8" cy="8" r="1.5"/><path d="m12 13 2-1"/></svg><span>Mass</span></button>
-      <button class="source-stack test-source dock-tile" id="addTest" type="button" aria-label="Drag a test mass onto the canvas, or click then place" aria-pressed="false" title="Add a test mass at rest"><svg class="tray-tool-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5"/><path d="M10 2v3m0 10v3M2 10h3m10 0h3m-6 0h-4m2-2v4"/></svg><span>Test mass</span></button>
+      <button class="source-stack dock-tile" id="addSource" type="button" aria-label="Mass: drag onto the canvas, or click then place" aria-pressed="false" title="Drag to add a 0.4 Earth-mass source, or click then place">
+        <img class="tray-mass-icon" id="sourceMoon" src="source-moon.webp?v=illustrated" width="22" height="22" alt="" draggable="false">
+        <span>Mass</span>
+      </button>
+      <button class="source-stack test-source dock-tile" id="addTest" type="button" aria-label="Drag a test mass onto the canvas, or click then place" aria-pressed="false" title="Add a test mass at rest">
+        <img class="tray-mass-icon" id="testAsteroid" src="test-asteroid.webp?v=white-gray" width="22" height="22" alt="" draggable="false">
+        <span>Test mass</span>
+      </button>
       <button class="trash-zone danger-button dock-tile" id="trashZone" type="button" aria-label="Delete selected mass, or drag a mass here" title="Drop a mass here to delete it, or click to delete the selection"><svg class="trash-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg><span>Delete</span></button>
     </div>
   </div>
@@ -182,8 +190,7 @@ button:disabled{cursor:default;opacity:.45}
   </div>
   </div>
   <div class="mass-ghost" id="massGhost" hidden aria-hidden="true">
-    <img id="sourceMoon" src="source-moon.webp" alt="" draggable="false">
-    <img id="testMoon" src="test-moon.webp" alt="" draggable="false" hidden>
+    <img id="massGhostImage" alt="" draggable="false">
   </div>
   <div class="sr-only" id="actionStatus" role="status" aria-live="polite"></div>
   <div class="legend canvas-surface" id="fieldLegend" aria-label="Visualization legend">
@@ -320,14 +327,14 @@ button:disabled{cursor:default;opacity:.45}
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=grid-controls"></script>
+    <script src="../../assets/js/lab-greek.js?v=short-tray-labels"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
     <script src="../../assets/js/lab-toggle.js?v=edge-aligned-shadows"></script>
 <script>
 (()=>{'use strict';
 const lab=document.getElementById('lab'), canvas=document.getElementById('fieldCanvas'), ctx=canvas.getContext('2d',{alpha:false});
 const $=id=>document.getElementById(id);
-const sourceMoon=$('sourceMoon'),testMoon=$('testMoon');
+const sourceMoon=$('sourceMoon'),testAsteroid=$('testAsteroid');
 let massHover=null,touchEditorId=null;
 setupLabCanvasTools(() => canvas, () => 'gravitational-field.png');
 const SAMPLE=50, MINOR=25, MAJOR=100, SUPER_MAJOR=400, MIN_ZOOM=.30,MAX_ZOOM=2;
@@ -357,7 +364,9 @@ const selectedTest=()=>testMasses.find(t=>t.id===selectedTestId);
 const LINE_MIN_SPACING=20,LINE_MAX_SPACING=54;
 let fieldLineCache={key:'',viewKey:'',time:-Infinity,groups:[],arrows:[]};
 const heatmapCanvas=document.createElement('canvas'),heatmapContext=heatmapCanvas.getContext('2d');
-let heatmapKey='';
+const paintBackdropLayer=createLabCanvasLayer();
+const heatmapCellSize=window.matchMedia('(pointer: coarse)').matches?6:4;
+let heatmapKey='',heatmapPixels;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const selected=()=>masses.find(c=>c.id===selectedId);
 // World-space radii keep the visible bodies and their contact boundaries in step.
@@ -753,17 +762,22 @@ function positionMassPopover(){
  const editor=$('massPopover'),c=selected();
  if(!c||testSelected||placing||sourceDrag||activeDrag||(labControls.compact&&labControls.open)){editor.hidden=true;return;}
  const p=toScreen(c.x,c.y);
- const width=editor.getBoundingClientRect().width||190,height=editor.getBoundingClientRect().height||80;
  const ring=Math.max(18,screenRadius(c.mass)+9);
+ const h=massHover,inRing=h&&Math.hypot(h.x-p.x,h.y-p.y)<=ring;
+ const touchOpen=touchEditorId===c.id;
+ if(editor.hidden&&!inRing&&!touchOpen)return;
+ const {width:measuredWidth,height:measuredHeight}=editor.getBoundingClientRect();
+ const width=measuredWidth||190,height=measuredHeight||80;
  const x=clamp(p.x-width/2,8,vw-width-8),y=Math.max(8,p.y-height-ring-7);
  if(p.x<0||p.x>vw||p.y<0||p.y>vh||vw<width+16){editor.hidden=true;return;}
- const h=massHover,inRing=h&&Math.hypot(h.x-p.x,h.y-p.y)<=ring;
  // Preserve access while crossing the small gap between the ring and slider.
  const inEditor=h&&h.x>=x&&h.x<=x+width&&h.y>=y&&h.y<=y+height;
  const inBridge=h&&Math.abs(h.x-p.x)<=ring&&h.y>=y+height&&h.y<=p.y;
  const keepOpen=!editor.hidden&&(inEditor||inBridge||editor.contains(document.activeElement));
- editor.hidden=!(inRing||keepOpen||touchEditorId===c.id);
- editor.style.left=x+'px';editor.style.top=y+'px';
+ editor.hidden=!(inRing||keepOpen||touchOpen);
+ if(editor.hidden)return;
+ if(editor.style.left!==x+'px')editor.style.left=x+'px';
+ if(editor.style.top!==y+'px')editor.style.top=y+'px';
 }
 function adjustSourceMass(input){
  const c=selected(),value=Number(input.value);if(!c||!Number.isFinite(value))return;
@@ -795,9 +809,10 @@ function overTrash(e,drag){
 }
 function updateTrash(armed=false,over=false){$('trashZone').classList.toggle('armed',armed);$('trashZone').classList.toggle('over',over);}
 function showMassGhost(mass,isTest,p,invalid=false){
- const ghost=$('massGhost'),halfSize=screenRadius(mass,isTest);
+ const ghost=$('massGhost'),image=$('massGhostImage'),halfSize=screenRadius(mass,isTest);
+ const sprite=isTest?testAsteroid:sourceMoon;
+ if(image.src!==sprite.src)image.src=sprite.src;
  ghost.hidden=false;ghost.classList.toggle('invalid',invalid);
- sourceMoon.hidden=isTest;testMoon.hidden=!isTest;
  ghost.style.width=ghost.style.height=halfSize*2+'px';
  ghost.style.transform=`translate(${p.x-halfSize}px,${p.y-halfSize}px)`;
 }
@@ -994,52 +1009,83 @@ function potentialColor(v){
 }
 function strength(m){return clamp(Math.log1p(m/EARTH_GM*METERS_PER_GRID_UNIT**2*50000*sensitivity)/Math.log1p(100),0,1);}
 function worldBounds(){return {xmin:camera.x-vw/(2*camera.zoom),xmax:camera.x+vw/(2*camera.zoom),ymin:camera.y-vh/(2*camera.zoom),ymax:camera.y+vh/(2*camera.zoom)};}
-function grid(){const b=worldBounds();for(const spacing of [MINOR,MAJOR,SUPER_MAJOR]){
+function grid(ctx){const b=worldBounds();for(const spacing of [MINOR,MAJOR,SUPER_MAJOR]){
  ctx.beginPath();const startX=Math.ceil(b.xmin/spacing),endX=Math.floor(b.xmax/spacing);
  for(let n=startX;n<=endX;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const x=toScreen(n*spacing,0).x;ctx.moveTo(Math.round(x)+.5,0);ctx.lineTo(Math.round(x)+.5,vh);}
  const startY=Math.ceil(b.ymin/spacing),endY=Math.floor(b.ymax/spacing);
  for(let n=startY;n<=endY;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const y=toScreen(0,n*spacing).y;ctx.moveTo(0,Math.round(y)+.5);ctx.lineTo(vw,Math.round(y)+.5);}
  ctx.strokeStyle=labCanvasTheme.grid[spacing===MINOR?0:spacing===MAJOR?1:2];ctx.lineWidth=1;ctx.stroke();}
 }
-function background(){paintLabBackdrop(ctx,vw,vh);if(showHeatmap||showPotential)drawHeatmap();if(showGridLines)grid();}
+function background(){
+ const hasHeatmap=showHeatmap||showPotential,cacheGrid=showGridLines&&!hasHeatmap;
+ const key=JSON.stringify([vw,vh,dpr,cacheGrid,cacheGrid&&camera]);
+ paintBackdropLayer(ctx,vw,vh,dpr,key,layer=>{
+  paintLabBackdrop(layer,vw,vh);
+  if(cacheGrid)grid(layer);
+ });
+ if(hasHeatmap){
+  drawHeatmap();
+  if(showGridLines)grid(ctx);
+ }
+}
 // Sample the resultant field, including cancellation between masses. Cache the
 // screen-space raster until the camera, sources, viewport, or sensitivity changes.
 function drawHeatmap(){
  const key=JSON.stringify([showPotential,vw,vh,camera.x,camera.y,camera.zoom,sensitivity,masses.map(c=>[c.x,c.y,c.mass])]);
  if(key!==heatmapKey){
-  const width=Math.max(1,Math.ceil(vw/4)),height=Math.max(1,Math.ceil(vh/4));
-  heatmapCanvas.width=width;heatmapCanvas.height=height;
-  const pixels=heatmapContext.createImageData(width,height);
-  for(let y=0;y<height;y++)for(let x=0;x<width;x++){
-   const world=toWorld((x+.5)*vw/width,(y+.5)*vh/height);
-   const i=(y*width+x)*4;
-   if(showPotential){pixels.data.set(potentialColor(potentialAt(world.x,world.y)),i);continue;}
-   const t=strength(fieldAt(world.x,world.y).mag);
-   pixels.data[i]=0;pixels.data[i+1]=133;
-   // Fade weak fields into the background; reserve opaque blue for strong fields.
-   pixels.data[i+2]=229;pixels.data[i+3]=Math.round(255*t*t);
+  const width=Math.ceil(vw/heatmapCellSize),height=Math.ceil(vh/heatmapCellSize);
+  if(!heatmapPixels||heatmapCanvas.width!==width||heatmapCanvas.height!==height){
+   heatmapCanvas.width=width;heatmapCanvas.height=height;
+   heatmapPixels=heatmapContext.createImageData(width,height);
   }
-  heatmapContext.putImageData(pixels,0,0);heatmapKey=key;
+  const {xmin,ymax}=worldBounds(),stepX=vw/(width*camera.zoom),stepY=vh/(height*camera.zoom);
+  const pixels=heatmapPixels.data;
+  for(let y=0;y<height;y++){
+   const worldY=ymax-(y+.5)*stepY;
+   for(let x=0;x<width;x++){
+    const worldX=xmin+(x+.5)*stepX,i=(y*width+x)*4;
+    if(showPotential){pixels.set(potentialColor(potentialAt(worldX,worldY)),i);continue;}
+    const t=strength(fieldAt(worldX,worldY).mag);
+    pixels[i]=0;pixels[i+1]=133;
+    // Fade weak fields into the background; reserve opaque blue for strong fields.
+    pixels[i+2]=229;pixels[i+3]=Math.round(255*t*t);
+   }
+  }
+  heatmapContext.putImageData(heatmapPixels,0,0);heatmapKey=key;
  }
  ctx.save();ctx.imageSmoothingEnabled=true;
  ctx.drawImage(heatmapCanvas,0,0,vw,vh);ctx.restore();
 }
-function drawFieldSamples(){const b=worldBounds(),i0=Math.ceil(b.xmin/SAMPLE),i1=Math.floor(b.xmax/SAMPLE),j0=Math.ceil(b.ymin/SAMPLE),j1=Math.floor(b.ymax/SAMPLE);
+function drawFieldSamples(){
+ const b=worldBounds(),i0=Math.ceil(b.xmin/SAMPLE),i1=Math.floor(b.xmax/SAMPLE),j0=Math.ceil(b.ymin/SAMPLE),j1=Math.floor(b.ymax/SAMPLE);
+ const bands=20,arrows=[],dots=[];
+ // Batch nearby strengths into paths so moving sources don't need a stroke per arrow.
  for(let i=i0;i<=i1;i++)for(let j=j0;j<=j1;j++){
- const x=i*SAMPLE,y=j*SAMPLE,p=toScreen(x,y);const f=fieldAt(x,y),t=strength(f.mag);
- const alpha=.19+.78*t;
- if(showFieldArrows && f.mag>0){const ux=f.x/f.mag,uy=-f.y/f.mag,len=(7+39*t)*camera.zoom,half=len/2,tip=(2.4+5.2*t)*camera.zoom;
- const color='#0085e5';
- ctx.save();ctx.globalAlpha=alpha;ctx.strokeStyle=color;ctx.lineWidth=Math.max(.35,(.65+2.1*t)*camera.zoom);ctx.lineCap='round';ctx.lineJoin='round';
- const ex=p.x+ux*half,ey=p.y+uy*half, sx=p.x-ux*half,sy=p.y-uy*half;
- ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);const wx=-ux*tip*.78,wy=-uy*tip*.78,px=-uy*tip*.5,py=ux*tip*.5;
- ctx.moveTo(ex+wx+px,ey+wy+py);ctx.lineTo(ex,ey);ctx.lineTo(ex+wx-px,ey+wy-py);ctx.stroke();ctx.restore();
+  const x=i*SAMPLE,y=j*SAMPLE,p=toScreen(x,y),f=fieldAt(x,y),t=strength(f.mag),band=Math.round(t*bands);
+  if(showFieldArrows&&f.mag>0){
+   const path=arrows[band]??=new Path2D();
+   const ux=f.x/f.mag,uy=-f.y/f.mag,half=(7+39*t)*camera.zoom/2,tip=(2.4+5.2*t)*camera.zoom;
+   const ex=p.x+ux*half,ey=p.y+uy*half,wx=-ux*tip*.78,wy=-uy*tip*.78,px=-uy*tip*.5,py=ux*tip*.5;
+   path.moveTo(p.x-ux*half,p.y-uy*half);path.lineTo(ex,ey);
+   path.moveTo(ex+wx+px,ey+wy+py);path.lineTo(ex,ey);path.lineTo(ex+wx-px,ey+wy-py);
+  }
+  if(showSamplePoints){
+   const path=dots[band]??=new Path2D();
+   path.moveTo(p.x+1.15,p.y);path.arc(p.x,p.y,1.15,0,Math.PI*2);
+  }
  }
- if(showSamplePoints){
-  ctx.save();ctx.fillStyle=labCanvasTheme.point;ctx.globalAlpha=alpha;
-  ctx.beginPath();ctx.arc(p.x,p.y,1.15,0,Math.PI*2);ctx.fill();ctx.restore();
+ ctx.save();
+ ctx.strokeStyle='#0085e5';ctx.fillStyle=labCanvasTheme.point;ctx.lineCap='round';ctx.lineJoin='round';
+ for(let band=0;band<=bands;band++){
+  const t=band/bands;
+  ctx.globalAlpha=.19+.78*t;
+  if(arrows[band]){
+   ctx.lineWidth=Math.max(.35,(.65+2.1*t)*camera.zoom);
+   ctx.stroke(arrows[band]);
+  }
+  if(dots[band])ctx.fill(dots[band]);
  }
- }
+ ctx.restore();
 }
 function fieldLineSample(x,y){
  let gx=0,gy=0,totalMagnitude=0,nearest=Infinity,clearance=Infinity,mass=null;
@@ -1196,12 +1242,12 @@ function drawFieldLines(){
  for(const arrow of fieldLineCache.arrows){ctx.globalAlpha=arrow.alpha;ctx.strokeStyle=arrow.color;ctx.stroke(arrow.path);}
  ctx.restore();
 }
-function drawMoon(sprite,x,y,radius){
+function drawMassSprite(sprite,x,y,radius){
  if(sprite.complete&&sprite.naturalWidth){
   ctx.drawImage(sprite,x-radius,y-radius,radius*2,radius*2);
   return;
  }
- ctx.fillStyle=sprite===testMoon?'#8aabc2':'#acaaa5';
+ ctx.fillStyle='#c6c6c6';
  ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.fill();
 }
 function drawMasses(){
@@ -1213,20 +1259,13 @@ function drawMasses(){
    const ring=Math.max(18,radius+9);
    paintLabSelection(ctx,s.x,s.y,ring,ring+12);
   }
-  drawMoon(sourceMoon,s.x,s.y,radius);
+  drawMassSprite(sourceMoon,s.x,s.y,radius);
  }
 }
 function drawTrails(bodies,kind){
  for(const body of bodies){
- if(activeDrag?.kind===kind&&activeDrag.id===body.id&&activeDrag.moved)continue;
- ctx.save();ctx.strokeStyle=labCanvasTheme.point;ctx.lineWidth=1.2;
- const trail=body.trail;
- for(let i=1;i<trail.length;i++){
-  const a=toScreen(trail[i-1].x,trail[i-1].y),b=toScreen(trail[i].x,trail[i].y);
-  ctx.globalAlpha=.02+.48*Math.pow(i/(trail.length-1),1.6);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
- }
- if(trail.length){const a=toScreen(trail[trail.length-1].x,trail[trail.length-1].y),b=toScreen(body.x,body.y);ctx.globalAlpha=.5;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
- ctx.restore();
+  if(activeDrag?.kind===kind&&activeDrag.id===body.id&&activeDrag.moved)continue;
+  paintLabTrail(ctx,body.trail,body,toScreen);
  }
 }
 function drawTestMass(){
@@ -1234,7 +1273,7 @@ function drawTestMass(){
   if(activeDrag?.kind==='test'&&activeDrag.id===testMass.id&&activeDrag.moved)continue;
   const s=toScreen(testMass.x,testMass.y),radius=screenRadius(testMass.mass,true);
   if(testSelected&&testMass.id===selectedTestId)paintLabSelection(ctx,s.x,s.y,Math.max(11,radius+4));
-  drawMoon(testMoon,s.x,s.y,radius);
+  drawMassSprite(testAsteroid,s.x,s.y,radius);
  }
 }
 function drawSelectedVelocity(){

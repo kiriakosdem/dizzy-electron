@@ -3,13 +3,22 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
-const script=fs.readFileSync(path.join(__dirname, '../index.html'),'utf8').match(/<script>([\s\S]*?)<\/script>/)[1];
+const html=fs.readFileSync(path.join(__dirname, '../index.html'),'utf8');
+const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
+const speedInput=html.match(/<input[^>]*id="simulationSpeed"[^>]*>/)[0];
+
+class RecordedPath {
+ constructor(){this.commands=[];}
+ moveTo(x,y){this.commands.push(['move',x,y]);}
+ lineTo(x,y){this.commands.push(['line',x,y]);}
+}
 
 // Run the page's real handlers with deterministic layout and pointer capture.
-function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}={}){
+function openLab(compact,{empty=false,random,startup=false,measureSidebar=false,reducedMotion=false}={}){
  const width=compact?390:1000,height=700,top=90;
  const elements=new Map(),windowListeners=new Map();
- let onCanvasResize;
+ let onCanvasResize,now=0,points=[],circle,backgroundFills=0,fieldRaster;
+ const absorptionGlows=[],testStars=[],sourceShapes=[],fieldPaths=[];
  function event(type,target,values={}){
   return {type,target,button:0,buttons:type==='pointerup'||type==='pointercancel'?0:1,pointerId:1,pointerType:'mouse',detail:1,
    defaultPrevented:false,preventDefault(){this.defaultPrevented=true;},
@@ -36,7 +45,7 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
     }
     return this.rect;
    },getClientRects(){return this.hidden?[]:[this.rect];},
-   getContext(){return context;},setAttribute(name,value){attributes.set(name,String(value));},getAttribute(name){return attributes.get(name)??null;},removeAttribute(){},focus(){},contains(){return false;},append(){},before(){},after(){},replaceChildren(){},
+   getContext(){return id==='fieldCanvas'?screenContext:context;},setAttribute(name,value){attributes.set(name,String(value));},getAttribute(name){return attributes.get(name)??null;},removeAttribute(){},focus(){},contains(){return false;},append(){},before(){},after(){},replaceChildren(){},
    querySelector(selector){if(selector==='.selected')return null;if(!children.has(selector))children.set(selector,element());return children.get(selector);},
    addEventListener(type,handler){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(handler);},
    emit(type,values={}){
@@ -50,12 +59,29 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
   };
  }
  const context=new Proxy({
-  createImageData(width,height){return {data:new Uint8ClampedArray(width*height*4)};}
+  createImageData(width,height){return {data:new Uint8ClampedArray(width*height*4)};},
+  fillRect(){backgroundFills++;},
+  beginPath(){points=[];circle=null;},
+  moveTo(x,y){points.push({x,y});},
+  lineTo(x,y){points.push({x,y});},
+  arc(x,y,radius){circle={x,y,radius};},
+  stroke(path){if(path instanceof RecordedPath)fieldPaths.push(path);},
+  fill(){
+   if(points.length===22&&this.fillStyle==='#fff')testStars.push({points,lineWidth:this.lineWidth});
+   if(this.fillStyle==='#f4f8ff'||this.fillStyle==='#050a15')sourceShapes.push({points});
+   if(this.fillStyle==='#273b53'&&circle)sourceShapes.push(circle);
+  },
+  createRadialGradient(x,y,innerRadius,endX,endY,radius){
+   return {addColorStop:(offset,color)=>{if(color==='#ffbc69')absorptionGlows.push({x,y,radius,alpha:this.globalAlpha});}};
+  }
  },{get(target,key){
-  if(key==='createRadialGradient'||key==='createLinearGradient')return ()=>({addColorStop(){}});
+  if(key==='createLinearGradient')return ()=>({addColorStop(){}});
   return target[key]??(()=>{});
  }});
+ const screenContext=Object.create(context);
+ screenContext.drawImage=image=>{fieldRaster=image;};
  function $(id){if(!elements.has(id))elements.set(id,element(id));return elements.get(id);}
+ for(const name of ['min','max','value'])$('simulationSpeed')[name]=speedInput.match(new RegExp(`\\b${name}="([^"]+)"`))[1];
  function rect(id,left,y,w,h){$(id).rect={left,top:y,right:left+w,bottom:y+h,width:w,height:h};}
  rect('lab',0,top,width,height);rect('fieldCanvas',0,top,width,height);
  rect('controlsPanel',width-292,top,292,height);rect('controlsBackdrop',0,top,width,height);
@@ -68,9 +94,9 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
  ]);
  const document={hidden:false,addEventListener(){},getElementById:$,createElement:()=>element(),querySelector:selector=>selector==='.zoom'?$('zoom'):controlsLayout.get(selector)??null,querySelectorAll:()=>[],
   elementFromPoint(){throw Error('Drop validation must not depend on the preview being absent from hit testing');}};
- const sandbox={document,window:{matchMedia:()=>({matches:compact,addEventListener(){}}),devicePixelRatio:1,
+ const sandbox={document,window:{matchMedia:query=>({matches:query.includes('prefers-reduced-motion')?reducedMotion:compact,addEventListener(){}}),devicePixelRatio:1,
   addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{constructor(callback){onCanvasResize=callback;}observe(){}},
-  requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
+  performance:{now:()=>now},requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{},Path2D:RecordedPath};
  // These interaction tests run the standalone lab, outside a lesson iframe.
  sandbox.window.parent=sandbox.window;
  if(random){sandbox.Math=Object.create(Math);sandbox.Math.random=random;}
@@ -78,7 +104,7 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-scale.js"), "utf8"), sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-canvas.js"), "utf8"), sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-toggle.js"), "utf8"), sandbox);
- vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({charges,selectedId,activeDrag,sourceDrag,camera,testCharge:selectedTest()||null,testCharges,selectedTestId,placing}),seedSources:sources=>{charges=sources.map((c,i)=>({id:i+1,...c}));nextId=charges.length+1;selectedId=charges[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestCharge,advanceTestCharge,fieldAt,potentialAt,potentialColor};})();`),sandbox);
+ vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({charges,selectedId,activeDrag,sourceDrag,camera,testCharge:selectedTest()||null,testCharges,selectedTestId,placing,chargeAbsorptions}),seedSources:sources=>{charges=sources.map((c,i)=>({id:i+1,...c}));nextId=charges.length+1;selectedId=charges[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestCharge,advanceTestCharge,fieldAt,potentialAt,potentialColor};})();`),sandbox);
  const api=sandbox.labTest;
  // Use a clean workspace for gesture fixtures that don't exercise startup.
  if(!startup){
@@ -87,13 +113,95 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
   if(!empty)api.seedSources([{x:-155,y:-15,q:4.5},{x:155,y:-25,q:-4.5},{x:5,y:160,q:2.6}]);
  }
  const point=c=>{const p=api.toScreen(c.x,c.y);return {clientX:p.x,clientY:p.y+top};};
- return {$,api,point,document,top,width,height,emitWindow,resizeCanvas:onCanvasResize,escape(){emitWindow('keydown',{key:'Escape'});}};
+ function renderAt(time){
+  now=time;fieldRaster=null;absorptionGlows.length=0;testStars.length=0;sourceShapes.length=0;fieldPaths.length=0;api.render();
+  return {glows:[...absorptionGlows],stars:[...testStars],sources:[...sourceShapes],backgroundFills,fieldRaster,fieldPaths:[...fieldPaths]};
+ }
+ return {$,api,point,document,top,width,height,emitWindow,resizeCanvas:onCanvasResize,renderAt,escape(){emitWindow('keydown',{key:'Escape'});}};
 }
 
 function timeReadout($) {
  const timer=$('timeReadout');
  return timer.querySelector('.time-value').textContent+' '+timer.querySelector('.time-unit').textContent;
 }
+
+test('moving test charges reuse the static field raster',()=>{
+ const {api,renderAt}=openLab(true,{startup:true});
+ const initial=renderAt(0);
+ assert.ok(initial.fieldRaster);
+ assert.equal(api.placeTestCharge(0,0),true);
+ const particle=api.state().testCharge;
+ let star=renderAt(0).stars[0];
+ for(let i=1;i<=3;i++){
+  const before=particle.x;
+  api.advanceTestCharge(1/60);
+  assert.notEqual(particle.x,before);
+  const frame=renderAt(i*1000/60);
+  assert.equal(frame.stars.length,1);
+  assert.notEqual(frame.stars[0].points[0].x,star.points[0].x);
+  assert.equal(frame.fieldRaster,initial.fieldRaster);
+  assert.equal(frame.backgroundFills,initial.backgroundFills);
+  star=frame.stars[0];
+ }
+});
+
+test('the field raster refreshes when sources, the view, or display options change',()=>{
+ const {$,width,renderAt,resizeCanvas}=openLab(true,{startup:true});
+ let frame=renderAt(0);
+ function assertRepaint(change){
+  change();
+  const updated=renderAt(0);
+  assert.ok(updated.fieldRaster);
+  assert.ok(updated.backgroundFills>frame.backgroundFills);
+  assert.equal(renderAt(0).backgroundFills,updated.backgroundFills);
+  frame=updated;
+ }
+ assertRepaint(()=>{
+  $('chargeStrength').value='-5';
+  $('chargeStrength').emit('input');
+ });
+ assertRepaint(()=>{
+  $('chargeX').value='-140';
+  $('chargeX').emit('change');
+ });
+ assertRepaint(()=>$('zoomOut').emit('click'));
+ assertRepaint(()=>{
+  const rect=$('fieldCanvas').rect;
+  rect.width=rect.right=width-24;
+  resizeCanvas();
+ });
+ assert.equal(frame.fieldRaster.width,width-24);
+ assertRepaint(()=>$('fieldArrowsToggle').emit('click'));
+ assertRepaint(()=>$('potentialToggle').emit('click'));
+});
+
+test('field lines reuse paths during rapid source drag and trace the release position',()=>{
+ const {$,api,point,renderAt}=openLab(true,{startup:true});
+ $('potentialToggle').emit('click');
+ $('fieldLinesToggle').emit('click');
+ const initial=renderAt(0).fieldPaths;
+ assert.ok(initial.length);
+ const [source]=api.state().charges,canvas=$('fieldCanvas');
+ const start={...point(source),pointerType:'touch'};
+ canvas.emit('pointerdown',start);
+ canvas.emit('pointermove',{...start,clientY:start.clientY-24});
+ assert.equal(renderAt(16).fieldPaths[0],initial[0]);
+ canvas.emit('pointermove',{...start,clientY:start.clientY-40});
+ assert.equal(renderAt(32).fieldPaths[0],initial[0]);
+ const refreshed=renderAt(96).fieldPaths;
+ assert.ok(refreshed.length);
+ assert.notDeepEqual(refreshed,initial);
+ canvas.emit('pointerup',{...start,clientY:start.clientY-64});
+ const released=renderAt(112).fieldPaths;
+ assert.notDeepEqual(released,refreshed);
+ assert.equal(source.y,64);
+
+ const fresh=openLab(true,{startup:true});
+ fresh.api.seedSources(api.state().charges);
+ fresh.$('potentialToggle').emit('click');
+ fresh.$('fieldLinesToggle').emit('click');
+ assert.deepEqual(released,fresh.renderAt(112).fieldPaths);
+});
 
 test('step pauses playback and advances all test charges by one display frame',()=>{
  const {$,api,emitWindow}=openLab(false,{empty:true});
@@ -103,37 +211,40 @@ test('step pauses playback and advances all test charges by one display frame',(
  api.placeTestCharge(0,100);
  const second=api.state().testCharge;second.vx=-1e6;
  assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
- assert.equal(timeReadout($),'16.7 µs');
+ assert.equal(timeReadout($),'333 ns');
  assert.ok(first.x>0&&second.x<0);
  assert.equal(first.running,false);
  api.advanceTestCharge(.1);
- assert.equal(timeReadout($),'16.7 µs');
+ assert.equal(timeReadout($),'333 ns');
  assert.equal(emitWindow('keydown',{key:'.'}).defaultPrevented,true);
- assert.equal(timeReadout($),'33.3 µs');
+ assert.equal(timeReadout($),'667 ns');
 });
 
 test('playback time follows the fixed steps once for all test charges',()=>{
  const {$,api}=openLab(false,{empty:true});
+ assert.equal($('simulationSpeedText').textContent,'1s = 20.0 µs');
+ assert.equal($('simulationSpeedMin').textContent,'5 µs');
+ assert.equal($('simulationSpeedMax').textContent,'40 µs');
  api.placeTestCharge(0,0);
  api.placeTestCharge(0,100);
  const particle=api.state().testCharge;
  particle.vx=1e6;
- $('simulationSpeed').value='0.5';$('simulationSpeed').emit('input');
- assert.equal($('simulationSpeedText').textContent,'1s = 500 µs');
+ $('simulationSpeed').value='5';$('simulationSpeed').emit('input');
+ assert.equal($('simulationSpeedText').textContent,'1s = 5.00 µs');
  api.advanceTestCharge(.1);
- assert.equal(timeReadout($),'50.0 µs');
- assert.ok(Math.abs(particle.x-50)<1e-8);
+ assert.equal(timeReadout($),'500 ns');
+ closeTo(particle.x,.5);
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
- assert.equal(timeReadout($),'50.0 µs');
- $('simulationSpeed').value='2';$('simulationSpeed').emit('input');
- assert.equal($('simulationSpeedText').textContent,'1s = 2.00 ms');
+ assert.equal(timeReadout($),'500 ns');
+ $('simulationSpeed').value='40';$('simulationSpeed').emit('input');
+ assert.equal($('simulationSpeedText').textContent,'1s = 40.0 µs');
  $('pauseTest').emit('click');
  api.advanceTestCharge(.1);
- assert.equal(timeReadout($),'250 µs');
- assert.ok(Math.abs(particle.x-250)<1e-8);
+ assert.equal(timeReadout($),'4.50 µs');
+ closeTo(particle.x,4.5);
  $('resetTest').emit('click');
- assert.equal(timeReadout($),'0.00 ms');
+ assert.equal(timeReadout($),'0.00 µs');
  assert.equal(particle.x,0);
 });
 
@@ -404,6 +515,9 @@ function singleSourceLab(q=4){
 }
 function advanceSeconds(api,seconds,fps=60){for(let frame=0;frame<Math.round(seconds*fps);frame++)api.advanceTestCharge(1/fps);}
 function closeTo(actual,expected,tolerance=1e-9){assert.ok(Math.abs(actual-expected)<=tolerance,`${actual} differs from ${expected}`);}
+function drawnRadius(shape,center){
+ return shape.radius??Math.max(...shape.points.map(p=>Math.hypot(p.x-center.x,p.y-center.y)));
+}
 
 test('test-charge acceleration follows Coulomb superposition and inverse mass',()=>{
  const {api}=singleSourceLab(),a=api.testAcceleration(100,0,10);
@@ -420,10 +534,10 @@ test('test-charge acceleration follows Coulomb superposition and inverse mass',(
 test('test charge starts at rest and its default mass gives observable, gradual motion',()=>{
  for(const q of [4,-4]){
   const {api}=singleSourceLab(q);assert.equal(api.placeTestCharge(100,0),true);
-  const particle=api.state().testCharge;assert.equal(particle.mass,.1);assert.equal(particle.vx,0);assert.equal(particle.vy,0);
+  const particle=api.state().testCharge;assert.equal(particle.mass,.00004);assert.equal(particle.vx,0);assert.equal(particle.vy,0);
   advanceSeconds(api,.1);
   const displacement=(particle.x-100)*Math.sign(q);
-  assert.ok(displacement>1&&displacement<3,'The 100 g default starts with a gradual displacement');
+  assert.ok(displacement>1&&displacement<3,'The 40 mg default starts with a gradual displacement');
   assert.equal(Math.sign(particle.vx),Math.sign(q));closeTo(particle.y,0);
  }
 });
@@ -436,10 +550,10 @@ test('motion agrees with conserved mechanical energy in a fixed Coulomb field',(
  assert.ok(Math.abs(energy()-initial)/initial<1e-5);
 });
 
-test('a test charge coasts in centimeters at one simulated millisecond per real second',()=>{
+test('a test charge coasts in centimeters at 20 simulated microseconds per real second',()=>{
  const {api}=openLab(false);api.state().charges.splice(0);api.placeTestCharge(0,0);
  const particle=api.state().testCharge;particle.vx=3;particle.vy=-4;
- advanceSeconds(api,2);closeTo(particle.x,.006);closeTo(particle.y,-.008);closeTo(particle.vx,3);closeTo(particle.vy,-4);
+ advanceSeconds(api,2);closeTo(particle.x,.00012);closeTo(particle.y,-.00016);closeTo(particle.vx,3);closeTo(particle.vy,-4);
 });
 
 test('test-charge trajectories are independent of frame rate and display sensitivity',()=>{
@@ -461,7 +575,7 @@ test('mass, pause, reset and remove controls preserve the expected motion state'
  const {$,api}=singleSourceLab();api.placeTestCharge(100,0);advanceSeconds(api,1);
  $('pauseTest').emit('click');const paused=JSON.stringify(api.state().testCharge);advanceSeconds(api,1);
  assert.equal(JSON.stringify(api.state().testCharge),paused);
- $('testMass').value='500';$('testMass').emit('input');assert.equal(api.state().testCharge.mass,.5);
+ $('testMass').value='500';$('testMass').emit('input');assert.equal(api.state().testCharge.mass,.0005);
  $('pauseTest').emit('click');advanceSeconds(api,1);assert.ok(api.state().testCharge.x>101);
  $('resetTest').emit('click');const particle=api.state().testCharge;
  assert.equal(particle.x,100);assert.equal(particle.vx,0);assert.equal(particle.running,false);assert.equal(particle.trail.length,1);
@@ -474,24 +588,59 @@ test('placement rejects the point-charge singularity without discarding an exist
  assert.equal(api.placeTestCharge(2100,0),false);
 });
 
-test('source contact removes a fast test charge and its entire trail without tunneling',()=>{
- const {$,api}=singleSourceLab(-4);api.placeTestCharge(-100,0);const particle=api.state().testCharge;particle.vx=100000000;
- particle.trail.push({x:-90,y:0});api.advanceTestCharge(1/240);
- assert.equal(api.state().testCharge,null);assert.equal(particle.trail.length,0);
+test('source contact draws the test charge shrinking into the source without tunneling',()=>{
+ const {$,api,renderAt}=openLab(false,{empty:true});
+ $('presetSingle').emit('click');$('chargeStrength').value='-10';$('chargeStrength').emit('input');
+ $('testChargeStrength').value='20';$('testChargeStrength').emit('input');
+ api.placeTestCharge(-100,0);const fast=api.state().testCharge;fast.vx=5e9;
+ fast.trail.push({x:-90,y:0});api.advanceTestCharge(1/240);
+ assert.equal(api.state().testCharge,null);assert.equal(fast.trail.length,0);
  assert.equal($('lab').classList.contains('test-active'),false);
- assert.equal(api.state().charges.length,1);api.advanceTestCharge(1/60);
+ const [source]=api.state().charges;assert.equal(source.q,-10);
+ api.advanceTestCharge(1/60);
+ assert.equal(api.state().chargeAbsorptions.length,1);
+ const [absorption]=api.state().chargeAbsorptions;
+ assert.equal(absorption.source,source);closeTo(absorption.x,-35);closeTo(absorption.y,0);
+ const contact=api.toScreen(absorption.x,absorption.y),center=api.toScreen(source.x,source.y);
+ const firstFrame=renderAt(0),[firstStar]=firstFrame.stars;
+ const [shrinkingStar]=renderAt(110).stars;
+ closeTo(firstStar.points[0].x,contact.x);
+ assert.ok(shrinkingStar.points[0].x>firstStar.points[0].x&&shrinkingStar.points[0].x<center.x);
+ closeTo(drawnRadius(firstStar,contact)+drawnRadius(firstFrame.sources[0],center),center.x-contact.x);
+ assert.ok(shrinkingStar.lineWidth<firstStar.lineWidth);
+ const afterPull=renderAt(220);
+ assert.deepEqual(afterPull.stars,[]);
+ const [glow]=afterPull.glows;
+ closeTo(glow.x,center.x);closeTo(glow.y,center.y);assert.ok(glow.alpha>.8);
+ const [fadingGlow]=renderAt(400).glows;
+ assert.equal(fadingGlow.radius,glow.radius);assert.ok(fadingGlow.alpha<glow.alpha);
+ const expired=renderAt(600);
+ assert.deepEqual(expired.glows,[]);assert.deepEqual(expired.stars,[]);assert.equal(api.state().chargeAbsorptions.length,0);
  // Moving a source onto the particle removes it before evaluating the singular field.
  const second=singleSourceLab();second.api.placeTestCharge(100,0);second.api.state().charges[0].x=100;
  second.api.advanceTestCharge(1/240);assert.equal(second.api.state().testCharge,null);
 });
 
+test('reduced motion shows a stationary glow on the absorbing charge',()=>{
+ const {api,renderAt}=openLab(false,{empty:true,reducedMotion:true});
+ api.seedSources([{x:0,y:0,q:-4}]);api.placeTestCharge(-100,0);
+ api.state().testCharge.vx=5e9;api.advanceTestCharge(1/240);
+ const first=renderAt(0),later=renderAt(110);
+ assert.deepEqual(first.stars,[]);assert.deepEqual(later.stars,[]);
+ const [glow]=first.glows,[fadingGlow]=later.glows;
+ const center=api.toScreen(0,0);
+ closeTo(glow.x,center.x);closeTo(glow.y,center.y);
+ assert.equal(fadingGlow.radius,glow.radius);assert.ok(fadingGlow.alpha<glow.alpha);
+});
+
 test('the test charge and trail disappear at world boundaries and long frame gaps stay bounded',()=>{
  const {api,document}=openLab(false);api.state().charges.splice(0);api.placeTestCharge(1990,0);
- const particle=api.state().testCharge;particle.vx=10000000;api.advanceTestCharge(1/240);
+ const particle=api.state().testCharge;particle.vx=5e8;api.advanceTestCharge(1/240);
  assert.equal(api.state().testCharge,null);assert.equal(particle.trail.length,0);
+ assert.equal(api.state().chargeAbsorptions.length,0);
  api.placeTestCharge(0,0);api.state().testCharge.vx=10;
  document.hidden=true;api.advanceTestCharge(60);assert.equal(api.state().testCharge.x,0);
- document.hidden=false;api.advanceTestCharge(60);closeTo(api.state().testCharge.x,.001);
+ document.hidden=false;api.advanceTestCharge(60);closeTo(api.state().testCharge.x,.00002);
 });
 
 test('a particle outside any world edge is removed with its trail on the next simulation step',()=>{
@@ -534,27 +683,64 @@ test('a source charge dropped over the new test-charge tray button is not delete
  canvas.emit('pointerup',{clientX:220,clientY:665});assert.equal(api.state().charges.length,3);
 });
 
-test('test-charge tools and canvas selection switch the inspector and clear source selection',()=>{
+test('selecting a test charge clears source selection and hides the source inspector',()=>{
  const {$,api,point}=openLab(false),canvas=$('fieldCanvas');
- assert.equal($('editBlock').hidden,false);assert.equal($('testBlock').hidden,true);
+ assert.equal($('editBlock').hidden,false);
  $('addTest').emit('click',{detail:0});
- assert.equal(api.state().selectedId,null);assert.equal($('editBlock').hidden,true);assert.equal($('testBlock').hidden,false);
+ assert.equal(api.state().selectedId,null);assert.equal($('editBlock').hidden,true);
  api.placeTestCharge(0,0);$('cancelPlacement').emit('click');
  const source=api.state().charges[0];canvas.emit('pointerdown',point(source));canvas.emit('pointerup',point(source));
- assert.equal(api.state().selectedId,source.id);assert.equal($('editBlock').hidden,false);assert.equal($('testBlock').hidden,true);
+ assert.equal(api.state().selectedId,source.id);assert.equal($('editBlock').hidden,false);
  canvas.emit('pointerdown',point(api.state().testCharge));canvas.emit('pointerup',point(api.state().testCharge));
- assert.equal(api.state().selectedId,null);assert.equal($('editBlock').hidden,true);assert.equal($('testBlock').hidden,false);
+ assert.equal(api.state().selectedId,null);assert.equal($('editBlock').hidden,true);
  canvas.emit('pointerdown',point(source));canvas.emit('pointerup',point(source));
- $('pauseTest').emit('click');assert.equal(api.state().selectedId,null);assert.equal($('testBlock').hidden,false);
+ $('pauseTest').emit('click');assert.equal(api.state().selectedId,null);assert.equal($('editBlock').hidden,true);
  const count=api.state().charges.length;$('trashZone').emit('click');
  assert.equal(api.state().testCharge,null);assert.equal(api.state().charges.length,count);
 });
 
-test('gram slider values convert to kilograms before calculating test-charge acceleration',()=>{
+test('Simulation sliders configure new test charges while preserving source selection',()=>{
+ const simulation=html.match(/<details[^>]*aria-label="Simulation settings"[^>]*>[\s\S]*?<\/details>/)[0];
+ assert.match(simulation,/<input[^>]*id="testMass"/);
+ assert.match(simulation,/<input[^>]*id="testChargeStrength"/);
+ assert.doesNotMatch(html,/id="testBlock"/);
+ const {$,api}=singleSourceLab(),sourceId=api.state().selectedId;
+ $('testMass').value='65';$('testMass').emit('input');
+ $('testChargeStrength').value='5';$('testChargeStrength').emit('input');
+ assert.equal(api.state().selectedId,sourceId);assert.equal($('editBlock').hidden,false);
+ assert.equal(api.placeTestCharge(100,0),true);
+ assert.equal(api.state().testCharge.mass,.000065);closeTo(api.state().testCharge.q,5e-6,1e-15);
+});
+
+test('the three charge tray icons use the same silhouettes as the starting canvas charges',()=>{
+ const {$,api,renderAt}=openLab(false,{startup:true});
+ api.placeTestCharge(0,0);
+ const frame=renderAt(0),[positive,negative]=api.state().charges;
+ const charges=[
+  ['addPositive',frame.sources[0],positive],
+  ['addNegative',frame.sources[1],negative],
+  ['addTest',frame.stars[0],api.state().testCharge]
+ ];
+ for(const [button,shape,charge] of charges){
+  const path=$(button).querySelector('svg').querySelector('path').getAttribute('d');
+  const vertices=path.match(/[ML][^MLZ]+/g).map(point=>point.slice(1).split(',').map(Number));
+  const iconRadius=Math.max(...vertices.map(([x,y])=>Math.hypot(x,y)));
+  const center=api.toScreen(charge.x,charge.y),radius=drawnRadius(shape,center);
+  assert.equal(vertices.length,shape.points.length);
+  vertices.forEach(([x,y],i)=>{
+   closeTo(x/iconRadius,(shape.points[i].x-center.x)/radius);
+   closeTo(y/iconRadius,(shape.points[i].y-center.y)/radius);
+  });
+ }
+});
+
+test('milligram slider values convert to kilograms before calculating test-charge acceleration',()=>{
  const {$,api}=singleSourceLab();api.placeTestCharge(100,0);
  const unitMassAcceleration=api.testAcceleration(100,0,1).x;
- for(const [grams,mass] of [[1,.001],[500,.5],[1000,1]]){
-  $('testMass').value=String(grams);$('testMass').emit('input');
+ for(const [milligrams,mass,label] of [[1,.000001,'1 mg'],[40,.00004,'40 mg'],[1000,.001,'1,000 mg']]){
+  $('testMass').value=String(milligrams);$('testMass').emit('input');
+  assert.equal($('testMassText').textContent,label);
+  assert.equal($('testMass').getAttribute('aria-valuetext'),milligrams+(milligrams===1?' milligram':' milligrams'));
   assert.equal(api.state().testCharge.mass,mass);
   closeTo(api.testAcceleration(100,0).x,unitMassAcceleration/mass,Math.abs(unitMassAcceleration/mass)*1e-12);
  }
@@ -577,7 +763,7 @@ test('mass and playback apply to every test charge while removal stays individua
  $('testMass').value='500';$('testMass').emit('input');advanceSeconds(api,.5);
  $('fieldCanvas').emit('pointerdown',point(first));$('fieldCanvas').emit('pointerup',point(first));
  assert.equal(api.state().selectedTestId,first.id);assert.equal($('testMass').value,'500');
- $('testMass').value='250';$('testMass').emit('input');assert.equal(first.mass,.25);assert.equal(second.mass,.25);
+ $('testMass').value='250';$('testMass').emit('input');assert.equal(first.mass,.00025);assert.equal(second.mass,.00025);
  $('pauseTest').emit('click');assert.equal(first.running,false);assert.equal(second.running,false);
  const paused=JSON.stringify(api.state().testCharges);advanceSeconds(api,.5);assert.equal(JSON.stringify(api.state().testCharges),paused);
  $('pauseTest').emit('click');assert.equal(first.running,true);assert.equal(second.running,true);
@@ -659,7 +845,7 @@ test('new test charges inherit the shared mass and global pause state',()=>{
  const {$,api}=singleSourceLab();api.placeTestCharge(100,100);
  $('testMass').value='100';$('testMass').emit('input');$('pauseTest').emit('click');
  api.placeTestCharge(200,100);assert.equal(api.state().testCharges.length,2);
- assert.ok(api.state().testCharges.every(t=>t.mass===.1&&!t.running));
+ assert.ok(api.state().testCharges.every(t=>t.mass===.0001&&!t.running));
  const paused=JSON.stringify(api.state().testCharges);advanceSeconds(api,.2);assert.equal(JSON.stringify(api.state().testCharges),paused);
  $('pauseTest').emit('click');assert.ok(api.state().testCharges.every(t=>t.running));advanceSeconds(api,.2);
  assert.ok(api.state().testCharges.every(t=>t.x>t.startX));
@@ -695,8 +881,8 @@ for(const compact of [false,true]){
     const {$,api,point}=openLab(compact),canvas=$('fieldCanvas');api.placeTestCharge(0,100);
     if(kind==='source'){const source=api.state().charges[0];canvas.emit('pointerdown',point(source));canvas.emit('pointerup',point(source));}
     const sourceId=api.state().selectedId,testId=api.state().selectedTestId;
-    const testVisible=$('testBlock').hidden,sourceVisible=$('editBlock').hidden;
-    const assertSelection=()=>{assert.equal(api.state().selectedId,sourceId);assert.equal(api.state().selectedTestId,testId);assert.equal($('testBlock').hidden,testVisible);assert.equal($('editBlock').hidden,sourceVisible);};
+    const sourceVisible=$('editBlock').hidden;
+    const assertSelection=()=>{assert.equal(api.state().selectedId,sourceId);assert.equal(api.state().selectedTestId,testId);assert.equal($('editBlock').hidden,sourceVisible);};
     const p={clientX:compact?300:600,clientY:600,button};
     canvas.emit('pointerdown',p);assertSelection();canvas.emit('pointerup',p);assertSelection();
     canvas.emit('pointerdown',p);canvas.emit('pointermove',{...p,clientX:p.clientX+20,clientY:p.clientY+30});
@@ -713,17 +899,17 @@ test('the global charge slider scales force and enforces positive charges on exi
  const original=api.testAcceleration(100,100);
  $('testChargeStrength').value='5';$('testChargeStrength').emit('input');
  assert.ok(api.state().testCharges.every(t=>Math.abs(t.q-5e-6)<1e-15));
- closeTo(api.testAcceleration(100,100).x,original.x/2,1e-7);closeTo(api.testAcceleration(100,100).y,original.y/2,1e-7);
+ closeTo(api.testAcceleration(100,100).x/original.x,.5);closeTo(api.testAcceleration(100,100).y/original.y,.5);
  advanceSeconds(api,1);assert.ok(first.x>100);assert.ok(first.vx>0);
  for(const value of ['0','-5','-20']){
   $('testChargeStrength').value=value;$('testChargeStrength').emit('input');
   assert.ok(api.state().testCharges.every(t=>Math.abs(t.q-.1e-6)<1e-15));
-  closeTo(api.testAcceleration(100,100).x,original.x*.01,1e-7);
+  closeTo(api.testAcceleration(100,100).x/original.x,.01);
  }
  api.placeTestCharge(300,100);closeTo(api.state().testCharge.q,.1e-6,1e-15);
  $('testChargeStrength').value='20';$('testChargeStrength').emit('input');
  assert.ok(api.state().testCharges.every(t=>Math.abs(t.q-20e-6)<1e-15));
- closeTo(api.testAcceleration(100,100).x,original.x*2,1e-7);
+ closeTo(api.testAcceleration(100,100).x/original.x,2);
  assert.equal(JSON.stringify(api.state().charges),sources);assert.deepEqual(api.fieldAt(100,100),field);
 });
 
@@ -739,6 +925,48 @@ test('static charge sliders share signed values, cross zero and reverse the resu
  $('canvasChargeStrength').value='3.1';$('canvasChargeStrength').emit('input');
  assert.equal(source.q,3.1);assert.equal($('chargeStrength').value,'3.1');assert.equal($('strengthText').textContent,'+3.1 C');
  closeTo(api.fieldAt(100,0).x,original*(3.1/4));assert.equal(api.state().selectedId,selectedId);
+});
+
+test('source size follows charge magnitude across both polarities and scales with zoom',()=>{
+ const {$,api,renderAt,point}=openLab(false,{empty:true});
+ $('presetSingle').emit('click');
+ const [source]=api.state().charges,slider=$('chargeStrength');
+ const radius=()=>drawnRadius(renderAt(0).sources[0],api.toScreen(source.x,source.y));
+ const initial=radius();
+ for(const [q,expected] of [['-10',26],['0',10],['10',26]]){
+  slider.value=q;slider.emit('input');closeTo(radius(),expected);
+ }
+ assert.ok(initial>10&&initial<26);
+ for(let i=0;i<10;i++)$('zoomIn').emit('click');
+ closeTo(radius(),52);
+ const p=point(source),canvas=$('fieldCanvas');
+ canvas.emit('pointerdown',{...p,clientX:p.clientX+45});
+ assert.equal(api.state().activeDrag.kind,'charge');
+ canvas.emit('pointermove',{...p,clientX:p.clientX+80});renderAt(0);
+ const scale=$('chargeGhost').querySelector('svg').style.transform;
+ closeTo(Number(scale.slice(6,-1))*21,52);
+ canvas.emit('pointercancel',{...p,clientX:p.clientX+80});
+});
+
+test('the shared test charge slider resizes existing charges and changes clearance for new ones',()=>{
+ const {$,api,renderAt}=openLab(false,{empty:true});
+ $('presetSingle').emit('click');
+ $('chargeStrength').value='10';$('chargeStrength').emit('input');
+ api.placeTestCharge(-100,0);api.placeTestCharge(100,0);
+ const slider=$('testChargeStrength');
+ for(const [q,expected] of [['0.1',3],['10',7.23],['20',9]]){
+  slider.value=q;slider.emit('input');
+  const {stars}=renderAt(0);
+  assert.equal(stars.length,2);
+  stars.forEach((star,i)=>{
+   const {x,y}=api.state().testCharges[i];
+   closeTo(drawnRadius(star,api.toScreen(x,y)),expected,.01);
+  });
+ }
+ assert.equal(api.placeTestCharge(30,0),false);
+ slider.value='0.1';slider.emit('input');
+ assert.equal(api.placeTestCharge(30,0),true);
+ assert.equal(renderAt(0).stars.length,3);
 });
 
 for(const compact of [false,true]){
@@ -832,8 +1060,8 @@ test('loading a preset clears moving particles, trails, placement and pointer ow
  assert.equal(api.state().testCharges.length,0);assert.ok(particles.every(t=>t.trail.length===0));
  assert.equal(api.state().activeDrag,null);assert.equal(api.state().sourceDrag,null);assert.equal(api.state().placing,0);
  assert.equal($('chargeGhost').hidden,true);assert.equal($('lab').classList.contains('test-active'),false);
- assert.equal($('editBlock').hidden,false);assert.equal($('testBlock').hidden,true);
- api.placeTestCharge(0,100);assert.equal(api.state().testCharge.mass,.25);closeTo(api.state().testCharge.q,5e-6,1e-15);
+ assert.equal($('editBlock').hidden,false);
+ api.placeTestCharge(0,100);assert.equal(api.state().testCharge.mass,.00025);closeTo(api.state().testCharge.q,5e-6,1e-15);
 });
 
 test('single-row desktop tray deletes both kinds of charge only on the Delete tile',()=>{
@@ -895,7 +1123,7 @@ for(const compact of [false,true]){
   }
   $('clear').emit('click');
   assert.equal(api.state().charges.length,0);assert.equal(api.state().testCharges.length,0);assert.equal(api.state().selectedId,null);
-  assert.equal($('editBlock').hidden,true);assert.equal($('testBlock').hidden,true);assert.equal($('chargePopover').hidden,true);assert.equal($('lab').classList.contains('test-active'),false);
+  assert.equal($('editBlock').hidden,true);assert.equal($('chargePopover').hidden,true);assert.equal($('lab').classList.contains('test-active'),false);
   closeTo(api.fieldAt(100,100).mag,0);api.render();
   $('presetSingle').emit('click');assert.equal(api.state().charges.length,1);assert.equal($('editBlock').hidden,false);
  });

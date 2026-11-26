@@ -154,19 +154,12 @@
 }
 :root[data-theme="light"] #lab .canvas-legend .legend-hidden .key-symbol { color: inherit; }
 
-#lab .tray-items > button > span {
-    white-space: normal;
-    overflow-wrap: anywhere;
-    line-height: 1.15;
-}
-#lab .tray-items > .test-source > span:lang(el) {
-    font-size: 8.5px;
-    overflow-wrap: normal;
-    word-break: normal;
-}
 #lab .canvas-surface .source-stack {
     background: var(--lab-glass-button-fill);
     border-color: transparent;
+}
+:root[data-theme="light"] #lab .tray-items > .source-stack > :is(.charge-art, .tray-mass-icon) {
+    filter: drop-shadow(0 1px 1px #172435b3) drop-shadow(0 0 1px #17243580);
 }
 #lab .canvas-surface :is(.source-stack, .pointer-options button):enabled:hover:where(:not([aria-pressed="true"], .active)) {
     background-color: var(--lab-glass-button-hover);
@@ -221,7 +214,6 @@
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-#lab .tray-items > .trash-zone > span { align-self: auto; }
 #lab .lab-dock button { box-shadow: none; }
 
 #lab .scale-readout { color: #e4edf7; }
@@ -357,13 +349,43 @@
             line-height: inherit;
             white-space: normal;
         }
-        #lab .lab-dock .tray-items > .test-source > span,
         #lab .lab-dock [data-tool="probe"]:lang(el) > span {
             font-size: clamp(8px, 2vw, 9px);
         }
 
         #lab .lab-dock #controlsToggle { grid-area: settings; }
     }
+}
+
+#lab .tray-items {
+    --tray-icon-size: 22px;
+}
+
+:root #lab .canvas-dock :is(.charge-tray, .mass-tray) .tray-items > button {
+    display: grid;
+    grid-template: var(--tray-icon-size) 1lh / minmax(0, 1fr);
+    align-content: center;
+    place-items: center;
+    gap: 2px;
+    min-height: 48px;
+    padding-block: 0;
+    line-height: 1.05;
+    text-align: center;
+}
+
+:root #lab .canvas-dock :is(.charge-tray, .mass-tray) .tray-items > button > :is(img, svg) {
+    width: var(--tray-icon-size);
+    height: var(--tray-icon-size);
+}
+
+:root #lab .canvas-dock :is(.charge-tray, .mass-tray) .tray-items > button > span {
+    align-self: start;
+    max-width: 100%;
+    min-width: 0;
+    line-height: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media (max-width: 440px) {

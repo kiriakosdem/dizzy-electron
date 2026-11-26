@@ -119,36 +119,15 @@
 }
 
 #lab:where(.desktop-playback-layout) .canvas-dock .tray-items > button {
-    display: grid;
-    grid-template-rows: 24px auto;
     grid-column: auto;
-    align-content: center;
-    justify-items: center;
-    gap: 4px;
     width: var(--desktop-source-tile-size);
     height: var(--desktop-source-tile-size);
-    min-height: 0;
     padding: 3px;
     font-size: 11px;
-    line-height: 1.15;
-    text-align: center;
-}
-
-#lab:where(.desktop-playback-layout) .canvas-dock .tray-items > button > svg {
-    width: 24px;
-    height: 24px;
 }
 
 #lab:where(.desktop-playback-layout) .canvas-dock .tray-items > .source-stack[aria-pressed="true"] {
     border-color: var(--lab-accent);
-}
-
-#lab:where(.desktop-playback-layout) .canvas-dock .tray-items > button > span {
-    max-width: 100%;
-}
-
-#lab:where(.desktop-playback-layout) .canvas-dock .tray-items > .test-source > span:lang(el) {
-    font-size: inherit;
 }
 
 /* Keep the tray centered when the timer and tray cannot share the same row. */
@@ -350,9 +329,6 @@
     align-self: center;
     max-width: 100%;
     line-height: inherit;
-    overflow-wrap: anywhere;
-}
-:root[data-lab-embedded] #lab:where(:not(.desktop-playback-layout)) .canvas-dock .tray-items > .test-source > span:lang(el) {
     overflow-wrap: anywhere;
 }
 :root[data-lab-embedded] #lab:where(:not(.desktop-playback-layout)) .canvas-dock .dock-tile > svg {

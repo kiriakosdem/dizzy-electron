@@ -21,8 +21,9 @@
 
 .lab-title-group {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: clamp(4px, 1vw, 10px);
+    gap: 4px clamp(4px, 1vw, 10px);
 }
 
 .lab-title-group h1 {
@@ -57,57 +58,37 @@
 }
 
 .lab-header :is(#physicsButton, #controlsToggle) {
-    border: 0;
-    border-radius: 8px;
-    background: var(--lab-navy);
-}
-
-.lab-header #physicsButton {
-    --lab-help-ink: var(--color-logo-cyan, #00bed0);
-    --lab-help-active-ink: var(--color-logo-orange, #ff984f);
-    display: inline-flex;
-    flex: none;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    min-height: var(--lab-header-control-size);
-    padding: 0 10px;
-    color: var(--lab-help-ink);
-    font-size: .85rem;
-    font-weight: 600;
-    cursor: pointer;
-}
-.lab-header .lab-help-text {
-    text-decoration: underline;
-    text-underline-offset: .2em;
-}
-.lab-header #physicsButton:is(:focus-visible, :active),
-:root:has(#physicsDialog[open]) .lab-header #physicsButton {
-    color: var(--lab-help-active-ink);
-}
-.lab-header .lab-help-icon { display: none; width: 20px; height: 20px; }
-
-.lab-header #controlsToggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
     width: auto;
-    height: var(--lab-header-control-size);
     min-height: var(--lab-header-control-size);
-    padding-inline: 8px;
+    padding: 0 8px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--lab-navy);
     color: var(--lab-header-ink, var(--text-primary));
     font: 650 12px/1 var(--lab-ui-font);
+    cursor: pointer;
+}
+.lab-header #physicsButton {
+    max-inline-size: 100%;
+    text-align: start;
+}
+.lab-header .lab-help-icon { flex: none; width: 18px; height: 18px; }
+.lab-header #controlsToggle {
+    height: var(--lab-header-control-size);
     white-space: nowrap;
 }
 .lab-header .drawer-toggle-label { display: inline; }
 
 @media (hover: hover) {
     .lab-language .language-toggle:hover { color: var(--language-accent); }
-    .lab-header #physicsButton:hover { color: var(--lab-help-active-ink); }
 
-    .lab-header #controlsToggle:hover {
+    .lab-header :is(#physicsButton, #controlsToggle):hover {
         background: var(--lab-header-hover, var(--lab-panel-background));
+        color: var(--color-logo-orange, #ff984f);
     }
 }
 
@@ -116,14 +97,15 @@
         column-gap: 6px;
         padding-inline-start: max(16px, env(safe-area-inset-left));
     }
+    .lab-title-group { flex-wrap: nowrap; }
     .lab-header #physicsButton {
-        --lab-help-ink: var(--color-white, #fff);
-        --lab-help-active-ink: var(--lab-help-ink);
+        flex: none;
         width: var(--lab-header-control-size);
         padding: 0;
+        color: var(--color-white, #fff);
     }
-    .lab-header .lab-help-text { display: none; }
-    .lab-header .lab-help-icon { display: block; }
+    .lab-header #physicsButton > span { display: none; }
+    .lab-header .lab-help-icon { width: 20px; height: 20px; }
 }
 
 :root[data-lab-embedded] .lab-header {

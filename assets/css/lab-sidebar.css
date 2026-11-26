@@ -123,16 +123,10 @@
     width: 18px;
     height: 18px;
     fill: none;
-    stroke: #fff;
+    stroke: currentColor;
     stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
-}
-
-:root[data-theme="light"] :is(.panel-section > summary h2, .drawer-heading h2) > svg {
-    padding: 2px;
-    border-radius: 4px;
-    background: var(--text-primary);
 }
 
 /* Section titles, group captions, control labels, then secondary readouts. */

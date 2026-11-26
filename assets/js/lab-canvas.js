@@ -94,6 +94,59 @@ function paintLabBackdrop(context, width, height) {
     context.fillRect(0, 0, width, height);
 }
 
+function createLabCanvasLayer() {
+    const layer = document.createElement('canvas');
+    const context = layer.getContext('2d', {alpha: false});
+    let previousKey;
+    return (target, width, height, dpr, key, paint) => {
+        if (key !== previousKey) {
+            const pixelWidth = Math.round(width * dpr);
+            const pixelHeight = Math.round(height * dpr);
+            if (layer.width !== pixelWidth) layer.width = pixelWidth;
+            if (layer.height !== pixelHeight) layer.height = pixelHeight;
+            context.setTransform(dpr, 0, 0, dpr, 0, 0);
+            paint(context);
+            previousKey = key;
+        }
+        target.drawImage(layer, 0, 0, layer.width / dpr, layer.height / dpr);
+    };
+}
+
+function paintLabTrail(context, trail, head, toScreen) {
+    if (!trail.length) return;
+    const segments = trail.length - 1;
+    const bands = Math.min(12, segments);
+    let first = 0;
+    let point = toScreen(trail[0].x, trail[0].y);
+    context.save();
+    context.strokeStyle = labCanvasTheme.point;
+    context.lineWidth = 1.2;
+    context.lineJoin = 'round';
+    context.lineCap = 'round';
+    for (let band = 1; band <= bands; band++) {
+        const last = Math.ceil(segments * band / bands);
+        const fraction = (first + last + 1) / (2 * segments);
+        context.globalAlpha = .02 + .48 * Math.pow(fraction, 1.6);
+        context.beginPath();
+        context.moveTo(point.x, point.y);
+        for (let i = first + 1; i <= last; i++) {
+            point = toScreen(trail[i].x, trail[i].y);
+            context.lineTo(point.x, point.y);
+        }
+        context.stroke();
+        first = last;
+    }
+    const end = toScreen(head.x, head.y);
+    if (point.x !== end.x || point.y !== end.y) {
+        context.globalAlpha = .5;
+        context.beginPath();
+        context.moveTo(point.x, point.y);
+        context.lineTo(end.x, end.y);
+        context.stroke();
+    }
+    context.restore();
+}
+
 function paintLabSelection(context, x, y, radius, haloRadius = 0) {
     context.save();
     if (haloRadius) {
