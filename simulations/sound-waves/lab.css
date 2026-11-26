@@ -1,0 +1,47 @@
+:root { color-scheme: dark; color: #e8f0ff; background: #08182b; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; }
+[hidden] { display: none !important; }
+button, select, input { font: inherit; touch-action: manipulation; }
+button, select { cursor: pointer; }
+button:disabled { opacity: .5; cursor: default; }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, a:focus-visible { outline: 2px solid #9acbff; outline-offset: 3px; }
+#lab { flex: 1; min-height: 0; position: relative; overflow: hidden; isolation: isolate; }
+#viewport { position: absolute; inset: 0; container-type: size; }
+@media (min-width: 893px) and (min-height: 501px), (min-width: 951px) {
+  .controls-open #viewport { right: var(--lab-docked-sidebar-width, 0px); }
+}
+#soundCanvas { display: block; width: 100%; height: 100%; }
+.panel-toggle svg, .sound-dock svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.panel input[type="range"] { width: 100%; }
+.sound-legend { position: absolute; top: var(--lab-overlay-inset); right: var(--lab-overlay-inset); max-width: calc(100% - 114px); padding: 7px 10px; font-size: 11px; line-height: 1.35; pointer-events: none; }
+.sound-legend > div { display: flex; align-items: center; gap: 7px; }
+.sound-legend > div + div:not([hidden]) { margin-top: 4px; }
+.sound-legend i { width: 23px; height: 5px; flex: none; border-radius: 2px; }
+.pressure-key { background: linear-gradient(90deg, #50b8f0 45%, transparent 45% 55%, #ff984f 55%); }
+.speed-key { background: linear-gradient(90deg, #50b8f0, #bedfe6, #ff984f); }
+output { font-variant-numeric: tabular-nums; }
+.render-status { position: absolute; inset: 45% auto auto 50%; transform: translateX(-50%); max-width: 90%; padding: 10px 14px; }
+.sound-dock { position: absolute; left: max(var(--lab-overlay-inset), env(safe-area-inset-left)); right: calc(max(var(--lab-overlay-inset), env(safe-area-inset-right)) + var(--lab-docked-sidebar-width, 0px)); bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: center; gap: 10px; pointer-events: none; transition: right var(--lab-transition-duration) var(--lab-transition-easing); }
+.sound-dock > * { pointer-events: auto; }
+.transport { display: flex; align-items: center; padding: 4px; gap: 3px; }
+.transport > button { display: grid; place-items: center; width: 38px; height: 36px; padding: 0; border: 0; background: transparent; color: inherit; border-radius: 7px; }
+.transport > button:hover { background: var(--lab-glass-button-hover); }
+.transport output { font: 12px var(--lab-number-font); min-width: 72px; text-align: center; }
+.sound-dock .panel-toggle { border: 0; }
+@media (max-width: 892px), (max-height: 500px) and (max-width: 950px) {
+  :root:not([data-lab-embedded]) .sound-dock { right: max(var(--lab-overlay-inset), env(safe-area-inset-right)); gap: 6px; }
+  .transport > button { width: 36px; height: 44px; }
+  .transport output { min-width: 62px; }
+  .sound-dock .panel-toggle { display: flex; flex-direction: column; min-width: 48px; min-height: 48px; padding: 4px; gap: 4px; font-size: 11px; color: var(--text-primary); background: transparent; }
+  .sound-dock .drawer-toggle-label { display: block; }
+}
+@media (max-width: 560px) {
+  .sound-dock { left: max(12px, env(safe-area-inset-left)); right: max(12px, env(safe-area-inset-right)); }
+  .transport { gap: 0; padding: 2px; }
+  .transport output { min-width: 51px; font-size: 11px; }
+  .transport > button { width: 31px; }
+}
+@media (prefers-reduced-motion: reduce) { .sound-dock { transition: none; } }
+#pulseButton { width: 100%; margin-top: 8px; }

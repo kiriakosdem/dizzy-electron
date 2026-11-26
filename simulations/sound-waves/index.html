@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sound Waves Laboratory</title>
+  <meta name="description" content="Explore how a vibrating membrane creates sound through collisions between air particles.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/brand/favicon.svg?v=round">
+  <link rel="stylesheet" href="lab.css">
+  <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=shared-hud-type">
+  <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
+  <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=heading-icons">
+  <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
+  <link rel="stylesheet" href="../../assets/css/lab-header.css?v=orange-hover">
+  <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=radio-options">
+  <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
+  <link rel="stylesheet" href="../../assets/css/focus.css">
+  <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
+  <script src="../../assets/js/lab-canvas.js?v=local-fullscreen"></script>
+  <script src="../../assets/js/lab-scale.js"></script>
+  <script src="../../assets/js/focus.js" defer></script>
+  <script src="physics.js" defer></script>
+  <script src="lab.js" defer></script>
+</head>
+<body>
+<header class="lab-header">
+  <a class="lab-site-brand" href="../../index.html" aria-label="Dizzy Electron home"><img src="../../assets/brand/logo-navy-notext.png" width="800" height="800" alt=""></a>
+  <div class="lab-title-group">
+    <h1>Sound Waves</h1>
+    <button id="physicsButton" type="button" title="Read about the physics of this simulation" aria-haspopup="dialog" aria-controls="physicsDialog" aria-label="How does it work?">
+      <svg class="lab-help-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1" fill="currentColor" stroke="none"/></svg><span>How does it work?</span>
+    </button>
+  </div>
+  <div class="lab-language"></div>
+  <button class="panel-toggle dock-tile" id="controlsToggle" type="button" aria-controls="controlsPanel" aria-expanded="true" aria-label="Hide controls"><svg viewBox="0 0 20 20" aria-hidden="true"><path id="controlsToggleIcon" d="M5 5l10 10M15 5L5 15"/></svg><span class="drawer-toggle-label">Controls</span></button>
+</header>
+<main id="lab" class="controls-open">
+  <div class="lab-workspace">
+    <div id="viewport" class="canvas-frame field-frame">
+      <canvas id="soundCanvas" role="img" aria-label="Equal-size air particles collide as a membrane sends a pressure wave across the chamber."></canvas>
+      <div class="canvas-tools canvas-surface" id="canvasTools" role="group" aria-label="Canvas tools">
+        <button type="button" id="fullscreenButton" title="Full screen" aria-label="Full screen" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><path class="expand-icon" d="M3 7V3h4m6 0h4v4m0 6v4h-4m-6 0H3v-4"/><path class="contract-icon" d="M7 3v4H3m10-4v4h4m0 6h-4v4M7 17v-4H3"/></svg></button>
+        <button type="button" id="snapshotButton" title="Save a snapshot" aria-label="Save a snapshot"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h4l1.5-2h5L14 6h4v10H2Z"/><circle cx="10" cy="10.5" r="3"/></svg></button>
+        <span class="canvas-tools-message canvas-surface" id="canvasToolsMessage" role="status" hidden></span>
+      </div>
+      <div class="sound-legend canvas-surface" role="group" aria-label="Visualization legend">
+        <div id="pressureLegend"><i class="pressure-key" aria-hidden="true"></i><span>Average pressure</span></div>
+        <div id="speedLegend"><i class="speed-key" aria-hidden="true"></i><span>Particle speed</span></div>
+      </div>
+      <div class="render-status canvas-surface" id="renderStatus" role="status" hidden></div>
+    </div>
+    <div class="canvas-dock sound-dock">
+      <div class="transport canvas-surface" role="group" aria-label="Playback controls">
+        <button id="playPause" type="button" aria-label="Pause simulation" title="Pause simulation"><svg viewBox="0 0 20 20" aria-hidden="true"><path id="playIcon" d="M6 4h3v12H6zm5 0h3v12h-3z" fill="currentColor"/></svg></button>
+        <button id="resetButton" type="button" aria-label="Reset simulation" title="Reset simulation"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6a7 7 0 1 1-1 7M4 2v5h5"/></svg></button>
+        <output id="timeReadout" role="timer" aria-live="off" aria-label="Simulation time">0.0 τ</output>
+      </div>
+    </div>
+    <div class="sr-only" id="actionStatus" role="status" aria-live="polite"></div>
+  </div>
+  <div class="panel-backdrop" id="controlsBackdrop" aria-hidden="true" hidden></div>
+  <aside class="panel" id="controlsPanel" aria-label="Sound controls">
+    <div class="drawer-heading"><h2><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h4m4 0h6M9 3v4M3 10h8m4 0h2m-4-2v4M3 15h2m4 0h8M7 13v4"/></svg>Controls</h2><button class="drawer-close" id="controlsClose" type="button" aria-label="Close controls"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg></button></div>
+    <details class="panel-section" open data-drawer-default-open>
+      <summary><h2 id="soundSourceHeading"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 11h4l3-7 4 12 2-5h3"/></svg>Sound source</h2></summary>
+      <div class="panel-group radio-options" role="radiogroup" aria-labelledby="soundSourceHeading">
+        <label><input id="continuousMode" type="radio" name="soundSource" value="continuous">Continuous vibration</label>
+        <label><input id="pulseMode" type="radio" name="soundSource" value="pulse" checked>Single pulse</label>
+      </div>
+      <div class="panel-group">
+        <label class="control-label slider-label" for="amplitude"><span>Amplitude</span><output id="amplitudeValue">26</output></label>
+        <input id="amplitude" type="range" min="4" max="40" step="1" value="26">
+        <label class="control-label slider-label" for="frequency"><span>Frequency</span><output id="frequencyValue">0.32 / τ</output></label>
+        <input id="frequency" type="range" min="0.16" max="0.38" step="0.02" value="0.32">
+      </div>
+      <button type="button" class="action-button" id="pulseButton">Emit single pulse</button>
+    </details>
+    <details class="panel-section display-section">
+      <summary><h2><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>Display</h2></summary>
+      <div class="panel-group">
+        <div class="toggle-row"><span id="pressureLabel">Pressure bands</span><button type="button" id="pressureToggle" role="switch" aria-checked="true" aria-labelledby="pressureLabel"></button></div>
+        <div class="toggle-row"><span id="speedLabel">Color by speed</span><button type="button" id="speedToggle" role="switch" aria-checked="true" aria-labelledby="speedLabel"></button></div>
+        <div class="toggle-row"><span id="trackLabel">Follow one particle</span><button type="button" id="trackToggle" role="switch" aria-checked="false" aria-labelledby="trackLabel"></button></div>
+      </div>
+      <div class="panel-group"><div class="toggle-row"><span id="lab-theme-label">Dark theme</span><button type="button" role="switch" aria-checked="true" aria-labelledby="lab-theme-label" data-lab-theme></button></div></div>
+    </details>
+    <details class="panel-section" open>
+      <summary><h2><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="11.5" r="6"/><path d="M8 2h4m-2 0v3.5m4.5 1.8 1.7-1.7M10 8v3.5l2 1.5"/></svg>Simulation settings</h2></summary>
+      <div class="panel-group">
+        <label class="select-row" for="playbackRate"><span>Playback speed</span>
+          <select id="playbackRate"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select>
+        </label>
+      </div>
+      <div class="panel-group">
+        <label class="select-row" for="particleCount"><span>Initial particles</span><select id="particleCount"><option value="8000">8,000</option><option value="16000" selected>16,000</option><option value="20000">20,000</option></select></label>
+        <div class="control-label"><span id="particleReadoutLabel">Particles in chamber</span><output id="particleReadout" aria-labelledby="particleReadoutLabel" aria-live="off">16,000</output></div>
+        <div class="control-label"><span id="energyLabel">Relative gas energy</span><output id="energyReadout" aria-labelledby="energyLabel" aria-live="off">1.00×</output></div>
+      </div>
+    </details>
+  </aside>
+</main>
+<dialog id="physicsDialog" aria-labelledby="physicsTitle">
+  <div class="dialog-head"><h2 id="physicsTitle">How does sound travel?</h2><button id="closePhysics" type="button" aria-label="Close physics notes"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+  <div class="dialog-body">
+    <h3>A vibration becomes a pressure wave</h3>
+    <p>The membrane pushes nearby particles. They collide with their neighbors, passing on momentum and energy. A crowded region of higher pressure, a compression, travels through the gas. As the membrane moves back, a less crowded region, a rarefaction, follows.</p>
+    <h3>The wave travels; the air does not travel with it</h3>
+    <p>Air particles already move randomly even in silence. Sound adds a coordinated back-and-forth motion along the direction of travel: a longitudinal wave. Follow one particle to distinguish its motion from the moving density pattern.</p>
+    <h3>Reading the picture</h3>
+    <p>The bands and graph show how pressure differs from the current average across the chamber. Orange marks higher pressure and blue marks lower pressure. The average sits at the center of the graph, with the same fixed scale above and below it. The estimate uses random particle motion and momentum transferred in collisions. Particle color shows speed.</p>
+    <h3>Try it</h3>
+    <p>Select Single pulse, reset, then press Emit single pulse. Follow the compression along the chamber. Pause or slow playback to inspect collisions. Increase amplitude for a stronger disturbance, or frequency for more frequent compressions.</p>
+    <h3>Where does the energy go?</h3>
+    <p>Particles that cross the open end leave with their energy. New particles enter from a thermal reservoir. The inflow slowly adjusts using the average particle count to restore the starting population over time. A compression can still send more particles out than are entering. Collisions with the top, bottom and membrane are elastic in the frame of the surface.</p>
+    <h3>About this model</h3>
+    <p>The model uses identical disks in two dimensions. Particle collisions are elastic and create the wave. Distances and time (τ) use model units. Relative gas energy compares total kinetic energy with its value at reset.</p>
+  </div>
+</dialog>
+<script src="../../assets/js/lab-greek.js?v=inline-math"></script>
+<script src="translations.js"></script>
+<script src="../../assets/js/language.js?v=shared-language"></script>
+<script src="../../assets/js/lab-toggle.js?v=edge-aligned-shadows"></script>
+<script src="../../assets/js/lab-physics.js"></script>
+</body>
+</html>

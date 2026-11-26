@@ -452,9 +452,7 @@ text-decoration-line: none;
 }
 
 .lab-card-preview--hydrogen-eigenstates { scale: 1.65; }
-.lab-card-preview--electric-field { scale: 1.6; }
-.lab-card-preview--gravitational-field { scale: 1.8; transform-origin: 55% 61%; }
-.lab-card-preview--electromagnetic-field { scale: 1.15; transform-origin: 57% 47%; }
+.lab-card-preview--sound-waves { object-position: left center; }
 
 .lab-card-body {
     display: grid;

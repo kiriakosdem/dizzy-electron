@@ -84,6 +84,8 @@ const englishCopy = new Map([
     ["Τι είναι η ακτινοβολία;", "What is radiation?"],
     ["Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.", "Explore what happens when there’s a limit to how fast information can travel through the universe."],
     ["Κάθε εργαστήριο ανοίγει σε νέα καρτέλα.", "Each lab opens in a new tab."],
+    ["Ηχητικά κύματα", "Sound Waves"],
+    ["Δες πώς μια μεμβράνη δημιουργεί πυκνώματα και αραιώματα στα σωματίδια του αέρα.", "See how a membrane creates compressions and rarefactions in air particles."],
     ["Το Άτομο του Υδρογόνου", "The Hydrogen Atom"],
     ["Εξερεύνησε τα τροχιακά του υδρογόνου σε 3D.", "Explore hydrogen orbitals in 3D."],
     ["Δοκίμασέ το", "Try it"],
