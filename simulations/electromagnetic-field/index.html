@@ -413,7 +413,6 @@ const ChargeFieldPhysics = (() => {
   if (!ctx) { $("emptyMessage").hidden = false; setLabCopy($("emptyMessage"), "Your browser could not initialize a 2D canvas."); return; }
   const overlayStyle = getComputedStyle(document.documentElement);
   let overlayFont = overlayStyle.getPropertyValue("--lab-ui-font").trim();
-  const numberFont = overlayStyle.getPropertyValue("--lab-number-font").trim();
   const P = ChargeFieldPhysics;
   const meters = value => value * P.SI.metersPerUnit;
   const megahertz = value => value / P.SI.secondsPerUnit * 1e-6;
@@ -893,44 +892,6 @@ const ChargeFieldPhysics = (() => {
     }
     requestAnimationFrame(frame);
   }
-  function snapshot() {
-    draw();
-    const out = document.createElement("canvas");
-    out.width = canvas.width; out.height = canvas.height + Math.round(108 * dpr);
-    const oc = out.getContext("2d"); oc.fillStyle = labCanvasTheme.background; oc.fillRect(0, 0, out.width, out.height); oc.drawImage(canvas, 0, 0);
-    oc.scale(dpr, dpr); oc.fillStyle = labCanvasTheme.ink; oc.font = "600 18px " + overlayFont;
-    const modes = {total: "Total", velocity: "Velocity", radiation: "Radiation"};
-    const motions = {manual: "Mouse", continuous: "Wave", pulse: "Pulse"};
-    const captionFont = document.documentElement.lang === "el" ? overlayFont : numberFont;
-    oc.fillText(labText("The Electromagnetic Field") + " · " + labText(modes[state.mode]), 22, 30, W - 40);
-    const source = sourceNow();
-    const sourceInfo = state.motion === "manual"
-      ? (source ? "x = " + meters(source.x).toFixed(2) + " m   y = " + meters(source.y).toFixed(2) + " m" : labText("Not placed"))
-      : "A = " + meters(state.amplitude).toFixed(3) + " m   " +
-        (state.motion === "pulse" ? "T = " + formatTime(1 / state.frequency) : "f = " + megahertz(state.frequency).toFixed(0) + " MHz");
-    oc.fillStyle = labCanvasTheme.secondary; oc.font = "12px " + captionFont;
-    oc.fillText("t = " + formatTime(state.time, 3) + "   " + labText(motions[state.motion]) + "   " + sourceInfo, 22, 53, W - 40);
-    oc.fillStyle = labCanvasTheme.secondary; oc.font = "11px " + captionFont;
-    const field = P.sample(state.probeX, state.probeY, state.time, params());
-    let probeLine = labText("Probe") + " (" + meters(state.probeX).toFixed(2) + ", " + meters(state.probeY).toFixed(2) + ") m";
-    let fieldLine = labText(state.placed ? "Inside excluded core" : "No charge placed");
-    if (field.valid) {
-      const electric = P.component(field, state.mode);
-      const mag = Math.hypot(electric.x, electric.y);
-      const angle = mag > EPS
-        ? (Math.acos(Math.max(-1, Math.min(1, (electric.x * field.nx + electric.y * field.ny) / mag))) * 180 / Math.PI).toFixed(1) + "°"
-        : "—";
-      probeLine += "   Ev " + prettyField(Math.hypot(field.evx, field.evy) * P.SI.electricFieldUnit) +
-        "   Er " + prettyField(Math.hypot(field.erx, field.ery) * P.SI.electricFieldUnit) + " V/m";
-      const magnetic = prettyField(electric.b * P.SI.magneticFieldUnit * 1e6, true) + " µT";
-      fieldLine = labText("Angle {0}   Bz {1}   Delay {2}", angle, magnetic, formatTime(field.R / P.C));
-    }
-    oc.fillText(probeLine, 20, H + 23, W - 40); oc.fillText(fieldLine, 20, H + 46, W - 40);
-    oc.fillStyle = labCanvasTheme.muted; oc.font = "10px " + captionFont;
-    oc.fillText(labText("3D vacuum fields in a 2D slice. Charge: 1 nC. Arrow lengths: log compressed."), 20, H + 71, W - 40);
-    oc.fillText(labText("Orange E · Blue Bz · Visibility {0}", state.gain.toFixed(2)), 20, H + 91, W - 40);
-    return out;
-  }
   function stepTime() {
     if (!state.placed) return;
     setPlaying(false);
@@ -968,7 +929,10 @@ const ChargeFieldPhysics = (() => {
   $("zoomIn").addEventListener("click", () => zoomAt(1.25)); $("zoomOut").addEventListener("click", () => zoomAt(.8));
   $("resetView").addEventListener("click", resetView);
   $("physicsDialog").addEventListener("close", () => { lastFrame = performance.now(); dirty = true; });
-  setupLabCanvasTools(snapshot, () => "field-lab-" + state.mode + "-t" + state.time.toFixed(2) + ".png");
+  setupLabCanvasTools(() => {
+    draw();
+    return canvas;
+  }, () => "field-lab-" + state.mode + "-t" + state.time.toFixed(2) + ".png");
   canvas.addEventListener("wheel", e => { e.preventDefault(); const pt = localPointer(e); zoomAt(Math.exp(-Math.max(-200, Math.min(200, e.deltaY)) * .0017), pt.x, pt.y); }, { passive: false });
   const pointers = new Map(); let drag = null, pinch = null;
   function hitKind(pt, e) {

@@ -10,7 +10,7 @@ The standalone lab opens with a running wave driven by an oscillating positive c
 
 The Charge tool also lets you click or drag anywhere to specify a new target for an existing source. This moves the charge through intervening positions rather than teleporting it. Dragging resumes playback when paused, allowing the field to respond.
 
-Drag the teal probe marker to inspect the local field vector and retarded ray. The canvas screenshot button saves the probe measurements with the field image. The Probe tool also lets you click or drag on empty background to choose the probe position. Moving the probe does not move the charge, advance a paused simulation, or alter the field.
+Drag the teal probe marker to inspect the local field vector and retarded ray. The canvas screenshot button saves the simulation canvas as a PNG. The Probe tool also lets you click or drag on empty background to choose the probe position. Moving the probe does not move the charge, advance a paused simulation, or alter the field.
 
 Select Pan, hold Shift while dragging, or drag with the middle mouse button to move the camera. Scroll or pinch to zoom. Use Reset view or H to recenter the camera on the charge.
 

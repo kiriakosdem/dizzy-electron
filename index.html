@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Εξερεύνησε τη Φυσική με κείμενα και διαδραστικά εργαστήρια, στον δικό σου ρυθμό.">
     <title>Dizzy Electron | Φυσική στην πράξη</title>
-    <script src="assets/js/english.js?v=featured-lab-cards" defer></script>
+    <script src="assets/js/english.js?v=article-reading-time" defer></script>
     <script src="assets/js/language.js?v=shared-language" defer></script>
     <script src="assets/js/navbar-scroll.js?v=masthead-shadow" defer></script>
     <script src="assets/js/theme.js?v=nav-motion"></script>
     <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/common.css?v=footer-link-states">
     <link rel="stylesheet" href="assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="assets/css/cards.css?v=pointer-aware-cards">
+    <link rel="stylesheet" href="assets/css/cards.css?v=lab-preview-crops">
     <link rel="stylesheet" href="assets/css/home.css?v=compact-shadows">
     <script src="assets/js/lesson.js?v=nav-motion" defer></script>
     <script src="assets/js/home-film.js?v=video-label" defer></script>
@@ -93,35 +93,39 @@
                     </div>
                     <div class="catalog-grid">
                         <a class="catalog-card catalog-card--lab" href="simulations/hydrogen-eigenstates/index.html" target="_blank" rel="noopener" aria-labelledby="lab-4-title" aria-describedby="lab-4-description">
-                            <img class="lab-card-preview" src="assets/images/labs/hydrogen-eigenstates.jpg?v=5dz2-lab-snapshot" width="480" height="270" alt="" loading="lazy" decoding="async">
+                            <div class="lab-card-preview-frame">
+                                <img class="lab-card-preview lab-card-preview--hydrogen-eigenstates" src="assets/images/labs/hydrogen-eigenstates.jpg?v=canvas-screenshots" width="960" height="603" alt="" loading="lazy" decoding="async">
+                            </div>
                             <div class="lab-card-body">
                                 <h3 id="lab-4-title">Το Άτομο του Υδρογόνου</h3>
                                 <p id="lab-4-description">Εξερεύνησε τα τροχιακά του υδρογόνου σε 3D.</p>
-                                <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
                             </div>
                         </a>
                         <a class="catalog-card catalog-card--lab" href="simulations/gravitational-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-1-title" aria-describedby="lab-1-description">
-                            <img class="lab-card-preview" src="assets/images/labs/gravitational-field.jpg" width="640" height="360" alt="" loading="lazy" decoding="async">
+                            <div class="lab-card-preview-frame">
+                                <img class="lab-card-preview lab-card-preview--gravitational-field" src="assets/images/labs/gravitational-field.jpg?v=canvas-screenshots" width="960" height="603" alt="" loading="lazy" decoding="async">
+                            </div>
                             <div class="lab-card-body">
                                 <h3 id="lab-1-title">Το Βαρυτικό Πεδίο</h3>
                                 <p id="lab-1-description">Δες πώς οι μάζες έλκονται μεταξύ τους.</p>
-                                <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
                             </div>
                         </a>
                         <a class="catalog-card catalog-card--lab" href="simulations/electric-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-2-title" aria-describedby="lab-2-description">
-                            <img class="lab-card-preview" src="assets/images/labs/electric-field.jpg?v=dipole-lab-snapshot" width="640" height="360" alt="" loading="lazy" decoding="async">
+                            <div class="lab-card-preview-frame">
+                                <img class="lab-card-preview lab-card-preview--electric-field" src="assets/images/labs/electric-field.jpg?v=canvas-screenshots" width="960" height="603" alt="" loading="lazy" decoding="async">
+                            </div>
                             <div class="lab-card-body">
                                 <h3 id="lab-2-title">Το Ηλεκτρικό Πεδίο</h3>
                                 <p id="lab-2-description">Τοποθέτησε φορτία και δες πώς αλλάζει το πεδίο.</p>
-                                <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
                             </div>
                         </a>
                         <a class="catalog-card catalog-card--lab" href="simulations/electromagnetic-field/index.html" target="_blank" rel="noopener" aria-labelledby="lab-3-title" aria-describedby="lab-3-description">
-                            <img class="lab-card-preview" src="assets/images/labs/electromagnetic-field.jpg" width="800" height="450" alt="" loading="lazy" decoding="async">
+                            <div class="lab-card-preview-frame">
+                                <img class="lab-card-preview lab-card-preview--electromagnetic-field" src="assets/images/labs/electromagnetic-field.jpg?v=canvas-screenshots" width="960" height="603" alt="" loading="lazy" decoding="async">
+                            </div>
                             <div class="lab-card-body">
                                 <h3 id="lab-3-title">Το Ηλεκτρομαγνητικό Πεδίο</h3>
                                 <p id="lab-3-description">Δες πώς ένα κινούμενο φορτίο εκπέμπει ακτινοβολία.</p>
-                                <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Δοκίμασέ το</span> <svg class="action-arrow action-arrow--external" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
                             </div>
                         </a>
                     </div>
@@ -132,37 +136,37 @@
                         <a class="home-text-link" href="articles/index.html" aria-label="Δες τα όλα (Κείμενα)">Δες τα όλα</a>
                     </div>
                     <div class="catalog-grid">
-                        <a class="catalog-card" href="lessons/physics/me-ti-moiazei-telika-ena-atomo.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description">
+                        <a class="catalog-card" href="lessons/physics/me-ti-moiazei-telika-ena-atomo.html" aria-labelledby="lesson-4-title" aria-describedby="lesson-4-description lesson-4-reading-time">
                             <h3 id="lesson-4-title">
                                 <span class="catalog-icon catalog-icon--atom"><img src="assets/icons/hydrogen-orbitals.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Με τι μοιάζει τελικά ένα άτομο;
                             </h3>
                             <p id="lesson-4-description">Ανακάλυψε γιατί το πλανητικό μοντέλο είναι λανθασμένο.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                            <span class="catalog-card-reading-time" id="lesson-4-reading-time">17 λεπτά ανάγνωσης</span>
                         </a>
-                        <a class="catalog-card" href="lessons/physics/giati-i-selini-menei-se-trochia.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description">
+                        <a class="catalog-card" href="lessons/physics/giati-i-selini-menei-se-trochia.html" aria-labelledby="lesson-1-title" aria-describedby="lesson-1-description lesson-1-reading-time">
                             <h3 id="lesson-1-title">
                                 <span class="catalog-icon catalog-icon--planet"><img src="assets/icons/gravity.svg?v=lesson-diagrams-2" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Γιατί η Σελήνη μένει σε τροχιά;
                             </h3>
                             <p id="lesson-1-description">Ανακάλυψε πώς η βαρύτητα και η ταχύτητα κρατούν τη Σελήνη σε τροχιά.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                            <span class="catalog-card-reading-time" id="lesson-1-reading-time">7 λεπτά ανάγνωσης</span>
                         </a>
-                        <a class="catalog-card" href="lessons/physics/pos-droun-oi-ilektrostatikes-dynameis.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description">
+                        <a class="catalog-card" href="lessons/physics/pos-droun-oi-ilektrostatikes-dynameis.html" aria-labelledby="lesson-2-title" aria-describedby="lesson-2-description lesson-2-reading-time">
                             <h3 id="lesson-2-title">
                                 <span class="catalog-icon catalog-icon--lightning"><img src="assets/icons/electric-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Πώς δρουν οι ηλεκτροστατικές δυνάμεις;
                             </h3>
                             <p id="lesson-2-description">Ανακάλυψε γιατί τίποτα τελικά δεν αλληλεπιδρά από απόσταση.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                            <span class="catalog-card-reading-time" id="lesson-2-reading-time">4 λεπτά ανάγνωσης</span>
                         </a>
-                        <a class="catalog-card" href="lessons/physics/ti-einai-i-aktinovolia.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description">
+                        <a class="catalog-card" href="lessons/physics/ti-einai-i-aktinovolia.html" aria-labelledby="lesson-3-title" aria-describedby="lesson-3-description lesson-3-reading-time">
                             <h3 id="lesson-3-title">
                                 <span class="catalog-icon catalog-icon--radiation"><img src="assets/icons/electromagnetic-field.svg?v=lesson-symbols-3" width="48" height="48" alt="" aria-hidden="true"></span>
                                 Τι είναι η ακτινοβολία;
                             </h3>
                             <p id="lesson-3-description">Μάθε για τις επιπτώσεις του ορίου ταχύτητας διάδοσης της πληροφορίας στο σύμπαν.</p>
-                            <span class="catalog-card-action" aria-hidden="true"><span class="catalog-action-label">Διάβασε περισσότερα</span> <svg class="action-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></span>
+                            <span class="catalog-card-reading-time" id="lesson-3-reading-time">4 λεπτά ανάγνωσης</span>
                         </a>
                     </div>
                 </section>
@@ -194,19 +198,6 @@
                         <img class="scientist-portrait" src="assets/images/heisenberg.jpg" width="76" height="76" alt="">
                         <div class="scientist-credit"><strong>Βέρνερ Χάιζενμπεργκ</strong><span>1958 · Φυσική και φιλοσοφία</span>
                             <!-- Photo: AIP Emilio Segrè Visual Archives, Segrè Collection — https://commons.wikimedia.org/wiki/File:Portrait_of_Werner_Heisenberg.jpg -->
-                        </div>
-                    </figcaption>
-                    </figure>
-                    <figure class="home-excerpt" hidden>
-                    <blockquote cite="https://www.oxfordreference.com/display/10.1093/acref/9780191826719.001.0001/q-oro-ed4-00003988">
-                        <span class="home-quote-mark" aria-hidden="true">“</span>
-                        <p>Δύσκολα μπορεί κανείς να αρνηθεί ότι ο υπέρτατος στόχος κάθε θεωρίας είναι να κάνει τα θεμελιώδη στοιχεία της, που δεν επιδέχονται περαιτέρω αναγωγή, όσο το δυνατόν απλούστερα και λιγότερα, χωρίς να θυσιάζει την επαρκή περιγραφή ούτε ενός δεδομένου της εμπειρίας.</p>
-                        <span class="home-quote-mark home-quote-mark--closing" aria-hidden="true">“</span>
-                    </blockquote>
-                    <figcaption>
-                        <img class="scientist-portrait" src="assets/images/einstein-tongue.jpg" width="76" height="76" alt="">
-                        <div class="scientist-credit"><strong>Άλμπερτ Αϊνστάιν</strong><span>1933 · Για τη μέθοδο της θεωρητικής φυσικής</span>
-                            <!-- Photo: Arthur Sasse / International News Service — https://commons.wikimedia.org/wiki/File:Albert_Einstein_sticks_his_tongue_2.jpg -->
                         </div>
                     </figcaption>
                     </figure>
@@ -244,7 +235,6 @@
                     <div class="quote-pagination" aria-hidden="true">
                         <span aria-label="Ρίτσαρντ Φάινμαν" aria-current="true"></span>
                         <span aria-label="Βέρνερ Χάιζενμπεργκ"></span>
-                        <span aria-label="Άλμπερτ Αϊνστάιν"></span>
                         <span aria-label="Ισαάκ Νεύτων"></span>
                         <span aria-label="Πολ Ντιράκ"></span>
                     </div>

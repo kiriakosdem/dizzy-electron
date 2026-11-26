@@ -64,11 +64,14 @@
 }
 
 .language-options button[aria-pressed="true"] {
+    --hover-color: var(--language-accent, var(--page-link-hover, var(--color-logo-orange)));
     background: var(--language-selected, var(--band));
+    color: var(--hover-color);
     font-weight: 700;
 }
 
 .language-options .language-code { color: var(--language-muted, var(--muted-ink)); }
+.language-options button[aria-pressed="true"] .language-code { color: inherit; }
 
 @media (hover: hover) {
     .language-options button:hover { background: var(--language-selected, var(--band)); }
