@@ -67,6 +67,19 @@
 
 .panel-section > :last-child { margin-bottom: 0; }
 
+.panel-section > .panel-group:not([hidden]) ~ .panel-group:not([hidden]) {
+    margin-block-start: var(--lab-frame-inset);
+}
+.display-section > .panel-group:not([hidden]) ~ .panel-group:not([hidden]) {
+    padding-block-start: var(--lab-frame-inset);
+    border-block-start: 1px solid var(--lab-panel-edge);
+}
+.panel-group > :is(h3, .control-label):first-child { margin-block-start: 0; }
+.panel-group :is(.toggle-row, .control-label) > :is(span, label):first-child {
+    min-inline-size: 0;
+    overflow-wrap: break-word;
+}
+
 .panel-section > summary {
     display: flex;
     align-items: center;
@@ -110,10 +123,16 @@
     width: 18px;
     height: 18px;
     fill: none;
-    stroke: var(--lab-accent);
+    stroke: #fff;
     stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+
+:root[data-theme="light"] :is(.panel-section > summary h2, .drawer-heading h2) > svg {
+    padding: 2px;
+    border-radius: 4px;
+    background: var(--text-primary);
 }
 
 /* Section titles, group captions, control labels, then secondary readouts. */
@@ -124,7 +143,13 @@
     line-height: 1.35;
 }
 .panel h3 { margin: var(--group-gap) 0 var(--caption-gap); }
-.panel h3:has(+ .panel-options) { font-size: var(--control-text); }
+.panel h3:has(+ .radio-options) { font-size: var(--control-text); }
+.radio-options {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+    margin-block: var(--caption-gap);
+}
 .panel legend { margin: 0 0 var(--caption-gap); padding: 0; }
 :is(.panel, .source-strength-popover) :is(.icon-label, .toggle-label, h3) {
     display: inline-flex;
@@ -192,7 +217,7 @@
 :is(.panel, .source-strength-popover) .range-scale { font-size: 11px; }
 .panel .muted:last-child { margin-bottom: 0; }
 
-.panel :is(.action-button, .panel-button, .display-mode label, select) {
+.panel :is(.action-button, .radio-options > label, select) {
     min-height: var(--row-height);
     font-size: var(--control-text);
 }
@@ -201,7 +226,7 @@
     background-color: var(--lab-sidebar-background);
     border-color: var(--lab-button-edge);
 }
-#controlsPanel :is(.action-button, .panel-button, .display-mode label) {
+#controlsPanel :is(.action-button, .radio-options > label) {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -217,23 +242,40 @@
     line-height: 1.2;
     overflow-wrap: anywhere;
 }
-#controlsPanel .display-mode label {
+#controlsPanel .radio-options > label {
     display: flex;
     justify-content: flex-start;
     padding-inline: 8px;
+    cursor: pointer;
 }
-#controlsPanel .display-mode input { accent-color: var(--lab-accent); }
-#controlsPanel .display-mode label + label { margin-top: 4px; }
-#controlsPanel :is(.action-button, .panel-button, .display-mode label):hover:not(:disabled):where(:not([aria-pressed="true"], :has(input:checked))) {
+#controlsPanel .radio-options > label:has(input:disabled) {
+    opacity: .45;
+    cursor: default;
+}
+.radio-options input {
+    flex: none;
+    margin: 0;
+    accent-color: var(--lab-accent);
+}
+#controlsPanel :is(.action-button, .radio-options > label):hover:where(:not(:disabled, [aria-pressed="true"], :has(input:is(:checked, :disabled)))) {
     background: var(--lab-glass-button-hover);
 }
-#controlsPanel :is(.action-button, .panel-button, .display-mode label):is([aria-pressed="true"], :has(input:checked)) {
+#controlsPanel :is(.action-button, .radio-options > label):is([aria-pressed="true"], :has(input:checked)) {
     background: var(--lab-button-selected);
     box-shadow: none;
     color: var(--text-primary);
 }
-#controlsPanel .density-options input:is(:hover, :checked) { background: transparent; }
-.panel .preset-grid { grid-auto-rows: var(--row-height); }
+.button-list { display: flex; flex-wrap: wrap; gap: 6px; }
+#controlsPanel .button-list > .action-button {
+    min-inline-size: min(100%, var(--row-height));
+    max-inline-size: 100%;
+    padding-inline: 10px;
+}
+#controlsPanel .example-buttons > .action-button {
+    flex: 0 1 auto;
+    overflow-wrap: normal;
+}
+#controlsPanel .example-buttons > .preset-button { white-space: nowrap; }
 .panel .coordinate-fields { margin-top: 0; }
 .panel .coordinate-field {
     display: grid;
@@ -313,12 +355,12 @@
 }
 
 @media (max-width: 560px) {
-    :where(:root[data-lab-embedded]) #controlsPanel :is(.preset-grid, .coordinate-fields) {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
-    :where(:root[data-lab-embedded]) #controlsPanel :is(.action-button, .segment-label) {
+    :where(:root[data-lab-embedded]) #controlsPanel .action-button {
         white-space: normal;
         overflow-wrap: anywhere;
+    }
+    :where(:root[data-lab-embedded]) #controlsPanel .example-buttons > .danger-button {
+        padding-inline: 6px;
     }
 }
 

@@ -380,38 +380,3 @@
 
 /* The compact fullscreen lab keeps its usual exit control alongside the lesson bar. */
 :root[data-lesson-fullscreen][data-lab-embedded] #fullscreenButton { display: none; }
-
-/* Segments share one track, with only the selected tile raised. */
-#lab .panel-options {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2px;
-    min-height: var(--row-height);
-    padding: 3px;
-    border: 1px solid var(--lab-button-edge);
-    border-radius: 9px;
-    background: var(--lab-sidebar-background);
-}
-
-#lab .panel-options > .panel-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-    min-height: 0;
-    padding: 4px 5px;
-    border: 0;
-    border-radius: 6px;
-    background: transparent;
-    box-shadow: none;
-    color: var(--text-secondary);
-    font-size: var(--segment-size, var(--control-text, 13px));
-    white-space: nowrap;
-    text-align: center;
-}
-
-#lab .panel-options > .panel-button:hover:not(:disabled):where(:not([aria-pressed="true"], :has(input:checked))) {
-    background: var(--lab-glass-button-hover);
-}
-.segment-label { flex: none; }
-.segment-wrap .segment-label { flex: 0 1 auto; min-width: 0; white-space: normal; overflow-wrap: anywhere; }

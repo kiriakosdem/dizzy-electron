@@ -25,6 +25,7 @@ const greekLabCopy = new Map([
     ["Field arrows", "Βέλη πεδίου"],
     ["Toggle electric field arrows", "Εμφάνιση ή απόκρυψη των βελών του ηλεκτρικού πεδίου"],
     ["Point grid", "Πλέγμα σημείων"],
+    ["Grid lines", "Γραμμές πλέγματος"],
     ["Toggle electric field strength", "Εμφάνιση ή απόκρυψη της έντασης του ηλεκτρικού πεδίου"],
     ["Field lines", "Δυναμικές γραμμές"],
     ["Toggle field lines", "Εμφάνιση ή απόκρυψη των δυναμικών γραμμών"],

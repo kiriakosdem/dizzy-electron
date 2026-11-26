@@ -8,19 +8,19 @@
 <meta name="description" content="An interactive, offline electromagnetic field laboratory with retarded Liénard–Wiechert fields, a moving point charge, and a movable field probe.">
 <title>Electromagnetic Field Laboratory</title>
 <link rel="stylesheet" href="lab.css?v=desktop-embed">
-<link rel="stylesheet" href="sidebar.css?v=aligned-dropdowns">
+<link rel="stylesheet" href="sidebar.css?v=radio-options">
     <link rel="stylesheet" href="../../assets/css/lab-zoom.css?v=shared-hud-type">
     <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=aligned-canvas-controls">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=edge-aligned-shadows">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=radio-options">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=compact-dock-width">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=accessible-interactions">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=example-lesson-math">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=controls-label">
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=opaque-light-overlays">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=radio-options">
     <script src="../../assets/js/lab-canvas.js?v=precise-clock"></script>
     <script src="../../assets/js/lab-scale.js?v=inline-animation-speed"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -117,12 +117,12 @@
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10h2c2 0 2-5 4-5s2 10 4 10 2-5 4-5h2"/></svg>
           Source motion
         </h2></summary>
-        <div class="panel-options" role="group" aria-labelledby="motionHeading">
-          <button type="button" class="panel-button" data-motion="manual" aria-pressed="true"><span class="segment-label">Mouse</span></button>
-          <button type="button" class="panel-button" data-motion="continuous" aria-pressed="false"><span class="segment-label">Wave</span></button>
-          <button type="button" class="panel-button" data-motion="pulse" aria-pressed="false"><span class="segment-label">Pulse</span></button>
+        <div class="panel-group radio-options" role="radiogroup" aria-labelledby="motionHeading">
+          <label><input type="radio" name="sourceMotion" value="manual" checked>Mouse</label>
+          <label><input type="radio" name="sourceMotion" value="continuous">Wave</label>
+          <label><input type="radio" name="sourceMotion" value="pulse">Pulse</label>
         </div>
-        <div id="automaticControls" hidden>
+        <div class="panel-group" id="automaticControls" hidden>
           <label class="control-label" for="amplitude"><span class="icon-label">Amplitude</span> <output id="amplitudeValue" for="amplitude">0.210 m</output></label>
           <input id="amplitude" type="range" min="0" max="1.5" step="0.02" value="0.70">
           <div class="range-scale" aria-hidden="true"><span>0 m</span><span>0.450 m</span></div>
@@ -133,35 +133,44 @@
             <div><dt>Peak speed</dt><dd id="peakSpeed">131,856 km/s</dd></div>
             <div><dt id="wavelengthLabel">Wavelength</dt><dd id="wavelength">3.00 m</dd></div>
           </dl>
-          <button type="button" class="panel-button" id="pulseButton" hidden>Emit another pulse</button>
+          <button type="button" class="action-button" id="pulseButton" hidden>Emit another pulse</button>
         </div>
       </details>
-      <details class="panel-section">
+      <details class="panel-section display-section">
         <summary><h2>
           <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
           Display
         </h2></summary>
-        <div class="toggle-row"><span id="lab-theme-label">Dark theme</span><button type="button" role="switch" aria-checked="true" aria-labelledby="lab-theme-label" data-lab-theme></button></div>
-        <label class="toggle-row"><span class="icon-label">Point grid</span> <input type="checkbox" role="switch" id="showSamplePoints"></label>
-        <h3 id="densityHeading">Point density</h3>
-        <div id="density" class="panel-options density-options" role="radiogroup" aria-labelledby="densityHeading">
-          <label class="panel-button"><input type="radio" name="density" value="50"><span class="segment-label">Sparse</span></label>
-          <label class="panel-button"><input type="radio" name="density" value="38" checked><span class="segment-label">Balanced</span></label>
-          <label class="panel-button"><input type="radio" name="density" value="29"><span class="segment-label">Dense</span></label>
+        <div class="panel-group">
+          <div class="toggle-row"><span id="lab-theme-label">Dark theme</span><button type="button" role="switch" aria-checked="true" aria-labelledby="lab-theme-label" data-lab-theme></button></div>
         </div>
-        <h3 id="fieldHeading">Field component</h3>
-        <div class="panel-options" role="group" aria-labelledby="fieldHeading">
-          <button type="button" class="panel-button" data-mode="total" aria-pressed="true"><span class="segment-label">Total</span></button>
-          <button type="button" class="panel-button" data-mode="velocity" aria-pressed="false"><span class="segment-label">Velocity</span></button>
-          <button type="button" class="panel-button" data-mode="radiation" aria-pressed="false"><span class="segment-label">Radiation</span></button>
+        <div class="panel-group">
+          <label class="toggle-row"><span class="icon-label">Point grid</span> <input type="checkbox" role="switch" id="showSamplePoints"></label>
+          <label class="toggle-row"><span class="icon-label">Grid lines</span> <input type="checkbox" role="switch" id="showGridLines" checked></label>
+          <h3 id="densityHeading">Point density</h3>
+          <div id="density" class="radio-options" role="radiogroup" aria-labelledby="densityHeading">
+            <label><input type="radio" name="density" value="50">Sparse</label>
+            <label><input type="radio" name="density" value="38" checked>Balanced</label>
+            <label><input type="radio" name="density" value="29">Dense</label>
+          </div>
         </div>
-        <label class="toggle-row"><span class="icon-label">Electric field</span> <input type="checkbox" role="switch" id="showElectric" checked></label>
-        <label class="toggle-row"><span class="icon-label">Magnetic field</span> <input type="checkbox" role="switch" id="showMagnetic" checked></label>
-        <label class="control-label" for="gain"><span class="icon-label">Field visibility</span> <output id="gainValue" for="gain">1.5×</output></label>
-        <input id="gain" type="range" min="0.25" max="4" step="0.05" value="1.5">
-        <div class="range-scale" aria-hidden="true"><span>0.25</span><span>4</span></div>
-        <label class="toggle-row"><span class="icon-label">Propagation guides</span> <input type="checkbox" role="switch" id="showGuides" checked></label>
-        <label class="toggle-row"><span class="icon-label">Retarded source ray</span> <input type="checkbox" role="switch" id="showRay" checked></label>
+        <div class="panel-group">
+          <h3 id="fieldHeading">Field component</h3>
+          <div class="radio-options" role="radiogroup" aria-labelledby="fieldHeading">
+            <label><input type="radio" name="fieldMode" value="total" checked>Total</label>
+            <label><input type="radio" name="fieldMode" value="velocity">Velocity</label>
+            <label><input type="radio" name="fieldMode" value="radiation">Radiation</label>
+          </div>
+          <label class="toggle-row"><span class="icon-label">Electric field</span> <input type="checkbox" role="switch" id="showElectric" checked></label>
+          <label class="toggle-row"><span class="icon-label">Magnetic field</span> <input type="checkbox" role="switch" id="showMagnetic" checked></label>
+          <label class="control-label" for="gain"><span class="icon-label">Field visibility</span> <output id="gainValue" for="gain">1.5×</output></label>
+          <input id="gain" type="range" min="0.25" max="4" step="0.05" value="1.5">
+          <div class="range-scale" aria-hidden="true"><span>0.25</span><span>4</span></div>
+        </div>
+        <div class="panel-group">
+          <label class="toggle-row"><span class="icon-label">Propagation guides</span> <input type="checkbox" role="switch" id="showGuides" checked></label>
+          <label class="toggle-row"><span class="icon-label">Retarded source ray</span> <input type="checkbox" role="switch" id="showRay" checked></label>
+        </div>
       </details>
     </aside>
 </main>
@@ -207,7 +216,7 @@
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=inline-math"></script>
+    <script src="../../assets/js/lab-greek.js?v=grid-controls"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
     <script src="../../assets/js/lab-toggle.js?v=edge-aligned-shadows"></script>
 <script id="physics-engine">
@@ -428,9 +437,11 @@ const ChargeFieldPhysics = (() => {
     return time.toFixed(digits) + " " + unit;
   }
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fieldModes = document.querySelectorAll('input[name="fieldMode"]');
+  const sourceMotions = document.querySelectorAll('input[name="sourceMotion"]');
   const state = { time: 0, playing: false, waveRate: 1, mode: "total", motion: "manual",
     amplitude: .70, frequency: .10, gain: 1.5, density: 38,
-    showElectric: true, showSamplePoints: false, showMagnetic: true, showGuides: true, showRay: true,
+    showElectric: true, showSamplePoints: false, showGridLines: true, showMagnetic: true, showGuides: true, showRay: true,
     placed: false, tool: "charge", manualRate: 24,
     anchorX: 0, anchorY: 0, zoom: 1, cameraX: 0, cameraY: 0, probeX: 13.5, probeY: 3.1 };
   let W = 0, H = 0, dpr = 1, baseScale = 1, dirty = true, lastFrame = 0, lastClockUpdate = 0;
@@ -529,15 +540,14 @@ const ChargeFieldPhysics = (() => {
   function setMode(mode) {
     if (!["total", "velocity", "radiation"].includes(mode)) return;
     state.mode = mode;
-    document.querySelectorAll("[data-mode]").forEach(b => { b.classList.toggle("active", b.dataset.mode === mode); b.setAttribute("aria-pressed", String(b.dataset.mode === mode)); });
+    fieldModes.forEach(input => { input.checked = input.value === mode; });
     dirty = true;
   }
   function updateSourceControls() {
     const manual = state.motion === "manual";
-    document.querySelectorAll("[data-motion]").forEach(b => {
-      b.classList.toggle("active", b.dataset.motion === state.motion);
-      b.setAttribute("aria-pressed", String(b.dataset.motion === state.motion));
-      b.disabled = !state.placed && b.dataset.motion !== "manual";
+    sourceMotions.forEach(input => {
+      input.checked = input.value === state.motion;
+      input.disabled = !state.placed && input.value !== "manual";
     });
     $('automaticControls').hidden = manual;
     $("amplitude").value = state.amplitude; $("frequency").value = state.frequency;
@@ -670,7 +680,7 @@ const ChargeFieldPhysics = (() => {
   }
   function drawBackground() {
     paintLabBackdrop(ctx, W, H);
-    drawGrid();
+    if (state.showGridLines) drawGrid();
   }
   function visibleRadius() {
     const q = sourceNow() || { x: 0, y: 0 };
@@ -906,8 +916,8 @@ const ChargeFieldPhysics = (() => {
     else state.waveRate = rate;
     updatePlaybackSpeed();
   });
-  document.querySelectorAll("[data-mode]").forEach(b => b.addEventListener("click", () => setMode(b.dataset.mode)));
-  document.querySelectorAll("[data-motion]").forEach(b => b.addEventListener("click", () => setMotion(b.dataset.motion)));
+  fieldModes.forEach(input => input.addEventListener("change", () => setMode(input.value)));
+  sourceMotions.forEach(input => input.addEventListener("change", () => setMotion(input.value)));
   $("pulseButton").addEventListener("click", () => { restart(true); toast("Pulse restarted."); });
   for (const id of ["amplitude", "frequency"]) {
     $(id).addEventListener("input", e => {
@@ -917,6 +927,7 @@ const ChargeFieldPhysics = (() => {
     });
   }
   $("gain").addEventListener("input", e => { state.gain = Number(e.target.value); $("gainValue").textContent = state.gain.toFixed(1) + "×"; paintRange(e.target); dirty = true; });
+  $("showGridLines").addEventListener("change", e => { state.showGridLines = e.target.checked; dirty = true; });
   for (const id of ["showElectric", "showSamplePoints", "showMagnetic", "showGuides", "showRay"]) {
     $(id).addEventListener("change", e => {
       state[id] = e.target.checked;
@@ -1066,6 +1077,7 @@ const ChargeFieldPhysics = (() => {
   document.fonts?.addEventListener("loadingdone", () => { dirty = true; });
   const observer = new ResizeObserver(resize); observer.observe(stage);
   document.querySelectorAll("input[type=range]").forEach(paintRange);
+  setMode(state.mode);
   placeCharge(0, 0);
   // The article asks learners to move a stationary charge by hand.
   if (window.parent === window) setMotion("continuous");
@@ -1099,7 +1111,6 @@ const ChargeFieldPhysics = (() => {
 })();
 
 </script>
-<script src="../../assets/js/lab-segments.js"></script>
 <script src="../../assets/js/lab-physics.js"></script>
 </body>
 </html>

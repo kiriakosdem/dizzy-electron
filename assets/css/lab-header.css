@@ -88,11 +88,19 @@
 .lab-header .lab-help-icon { display: none; width: 20px; height: 20px; }
 
 .lab-header #controlsToggle {
-    width: var(--lab-header-control-size);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: auto;
     height: var(--lab-header-control-size);
     min-height: var(--lab-header-control-size);
+    padding-inline: 8px;
     color: var(--lab-header-ink, var(--text-primary));
+    font: 650 12px/1 var(--lab-ui-font);
+    white-space: nowrap;
 }
+.lab-header .drawer-toggle-label { display: inline; }
 
 @media (hover: hover) {
     .lab-language .language-toggle:hover { color: var(--language-accent); }

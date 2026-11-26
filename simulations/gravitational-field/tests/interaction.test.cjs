@@ -51,8 +51,15 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
    releasePointerCapture(id){capture.delete(id);this.emit('lostpointercapture',{pointerId:id});}
   };
  }
- const context=new Proxy({}, {get:(_,key)=>key==='createRadialGradient'||key==='createLinearGradient'?()=>({addColorStop(){}}):()=>{}});
+ let now=0;
+ const drawnMoons=[];
+ const context=new Proxy({}, {get:(_,key)=>{
+  if(key==='createRadialGradient'||key==='createLinearGradient')return ()=>({addColorStop(){}});
+  if(key==='drawImage')return (sprite,x,y,width)=>{if(sprite.id==='sourceMoon'||sprite.id==='testMoon')drawnMoons.push({id:sprite.id,width});};
+  return ()=>{};
+ }});
  function $(id){assert.ok(pageIds.has(id)||id==='zoom','Unknown DOM id: '+id);if(!elements.has(id))elements.set(id,element(id));return elements.get(id);}
+ for(const id of ['sourceMoon','testMoon'])Object.assign($(id),{complete:true,naturalWidth:256});
  function rect(id,left,y,w,h){$(id).rect={left,top:y,right:left+w,bottom:y+h,width:w,height:h};}
  rect('lab',0,top,width,height);rect('fieldCanvas',0,top,width,height);
  rect('controlsPanel',width-292,top,292,height);rect('controlsBackdrop',0,top,width,height);
@@ -68,9 +75,9 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
  ]);
  const document={hidden:false,addEventListener(){},getElementById:$,createElement:()=>element(),querySelector:selector=>selector==='.zoom'?$('zoom'):controlsLayout.get(selector)??null,querySelectorAll:()=>[],
   elementFromPoint(){throw Error('Drop validation must not depend on the preview being absent from hit testing');}};
- const sandbox={document,window:{matchMedia:()=>({matches:compact,addEventListener(){}}),devicePixelRatio:1,
+ const sandbox={document,window:{matchMedia:query=>({matches:!query.includes('prefers-reduced-motion')&&compact,addEventListener(){}}),devicePixelRatio:1,
   addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{constructor(callback){onCanvasResize=callback;}observe(){}},
-  performance:{now:()=>0},requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
+  performance:{now:()=>now},requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{}};
  // These interaction tests run the standalone lab, outside a lesson iframe.
  sandbox.window.parent=sandbox.window;
  if(random){sandbox.Math=Object.create(Math);sandbox.Math.random=random;}
@@ -78,7 +85,7 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-scale.js"), "utf8"), sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-canvas.js"), "utf8"), sandbox);
  vm.runInContext(fs.readFileSync(path.join(__dirname, "../../../assets/js/lab-toggle.js"), "utf8"), sandbox);
- vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({masses,selectedId,activeDrag,sourceDrag,camera,testMass:selectedTest()||null,testMasses,selectedTestId,placing,simulationPaused}),seedSources:sources=>{masses=sources.map((c,i)=>createSourceMass({id:i+1,...c}));nextId=masses.length+1;selectedId=masses[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestMass,advanceSimulation,sourceAccelerations,segmentContact,buildFieldLines,fieldAt,potentialAt,potentialColor,fieldLineSample,fieldLineFlow,advanceFieldLine,simulationSpeed:()=>simulationSpeed,setFixtureSpeed:()=>{simulationSpeed=100000;}};})();`),sandbox);
+ vm.runInContext(script.replace(/\}\)\(\);\s*$/,`globalThis.labTest={state:()=>({masses,selectedId,activeDrag,sourceDrag,camera,testMass:selectedTest()||null,testMasses,selectedTestId,placing,simulationPaused,collisionBursts}),seedSources:sources=>{masses=sources.map((c,i)=>createSourceMass({id:i+1,...c}));nextId=masses.length+1;selectedId=masses[0]?.id??null;testSelected=false;syncPanel();},toScreen,render,overWorkspace,testAcceleration,placeTestMass,advanceSimulation,sourceAccelerations,segmentContact,buildFieldLines,fieldAt,potentialAt,potentialColor,fieldLineSample,fieldLineFlow,advanceFieldLine,simulationSpeed:()=>simulationSpeed,setFixtureSpeed:()=>{simulationSpeed=100000;}};})();`),sandbox);
  const api=sandbox.labTest;
  // Run trajectory fixtures at a fixed rate independent of the startup preset.
  api.setFixtureSpeed();
@@ -88,7 +95,9 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
   if(!empty)api.seedSources([{x:-155,y:-15,mass:4.5},{x:155,y:-25,mass:4.5},{x:5,y:160,mass:2.6}]);
  }
  const point=c=>{const p=api.toScreen(c.x,c.y);return {clientX:p.x,clientY:p.y+top};};
- return {$,api,point,document,top,width,height,emitWindow,resizeCanvas:onCanvasResize,escape(){emitWindow('keydown',{key:'Escape'});}};
+ return {$,api,point,document,top,width,height,emitWindow,resizeCanvas:onCanvasResize,drawAt(time){
+  now=time;drawnMoons.length=0;api.render();return [...drawnMoons];
+ },escape(){emitWindow('keydown',{key:'Escape'});}};
 }
 
 // Gravitational physics, units, and the controls that differ from the electric lab.
@@ -251,7 +260,9 @@ test('individual masses, pause, resume, reset and individual deletion preserve s
 test('contact, world edges and background frames handle particles without tunneling or catch-up jumps',()=>{
  const {$,api,document}=singleSourceLab();api.placeTestMass(-100,0);const p=api.state().testMass;p.vx=1;
  api.advanceSimulation(1/240);assert.equal(api.state().testMass,null);assert.equal(p.trail.length,0);assert.equal($('lab').classList.contains('test-active'),true);
+ assert.equal(api.state().collisionBursts.length,1);closeTo(api.state().collisionBursts[0].x,-40,1e-9);
  api.seedSources([]);api.placeTestMass(1990,0);api.state().testMass.vx=1;api.advanceSimulation(1/240);assert.equal(api.state().testMass,null);
+ assert.equal(api.state().collisionBursts.length,1);
  api.placeTestMass(0,0);api.state().testMass.vx=.001;
  document.hidden=true;api.advanceSimulation(60);assert.equal(api.state().testMass.x,0);
  document.hidden=false;api.advanceSimulation(60);closeTo(api.state().testMass.x,10,1e-8);
@@ -265,6 +276,25 @@ test('mass sliders synchronize, enforce positive masses and only strengthen attr
   assert.equal($('strengthText').textContent,expected.toFixed(2));assert.equal($('canvasStrengthText').textContent,expected.toFixed(2));
   closeTo(api.fieldAt(100,0).x,-gravityAt100*expected);assert.ok(api.testAcceleration(100,0).x<0);
  }
+});
+
+test('source and test masses draw different moons that resize with their sliders',()=>{
+ const {$,api,drawAt}=openLab(false,{empty:true});
+ api.seedSources([{x:0,y:0,mass:.01}]);
+ const [smallSource]=drawAt(0);
+ $('canvasMassStrength').value='1';$('canvasMassStrength').emit('input');
+ const [largeSource]=drawAt(0);
+ assert.equal(smallSource.id,'sourceMoon');
+ assert.equal(largeSource.id,smallSource.id);
+ assert.ok(smallSource.width>0&&largeSource.width>smallSource.width*2);
+ api.placeTestMass(100,0);
+ $('massStrength').value='.01';$('massStrength').emit('input');
+ const [,smallTest]=drawAt(0);
+ $('massStrength').value='1';$('massStrength').emit('input');
+ const [,largeTest]=drawAt(0);
+ assert.equal(smallTest.id,'testMoon');
+ assert.equal(largeTest.id,smallTest.id);
+ assert.ok(smallTest.width>0&&largeTest.width>smallTest.width*2&&largeTest.width<largeSource.width);
 });
 
 test('presets use positive masses, cancellation at a pair midpoint, and evenly spaced rows',()=>{
@@ -423,6 +453,31 @@ test('source mergers conserve mass and momentum and reset restores the unmerged 
  $('pauseTest').emit('click');advanceSeconds(api,.1);assert.ok(api.state().masses[0].x>-100);
 });
 
+test('source mergers use the bodies’ radii and create a burst that expires during pause',()=>{
+ const {$,api,drawAt}=openLab(false,{empty:true});
+ api.seedSources([{x:0,y:0,mass:.01},{x:32,y:0,mass:.01}]);
+ api.advanceSimulation(1/240);
+ assert.equal(api.state().masses.length,2);
+ assert.equal(api.state().collisionBursts.length,0);
+ $('massStrength').value='1';$('massStrength').emit('input');
+ const [before]=drawAt(0);
+ api.advanceSimulation(1/240);
+ assert.equal(api.state().masses.length,1);
+ const [burst]=api.state().collisionBursts;
+ assert.ok(burst.x>23&&burst.x<26);
+ closeTo(burst.y,0);
+ $('pauseTest').emit('click');
+ assert.ok(drawAt(200)[0].width>before.width);
+ assert.equal(api.state().collisionBursts.length,1);
+ drawAt(800);
+ assert.equal(api.state().collisionBursts.length,0);
+ $('resetTest').emit('click');
+ $('pauseTest').emit('click');api.advanceSimulation(1/240);
+ assert.equal(api.state().collisionBursts.length,1);
+ $('resetTest').emit('click');
+ assert.equal(api.state().collisionBursts.length,0);
+});
+
 test('mergers conserve mass above one Earth mass while keeping both sliders capped',()=>{
  const {$,api}=openLab(false,{empty:true});api.seedSources([{x:0,y:0,mass:1},{x:0,y:0,mass:1},{x:0,y:0,mass:1}]);
  api.advanceSimulation(1/240);const merged=api.state().masses[0];assert.equal(api.state().masses.length,1);assert.equal(merged.mass,3);
@@ -442,10 +497,11 @@ test('sidebar position edits move only the selected test mass and survive reset'
  const {$,api}=singleSourceLab();api.placeTestMass(200,0);const first=api.state().testMass;
  api.placeTestMass(300,0);const second=api.state().testMass;
  $('massX').value='0';$('massX').emit('change');assert.equal(second.x,300,'cannot move onto a source');
- $('massX').value='1.5';$('massX').emit('change');
- const x=1.5*metersPerAU/metersPerUnit;
+ $('massX').value='1.5';$('massX').emit('change');assert.equal(second.x,300,'cannot overlap the edge of a source');
+ $('massX').value='2.5';$('massX').emit('change');
+ const x=2.5*metersPerAU/metersPerUnit;
  closeTo(second.x,x,1e-12);assert.equal(first.x,200);
- $('resetTest').emit('click');closeTo(second.x,x,1e-12);assert.equal($('massX').value,'1.5');
+ $('resetTest').emit('click');closeTo(second.x,x,1e-12);assert.equal($('massX').value,'2.5');
 });
 
 test('pause, speed and reset work in a scene containing only source masses',()=>{

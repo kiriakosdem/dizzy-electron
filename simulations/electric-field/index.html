@@ -22,16 +22,11 @@ button:focus-visible,input:focus-visible{outline:2px solid #9acbff;outline-offse
 .eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:var(--text-accent);text-transform:uppercase}
 h1{font-size:23px;line-height:1.13;margin:11px 0 7px;font-weight:670;letter-spacing:-.9px}
 .divider{height:1px;background:rgba(159,190,237,.13);margin:18px 0}
-.preset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:var(--preset-height,36px);gap:6px}
-.preset-grid .action-button{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:100%;min-width:0;min-height:0;padding:4px 6px;color:var(--text-secondary);font-size:11px;line-height:1.2;white-space:normal}
-@media(pointer:coarse){.preset-grid{--preset-height:44px}}
-.preset-grid .danger-button{color:var(--text-destructive)}
-.preset-grid #clear{grid-column:1 / -1}
 button{font:inherit;cursor:pointer}
 .muted{font-size:11px;color:var(--text-muted);line-height:1.5}
 .control-label{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:10px 0 7px;color:var(--text-secondary);font-size:11px}
 .control-value{font-size:inherit;color:inherit;font-variant-numeric:tabular-nums;font-weight:400}
-.coordinate-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.coordinate-fields{display:grid;gap:8px}
 .coordinate-field{display:flex;align-items:center;gap:7px;min-width:0;padding:0 9px;border:1px solid #45658b;border-radius:8px;background:#08162b;color:var(--text-secondary);font-size:11px;font-weight:600;transition:border-color .15s,box-shadow .15s}
 .coordinate-field input{width:100%;min-width:0;min-height:40px;padding:8px 0;border:0;background:transparent;color:var(--text-secondary);font:inherit;font-size:12px;font-weight:500;font-variant-numeric:tabular-nums}
 #editBlock .coordinate-field{display:grid;grid-template-columns:auto minmax(0,1fr) auto;white-space:nowrap;padding:4px 6px}
@@ -40,7 +35,6 @@ button{font:inherit;cursor:pointer}
 #editBlock .coordinate-field input::-webkit-inner-spin-button{appearance:none}
 .coordinate-unit{flex-shrink:0;color:var(--text-muted);font-size:10px;font-weight:500}
 @media(pointer:coarse){.coordinate-field input{min-height:44px;font-size:16px}}
-.charge-controls{margin-top:0}
 #editBlock[hidden]{display:none}
 .trash-icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .action-button{flex:1;min-width:0;min-height:40px;padding:9px 6px;border:1px solid #45658b;border-radius:8px;background:#193453;color:var(--text-secondary);font-size:11px;font-weight:650;box-shadow:inset 0 1px 0 #ffffff0d;transition:background .15s,border-color .15s}
@@ -116,14 +110,14 @@ button:disabled{cursor:default;opacity:.45}
     <link rel="stylesheet" href="../../assets/css/lab-playback.css?v=aligned-canvas-controls">
     <link rel="stylesheet" href="../../assets/css/lab-select.css?v=aligned-dropdowns">
     <script src="../../assets/js/theme.js?v=dark-canvas" data-default-theme="dark"></script>
-    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=edge-aligned-shadows">
+    <link rel="stylesheet" href="../../assets/css/lab-sidebar.css?v=example-labels">
     <link rel="stylesheet" href="../../assets/css/lab-range.css?v=shared-strength-sliders">
     <link rel="stylesheet" href="../../assets/css/focus.css?v=coordinate-ring">
     <script src="../../assets/js/focus.js" defer></script>
-    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=example-lesson-math">
+    <link rel="stylesheet" href="../../assets/css/lab-header.css?v=controls-label">
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
-    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=opaque-light-overlays">
+    <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=radio-options">
     <script src="../../assets/js/lab-canvas.js?v=precise-clock"></script>
     <script src="../../assets/js/lab-scale.js?v=inline-animation-speed"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
@@ -214,7 +208,7 @@ button:disabled{cursor:default;opacity:.45}
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M7.5 7.3a2.5 2.5 0 1 1 3.9 2c-1 .6-1.4 1.2-1.4 2.2m0 2.8h.01"/></svg>
         Examples
       </h2></summary>
-      <div class="preset-grid" role="group" aria-label="Load a charge configuration">
+      <div class="button-list example-buttons">
         <button class="action-button preset-button" id="presetSingle" type="button" title="One positive charge. Starts a fresh scene.">Single</button>
         <button class="action-button preset-button" id="presetDipole" type="button" title="Equal positive and negative charges. Starts a fresh scene.">Dipole</button>
         <button class="action-button preset-button" id="presetRow" type="button" title="Five evenly spaced positive charges. Starts a fresh scene.">Row</button>
@@ -231,35 +225,46 @@ button:disabled{cursor:default;opacity:.45}
       <input type="range" id="simulationSpeed" min="0.25" max="2" step="0.05" value="1" aria-label="Animation speed">
       <div class="range-scale" aria-hidden="true"><span id="simulationSpeedMin">250 µs</span><span id="simulationSpeedMax">2 ms</span></div>
     </details>
-    <details class="panel-section" id="visualizationSettings" aria-label="Display settings">
-    <summary><h2>
-      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
-      Display
-    </h2></summary>
-    <div class="toggle-row"><span id="lab-theme-label">Dark theme</span><button type="button" role="switch" aria-checked="true" aria-labelledby="lab-theme-label" data-lab-theme></button></div>
-    <div class="toggle-row"><span class="toggle-label">Point grid</span><button id="samplePointsToggle" class="switch" role="switch" aria-checked="false" aria-label="Point grid"></button></div>
-    <div class="toggle-row"><span class="toggle-label">Field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric field arrows"></button></div>
-    <div class="toggle-row"><span class="toggle-label">Field strength</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric field strength"></button></div>
-    <div class="toggle-row"><span class="toggle-label">Field lines</span><button id="fieldLinesToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle field lines"></button></div>
-    <div class="toggle-row"><span class="toggle-label">Electric potential</span><button id="potentialToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric potential heatmap" title="Potential V = k Σ(q/r), relative to zero at infinity. Orange is positive; blue is negative."></button></div>
-    <div class="control-label slider-label"><span class="toggle-label">Display sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
-    <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field and potential color sensitivity"/>
-    <div class="range-scale" aria-hidden="true"><span>0.3</span><span>4</span></div>
-  </details>
+    <details class="panel-section display-section" id="visualizationSettings" aria-label="Display settings">
+      <summary><h2>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6Z"/><circle cx="10" cy="10" r="2.5"/></svg>
+        Display
+      </h2></summary>
+      <div class="panel-group">
+        <div class="toggle-row"><span id="lab-theme-label">Dark theme</span><button type="button" role="switch" aria-checked="true" aria-labelledby="lab-theme-label" data-lab-theme></button></div>
+      </div>
+      <div class="panel-group">
+        <div class="toggle-row"><span class="toggle-label">Point grid</span><button id="samplePointsToggle" class="switch" role="switch" aria-checked="false" aria-label="Point grid"></button></div>
+        <label class="toggle-row"><span class="toggle-label">Grid lines</span> <input type="checkbox" role="switch" id="showGridLines" checked></label>
+      </div>
+      <div class="panel-group">
+        <div class="toggle-row"><span class="toggle-label">Field arrows</span><button id="fieldArrowsToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric field arrows"></button></div>
+        <div class="toggle-row"><span class="toggle-label">Field lines</span><button id="fieldLinesToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle field lines"></button></div>
+      </div>
+      <div class="panel-group">
+        <div class="toggle-row"><span class="toggle-label">Field strength</span><button id="heatmapToggle" class="switch" role="switch" aria-checked="false" aria-label="Toggle electric field strength"></button></div>
+        <div class="toggle-row"><span class="toggle-label">Electric potential</span><button id="potentialToggle" class="switch on" role="switch" aria-checked="true" aria-label="Toggle electric potential heatmap" title="Potential V = k Σ(q/r), relative to zero at infinity. Orange is positive; blue is negative."></button></div>
+        <div class="control-label slider-label"><span class="toggle-label">Display sensitivity</span><span class="control-value" id="sensitivityText">1.0×</span></div>
+        <input type="range" id="sensitivity" min="0.3" max="4" step="0.1" value="1" aria-label="Field and potential color sensitivity"/>
+        <div class="range-scale" aria-hidden="true"><span>0.3</span><span>4</span></div>
+      </div>
+    </details>
     <details open class="panel-section" id="testBlock" aria-label="Test charge" aria-describedby="testModelHint" hidden>
       <summary><h2>
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="6" cy="14" r="4"/><path d="M4.5 14h3M6 12.5v3m3-6 8-8m-5 0h5v5"/></svg>
         Test charges
       </h2></summary>
       <p class="sr-only" id="testModelHint">F = qE · a = F/m. Starts at rest; source charges stay fixed. One grid unit is 1 cm. At 1× playback, 1 millisecond is simulated per real second.</p>
-      <label class="control-label slider-label" for="testMass"><span class="toggle-label">Mass</span><span class="control-value" id="testMassText">100 g</span></label>
-      <input type="range" id="testMass" min="1" max="1000" step="1" value="100" aria-label="Mass of all test charges" aria-valuetext="100 grams" aria-describedby="testMassHint" title="Applies to all existing and new test charges. Mass: 1 g–1 kg. More mass means slower acceleration."/>
-      <div class="range-scale" aria-hidden="true"><span>1</span><span>1,000</span></div>
-      <p class="sr-only" id="testMassHint">All test charges share this mass, from 1 gram to 1 kilogram. More mass means slower acceleration. The test charge and trail disappear on contact with a source or at the lab edge.</p>
-      <label class="control-label slider-label" for="testChargeStrength"><span class="toggle-label">Charge</span><span class="control-value" id="testChargeText">+10.0 μC</span></label>
-      <input type="range" id="testChargeStrength" min="0.1" max="20" step="0.1" value="10" aria-label="Positive charge of all test charges" aria-valuetext="10 microcoulombs" aria-describedby="testChargeHint" title="Applies to all existing and new test charges. Positive charge only: +0.1 to +20 μC."/>
-      <div class="range-scale" aria-hidden="true"><span>+0.1</span><span>+20</span></div>
-      <p class="sr-only" id="testChargeHint">All test charges share a strictly positive charge, from 0.1 to 20 microcoulombs. Larger values increase the electric force.</p>
+      <div class="panel-group">
+        <label class="control-label slider-label" for="testMass"><span class="toggle-label">Mass</span><span class="control-value" id="testMassText">100 g</span></label>
+        <input type="range" id="testMass" min="1" max="1000" step="1" value="100" aria-label="Mass of all test charges" aria-valuetext="100 grams" aria-describedby="testMassHint" title="Applies to all existing and new test charges. Mass: 1 g–1 kg. More mass means slower acceleration."/>
+        <div class="range-scale" aria-hidden="true"><span>1</span><span>1,000</span></div>
+        <p class="sr-only" id="testMassHint">All test charges share this mass, from 1 gram to 1 kilogram. More mass means slower acceleration. The test charge and trail disappear on contact with a source or at the lab edge.</p>
+        <label class="control-label slider-label" for="testChargeStrength"><span class="toggle-label">Charge</span><span class="control-value" id="testChargeText">+10.0 μC</span></label>
+        <input type="range" id="testChargeStrength" min="0.1" max="20" step="0.1" value="10" aria-label="Positive charge of all test charges" aria-valuetext="10 microcoulombs" aria-describedby="testChargeHint" title="Applies to all existing and new test charges. Positive charge only: +0.1 to +20 μC."/>
+        <div class="range-scale" aria-hidden="true"><span>+0.1</span><span>+20</span></div>
+        <p class="sr-only" id="testChargeHint">All test charges share a strictly positive charge, from 0.1 to 20 microcoulombs. Larger values increase the electric force.</p>
+      </div>
       <p class="sr-only" id="testStatus" role="status">Place a test charge to watch its motion.</p>
     </details>
     <details open class="panel-section" id="editBlock" hidden aria-label="Selected charge">
@@ -267,15 +272,17 @@ button:disabled{cursor:default;opacity:.45}
         <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M10 1v2.5M10 16.5V19M1 10h2.5M16.5 10H19M7.5 10h5M10 7.5v5"/></svg>
         Selected charge
       </h2></summary>
-      <div class="charge-controls">
+      <div class="panel-group">
         <label class="control-label slider-label" for="chargeStrength"><span class="toggle-label">Charge</span><span class="control-value" id="strengthText">+4.0 C</span></label>
         <input type="range" id="chargeStrength" min="-10" max="10" step="0.1" value="4" aria-label="Selected static charge in coulombs" title="Negative values reverse polarity. Zero makes the source neutral."/>
         <div class="range-scale" aria-hidden="true"><span>−10</span><span>+10</span></div>
       </div>
-      <div class="control-label"><span class="toggle-label">Position</span></div>
-      <div class="coordinate-fields" role="group" aria-label="Selected charge position in centimeters">
-        <label class="coordinate-field"><span>X</span><input id="chargeX" type="number" min="-2000" max="2000" step="1" aria-label="Selected charge X coordinate in centimeters" /><span class="coordinate-unit" aria-hidden="true">cm</span></label>
-        <label class="coordinate-field"><span>Y</span><input id="chargeY" type="number" min="-1500" max="1500" step="1" aria-label="Selected charge Y coordinate in centimeters" /><span class="coordinate-unit" aria-hidden="true">cm</span></label>
+      <div class="panel-group">
+        <div class="control-label"><span class="toggle-label">Position</span></div>
+        <div class="coordinate-fields" role="group" aria-label="Selected charge position in centimeters">
+          <label class="coordinate-field"><span>X</span><input id="chargeX" type="number" min="-2000" max="2000" step="1" aria-label="Selected charge X coordinate in centimeters" /><span class="coordinate-unit" aria-hidden="true">cm</span></label>
+          <label class="coordinate-field"><span>Y</span><input id="chargeY" type="number" min="-1500" max="1500" step="1" aria-label="Selected charge Y coordinate in centimeters" /><span class="coordinate-unit" aria-hidden="true">cm</span></label>
+        </div>
       </div>
     </details>
   </aside>
@@ -322,7 +329,7 @@ button:disabled{cursor:default;opacity:.45}
   </div>
 </dialog>
     <a class="scrollToTop" href="#top" aria-label="Back to top" hidden><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M12 20V4m-7 7 7-7 7 7"/></svg></a>
-    <script src="../../assets/js/lab-greek.js?v=inline-math"></script>
+    <script src="../../assets/js/lab-greek.js?v=grid-controls"></script>
     <script src="../../assets/js/language.js?v=shared-language"></script>
     <script src="../../assets/js/lab-toggle.js?v=edge-aligned-shadows"></script>
 <script>
@@ -334,7 +341,7 @@ setupLabCanvasTools(() => canvas, () => 'electric-field.png');
 const SAMPLE=50, MINOR=25, MAJOR=100, SUPER_MAJOR=400, MIN_ZOOM=.30,MAX_ZOOM=2;
 const PAN_X=2000,PAN_Y=1500;
 let vw=0,vh=0,dpr=1, camera={x:0,y:0,zoom:1};
-let charges=[], nextId=1,selectedId=null,placing=0,activeDrag=null,showFieldLines=false,showFieldArrows=true,showSamplePoints=false,showHeatmap=false,showPotential=false,sensitivity=1;
+let charges=[], nextId=1,selectedId=null,placing=0,activeDrag=null,showFieldLines=false,showFieldArrows=true,showSamplePoints=false,showGridLines=true,showHeatmap=false,showPotential=false,sensitivity=1;
 let sourceDrag=null,suppressDragClick=false;
 // Source q values are coulombs; positions/velocities use cm and cm per simulated second.
 // fieldAt omits k and uses cm distances; dynamics converts its result into cm/s².
@@ -653,6 +660,7 @@ $('samplePointsToggle').onclick=()=>{
  $('samplePointsToggle').classList.toggle('on',showSamplePoints);
  $('samplePointsToggle').setAttribute('aria-checked',String(showSamplePoints));
 };
+$('showGridLines').onchange=e=>{showGridLines=e.target.checked;};
 $('fieldArrowsToggle').onclick=()=>{showFieldArrows=!showFieldArrows;$('fieldArrowsToggle').classList.toggle('on',showFieldArrows);$('fieldArrowsToggle').setAttribute('aria-checked',String(showFieldArrows));syncHeatmapControls();};
 function syncHeatmapControls(){
  for(const [id,on] of [['heatmapToggle',showHeatmap],['potentialToggle',showPotential]]){$(id).classList.toggle('on',on);$(id).setAttribute('aria-checked',String(on));}
@@ -800,7 +808,7 @@ function grid(){const b=worldBounds();for(const spacing of [MINOR,MAJOR,SUPER_MA
  for(let n=startY;n<=endY;n++){if(spacing!==SUPER_MAJOR&&n%4===0)continue;const y=toScreen(0,n*spacing).y;ctx.moveTo(0,Math.round(y)+.5);ctx.lineTo(vw,Math.round(y)+.5);}
  ctx.strokeStyle=labCanvasTheme.grid[spacing===MINOR?0:spacing===MAJOR?1:2];ctx.lineWidth=1;ctx.stroke();}
 }
-function background(){paintLabBackdrop(ctx,vw,vh);if(showHeatmap||showPotential)drawHeatmap();grid();}
+function background(){paintLabBackdrop(ctx,vw,vh);if(showHeatmap||showPotential)drawHeatmap();if(showGridLines)grid();}
 // Sample the resultant field, including cancellation between charges. Cache the
 // screen-space raster until the camera, sources, viewport, or sensitivity changes.
 function drawHeatmap(){

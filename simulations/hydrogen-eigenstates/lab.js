@@ -89,7 +89,7 @@
         $('nodeCount').textContent = nodeShape.radii.length + nodeShape.polarCosines.length + nodeShape.planeAngles.length;
         const row = $('realOrbitals'), group = `${state.n},${state.l}`;
         if (row.dataset.group !== group) {
-            row.replaceChildren(); row.dataset.group = group; row.scrollLeft = 0;
+            row.replaceChildren(); row.dataset.group = group;
             for (const orbital of orbitals) {
                 const button = document.createElement('button');
                 button.type = 'button'; button.className = 'action-button';

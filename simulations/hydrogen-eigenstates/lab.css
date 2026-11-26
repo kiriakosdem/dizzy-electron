@@ -17,27 +17,12 @@ button,select,input{font:inherit;touch-action:manipulation}button,select{cursor:
     background-image:radial-gradient(circle 75cqmax at 58% 48%, var(--lab-scene-glow), transparent);
 }
 canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}canvas:active{cursor:grabbing}
-.quantum-rows { display: grid; gap: calc(var(--lab-frame-inset) / 2); }
+.quantum-rows { display: grid; gap: 6px; }
 .muted{font-size:11px;line-height:1.6;color:var(--text-muted);margin:8px 0 12px}
-.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.action-button{min-height:40px;padding:9px 6px;border:1px solid #45658b;border-radius:8px;background:#193453;color:var(--text-secondary);font-size:11px;font-weight:650;box-shadow:inset 0 1px 0 #ffffff0d}.action-button:hover{background:#254b75;border-color:#78a4d5}.action-button[aria-pressed=true]{border-color:#9acbff;background:#254b75}.full-width{width:100%}
+.action-button{min-height:40px;padding:9px 6px;border:1px solid #45658b;border-radius:8px;background:#193453;color:var(--text-secondary);font-size:11px;font-weight:650;box-shadow:inset 0 1px 0 #ffffff0d}.action-button:hover{background:#254b75;border-color:#78a4d5}.action-button[aria-pressed=true]{border-color:#9acbff;background:#254b75}.full-width{width:100%}
 output{font-variant-numeric:tabular-nums}
 .display-mode { min-width: 0; margin: 0; padding: 0; border: 0; }
 .panel .display-mode legend { font-size: var(--control-text); font-weight: 400; }
-.display-mode label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 32px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    color: var(--text-secondary);
-    font-size: 12px;
-    cursor: pointer;
-}
-.display-mode label:hover { background: #193453; }
-.display-mode label:has(input:checked) { background: #254b75; color: var(--text-primary); }
-.display-mode input { flex: none; margin: 0; accent-color: var(--text-accent); }
-@media (pointer: coarse) { .display-mode label { min-height: 44px; } }
 
 
 details{font-size:11px;line-height:1.7;color:var(--text-muted)}summary{color:var(--text-secondary);cursor:pointer;min-height:30px}details a{color:var(--text-accent)}
@@ -58,9 +43,6 @@ details{font-size:11px;line-height:1.7;color:var(--text-muted)}summary{color:var
 .legend-entry { display: grid; grid-template-columns: 26px auto; align-items: center; gap: 6px; }
 .density-icon { width: 26px; height: 14px; color: var(--text-accent); }
 .phase-ramp { height: 6px; border-radius: 3px; }
-
-
-.real-orbitals{display:flex;gap:6px;overflow-x:auto;padding:7px;margin:-5px;scrollbar-width:thin;scrollbar-color:#77b1f6 #08162b}.real-orbitals .action-button{flex:0 0 auto;white-space:nowrap;min-width:64px;padding-inline:12px}
 
 
 #viewport > .zoom-hud{position:absolute;right: max(var(--lab-overlay-inset), env(safe-area-inset-right));bottom: max(var(--lab-overlay-inset), env(safe-area-inset-bottom))}
