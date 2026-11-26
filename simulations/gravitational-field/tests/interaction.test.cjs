@@ -8,7 +8,7 @@ const pageIds=new Set(Array.from(html.matchAll(/\bid="([^"]+)"/g),m=>m[1]));
 const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];
 
 // Run the page's real handlers with deterministic layout and pointer capture.
-function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}={}){
+function openLab(compact,{empty=false,random,startup=false,measureSidebar=false,devicePixelRatio=1}={}){
  const width=compact?390:1000,height=700,top=90;
  const elements=new Map(),windowListeners=new Map();
  let onCanvasResize;
@@ -28,6 +28,7 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
  }
  function element(id=''){
   const classes=new Set(),listeners=new Map(),children=new Map(),capture=new Set();
+  let context;
   return {id,hidden:id==='controlsBackdrop',dataset:{},style:{setProperty(){}},clientHeight:0,
    rect:{left:0,top:0,right:0,bottom:0,width:0,height:0},
    classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle(c,on){if(on===undefined)on=!classes.has(c);on?classes.add(c):classes.delete(c);},contains:c=>classes.has(c)},
@@ -38,7 +39,7 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
     }
     return this.rect;
    },getClientRects(){return this.hidden?[]:[this.rect];},
-   getContext(){return context;},setAttribute(){},removeAttribute(){},focus(){},contains(){return false;},append(){},before(){},after(){},replaceChildren(){},
+   getContext(){return context??=canvasContext(this);},setAttribute(){},removeAttribute(){},focus(){},contains(){return false;},append(){},before(){},after(){},replaceChildren(){},
    querySelector(selector){if(selector==='.selected')return null;if(!children.has(selector))children.set(selector,element());return children.get(selector);},
    addEventListener(type,handler){if(!listeners.has(type))listeners.set(type,[]);listeners.get(type).push(handler);},
    emit(type,values={}){
@@ -52,14 +53,41 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
   };
  }
  let now=0;
- const drawnSprites=[],heatmapFrames=[];
- const context=new Proxy({}, {get:(_,key)=>{
-  if(key==='createRadialGradient'||key==='createLinearGradient')return ()=>({addColorStop(){}});
-  if(key==='createImageData')return (width,height)=>({data:new Uint8ClampedArray(width*height*4)});
-  if(key==='putImageData')return imageData=>heatmapFrames.push({imageData,pixels:imageData.data.slice()});
-  if(key==='drawImage')return (sprite,x,y,width)=>{if(sprite.id==='sourceMoon'||sprite.id==='testAsteroid')drawnSprites.push({id:sprite.id,width});};
-  return ()=>{};
- }});
+ const drawnSprites=[],heatmapFrames=[],rasterizedSprites=[];
+ const spriteCanvases=new WeakMap(),spriteBlends=new WeakMap();
+ function canvasContext(destination){
+  return new Proxy({
+   globalAlpha:1,
+   clearRect(){spriteBlends.delete(destination);},
+   createImageData(width,height){return {data:new Uint8ClampedArray(width*height*4)};},
+   putImageData(imageData){heatmapFrames.push({imageData,pixels:imageData.data.slice()});},
+   drawImage(source,x,y,width,height){
+    if(source.id==='sourceMoon'||source.id==='testAsteroid'){
+     if(destination.id==='fieldCanvas')drawnSprites.push({id:source.id,width,center:{x:x+width/2,y:y+height/2}});
+     else{spriteCanvases.set(destination,source.id);rasterizedSprites.push(source.id);}
+     return;
+    }
+    const spriteId=spriteCanvases.get(source);
+    if(spriteId){
+     const blend=spriteBlends.get(destination)??{id:spriteId,size:source.width,layers:[]};
+     blend.layers.push({x,y,alpha:this.globalAlpha,mode:this.globalCompositeOperation});
+     spriteBlends.set(destination,blend);
+     return;
+    }
+    const blend=spriteBlends.get(source);
+    if(destination.id!=='fieldCanvas'||!blend)return;
+    // Measure the centroid of the submitted weighted draws without rasterizing the art.
+    const offset=blend.layers.reduce((point,layer)=>({
+     x:point.x+layer.x*layer.alpha,y:point.y+layer.y*layer.alpha
+    }),{x:0,y:0});
+    const center={x:x+(blend.size/2+offset.x)*width/source.width,y:y+(blend.size/2+offset.y)*height/source.height};
+    drawnSprites.push({...blend,width,center,blit:{x,y,width,height}});
+   }
+  },{get(target,key){
+   if(key==='createRadialGradient'||key==='createLinearGradient')return ()=>({addColorStop(){}});
+   return target[key]??(()=>{});
+  }});
+ }
  function $(id){assert.ok(pageIds.has(id)||id==='zoom','Unknown DOM id: '+id);if(!elements.has(id))elements.set(id,element(id));return elements.get(id);}
  for(const id of ['sourceMoon','testAsteroid'])Object.assign($(id),{complete:true,naturalWidth:256});
  function rect(id,left,y,w,h){$(id).rect={left,top:y,right:left+w,bottom:y+h,width:w,height:h};}
@@ -77,7 +105,7 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
  ]);
  const document={hidden:false,addEventListener(){},getElementById:$,createElement:()=>element(),querySelector:selector=>selector==='.zoom'?$('zoom'):controlsLayout.get(selector)??null,querySelectorAll:()=>[],
   elementFromPoint(){throw Error('Drop validation must not depend on the preview being absent from hit testing');}};
- const sandbox={document,window:{matchMedia:query=>({matches:!query.includes('prefers-reduced-motion')&&compact,addEventListener(){}}),devicePixelRatio:1,
+ const sandbox={document,window:{matchMedia:query=>({matches:!query.includes('prefers-reduced-motion')&&compact,addEventListener(){}}),devicePixelRatio,
   addEventListener(type,handler,options){if(!windowListeners.has(type))windowListeners.set(type,[]);windowListeners.get(type).push({handler,capture:options===true||!!options?.capture});}},ResizeObserver:class{constructor(callback){onCanvasResize=callback;}observe(){}},
   performance:{now:()=>now},requestAnimationFrame(){},getComputedStyle:()=>({visibility:'visible'}),HTMLInputElement:class{},HTMLTextAreaElement:class{},
   Path2D:class{moveTo(){}lineTo(){}arc(){}}};
@@ -98,8 +126,8 @@ function openLab(compact,{empty=false,random,startup=false,measureSidebar=false}
   if(!empty)api.seedSources([{x:-155,y:-15,mass:4.5},{x:155,y:-25,mass:4.5},{x:5,y:160,mass:2.6}]);
  }
  const point=c=>{const p=api.toScreen(c.x,c.y);return {clientX:p.x,clientY:p.y+top};};
- return {$,api,point,document,top,width,height,heatmapFrames,emitWindow,resizeCanvas:onCanvasResize,drawAt(time){
-  now=time;drawnSprites.length=0;api.render();return [...drawnSprites];
+ return {$,api,point,document,top,width,height,heatmapFrames,rasterizedSprites,emitWindow,resizeCanvas:onCanvasResize,drawAt(time,{advance=false}={}){
+  now=time;drawnSprites.length=0;api.render(advance?time:undefined);return [...drawnSprites];
  },escape(){emitWindow('keydown',{key:'Escape'});}};
 }
 
@@ -300,6 +328,31 @@ test('the source moon and test asteroid resize with their mass sliders',()=>{
  assert.ok(smallTest.width>0&&largeTest.width>smallTest.width*2&&largeTest.width<largeSource.width);
 });
 
+test('touch sprites preserve motion within a native pixel using a reusable raster',()=>{
+ const dpr=2,{api,drawAt,rasterizedSprites}=openLab(true,{empty:true,devicePixelRatio:dpr});
+ api.seedSources([{x:15.125,y:13.375,mass:.4}]);
+ const [mass]=api.state().masses;
+ function checkSprite(time){
+  const [sprite]=drawAt(time),expected=api.toScreen(mass.x,mass.y);
+  assert.equal(sprite.id,'sourceMoon');
+  assert.ok(Number.isInteger(sprite.blit.x*dpr)&&Number.isInteger(sprite.blit.y*dpr));
+  assert.equal(sprite.blit.width*dpr,sprite.size+1);
+  assert.equal(sprite.blit.height*dpr,sprite.size+1);
+  assert.deepEqual(sprite.layers.map(({x,y})=>[x,y]),[[0,0],[1,0],[0,1],[1,1]]);
+  assert.ok(sprite.layers.every(({alpha,mode})=>alpha>0&&mode==='lighter'));
+  closeTo(sprite.layers.reduce((sum,{alpha})=>sum+alpha,0),1,1e-12);
+  closeTo(sprite.center.x,expected.x,1e-12);
+  closeTo(sprite.center.y,expected.y,1e-12);
+  return sprite;
+ }
+ const before=checkSprite(0);
+ mass.x+=.08;mass.y-=.10;
+ const after=checkSprite(16);
+ assert.deepEqual(after.blit,before.blit);
+ assert.notDeepEqual(after.layers,before.layers);
+ assert.deepEqual(rasterizedSprites,['sourceMoon']);
+});
+
 test('presets use positive masses, cancellation at a pair midpoint, and evenly spaced rows',()=>{
  const {$,api}=openLab(false);
  $('presetSingle').emit('click');assert.equal(api.state().masses.length,1);assert.equal(api.state().masses[0].mass,.4);
@@ -462,6 +515,42 @@ test('source and test trajectories stay in sync across render frame rates',()=>{
  advanceSeconds(low.api,.5,30);advanceSeconds(high.api,.5,144);
  for(let i=0;i<2;i++)for(const key of ['x','y','vx','vy'])closeTo(low.api.state().masses[i][key],high.api.state().masses[i][key],1e-10);
  for(const key of ['x','y','vx','vy'])closeTo(low.api.state().testMass[key],high.api.state().testMass[key],1e-10);
+});
+
+test('mobile: source and probe sprites move smoothly between physics steps and snap on pause and reset',()=>{
+ const {$,api,drawAt}=openLab(true,{empty:true});
+ const paths=[{x:-140,y:80,vx:.003,vy:.002},{x:120,y:-80,vx:.002,vy:-.001}];
+ const [sourcePath,probePath]=paths;
+ api.seedSources([{...sourcePath,mass:.01}]);
+ assert.equal(api.placeTestMass(probePath.x,probePath.y),true);
+ Object.assign(api.state().testMass,{vx:probePath.vx,vy:probePath.vy});
+
+ const step=1/240,rate=api.simulationSpeed();
+ function checkSprites(time,elapsed){
+  const sprites=drawAt(time,{advance:true});
+  assert.equal(sprites.length,paths.length);
+  for(const [i,{x,y,vx,vy}] of paths.entries()){
+   const expected=api.toScreen(x+vx*elapsed*rate,y+vy*elapsed*rate);
+   closeTo(sprites[i].center.x,expected.x,1e-7);
+   closeTo(sprites[i].center.y,expected.y,1e-7);
+  }
+ }
+
+ for(const time of [0,2,7,11,15,28,40])checkSprites(time,Math.max(0,time/1000-step));
+ const fixedElapsed=Math.floor(.040/step)*step;
+ const {masses:[source],testMass:probe}=api.state();
+ closeTo(source.x,sourcePath.x+sourcePath.vx*fixedElapsed*rate,1e-7);
+ closeTo(probe.x,probePath.x+probePath.vx*fixedElapsed*rate,1e-7);
+ $('pauseTest').emit('click');
+ checkSprites(45,fixedElapsed);
+ checkSprites(65,fixedElapsed);
+ $('pauseTest').emit('click');
+ checkSprites(70,fixedElapsed);
+ checkSprites(72,fixedElapsed);
+ checkSprites(83,fixedElapsed+.013-step);
+ $('resetTest').emit('click');
+ checkSprites(90,0);
+ checkSprites(110,0);
 });
 
 test('source mergers conserve mass and momentum and reset restores the unmerged arrangement',()=>{

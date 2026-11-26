@@ -113,7 +113,7 @@ button:disabled{cursor:default;opacity:.45}
     <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
     <link rel="stylesheet" href="../../assets/css/language-dropdown.css">
     <link rel="stylesheet" href="../../assets/css/lab-canvas.css?v=single-line-tray-labels">
-    <script src="../../assets/js/lab-canvas.js?v=field-rendering"></script>
+    <script src="../../assets/js/lab-canvas.js?v=trail-strokes"></script>
     <script src="../../assets/js/lab-scale.js?v=earth-mass-scale"></script>
     <link rel="stylesheet" href="../../assets/css/scroll-to-top.css">
     <script src="../../assets/js/scroll-to-top.js" defer></script>
@@ -357,6 +357,7 @@ const GRID_UNITS_PER_KM=1000/METERS_PER_GRID_UNIT,MAX_SPEED_KM_S=1000;
 const SECONDS_PER_YEAR=31557600,DEFAULT_SIMULATION_SPEED=1600*SECONDS_PER_YEAR;
 let simulationSpeed=DEFAULT_SIMULATION_SPEED,velocityEditorKey='';
 let testMasses=[],nextTestId=1,selectedTestId=null,testSelected=false,simulationPaused=false,simulationAccumulator=0,lastFrameTime=null;
+let previousMassPositions=null;
 let simulationTime=0;
 const selectedTest=()=>testMasses.find(t=>t.id===selectedTestId);
 
@@ -365,8 +366,11 @@ const LINE_MIN_SPACING=20,LINE_MAX_SPACING=54;
 let fieldLineCache={key:'',viewKey:'',time:-Infinity,groups:[],arrows:[]};
 const heatmapCanvas=document.createElement('canvas'),heatmapContext=heatmapCanvas.getContext('2d');
 const paintBackdropLayer=createLabCanvasLayer();
-const heatmapCellSize=window.matchMedia('(pointer: coarse)').matches?6:4;
+const touchInput=window.matchMedia('(pointer: coarse)');
+const heatmapCellSize=touchInput.matches?6:4;
 let heatmapKey='',heatmapPixels;
+const massSpriteRasters=new Map();
+let spriteFrame=0;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const selected=()=>masses.find(c=>c.id===selectedId);
 // World-space radii keep the visible bodies and their contact boundaries in step.
@@ -437,6 +441,17 @@ function fitMassesToView(orbit=false){
 }
 function toScreen(x,y){return {x:(x-camera.x)*camera.zoom+vw/2,y:(camera.y-y)*camera.zoom+vh/2};}
 function toWorld(x,y){return {x:(x-vw/2)/camera.zoom+camera.x,y:camera.y-(y-vh/2)/camera.zoom};}
+function displayedMassPosition(body){
+ const previous=simulationPaused?null:previousMassPositions?.get(body);
+ if(!previous||simulationAccumulator>=SIMULATION_STEP||(previous.x===body.x&&previous.y===body.y))return body;
+ // Render between completed physics ticks to keep motion even at uneven refresh rates.
+ const fraction=simulationAccumulator/SIMULATION_STEP;
+ return {x:previous.x+(body.x-previous.x)*fraction,y:previous.y+(body.y-previous.y)*fraction};
+}
+function massScreenPosition(body){
+ const {x,y}=displayedMassPosition(body);
+ return toScreen(x,y);
+}
 function pointerPos(ev){let r=canvas.getBoundingClientRect();return{x:ev.clientX-r.left,y:ev.clientY-r.top};}
 function resize(){
  const {width,height}=canvas.getBoundingClientRect();
@@ -495,8 +510,8 @@ function syncSimulationSpeed(){
 }
 function selectTestMass(id=selectedTestId){if(!testMasses.some(t=>t.id===id))id=testMasses.length?testMasses[testMasses.length-1].id:null;if(!testSelected||selectedId!==null||id!==selectedTestId){testSelected=true;selectedId=null;selectedTestId=id;syncPanel();}}
 function removeSelection(){if(testSelected)removeTestMass();else removeMass();}
-function removeTestMass(id=selectedTestId){const t=testMasses.find(t=>t.id===id);if(t)t.trail.length=0;testMasses=testMasses.filter(t=>t.id!==id);if(selectedTestId===id)selectedTestId=testMasses.length?testMasses[testMasses.length-1].id:null;if(!masses.length&&!testMasses.length){simulationAccumulator=0;lastFrameTime=null;}syncPanel();}
-function removeAllTestMasses(){for(const t of testMasses)t.trail.length=0;testMasses=[];selectedTestId=null;nextTestId=1;simulationPaused=false;simulationAccumulator=0;lastFrameTime=null;syncPanel();}
+function removeTestMass(id=selectedTestId){const t=testMasses.find(t=>t.id===id);if(t)t.trail.length=0;testMasses=testMasses.filter(t=>t.id!==id);if(selectedTestId===id)selectedTestId=testMasses.length?testMasses[testMasses.length-1].id:null;if(!masses.length&&!testMasses.length)resetSimulationClock();syncPanel();}
+function removeAllTestMasses(){for(const t of testMasses)t.trail.length=0;testMasses=[];selectedTestId=null;nextTestId=1;simulationPaused=false;resetSimulationClock();syncPanel();}
 function canPlaceTestMass(x,y,mass=DEFAULT_TEST_MASS){
  const radius=testRadius(mass);
  return Math.abs(x)<PAN_X&&Math.abs(y)<PAN_Y&&!masses.some(c=>Math.hypot(x-c.x,y-c.y)<=sourceRadius(c.mass)+radius);
@@ -508,7 +523,8 @@ function placeTestMass(x,y){
  }
  const particle={id:nextTestId++,x,y,vx:0,vy:0,mass:DEFAULT_TEST_MASS,startX:x,startY:y,startVx:0,startVy:0,running:!simulationPaused,trail:[{x,y}],trailClock:0};
  testMasses.push(particle);selectedTestId=particle.id;
- if(!masses.length&&testMasses.length===1){simulationAccumulator=0;lastFrameTime=null;}syncPanel();canvas.focus({preventScroll:true});
+ if(!masses.length&&testMasses.length===1)resetSimulationClock();
+ syncPanel();canvas.focus({preventScroll:true});
  setLabCopy($('actionStatus'), 'Test mass released from rest.');return true;
 }
 function placeFromTool(x,y,kind){if(kind==='test')return placeTestMass(x,y);addMass(x,y,kind);return true;}
@@ -520,6 +536,9 @@ function placeTestNearCenter(){
  }
  setLabCopy($('modeMessageText'), 'No clear point near the center. Click or tap farther from a source to place the test mass.');
 }
+function resetSimulationClock(){
+ simulationAccumulator=0;lastFrameTime=null;previousMassPositions=null;
+}
 function resetSimulation(){
  collisionBursts=[];
  if(!masses.length&&!testMasses.length)return;
@@ -527,7 +546,7 @@ function resetSimulation(){
  masses=masses.flatMap(c=>c.resetMembers.map(createSourceMass));
  if(!masses.some(c=>c.id===selectedId))selectedId=testSelected?null:masses[0]?.id??null;
  for(const t of testMasses)Object.assign(t,{x:t.startX,y:t.startY,vx:t.startVx,vy:t.startVy,running:false,trail:[{x:t.startX,y:t.startY}],trailClock:0});
- simulationPaused=true;simulationTime=0;simulationAccumulator=0;lastFrameTime=null;syncPanel();
+ simulationPaused=true;simulationTime=0;resetSimulationClock();syncPanel();
  setLabCopy($('actionStatus'), 'All masses reset to their starting positions and velocities. Continue to resume motion.');
 }
 function testAcceleration(x,y){const field=fieldAt(x,y);return{x:field.x/METERS_PER_GRID_UNIT,y:field.y/METERS_PER_GRID_UNIT};}
@@ -585,6 +604,7 @@ function mergeContactingSources(previous=new Map(masses.map(c=>[c.id,{x:c.x,y:c.
    previous.set(a.id,{x:average(pa.x,pb.x),y:average(pa.y,pb.y)});
    const merged={x:average(a.x,b.x),y:average(a.y,b.y),vx:average(a.vx,b.vx),vy:average(a.vy,b.vy)};
    Object.assign(a,merged,{trail:[{x:merged.x,y:merged.y}],trailClock:0,mass:total,resetMembers:a.resetMembers.concat(b.resetMembers)});
+   previousMassPositions?.delete(a);
    if(selectedId===b.id)selectedId=a.id;
    masses.splice(j,1);changed=true;again=true;break outer;
   }
@@ -607,13 +627,16 @@ function sampleTrail(body){
 }
 function advanceSimulation(elapsed,manualStep=false){
  const canAdvance=t=>manualStep||t.running;
- if((simulationPaused&&!manualStep)||(!masses.length&&!testMasses.some(canAdvance))||document.hidden||(activeDrag&&activeDrag.kind!=='test')||(sourceDrag&&sourceDrag.sourceMass!=='test')||(placing&&placing!=='test')){simulationAccumulator=0;return;}
+ if((simulationPaused&&!manualStep)||(!masses.length&&!testMasses.some(canAdvance))||document.hidden||(activeDrag&&activeDrag.kind!=='test')||(sourceDrag&&sourceDrag.sourceMass!=='test')||(placing&&placing!=='test')){
+  simulationAccumulator=0;previousMassPositions=null;return;
+ }
  if(!Number.isFinite(elapsed)||elapsed<=0)return;
  // Synchronous kick-drift-kick (velocity Verlet): every body sees the same source positions.
  // Test particles never enter the source force calculation or a source's momentum.
  simulationAccumulator+=Math.min(elapsed,.1);
  while(simulationAccumulator+1e-12>=SIMULATION_STEP&&(masses.length||testMasses.some(canAdvance))){
   simulationAccumulator=Math.max(0,simulationAccumulator-SIMULATION_STEP);
+  const positions=manualStep?null:(previousMassPositions??=new WeakMap());
   const dt=SIMULATION_STEP*simulationSpeed;
   simulationTime+=dt;
   mergeContactingSources();
@@ -627,7 +650,8 @@ function advanceSimulation(elapsed,manualStep=false){
    return {t,nx:t.x+t.vx*dt,ny:t.y+t.vy*dt};
   });
   for(let i=0;i<masses.length;i++){
-   const c=masses[i];c.vx+=before[i].x*dt/2;c.vy+=before[i].y*dt/2;c.x+=c.vx*dt;c.y+=c.vy*dt;
+   const c=masses[i];positions?.set(c,previous.get(c.id));
+   c.vx+=before[i].x*dt/2;c.vy+=before[i].y*dt/2;c.x+=c.vx*dt;c.y+=c.vy*dt;
   }
   const sourcePaths=masses.map(c=>({...previous.get(c.id),nx:c.x,ny:c.y,radius:sourceRadius(c.mass)}));
   mergeContactingSources(previous);
@@ -639,6 +663,7 @@ function advanceSimulation(elapsed,manualStep=false){
   for(const {t,nx,ny} of probes){
    const hit=testStopAlongSegment(t,nx,ny,sourcePaths)||testStopAlongSegment({x:nx,y:ny,mass:t.mass},nx,ny);
    if(hit){stopTestMass(hit,t);continue;}
+   positions?.set(t,{x:t.x,y:t.y});
    t.x=nx;t.y=ny;const a=testAcceleration(nx,ny);t.vx+=a.x*dt/2;t.vy+=a.y*dt/2;
    sampleTrail(t);
   }
@@ -647,7 +672,7 @@ function advanceSimulation(elapsed,manualStep=false){
  syncVelocityControls();
  const c=selectedBody();if(c&&document.activeElement!==$('massX')&&document.activeElement!==$('massY'))syncCoordinateInputs(c);
 }
-function setSimulationPaused(paused){simulationPaused=paused;for(const t of testMasses)t.running=!paused&&!(activeDrag?.kind==='test'&&activeDrag.id===t.id);simulationAccumulator=0;lastFrameTime=null;syncPanel();}
+function setSimulationPaused(paused){simulationPaused=paused;for(const t of testMasses)t.running=!paused&&!(activeDrag?.kind==='test'&&activeDrag.id===t.id);resetSimulationClock();syncPanel();}
 $('pauseTest').onclick=()=>{if(masses.length||testMasses.length)setSimulationPaused(!simulationPaused);};
 function stepMasses(){
  if((!masses.length&&!testMasses.length)||activeDrag||sourceDrag||placing)return;
@@ -660,11 +685,11 @@ function setSimulationSpeed(value){
  if(!Number.isFinite(value))return;
  const years=Math.round(clamp(value,125,1600)/25)*25;
  simulationSpeed=years*SECONDS_PER_YEAR;
- simulationAccumulator=0;lastFrameTime=null;syncPanel();
+ resetSimulationClock();syncPanel();
 }
 $('simulationSpeed').oninput=e=>setSimulationSpeed(Number(e.target.value));
 window.siteLanguage?.onChange(syncSimulationSpeed);
-document.addEventListener('visibilitychange',()=>{lastFrameTime=null;simulationAccumulator=0;});
+document.addEventListener('visibilitychange',resetSimulationClock);
 function updateRangeFill(input){const progress=(Number(input.value)-Number(input.min))/(Number(input.max)-Number(input.min))*100;input.style.setProperty('--range-fill',clamp(progress,0,100)+'%');}
 function positionAU(value){return Number((value*AU_PER_GRID_UNIT).toFixed(6));}
 for(const [id,limit] of [['massX',PAN_X],['massY',PAN_Y]]){
@@ -686,6 +711,7 @@ function applyCoordinate(axis,input){
   syncCoordinateInputs(c);setLabCopy($('actionStatus'), 'Choose a position inside the grid and clear of source masses.');return;
  }
  c[axis]=coordinate;
+ previousMassPositions?.delete(c);
  if(testSelected){
   Object.assign(c,{startX:x,startY:y,startVx:c.vx,startVy:c.vy,trail:[{x,y}],trailClock:0});
  }else releaseSourceMass(c);
@@ -761,7 +787,7 @@ lab.addEventListener('pointerleave',()=>{massHover=null;positionMassPopover();})
 function positionMassPopover(){
  const editor=$('massPopover'),c=selected();
  if(!c||testSelected||placing||sourceDrag||activeDrag||(labControls.compact&&labControls.open)){editor.hidden=true;return;}
- const p=toScreen(c.x,c.y);
+ const p=massScreenPosition(c);
  const ring=Math.max(18,screenRadius(c.mass)+9);
  const h=massHover,inRing=h&&Math.hypot(h.x-p.x,h.y-p.y)<=ring;
  const touchOpen=touchEditorId===c.id;
@@ -900,10 +926,11 @@ function zoomTo(newZoom,sx=vw/2,sy=vh/2){newZoom=clamp(Math.round(newZoom*10)/10
 function resetCamera(){const fit=labControls.compact?Math.floor(Math.min((vw-80)/365,(vh-140)/230)*10)/10:1;camera={x:0,y:0,zoom:clamp(fit,minimumZoom(),1)};constrainCamera();updateZoomControls();}
 $('zoomIn').onclick=()=>zoomTo(camera.zoom+.1);$('zoomOut').onclick=()=>zoomTo(camera.zoom-.1);$('resetView').onclick=resetCamera;
 canvas.addEventListener('wheel',e=>{e.preventDefault();const p=pointerPos(e);if(e.deltaY)zoomTo(camera.zoom+(e.deltaY<0?.1:-.1),p.x,p.y);},{passive:false});
-function massAt(p){for(let i=masses.length-1;i>=0;i--){const c=masses[i],s=toScreen(c.x,c.y);if(Math.hypot(p.x-s.x,p.y-s.y)<Math.max(14,screenRadius(c.mass)+8))return c;}return null;}
-function testMassAt(p){for(let i=testMasses.length-1;i>=0;i--){const t=testMasses[i],s=toScreen(t.x,t.y);if(Math.hypot(p.x-s.x,p.y-s.y)<Math.max(14,screenRadius(t.mass,true)+5))return t;}return null;}
+function massAt(p){for(let i=masses.length-1;i>=0;i--){const c=masses[i],s=massScreenPosition(c);if(Math.hypot(p.x-s.x,p.y-s.y)<Math.max(14,screenRadius(c.mass)+8))return c;}return null;}
+function testMassAt(p){for(let i=testMasses.length-1;i>=0;i--){const t=testMasses[i],s=massScreenPosition(t);if(Math.hypot(p.x-s.x,p.y-s.y)<Math.max(14,screenRadius(t.mass,true)+5))return t;}return null;}
 function beginTestDrag(t,p){
  const world=toWorld(p.x,p.y);
+ previousMassPositions?.delete(t);
  selectTestMass(t.id);t.running=false;
  activeDrag={kind:'test',id:t.id,ox:t.x-world.x,oy:t.y-world.y,startX:t.x,startY:t.y,startVx:t.vx,startVy:t.vy,startTrail:t.trail,startTrailClock:t.trailClock,lastX:t.x,lastY:t.y,px:p.x,py:p.y,moved:false,valid:true};
  canvas.classList.add('dragging');updateTrash(true);syncPanel();
@@ -924,7 +951,7 @@ canvas.addEventListener('pointerdown',e=>{
  if(placing){const w=toWorld(p.x,p.y);if(placeFromTool(w.x,w.y,placing)){placing=0;setMode();}return;}
  const test=e.button===0?testMassAt(p):null;if(test){beginTestDrag(test,p);return;}
  const c=e.button===0?massAt(p):null;
- if(c){testSelected=false;selectedId=c.id;if(e.pointerType==='touch')touchEditorId=c.id;else massHover=p;const w=toWorld(p.x,p.y);activeDrag={kind:'mass',id:c.id,ox:c.x-w.x,oy:c.y-w.y,startX:c.x,startY:c.y,startVx:c.vx,startVy:c.vy,lastX:c.x,lastY:c.y,px:p.x,py:p.y,moved:false};syncPanel();updateTrash(true);}
+ if(c){previousMassPositions?.delete(c);testSelected=false;selectedId=c.id;if(e.pointerType==='touch')touchEditorId=c.id;else massHover=p;const w=toWorld(p.x,p.y);activeDrag={kind:'mass',id:c.id,ox:c.x-w.x,oy:c.y-w.y,startX:c.x,startY:c.y,startVx:c.vx,startVy:c.vy,lastX:c.x,lastY:c.y,px:p.x,py:p.y,moved:false};syncPanel();updateTrash(true);}
  else{activeDrag={kind:'pan',x:p.x,y:p.y,cx:camera.x,cy:camera.y,moved:false};}
  canvas.classList.add('dragging');
 });
@@ -1242,8 +1269,40 @@ function drawFieldLines(){
  for(const arrow of fieldLineCache.arrows){ctx.globalAlpha=arrow.alpha;ctx.strokeStyle=arrow.color;ctx.stroke(arrow.path);}
  ctx.restore();
 }
+function drawTouchMassSprite(sprite,x,y,diameter){
+ const size=Math.max(1,Math.round(diameter*dpr)),key=sprite.id+':'+size;
+ let raster=massSpriteRasters.get(key);
+ if(!raster){
+  const image=document.createElement('canvas'),blend=document.createElement('canvas');
+  image.width=image.height=size;
+  blend.width=blend.height=size+1;
+  const imageContext=image.getContext('2d'),blendContext=blend.getContext('2d');
+  if(!imageContext||!blendContext)return false;
+  imageContext.imageSmoothingQuality='high';
+  imageContext.drawImage(sprite,0,0,size,size);
+  blendContext.globalCompositeOperation='lighter';
+  raster={image,blend,context:blendContext,frame:spriteFrame};
+  massSpriteRasters.set(key,raster);
+ }
+ raster.frame=spriteFrame;
+ const left=x*dpr-size/2,top=y*dpr-size/2,px=Math.floor(left),py=Math.floor(top),fx=left-px,fy=top-py;
+ const {image,blend,context}=raster;
+ // Some mobile browsers snap image bounds to pixels. Blend the neighboring
+ // pixel-aligned placements on a transparent buffer to preserve fractional motion.
+ if(fx!==raster.fx||fy!==raster.fy){
+  context.clearRect(0,0,blend.width,blend.height);
+  context.globalAlpha=(1-fx)*(1-fy);context.drawImage(image,0,0);
+  context.globalAlpha=fx*(1-fy);context.drawImage(image,1,0);
+  context.globalAlpha=(1-fx)*fy;context.drawImage(image,0,1);
+  context.globalAlpha=fx*fy;context.drawImage(image,1,1);
+  raster.fx=fx;raster.fy=fy;
+ }
+ ctx.drawImage(blend,px/dpr,py/dpr,blend.width/dpr,blend.height/dpr);
+ return true;
+}
 function drawMassSprite(sprite,x,y,radius){
  if(sprite.complete&&sprite.naturalWidth){
+  if(touchInput.matches&&drawTouchMassSprite(sprite,x,y,radius*2))return;
   ctx.drawImage(sprite,x-radius,y-radius,radius*2,radius*2);
   return;
  }
@@ -1253,7 +1312,7 @@ function drawMassSprite(sprite,x,y,radius){
 function drawMasses(){
  for(const c of masses){
   if(activeDrag?.kind==='mass'&&activeDrag.moved&&activeDrag.id===c.id)continue;
-  const s=toScreen(c.x,c.y),radius=screenRadius(c.mass),margin=radius+22;
+  const s=massScreenPosition(c),radius=screenRadius(c.mass),margin=radius+22;
   if(s.x<-margin||s.x>vw+margin||s.y<-margin||s.y>vh+margin)continue;
   if(c.id===selectedId){
    const ring=Math.max(18,radius+9);
@@ -1265,13 +1324,16 @@ function drawMasses(){
 function drawTrails(bodies,kind){
  for(const body of bodies){
   if(activeDrag?.kind===kind&&activeDrag.id===body.id&&activeDrag.moved)continue;
-  paintLabTrail(ctx,body.trail,body,toScreen);
+  const head=displayedMassPosition(body),trail=body.trail,last=trail[trail.length-1];
+  // The newest trail sample can be one tick ahead of the visible mass.
+  const ahead=head!==body&&body.trailClock===0&&last?.x===body.x&&last?.y===body.y;
+  paintLabTrail(ctx,trail,head,toScreen,trail.length-Number(ahead));
  }
 }
 function drawTestMass(){
  for(const testMass of testMasses){
   if(activeDrag?.kind==='test'&&activeDrag.id===testMass.id&&activeDrag.moved)continue;
-  const s=toScreen(testMass.x,testMass.y),radius=screenRadius(testMass.mass,true);
+  const s=massScreenPosition(testMass),radius=screenRadius(testMass.mass,true);
   if(testSelected&&testMass.id===selectedTestId)paintLabSelection(ctx,s.x,s.y,Math.max(11,radius+4));
   drawMassSprite(testAsteroid,s.x,s.y,radius);
  }
@@ -1279,7 +1341,7 @@ function drawTestMass(){
 function drawSelectedVelocity(){
  const body=selectedBody();if(!body||activeDrag?.moved)return;
  const speed=Math.hypot(body.vx,body.vy);if(speed<1e-14)return;
- const p=toScreen(body.x,body.y),ux=body.vx/speed,uy=-body.vy/speed,start=screenRadius(body.mass,testSelected)+6,length=clamp(speed/GRID_UNITS_PER_KM*5,18,80),x=p.x+ux*(start+length),y=p.y+uy*(start+length);
+ const p=massScreenPosition(body),ux=body.vx/speed,uy=-body.vy/speed,start=screenRadius(body.mass,testSelected)+6,length=clamp(speed/GRID_UNITS_PER_KM*5,18,80),x=p.x+ux*(start+length),y=p.y+uy*(start+length);
  ctx.save();ctx.strokeStyle='#71e0cb';ctx.fillStyle='#71e0cb';ctx.lineWidth=2;ctx.lineCap='round';ctx.lineJoin='round';
  ctx.beginPath();ctx.moveTo(p.x+ux*start,p.y+uy*start);ctx.lineTo(x,y);ctx.moveTo(x-ux*7-uy*4,y-uy*7+ux*4);ctx.lineTo(x,y);ctx.lineTo(x-ux*7+uy*4,y-uy*7-ux*4);ctx.stroke();
  ctx.font='italic 12px ui-sans-serif,system-ui';ctx.fillText('v',x-uy*11,y+ux*11);ctx.restore();
@@ -1319,6 +1381,7 @@ function drawCollisionBursts(){
 function drawFrame(){
  positionMassPopover();
  if(!vw||!vh)return;
+ spriteFrame++;
  ctx.setTransform(dpr,0,0,dpr,0,0);
  background();
  if(showFieldLines)drawFieldLines();
@@ -1327,6 +1390,7 @@ function drawFrame(){
  drawTrails(testMasses,'test');
  drawMasses();
  drawTestMass();
+ for(const [key,raster] of massSpriteRasters)if(spriteFrame-raster.frame>1)massSpriteRasters.delete(key);
  drawSelectedVelocity();
  drawCollisionBursts();
  if(!sourceDrag){

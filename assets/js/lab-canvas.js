@@ -112,29 +112,20 @@ function createLabCanvasLayer() {
     };
 }
 
-function paintLabTrail(context, trail, head, toScreen) {
-    if (!trail.length) return;
-    const segments = trail.length - 1;
-    const bands = Math.min(12, segments);
-    let first = 0;
-    let point = toScreen(trail[0].x, trail[0].y);
+function paintLabTrail(context, trail, head, toScreen, sampleCount = trail.length) {
+    if (!sampleCount) return;
     context.save();
     context.strokeStyle = labCanvasTheme.point;
     context.lineWidth = 1.2;
-    context.lineJoin = 'round';
-    context.lineCap = 'round';
-    for (let band = 1; band <= bands; band++) {
-        const last = Math.ceil(segments * band / bands);
-        const fraction = (first + last + 1) / (2 * segments);
-        context.globalAlpha = .02 + .48 * Math.pow(fraction, 1.6);
+    let point = toScreen(trail[0].x, trail[0].y);
+    for (let i = 1; i < sampleCount; i++) {
+        const next = toScreen(trail[i].x, trail[i].y);
+        context.globalAlpha = .02 + .48 * Math.pow(i / (sampleCount - 1), 1.6);
         context.beginPath();
         context.moveTo(point.x, point.y);
-        for (let i = first + 1; i <= last; i++) {
-            point = toScreen(trail[i].x, trail[i].y);
-            context.lineTo(point.x, point.y);
-        }
+        context.lineTo(next.x, next.y);
         context.stroke();
-        first = last;
+        point = next;
     }
     const end = toScreen(head.x, head.y);
     if (point.x !== end.x || point.y !== end.y) {
